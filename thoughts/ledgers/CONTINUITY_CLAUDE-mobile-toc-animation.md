@@ -1,5 +1,5 @@
 # Session: mobile-toc-animation
-Updated: 2026-01-04T05:37:10.258Z
+Updated: 2026-01-06T05:33:11.121Z
 
 ## Goal
 Fix MobileFloatingTOC Dynamic Island-style morph animation. Done when:
