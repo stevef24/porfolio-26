@@ -8,14 +8,22 @@
  * - Right column: Sticky code stage with Shiki Magic Move
  *
  * On mobile (<768px), shows inline code after each step (no animation).
+ *
+ * Entrance Animation:
+ * - Section slides in from off-screen when scrolled into view
+ * - Similar to a sliding navbar effect
+ * - Respects reduced motion preferences
  */
 
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { ScrollyProvider } from "./ScrollyContext";
 import { ScrollyStep } from "./ScrollyStep";
 import { ScrollyStage } from "./ScrollyStage";
 import { ScrollyStageMobile } from "./ScrollyStageMobile";
 import { ScrollyLiveRegion } from "./ScrollyLiveRegion";
+import { springSmooth } from "@/lib/motion-variants";
 import { SCROLLY_DEFAULTS } from "@/lib/scrolly/types";
 import type { ScrollyCodingProps } from "@/lib/scrolly/types";
 import type { CompilationResult } from "@/lib/scrolly/utils";
@@ -48,10 +56,36 @@ export function ScrollyCoding({
 		...doc?.stage,
 	};
 
+	// Ref for entrance animation detection
+	const sectionRef = useRef<HTMLElement>(null);
+	const prefersReducedMotion = useReducedMotion();
+
+	// Detect when section enters viewport (trigger once)
+	const isInView = useInView(sectionRef, {
+		once: true,
+		// Start animation when top of section is 20% from bottom of viewport
+		margin: "0px 0px -20% 0px",
+	});
+
+	// Entrance animation variants - slide up from below with fade
+	const sectionVariants = {
+		hidden: {
+			opacity: 0,
+			y: 100, // Start below current position
+			scale: 0.98,
+		},
+		visible: {
+			opacity: 1,
+			y: 0,
+			scale: 1,
+		},
+	};
+
 	return (
 		<ScrollyProvider totalSteps={steps.length}>
 			{/* Full-bleed wrapper - breaks out of article container */}
-			<section
+			<motion.section
+				ref={sectionRef}
 				className={cn(
 					// Full-bleed: expand to viewport width
 					"relative w-screen",
@@ -63,6 +97,10 @@ export function ScrollyCoding({
 					"flex flex-col",
 					className
 				)}
+				initial="hidden"
+				animate={isInView ? "visible" : "hidden"}
+				variants={prefersReducedMotion ? undefined : sectionVariants}
+				transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
 				aria-label="Interactive code walkthrough"
 				aria-roledescription="code walkthrough"
 			>
@@ -99,7 +137,7 @@ export function ScrollyCoding({
 					<div className="hidden md:block h-[50vh]" aria-hidden="true" />
 				</div>
 
-				{/* Stage Column (right on desktop, sticky) - warm background with slide-in */}
+				{/* Stage Column (right on desktop, sticky) - warm background */}
 				<div
 					className={cn(
 						// Mobile: hidden (inline stages shown instead)
@@ -107,9 +145,7 @@ export function ScrollyCoding({
 						// Desktop: sticky positioning
 						"md:order-2",
 						// Warm subtle background (Devouring Details style)
-						"scrolly-stage-bg",
-						// Slide-in animation on mount
-						"scrolly-stage-animate-in"
+						"scrolly-stage-bg"
 					)}
 				>
 					<div
@@ -125,7 +161,7 @@ export function ScrollyCoding({
 						/>
 					</div>
 				</div>
-			</section>
+			</motion.section>
 		</ScrollyProvider>
 	);
 }
