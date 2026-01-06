@@ -13,17 +13,28 @@ import {
 	useState,
 	useCallback,
 	useMemo,
+	useId,
 	type ReactNode,
 } from "react";
 import type { ScrollyContextValue } from "@/lib/scrolly/types";
 
-const ScrollyContext = createContext<ScrollyContextValue | null>(null);
+// Extended context with navigation and accessibility helpers
+interface ExtendedScrollyContextValue extends ScrollyContextValue {
+	/** Go to next step (clamped) */
+	goToNextStep: () => void;
+	/** Go to previous step (clamped) */
+	goToPrevStep: () => void;
+	/** Unique ID prefix for ARIA relationships */
+	scrollyId: string;
+}
+
+const ScrollyContext = createContext<ExtendedScrollyContextValue | null>(null);
 
 /**
  * Hook to access scrolly context.
  * Must be used within a ScrollyProvider.
  */
-export function useScrollyContext(): ScrollyContextValue {
+export function useScrollyContext(): ExtendedScrollyContextValue {
 	const context = useContext(ScrollyContext);
 	if (!context) {
 		throw new Error("useScrollyContext must be used within a ScrollyProvider");
@@ -35,7 +46,7 @@ export function useScrollyContext(): ScrollyContextValue {
  * Optional hook that returns null if outside provider.
  * Useful for components that may render outside scrolly context.
  */
-export function useScrollyContextOptional(): ScrollyContextValue | null {
+export function useScrollyContextOptional(): ExtendedScrollyContextValue | null {
 	return useContext(ScrollyContext);
 }
 
@@ -65,6 +76,7 @@ export function ScrollyProvider({
 	children,
 }: ScrollyProviderProps) {
 	const [activeIndex, setActiveIndexState] = useState(initialIndex);
+	const scrollyId = useId();
 
 	const setActiveIndex = useCallback(
 		(index: number) => {
@@ -75,13 +87,24 @@ export function ScrollyProvider({
 		[totalSteps]
 	);
 
-	const value = useMemo<ScrollyContextValue>(
+	const goToNextStep = useCallback(() => {
+		setActiveIndexState((prev) => Math.min(prev + 1, totalSteps - 1));
+	}, [totalSteps]);
+
+	const goToPrevStep = useCallback(() => {
+		setActiveIndexState((prev) => Math.max(prev - 1, 0));
+	}, []);
+
+	const value = useMemo<ExtendedScrollyContextValue>(
 		() => ({
 			activeIndex,
 			setActiveIndex,
 			totalSteps,
+			goToNextStep,
+			goToPrevStep,
+			scrollyId,
 		}),
-		[activeIndex, setActiveIndex, totalSteps]
+		[activeIndex, setActiveIndex, totalSteps, goToNextStep, goToPrevStep, scrollyId]
 	);
 
 	return (

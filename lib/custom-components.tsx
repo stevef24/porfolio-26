@@ -21,6 +21,7 @@ import type { CodePlaygroundProps } from "@/components/courses/CodePlaygroundCli
 import { EmailCaptureForm } from "@/components/shared/EmailCaptureForm";
 import { LinkPreview } from "@/components/ui/blog/LinkPreview";
 import { YouTubeEmbed } from "@/components/youtube-embed";
+import { Scrolly } from "@/components/ui/scrolly";
 import { cn } from "@/lib/utils";
 
 // Swiss-style minimal heading component without link icons
@@ -238,6 +239,8 @@ const customComponents = {
 	EmailCapture: EmailCaptureForm,
 	// YouTube embed with privacy-enhanced mode
 	YouTubeEmbed,
+	// Scrolly coding for interactive code walkthroughs
+	Scrolly,
 	// Link with preview on hover for external links
 	a: (props: ComponentPropsWithoutRef<"a">) => {
 		const { href, children, ...rest } = props;

@@ -18,6 +18,11 @@
 export { ScrollyCoding } from "./ScrollyCoding";
 export { ScrollyStep } from "./ScrollyStep";
 export { ScrollyStage } from "./ScrollyStage";
+export { ScrollyStageMobile } from "./ScrollyStageMobile";
+export { ScrollyLiveRegion } from "./ScrollyLiveRegion";
+
+// Server component for MDX integration (async compilation)
+export { Scrolly, type ScrollyProps } from "./ScrollyServer";
 
 // Context and hooks
 export {
