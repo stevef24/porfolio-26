@@ -1,0 +1,250 @@
+---
+title: "React 19 - useActionState"
+description: "Simplify Form HandlCallouting with React 19's useActionState Hook"
+date: "2024-11-02"
+author: "Stav Fernandes"
+---
+
+## Introduction
+
+Prior to React 19's `useActionState` hook, managing forms in React could be quite challenging, especially when you were first introduced to React. Over time, managing forms might become second nature, but there was still a lot of boilerplate code involved, which made the developer experience less enjoyable. With the release of React 19, the `useActionState` hook has simplified form handling, making the code cleaner, easier to understand, and significantly improving the overall developer experience.
+
+## Understanding the Challenge
+
+Before we dive deep into `useActionState`, let's understand what it takes to manage a simple form in React and how we would typically handle it. This isn't the only way to do it, but it's a common approach you'll often see, especially in beginner-friendly apps. Managing form state in React involves handling multiple pieces of state:
+
+- Managing the main data (e.g., the username)
+- Handling the loading state (e.g., whether the action is in progress or completed)
+- Handling errors (e.g., displaying error messages)
+- Managing multiple data points at the same time
+
+In React 18, this was typically done by using separate states for each of these aspects, such as username, loading, and error. While this approach wasn't inherently difficult, it involved a lot of boilerplate code and could be cumbersome. You'd end up writing and maintaining multiple states and logic for each one, making the component harder to manage. See the example below for a simple form:
+
+```jsx
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/common/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/common/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+
+// Simulating a server action
+async function submitUserInfo(formData: FormData) {
+	// In a real app, this would be a server action
+	await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+	const name = formData.get("name");
+	if (name === "error") {
+		throw new Error('Name cannot be "error"');
+	}
+	return { message: `Hello, ${name}!` };
+}
+
+export default function TraditionalForm() {
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = (useState < string) | (null > null);
+	const [success, setSuccess] = (useState < string) | (null > null);
+
+	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+		event.preventDefault();
+		setIsLoading(true);
+		setError(null);
+		setSuccess(null);
+
+		try {
+			const formData = new FormData(event.currentTarget);
+			const result = await submitUserInfo(formData);
+			setSuccess(result.message);
+		} catch (e) {
+			setError(e instanceof Error ? e.message : "An unknown error occurred");
+		} finally {
+			setIsLoading(false);
+		}
+	}
+
+	return (
+		<form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
+			<div>
+				<Label htmlFor="name">Name</Label>
+				<Input id="name" name="name" required />
+			</div>
+			<Button type="submit" disabled={isLoading}>
+				{isLoading ? "Submitting..." : "Submit"}
+			</Button>
+			{error && (
+				<Alert variant="destructive">
+					<AlertDescription>{error}</AlertDescription>
+				</Alert>
+			)}
+			{success && (
+				<Alert>
+					<AlertDescription>{success}</AlertDescription>
+				</Alert>
+			)}
+		</form>
+	);
+}
+```
+
+In the example above you can see how managing form state without `useActionState` requires multiple pieces of state and a lot of boilerplate logic to handle loading and error states, which can make the component harder to read and maintain.
+
+## Breakdown `useActionState` Hook
+
+Let's do a quick dive into the `useActionState` hook, and then we'll refactor the previous form we created to use `useActionState` and see it in action.
+
+The `useActionState` hook is designed to streamline form state management by integrating asynchronous actions directly into the form's lifecycle. This integration reduces the need for manual state handling and side effects, leading to more maintainable code.
+
+The first step is straightforward: you start by defining a function that represents your asynchronous operation, which must return a promise. For our example, we'll use a server action that calls our backend server to fetch user data. Here’s a simple example:
+
+```jsx
+async function fetchUserData(formData) {
+	// Simulating a server call
+	await new Promise((resolve) => setTimeout(resolve, 1000));
+	const username = formData.get("username");
+	return { message: `Hello, ${username}!` };
+}
+```
+
+After defining the action, you call the `useActionState` hook, passing in the action function. In the `RefactoredForm` component, we pass `submitUserInfo` as the action function, like this:
+
+```jsx
+const [state, formAction, isPending] = useActionState(submitUserInfo, null);
+```
+
+Here, `formAction` is assigned to the `action` attribute of the `<form>` element, allowing us to link the form submission directly with our action function. The `isPending` value helps us show a loading indicator during the submission, and `state` holds the response data, which we use to display either error or success messages.
+
+### Parameters and Return Values of `useActionState`
+
+- **Parameters**:
+  - **Action Function (`fn`)**: This function is invoked upon form submission. It receives the current state and the submitted `FormData`, allowing for processing based on both the existing state and new input.
+  - **Initial State (`initialState`)**: Defines the form's state before any submissions, providing a baseline for state transitions.
+  - **Permalink (optional)**: A unique URL that the form modifies, useful in scenarios involving dynamic content and progressive enhancement.
+- **Return Values**:
+  - **State (`state`)**: Reflects the current state, updating with each form submission based on the action function's return value.
+  - **Form Action (`formAction`)**: A function assigned to the form's `action` attribute, linking the form submission to the specified action function.
+  - **Pending State (`isPending`)**: A boolean indicating whether the form submission is in progress, facilitating the display of loading indicators or disabling inputs during processing.
+
+### Refactoring the Form to Use `useActionState`
+
+Now that we have a basic understanding of how the `useActionState` hook works, let's refactor the form to use it. It should look something like this:
+
+```jsx
+"use client";
+
+import { useActionState } from "react";
+import { Button } from "@/components/ui/common/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/common/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+
+// Server action
+async function submitUserInfo(prevState: any, formData: FormData) {
+	await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+	const name = formData.get("name");
+	if (name === "error") {
+		return { error: 'Name cannot be "error"' };
+	}
+	return { message: `Hello, ${name}!` };
+}
+
+export default function RefactoredForm() {
+	const [state, formAction, isPending] = useActionState(submitUserInfo, null);
+
+	return (
+		<form action={formAction} className="space-y-4 w-full max-w-md">
+			<div>
+				<Label htmlFor="name">Name</Label>
+				<Input id="name" name="name" required />
+			</div>
+			<Button type="submit" disabled={isPending}>
+				{isPending ? "Submitting..." : "Submit"}
+			</Button>
+			{state?.error && (
+				<Alert variant="destructive">
+					<AlertDescription>{state.error}</AlertDescription>
+				</Alert>
+			)}
+			{state?.message && (
+				<Alert>
+					<AlertDescription>{state.message}</AlertDescription>
+				</Alert>
+			)}
+		</form>
+	);
+}
+```
+
+### Key Steps with `useActionState`
+
+The basic structure of using the `useActionState` hook involves three main steps:
+
+1. **Defining Your Action**: In the `RefactoredForm`, we define the `submitUserInfo` function, which represents the asynchronous operation we want to perform. This function must return a promise and can include logic to handle success and errors, such as checking the input for specific values (e.g., ensuring the name is not 'error').
+2. **Using the `useActionState` Hook**: We call `useActionState(submitUserInfo, null)` to link the form action with our server-side function. This results in three returned values: `state`, `formAction`, and `isPending`, which we use to handle form submission and UI updates.
+3. **Handling Returned Values**: The returned values from `useActionState` make managing the form state easier. In `RefactoredForm`, the `isPending` state is used to disable the submit button and show the loading state, while `state` is used to display any success or error messages directly in the UI, reducing the need for individual states for these aspects.
+
+As you can see in the form above, we reduced the lines of code by over 20, which is impressive for a single hook. You can already see some of the benefits here, but in the next section, let's dive deeper into those advantages.
+
+## Benefits of Using `useActionState`
+
+### Simplified Form Management
+
+As we saw in the section above the `useActionState` significantly streamlines form state management by consolidating various aspects of state handling into a single, cohesive hook. Typically, managing forms requires multiple hooks such as `useState` and `useEffect` to manage state for loading, errors, and form submissions. With `useActionState`, these tasks are unified, resulting in cleaner and more maintainable code. The `isPending` state, for example, allows developers to easily track the form's loading state and provide visual feedback, such as displaying a spinner or disabling a button during asynchronous operations.
+
+### Automatic Form Reset
+
+Another key advantage of `useActionState` is its built-in capability to reset forms automatically after a successful submission. Traditionally, developers need to implement extra logic to handle form resets, which can add complexity and require additional code. By automating this process, `useActionState` reduces boilerplate and enhances the user experience, ensuring that forms are seamlessly reset without manual intervention.
+
+### Enhanced User Feedback with `isPending`
+
+The `isPending` state provided by `useActionState` is highly effective in enhancing user experience by offering real-time feedback during form submissions. This state allows developers to indicate ongoing processes by showing a loading indicator or disabling form inputs, which prevents accidental double submissions. Such visual feedback helps users understand that their request is being processed, which contributes to a smoother and more predictable interaction with the application.
+
+### Integration with React Server Components
+
+`useActionState` is also particularly well-suited for integrating with React Server Components. This integration allows forms to remain interactive even before the client-side JavaScript is fully loaded, which leads to improved perceived performance. By enabling server actions to be used directly in forms, `useActionState` minimizes the need for complex server endpoints and makes development more efficient. This feature helps bridge the gap between server-side logic and client-side interactivity in a seamless manner.
+
+### Improved Security and Progressive Enhancement
+
+When dealing with forms that require handling sensitive data, security becomes a crucial consideration. `useActionState` addresses this by keeping the business logic server-side, thereby reducing the risk of exposing sensitive operations through client-side JavaScript. Furthermore, `useActionState` supports progressive enhancement, meaning that forms can still function even if JavaScript fails to load. Users are able to submit forms via traditional methods, ensuring core functionality is always preserved, regardless of the environment.
+
+## When and Why to Use `useActionState`
+
+### Handling Asynchronous Operations and Server Responses
+
+`useActionState` is an ideal choice for forms that require interaction with a server or asynchronous operations, such as validating user input or submitting data to an API. It simplifies handling server responses—such as success or error messages—making it easier to provide users with immediate and clear feedback. By enabling seamless interaction with server actions, `useActionState` optimizes both the developer's workflow and the overall user experience.
+
+### Managing Complex Forms
+
+For more intricate forms, such as those involving multiple steps or requiring extensive data handling, `useActionState` offers a cohesive solution for managing state. Instead of relying on a variety of different hooks to maintain state for each aspect of the form, developers can use `useActionState` to centralize state management. This reduces code complexity and ensures that forms remain organized and maintainable, which is particularly valuable for applications that require multi-step user input or sophisticated form logic.
+
+### Enhancing the User Experience
+
+A significant advantage of `useActionState` is its ability to enhance the user experience. By utilizing the `isPending` state, developers can communicate the status of form submissions effectively—whether by displaying loading animations or disabling input elements during processing. This ensures that users receive immediate visual feedback, fostering a sense of responsiveness and reliability in the application.
+
+Overall, `useActionState` provides a powerful tool for managing form submissions efficiently while maintaining clean, concise code. It helps enhance security, supports complex form flows, and offers an improved user experience by ensuring clear communication of form state—all essential aspects for developing robust web applications.
+
+### Common Considerations
+
+When using `useActionState`, there are several key considerations to keep in mind. First, proper error handling should be integrated within the action function to ensure users receive clear feedback when something goes wrong. Second, defining an appropriate initial state is crucial for the form to behave correctly from the outset. Lastly, while leveraging `useActionState` can improve performance, developers should be mindful of how frequently state updates are triggered, especially in more complex forms, to maintain optimal efficiency.
+
+<Callout type="info">
+
+"When you wrap an action with useActionState, it adds the current form state as the first argument, making the submitted form data the second argument." - React documents
+
+Simply put, `useActionState` takes the current form state as the first argument, making the form data the second argument.
+
+</Callout>
+
+```jsx
+async function myAction(currentState, formData) {
+	console.log(currentState); // The current state of the form
+	console.log(formData); // Submitted form data
+}
+```
+
+This example shows how `useActionState` modifies the arguments, with `currentState` being first and `formData` second.
+
+## Conclusion
+
+Alongside the new React compiler, this hook is one of my favorite updates in React 19. It makes developers' lives easier, simpler, and more enjoyable, revitalizing the way we handle forms in React. React has done a great job addressing previous challenges developers faced, while also preparing for how we will adapt to using forms in the future.
+
+Whether you've used useActionState before, are currently using it, or are trying it for the first time, I’d love to hear about your experience and how useful you find it.

@@ -1,0 +1,68 @@
+---
+title: "Introduction to Next.js"
+description: "Learn the basics of Next.js App Router and understand why it's become the go-to framework for React applications."
+playbackId: ""
+access: "public"
+order: 1
+module: "Getting Started"
+resources:
+  - label: "Next.js Documentation"
+    url: "https://nextjs.org/docs"
+    type: "docs"
+  - label: "Starter Template"
+    url: "https://github.com/vercel/next.js/tree/canary/examples/hello-world"
+    type: "github"
+---
+
+## Welcome to Next.js
+
+Next.js has evolved from a simple React framework to a full-stack solution for building web applications. The App Router, introduced in Next.js 13, represents a fundamental shift in how we think about React applications.
+
+### Why Next.js?
+
+The framework solves several challenges that React developers face:
+
+- **Routing** - File-based routing eliminates manual route configuration
+- **Rendering** - Server Components reduce client-side JavaScript
+- **Data Fetching** - Native async/await in components simplifies data loading
+- **Optimization** - Built-in image, font, and script optimization
+
+### The App Router Mental Model
+
+Think of your `app` directory as a tree of UI segments. Each folder represents a route segment, and special files like `page.tsx` and `layout.tsx` define how that segment renders.
+
+```
+app/
+├── layout.tsx      # Root layout (wraps everything)
+├── page.tsx        # Home page (/)
+└── blog/
+    ├── layout.tsx  # Blog layout (wraps blog pages)
+    └── page.tsx    # Blog index (/blog)
+```
+
+### Try it in the browser
+
+Edit the component below and see the result update instantly.
+
+<CodePlayground
+  template="react"
+  files={{
+    "/App.js": `export default function App() {
+  return (
+    <main style={{ fontFamily: "var(--font-sans)" }}>
+      <h1>Hello Next.js</h1>
+      <p>Update this text to see live changes.</p>
+    </main>
+  );
+}
+`
+  }}
+/>
+
+### Key Concepts
+
+1. **Server Components** are the default - they run on the server and send HTML
+2. **Client Components** opt-in with `"use client"` - they hydrate on the browser
+3. **Layouts** persist across navigations - they don't remount
+
+In the next lesson, we'll set up a project and explore these concepts hands-on.

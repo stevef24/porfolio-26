@@ -1,0 +1,121 @@
+---
+title: React Compiler - What You Need to Know
+description: A deep dive into the new React Compiler, automatic memoization, and what it means for the future of React development.
+date: "2024-03-15"
+author: "Stav Fernandes"
+---
+
+### Introduction
+
+As we approach the release of React 19, we are also approaching the introduction of the React Compiler, which aims to simplify development and enhance performance. This tool promises to change the way we optimise React applications by eliminating the need for manual performance tweaks and allowing developers to focus their time on building great user experiences. In this blog, we'll explore what the React Compiler is, why it is such a big change, and how it's going to make your life as a React developer much easier and more enjoyable.
+
+### What is the React Compiler and Why Was It Introduced?
+
+Traditionally, optimising React code required developers to manually apply techniques like `useMemo`, `useCallback`, and `React.memo`. For a deep dive, I would recommend checking the React documentation; however, I will provide a quick overview in the later sections.
+
+React 19 introduces the React Compiler, which automates code optimisation, allowing developers to write clean, readable code while ensuring efficiency. For beginners, this means you don't need to learn when and how to apply `React.memo` or `useMemo`, it's all handled for you, making it simpler to start building performant applications. The compiler integrates into the build process by working alongside Babel, analysing components, and applying optimisations like memoisation and caching. This compiler has been used in production at Meta and aims to simplify development, freeing developers to focus on creating features instead of manual performance tuning.
+
+### How Does the React Compiler Work?
+
+### The Traditional Approach: Manual Optimisation in React 18 and Earlier
+
+Before we dive into the React Compiler, it's important to understand the previous ways React worked so we can appreciate the improvements it brings. In React 18 and prior versions, developers were tasked with manually optimising application performance. The process began with writing components using JSX, a syntax extension that allows mixing HTML-like code with JavaScript. During the build phase, Babel transformed this JSX into standard JavaScript that browsers could interpret.
+
+_Babel is a JavaScript compiler that helps convert modern JavaScript, including JSX, into backward-compatible versions for older browsers. Webpack is a tool known as a bundler that takes JavaScript modules and other assets (like CSS and images) and combines them into a single bundle, making it easier to deploy applications._
+
+To enhance performance, developers employed various techniques to prevent unnecessary re-renders:
+
+- **`React.memo`**: Wrapped functional components to memoise them, ensuring they re-rendered only when their props changed. For example, in a typical app, you might need to wrap a component like this:
+  ```jsx
+  const MemoizedComponent = React.memo(function MyComponent({ value }) {
+  	return <div>{value}</div>;
+  });
+  ```
+- **`useMemo`**: Memoised the results of computations to avoid recalculating them on every render. This required adding boilerplate to ensure computational efficiency:
+  ```jsx
+  const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+  ```
+- **`useCallback`**: Memoised functions to prevent their recreation on each render. This was necessary when passing functions as props to prevent unnecessary re-renders:
+  ```jsx
+  const handleClick = useCallback(() => {
+  	console.log("Button clicked");
+  }, []);
+  ```
+
+While effective, this manual optimisation required a deep understanding of React's rendering behaviour. Misapplication could lead to over-optimisation or missed performance improvements. Developers relied on tools like React DevTools to monitor component behaviour and debug unnecessary re-renders, a process that could be time-consuming and complex.
+
+### The New Paradigm: Automatic Optimisation with the React 19 Compiler
+
+React 19 introduces a compiler that automates many optimisation tasks previously handled manually. This compiler operates during the build process, working alongside Babel to analyse components and hooks. It automatically applies memoisation and caching strategies, effectively replacing the need for manual implementations of `React.memo`, `useMemo`, and `useCallback`.
+
+Think of the React Compiler as a quality control inspector for your app's data. It makes sure that once your data is set, it doesn't change unexpectedly, like setting a rule that your grocery list can't be changed once you've written it down, to keep things orderly. This concept is called immutability. In React, immutability means data shouldn't be directly modified, which helps keep app behaviour predictable, much like keeping your grocery list consistent helps prevent forgetting anything. By maintaining immutability, React can better determine when to update parts of the interface, improving efficiency and reducing bugs. Developers can also configure the compiler to decide which parts of the code get this quality check. After the build process, the compiler produces optimised JavaScript code that runs more smoothly in the browser.
+
+For those who like to visualise things, I've created an animated diagram to show the steps involved in compiling with React 19 compared to earlier versions. You'll notice that while the number of steps is similar, React 19 is far more optimised and efficient, particularly early in the process.
+
+<CompilerComparison />
+
+### Benefits of Using the React Compiler
+
+- **Automatic Optimisations**: The React Compiler applies memoisation and caching automatically, eliminating the need for `React.memo`, `useMemo`, or `useCallback`. For example, the compiler analyses dependencies and ensures that unchanged values are reused across renders, effectively implementing memoisation. This reduces boilerplate and keeps the codebase cleaner while ensuring efficient performance.
+
+**Code Example - Before and After React Compiler**:
+
+**Traditional Approach (Before React Compiler):**
+
+```jsx
+import React, { useCallback } from "react";
+
+function DataList({ items }) {
+	const handleItemClick = useCallback((item) => {
+		console.log("Item clicked:", item);
+	}, []);
+
+	return (
+		<ul>
+			{items.map((item) => (
+				<li key={item.id} onClick={() => handleItemClick(item)}>
+					{item.name}
+				</li>
+			))}
+		</ul>
+	);
+}
+```
+
+**Simplified Approach (With React Compiler):**
+
+```jsx
+import React from "react";
+
+function DataList({ items }) {
+	return (
+		<ul>
+			{items.map((item) => (
+				<li key={item.id} onClick={() => console.log("Item clicked:", item)}>
+					{item.name}
+				</li>
+			))}
+		</ul>
+	);
+}
+```
+
+With the React Compiler, there's no need to manually apply `useMemo` or `useCallback` to optimise performance. These optimisations are handled automatically, resulting in cleaner, more maintainable code.
+
+- **Enhanced Developer Experience**: By automating tedious tasks, such as manually wrapping components with `React.memo` or adding `useCallback` to prevent unnecessary re-renders, the React Compiler allows developers to focus on building features rather than managing low-level optimisations, reducing cognitive overhead.
+- **Build-Time Enhancements**: Optimisations are applied during the build process, resulting in more efficient runtime performance and reducing the overhead associated with manual optimisations.
+- **Enforcement of Best Practices**: The compiler enforces immutability and other React best practices, leading to more predictable and stable applications.
+- **Simplified Development Process**: By handling optimisations automatically, the compiler allows developers to focus more on building features rather than managing performance, streamlining the development workflow.
+
+These advancements make React 19 a transformative update, enhancing both the developer experience and the performance of React applications.
+
+### Drawbacks and Challenges of the React Compiler
+
+- **Beta Stage and Stability**: At the time of writing, the React Compiler is in beta, which means it may still be unstable. Expect to encounter some bugs or unexpected behaviours when using it. For a list of known issues and workarounds, you can check the React GitHub repository or official React documentation.
+- **Debugging Complexity**: Compiled code can be inherently harder to debug. Since optimisations are applied automatically, it can be challenging to pinpoint the exact source of an issue when debugging. To mitigate these challenges, consider using updated React DevTools, which supports the React Compiler, or implement specific logging strategies to trace component behaviours effectively.
+- **Compatibility Issues**: Not all existing libraries are fully compatible with the new React Compiler. As it is a new feature, some libraries may not yet support the optimisations, which may require workarounds or updates to the library ecosystem. However, as stability improves, it is expected that many newer apps and libraries will adjust and ensure compatibility.
+- **Limited Community Support**: As the React Compiler is still new, community support and available resources may be limited. This means developers may find it harder to get help or find examples for more advanced use cases. However, as the compiler gains wider adoption, more resources and community support are expected to grow.
+
+### Conclusion
+
+The React Compiler in React 19 is set to be a game-changer, making development faster, cleaner, and more efficient. By eliminating the need for manual optimisations, it helps developers focus on what really matters,building exceptional user experiences. As the compiler matures, it will likely become an essential tool in every React developer's toolkit, transforming the way we write and maintain React applications. If you've had a chance to try it out, I'd love to hear your thoughts on how it's impacted your workflow!

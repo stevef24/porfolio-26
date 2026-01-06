@@ -1,0 +1,123 @@
+---
+title: "Understanding React Server Components"
+description: "A comprehensive guide to React Server Components, their benefits, limitations, and best practices"
+date: "2024-10-20"
+author: "Stav Fernandes"
+---
+
+Server components are something that every engineer will hear about right now, and it's probably one of the most talked-about topics, often with some controversy depending on who you ask. When I first learned about server components, I didn't immediately see the need for them because the apps I was building at the time didn't really need the performance boost. But now, as I work on more complex applications involving AI integration, streaming, and handling larger datasets, I realize that server components are one of the most impactful update in React in recent years. They allow developers to render components on the server and send a serialized version of the result to the client, offering the benefits of server-side rendering while maintaining the interactivity of traditional React components. This approach is designed to address some of the biggest challenges in modern frontend development, like large JavaScript bundles and slow load times.
+
+The concept behind React Server Components is pretty simple: let the server do all the heavy lifting, and as a result, your app will thank you with faster load times and smoother performance. This not only creates a great user experience but also makes it more enjoyable for developers to work with. Let's get into why React introduced this feature and what makes it so appealing.
+
+## 1. The Benefits Behind RSCs
+
+React Server Components bring many new benefits to Next.js and React in general. I will cover some of the main benefits below and try to explain them in more detail as we go:
+
+**1.1. Performance Improvements**
+
+By rendering components on the server, the client receives only the necessary output rather than the entire component code. This ensures that JavaScript bundle sizes are much smaller, which in turn significantly improves load times. The server handles the heavy lifting, which allows your application to feel snappier and more responsive.
+
+**1.2. Enhanced User and Developer Experience**
+
+Faster load times aren't just about performance metrics—they translate directly to happier users. Imagine a user who doesn't have to wait long for pages to load or services to become available. Less waiting means more interaction and a smoother experience overall.
+
+**1.3. Simplified Data Fetching**
+
+Traditionally, client components needed to manage data fetching using `useState`, `useEffect`, and other hooks, which often led to more code to handle loading states, errors, and API interactions. With React Server Components, data fetching is straightforward and happens server-side, leading to fewer complications and a more secure data-handling approach.
+
+Let's take a quick look at a before and after example of using a server component and a client component.
+
+**Traditional Client Component with Fetching:**
+
+```jsx
+// ClientComponent.jsx
+import { useState, useEffect } from "react";
+
+export default function ClientComponent() {
+	const [data, setData] = useState(null);
+
+	useEffect(() => {
+		async function fetchData() {
+			const response = await fetch("/api/data");
+			const result = await response.json();
+			setData(result);
+		}
+		fetchData();
+	}, []);
+
+	if (!data) return <div>Loading...</div>;
+	return <div>{data.message}</div>;
+}
+```
+
+**React Server Component with Direct Fetching:**
+
+```jsx
+// ServerComponent.jsx
+export default async function ServerComponent() {
+	const response = await fetch("https://api.example.com/data");
+	const data = await response.json();
+
+	return <div>{data.message}</div>;
+}
+```
+
+**1.4. SEO Benefits**
+
+Server components can also contribute to significantly better SEO because the entire rendering is done on the server, resulting in the client receiving a fully populated HTML document. This means that all the necessary information is available to search engines straight away, allowing for efficient crawling and indexing. As a result, server components maximise SEO potential by ensuring that search engine crawlers can easily access and understand the content without relying on client-side rendering.
+
+## 2. Server Components vs. Client Components
+
+You may be wondering: when should I use a server component versus a client component? Here's a quick comparison:
+
+**2.1. Client Components**
+
+Client components are components that are rendered on the client side—no surprises there. But it's worth noting that client components can also be rendered on the server initially, before being hydrated on the client. This dual nature makes them extremely versatile.
+
+- **Rendering**: Client components are initially rendered on the server but continue to exist and function within the browser. This allows them to handle dynamic user interactions effectively.
+- **Interactivity**: Client components are essential for pages that need user interactions, such as button clicks, form submissions, or anything involving the browser's APIs. They excel when you need immediate feedback and interaction from the user.
+- **Usage Scenarios**: Client components are ideal for elements of your application that require frequent and direct user engagement. For example, interactive forms, buttons, modals, or any component requiring access to browser capabilities like local storage, cookies, or other APIs.
+
+**2.2. Server Components**
+
+- **Rendering**: Server components are rendered entirely on the server, while client components are rendered in the browser. This means server components are great for parts of your app that are static or where SEO is a priority.
+- **Interactivity**: Since server components are static by nature, they cannot handle user interactions like button clicks. Client components, on the other hand, shine when interactivity is required.
+- **Usage Scenarios**: Use server components for the parts of your app that don't need to change based on user actions (like headers, footers, or content that loads once). Use client components for interactive forms, buttons, or anything that requires immediate user feedback.
+
+To put it simply, when you need more interactivity or need to use hooks or browser capabilities, opt for a client component. For most other scenarios, server components are the way to go. To ensure optimal performance, place client components at the deepest level in the component tree where interactivity is required.
+
+## **3. RSC Render Flow**
+
+Understanding the internal mechanics of RSCs can help you unlock their full potential. The following diagram shows the flow of a React Server Component rendering:
+
+<FlowDiagram />
+
+Creating a React Server Component does require a bit of setup, depending on the framework you're using. However, if you're like me and using Next.js 13 or later, all React components you start with are server components by default. Only when you need to opt in to browser functionality or explicitly require a client component, you use the 'use client' directive.
+
+## **4. Best Practices and Considerations**
+
+- **Component Design**: Server components excel at rendering large HTML without involving client-side JavaScript, keeping your app more efficient. Think of server components as builders,responsible for heavy lifting like data-fetching and creating static content. When you need interactivity, you bring in a "client" component, but try to keep that as close to the deepest part of your component tree as possible. This approach keeps performance impacts minimal, like ensuring only the smallest parts of a tree need client-side JavaScript rather than the entire trunk.
+
+- **Performance Tips**: Use server components for content that doesn't change frequently,for example, the layout or a CMS-driven page. Imagine you're designing a website for a museum: the building layout (server component) rarely changes, but daily event information (client component) might. This way, the client bundle remains light and page load times improve.
+
+- **Security Considerations**: Since server components run on the server, they have broader access to sensitive data. Treat them as trusted vaults, handling everything securely. Be careful about what gets serialised and sent to the client; you wouldn't want your precious secrets (like private data) accidentally slipped under the door.
+
+- **Streaming**: React Server Components (RSCs) can stream parts of the page to the client as soon as they're ready, without waiting for everything to load. Picture this like a puzzle where you start with the corners and fill the rest in as they become available. In Next.js, using `Suspense` helps control the streaming process, giving a smooth flow to the user experience and making content feel more responsive.
+
+- **Integration with Existing Apps**: The great thing about RSCs is that you don't need to refactor everything all at once, think of it like redecorating a house room by room, instead of tearing it down and rebuilding it. Server components can be added incrementally. When working on data fetching, try to avoid `useState` or `useEffect` since they are client-side concepts; minimising their use will help maintain simplicity and keep server-side rendering efficient.
+
+## **5. Limitations of React Server Components**
+
+- **Experimental Status**: Remember, RSCs are still experimental and not yet stable for full production. This means they're like a new roller coaster—fun and powerful but not entirely ironed out yet. There could be breaking changes or quirks to deal with as React 19 evolves. Especially without frameworks like Next.js, integrating them may require a few extra steps.
+
+- **Browser Compatibility**: Since RSCs introduce a new rendering method, older browsers might struggle to keep up. It's like asking an old car to handle a superfast motorway—not always ideal! However, as these technologies advance and browser support grows, compatibility issues should reduce, but always test across browsers.
+
+- **Lack of Client-Side Interactivity**: Server components can't use hooks like `useState` or `useEffect`, which restricts their ability to handle real-time user interactions. They're like artisans crafting a statue—precise but unchangeable once built. If your app relies heavily on dynamic user interactions, you'll need to balance server components with client components to ensure the experience remains lively and engaging.
+
+- **Learning Curve and Complexity**: Moving from client-first to server-first can feel like suddenly driving on the opposite side of the road—it takes getting used to, and it's easy to get confused about when to render on the server versus the client. When RSCs were introduced, many developers felt overwhelmed—similar to the introduction of JSX. It might seem complicated initially, but the benefits, such as reduced bundle sizes and improved SEO, gradually shine through, and with community resources, this shift is becoming easier to embrace.
+
+## **6. Conclusion**
+
+Although React Server Components can be a tough topic to grasp at first, they offer many benefits, including faster load times, a better developer experience, and enhanced security aspects. That being said, RSCs are just one of the paradigms available in a React application, so you don't have to exclusively use them. You can and should combine them with client components, static site rendering, and other tools to make your application more performant and accessible.
+
+The best way to get started with React Server Components and understand the benefits they bring to your Next.js app is to first create a regular SPA React app—something simple, like a to-do list. Get familiar with how that works, then build a similar app in Next.js using Server Components. By comparing the two, you'll notice the many advantages Server Components offer, including reduced code complexity and a more streamlined development experience. It's all about exploring and seeing firsthand how these tools can improve your workflow!

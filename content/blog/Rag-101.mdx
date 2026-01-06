@@ -1,0 +1,227 @@
+---
+title: RAG 101 - A Comprehensive Guide
+description: Understanding Retrieval Augmented Generation and how to implement it in your applications.
+date: 2024-03-20
+author: Stav Fernandes
+---
+
+## RAG 101: Understanding Retrieval-Augmented Generation
+
+This deep dive explores what I’ve learned about Retrieval-Augmented Generation (RAG). I’ve kept it as compact as possible while still covering key details.
+
+This is my take on RAG, so if you spot anything off or have feedback on the format, let me know, I’d love to improve!
+
+## What is Retrieval-Augmented Generation?
+
+RAG is basically like having an AI-powered librarian at your fingertips. Instead of just relying on its "memory" (what it was trained on), it can actually go out and search external knowledge bases – think documents, databases, even the web (like GPT with browsing) – grab the relevant bits, and then use that _fresh_ information to build its response. This means the AI can give you way more accurate and contextually relevant answers.
+
+<Steps>
+	<Step>
+		**Retrieval:** This is the "librarian" part. It's where the system searches
+		through those external resources I mentioned.
+	</Step>
+	<Step>
+		**Generation:** Then, it takes what it found, mixes it with its existing
+		knowledge, and crafts a response that's both informed *and* up-to-date.
+	</Step>
+</Steps>
+
+This is a major benefit because it helps the AI stay factually accurate, give you the latest info, and avoid those weird "hallucinations" (making stuff up) that can happen when it's just relying on its older training data.
+
+## Why RAG?
+
+If you've ever chatted with an AI like ChatGPT or Claude and asked about something recent, you've probably seen one of two things. Either it tries to find the closest match based on its last training update (which could be _way_ outdated), or it straight-up hallucinates and gives you incorrect info. This happens because LLMs are trained on static datasets, so they're missing out on:
+
+<Accordions>
+	<Accordion title="Real-time information">
+		Anything that happened after their training cut-off? They're clueless.
+	</Accordion>
+	<Accordion title="Domain-specific knowledge">
+		Unless they were trained on super niche stuff (like medical journals or
+		legal documents), they won't have the deep insights you might need.
+	</Accordion>
+	<Accordion title="Factual precision">
+		Sometimes, they generate answers that *sound* right but are totally wrong
+		because their knowledge is incomplete.
+	</Accordion>
+</Accordions>
+
+This is precisely where Retrieval-Augmented Generation (RAG) offers a solution. By bringing in an external knowledge source, RAG lets these models pull in **more accurate, up-to-date, and domain-specific information**, instead of just relying on that old, static data they were trained on.
+
+### Why RAG is Important
+
+RAG is also incredibly **scalable and cost-efficient**. Unlike fine-tuning, which requires retraining large models, RAG dynamically retrieves external information as needed, reducing computational costs while maintaining flexibility.
+
+<Callout>
+	Imagine you're asking a medical AI a question. With RAG, it can
+	grab the latest research papers and clinical data to give you an informed
+	answer, instead of relying on potentially outdated knowledge from its
+	training. This combo of retrieval and generation makes RAG a powerful tool for
+	boosting LLM capabilities across all sorts of industries.
+</Callout>
+
+## RAG with Unstructured Data
+
+A _ton_ of the data we deal with every day is unstructured – it doesn't follow a neat, organized format. Think websites, emails, PDFs. This stuff is full of valuable info, but the way _we_ read it is different from how an AI would. What's easy for us to understand isn't always easy for a model.
+
+That's where RAG really shines. By working with unstructured data, RAG lets language models find relevant documents, process them, and then _augment_ their responses with accurate, current knowledge. This means AI apps can give you more real-time, precise, and context-aware answers.
+
+You see RAG with unstructured data used a lot in areas like customer support, legal analysis, research, and finance – places where important information is often stored in all sorts of non-standard formats.
+
+### Processing Unstructured Data in RAG
+
+So, we've got all this messy, unstructured data. How do we actually _use_ it? The answer is **embeddings**.
+
+Embeddings are like a translator for text, turning it into a format machines can understand. Computers don't "get" words like we do – they work with numbers. Embeddings convert text into numerical vectors. Think of it like a map where words, sentences, or even whole documents are plotted in a vector space. Similar text chunks are placed closer together, so the system can see how different pieces of information relate.
+
+Once we have these embeddings, we need a place to store them efficiently – that's where **vector databases** come in. Unlike regular databases that rely on exact word matches, vector databases allow for **semantic search**. This means they find information based on _meaning_, not just keywords.
+
+### Steps to Process Unstructured Data in RAG
+
+<Steps>
+	<Step>
+		**Document Ingestion:** This is where we gather all that unstructured data
+		(PDFs, HTML, DOCX, emails, etc.), extract the text, and get it ready. This
+		often involves using tools and libraries to extract text from different file
+		formats, clean the text (e.g., removing HTML tags or unwanted characters),
+		and potentially perform optical character recognition (OCR) on scanned
+		documents.
+	</Step>
+	<Step>
+		**Document Splitting:** Documents can be *long* and cover multiple topics.
+		We need to break them down into smaller, more manageable chunks so we only
+		grab the relevant parts. Common chunking strategies include splitting by
+		sentences, paragraphs, or using a fixed-size window with overlap to maintain
+		context.
+	</Step>
+	<Step>
+		**Embedding Creation:** Each chunk gets converted into an **embedding**
+		using a transformer-based model (like OpenAI's text-embedding-3). This lets
+		us compare chunks based on their *meaning*, not just the words they use.
+	</Step>
+	<Step>
+		**Storing in a Vector Database:** The embeddings, along with some metadata
+		(like the document ID and the original text), get stored in a **vector
+		database**. This allows for fast, similarity-based searches.
+	</Step>
+	<Step>
+		**Retrieval (Querying the Database):** When you ask a question, your query
+		is also turned into an embedding. This embedding is then used to search the
+		vector database for the most similar document chunks. While semantic search
+		using embeddings is a core component of many RAG systems, other retrieval
+		methods can also be used, such as keyword-based search or hybrid approaches
+		that combine both.
+	</Step>
+	<Step>
+		**Response Generation:** The retrieved chunks are fed to the LLM as context.
+		This lets the LLM generate a response that's grounded in the retrieved
+		knowledge, making it more accurate and reducing those pesky hallucinations.
+		Some advanced RAG implementations also use techniques like context
+		distillation to further refine the retrieved information and reduce the
+		amount of context needed by the LLM.
+	</Step>
+</Steps>
+
+Here's a visual representation of the process (click to zoom):
+
+<ImageZoom
+	src="/images/Rag-101.png"
+	alt="RAG Process"
+	width={2000}
+	height={1000}
+/>
+
+This whole process ensures that unstructured data is handled efficiently, making
+RAG a powerful solution for dealing with real-world, dynamic information.
+
+## Challenges in RAG Implementation
+
+RAG is awesome, but there are definitely some things to keep in mind before you jump in:
+
+<Tabs
+	items={[
+		"Data Quality",
+		"Context Window",
+		"Computational Costs",
+		"Evaluation",
+	]}
+>
+	<Tab>
+		**Data Quality Dependence:** RAG is only as good as the data it finds. While
+		adding external data *can* boost accuracy, making sure that data is
+		high-quality is one of the *toughest* challenges. Even the big AI companies
+		like OpenAI and Anthropic struggle with finding the right data. Bad data can
+		easily mislead the model, so you need to carefully curate, update, and
+		maintain that knowledge base.
+	</Tab>
+	<Tab>
+		**Context Window Limitations:** LLMs can only handle so much information at
+		once. It's like our brains – too much info, and we struggle to process it.
+		Same with LLMs. This is getting better as models evolve, but it's still
+		important to think about how to structure and filter the retrieved data
+		effectively.
+	</Tab>
+	<Tab>
+		**Computational Costs:** Creating embeddings and doing those real-time
+		searches takes computing power, which can be expensive. But, it's a
+		trade-off. If the outcome provides significant value, the costs might be
+		totally worth it. Techniques like using smaller, more efficient embedding
+		models or optimizing the vector database queries can help reduce these
+		costs.
+	</Tab>
+	<Tab>
+		**Evaluation Complexity:** Figuring out how *well* RAG is performing is a
+		challenge in itself. There are methods like automated evaluations and human
+		assessments, but there's no perfect way to measure how well a model
+		retrieves and uses external knowledge. This is something I'm planning to
+		write a whole blog post about because it's an ongoing challenge, especially
+		when data is constantly being updated. Some common metrics used to evaluate
+		the retrieval component include precision, recall, and F1-score, which
+		measure the relevance and completeness of the retrieved documents.
+	</Tab>
+</Tabs>
+
+## How RAG Differs from Prompt Engineering and Fine-Tuning
+
+So, you might be thinking, "Okay, RAG sounds great, but what about prompt engineering and fine-tuning? Should I just use RAG for everything?" Short answer: No. Each of these techniques has its own strengths, and knowing when to use each is key.
+
+<Accordions>
+	<Accordion title="Prompt Engineering">
+		This is all about crafting better *inputs* to guide the model's response.
+		You're not changing the model itself, but you're giving it clearer
+		instructions to get a better answer.
+	</Accordion>
+	<Accordion title="Fine-Tuning">
+		This involves training an LLM on specific data and adjusting its weights to
+		improve responses for a particular case. It's great for specialized tasks,
+		but it takes more computing power, expertise, and money.
+	</Accordion>
+	<Accordion title="RAG">
+		This integrates external data sources *dynamically*, pulling in relevant
+		info *when needed*, instead of relying solely on what it was trained on.
+		It's kind of the best of both worlds. While models like gpt-4o and Claude
+		are popular, RAG can be implemented with various LLMs, including open-source
+		models like those from the LLaMA family, enhancing flexibility and
+		customisation.
+	</Accordion>
+</Accordions>
+
+So, when should you use each? **Prompt engineering** should _always_ be in your toolbox – it's a lightweight way to improve how you ask questions and guide the model without changing its underlying knowledge.
+
+**RAG** is your best bet when you need access to external, up-to-date, or domain-specific data that's _not_ in the model's training set. It lets the AI fetch real-time or specialized info on the fly.
+
+**Fine-tuning** is best when you need the model to _deeply_ understand and generate responses in a highly specialized way, like for legal or medical applications where accuracy is _everything_. It requires a lot more resources and expertise, but it can be necessary when an AI assistant needs to internalize a company's proprietary data or writing style.
+
+Each approach has its place, and the most effective AI systems often combine multiple techniques to maximize efficiency and accuracy.
+
+## Conclusion
+
+    Hopefully, this gives you a solid overview of RAG and how it's used. I didn't
+    want to get bogged down in code because things change so fast – by the time I
+    post this, there will probably be 100 new ways to implement it! Instead, I've
+    linked to Vercel's RAG implementation, which walks you through setting up a
+    database and chatbot step-by-step. I highly recommend checking it out! You can
+    find it here: [**Vercel's RAG
+    Implementation**](https://sdk.vercel.ai/docs/guides/rag-chatbot).
+
+If you're in the AI space, you're going to hear about RAG _a lot_. It's a technique that's constantly evolving, and it's really changing how we build AI applications.
