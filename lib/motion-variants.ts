@@ -1,41 +1,53 @@
 /**
  * Motion variants - Swiss minimalism animation system
- * Consistent, refined animations inspired by animations.dev
+ * 2026 Best Practices: Time-based springs with visualDuration and bounce
+ * @see https://motion.dev/docs/react-transitions#spring
  */
 
 import type { Transition, Variants } from "motion/react";
 
 // ==========================================
-// SPRING PHYSICS PRESETS
+// SPRING PHYSICS PRESETS (2026 Time-Based)
 // ==========================================
 
-/** Gentle spring - natural, minimal bounce (default for most UI) */
-export const springGentle: Transition = {
-	type: "spring",
-	stiffness: 300,
-	damping: 30,
-};
-
-/** Bouncy spring - playful, noticeable bounce */
-export const springBouncy: Transition = {
-	type: "spring",
-	stiffness: 400,
-	damping: 25,
-};
-
-/** Stiff spring - quick, controlled */
-export const springStiff: Transition = {
-	type: "spring",
-	stiffness: 500,
-	damping: 35,
-};
-
-/** Snappy spring - very responsive, minimal overshoot */
+/** Snappy spring - toggles, buttons, micro-interactions */
 export const springSnappy: Transition = {
 	type: "spring",
-	stiffness: 600,
-	damping: 40,
+	visualDuration: 0.2,
+	bounce: 0,
 };
+
+/** Smooth spring - RECOMMENDED DEFAULT for most UI transitions */
+export const springSmooth: Transition = {
+	type: "spring",
+	visualDuration: 0.3,
+	bounce: 0.15,
+};
+
+/** Gentle spring - cards, panels, content reveals */
+export const springGentle: Transition = {
+	type: "spring",
+	visualDuration: 0.35,
+	bounce: 0.1,
+};
+
+/** Bouncy spring - playful elements, success states */
+export const springBouncy: Transition = {
+	type: "spring",
+	visualDuration: 0.4,
+	bounce: 0.3,
+};
+
+/** Stiff spring - quick, controlled (legacy alias for springSnappy) */
+export const springStiff: Transition = springSnappy;
+
+// ==========================================
+// CSS SPRING FOR NON-JS ANIMATIONS
+// ==========================================
+
+/** CSS spring for focus lines - 350ms, bounce: 0.15 */
+export const cssSpringSmooth =
+	"350ms linear(0, 0.3667, 0.8271, 1.0379, 1.0652, 1.0332, 1.006, 0.9961, 0.996, 0.9984, 0.9999, 1)";
 
 // ==========================================
 // EASING PRESETS
@@ -244,11 +256,7 @@ export const viewToggleContent: Variants = {
 // ==========================================
 
 /** Segmented control indicator spring */
-export const segmentedIndicatorSpring: Transition = {
-	type: "spring",
-	stiffness: 400,
-	damping: 30,
-};
+export const segmentedIndicatorSpring: Transition = springSmooth;
 
 // ==========================================
 // CODE PLAYGROUND VARIANTS
@@ -308,11 +316,7 @@ export const layoutTransition: Transition = {
 };
 
 /** Sidebar toggle transition */
-export const sidebarToggleTransition: Transition = {
-	type: "spring",
-	stiffness: 300,
-	damping: 30,
-};
+export const sidebarToggleTransition: Transition = springGentle;
 
 // ==========================================
 // UTILITY FUNCTIONS

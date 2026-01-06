@@ -1,28 +1,33 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
+import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { SwissGridBackground } from "@/components/ui/SwissGridBackground";
 import "./globals.css";
 
-// Primary font - JetBrains Mono for technical brutalist aesthetic
-const jetbrainsMono = JetBrains_Mono({
+// Primary body font - Inter for exceptional readability
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-// Secondary fonts for compatibility
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Display font - Playfair Display for elegant headings
+const playfair = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Code font - JetBrains Mono for syntax highlighting
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
+  variable: "--font-code",
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -39,12 +44,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={jetbrainsMono.variable}
+      className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
