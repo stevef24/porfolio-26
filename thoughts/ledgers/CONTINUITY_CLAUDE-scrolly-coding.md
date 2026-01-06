@@ -1,5 +1,5 @@
 # Session: scrolly-coding
-Updated: 2026-01-06T05:56:04.367Z
+Updated: 2026-01-06T06:45:00.000Z
 
 ## Goal
 Implement ScrollyCoding component system for interactive code walkthroughs. Done when:
@@ -30,9 +30,9 @@ Implement ScrollyCoding component system for interactive code walkthroughs. Done
 - Done:
   - [x] Phase 0: Visual direction reference (documented in plan)
   - [x] Phase 1: Typed steps API and data model (commit: dcf4c3e)
-  - [x] Phase 2: Shiki Magic Move pipeline
-- Now: [→] Phase 3: Scrolly layout and active-step engine
-- Next: Phase 4: Stage UI and Magic Move integration
+  - [x] Phase 2: Shiki Magic Move pipeline (commit: 9b44dcf)
+  - [x] Phase 3: Scrolly layout and active-step engine
+- Now: [->] Phase 4: Stage UI and Magic Move integration
 - Remaining:
   - [ ] Phase 5: Motion choreography
   - [ ] Phase 6: Blog integration and TOC strategy
@@ -49,72 +49,77 @@ Implement ScrollyCoding component system for interactive code walkthroughs. Done
   - `lib/scrolly/index.ts` - Module exports (DONE)
   - `lib/scrolly/compile-steps.ts` - Server-side token compiler (DONE)
   - `content/blog/example-scrolly.steps.tsx` - Example steps (DONE)
-  - `components/ui/scrolly/ScrollyCoding.tsx` - Main component (NEXT)
-  - `components/ui/scrolly/ScrollyStep.tsx` - Step card (NEXT)
-  - `components/ui/scrolly/ScrollyContext.tsx` - State context (NEXT)
-  - `components/ui/scrolly/ScrollyStage.tsx` - Code stage (Phase 4)
+  - `components/ui/scrolly/ScrollyCoding.tsx` - Main component (DONE)
+  - `components/ui/scrolly/ScrollyStep.tsx` - Step card (DONE)
+  - `components/ui/scrolly/ScrollyContext.tsx` - State context (DONE)
+  - `components/ui/scrolly/index.ts` - Exports (DONE)
+  - `components/ui/scrolly/ScrollyStage.tsx` - Code stage (NEXT)
 - Test: Create example in `content/blog/` with scrolly steps
-- Build: `pnpm build` to verify no SSR/client issues
+- Build: `pnpm build` to verify no SSR/client issues (deferred to Phase 8)
 
 ---
 
-## Phase 3 Handoff: Scrolly Layout and Active-Step Engine
+## Phase 4 Handoff: Stage UI and Magic Move Integration
 
 ### What to Build
-Create the scrolly layout components:
-1. `ScrollyCoding.tsx` - Main two-column layout container
-2. `ScrollyStep.tsx` - Individual step card with useInView detection
-3. `ScrollyContext.tsx` - React context for active step state
+Create the code stage component that renders Shiki Magic Move with animated transitions:
+1. `ScrollyStage.tsx` - Code stage with Magic Move rendering
+2. Theme-aware token rendering (light/dark mode support)
+3. Filename badge display
+4. Focus line highlighting
 
-### Layout Structure
+### Stage Structure
 ```
-┌─────────────────────────────────────────────┐
-│  [Steps Column - 50%] │ [Stage Column - 50%] │
-│                       │                      │
-│  ┌─────────────────┐  │  ┌────────────────┐ │
-│  │ Step 1 (active) │  │  │                │ │
-│  │ ─────────────── │  │  │  Code Stage    │ │
-│  │ Body prose...   │  │  │  (sticky)      │ │
-│  └─────────────────┘  │  │                │ │
-│                       │  │  filename.ts   │ │
-│  ┌─────────────────┐  │  │                │ │
-│  │ Step 2          │  │  └────────────────┘ │
-│  └─────────────────┘  │                      │
-└─────────────────────────────────────────────┘
+┌────────────────────────────────────────┐
+│                            filename.ts │  ← Filename badge (top-right)
+│                                        │
+│  1 │ const state = {                   │
+│  2 │   count: 0,         ← focus line  │  ← Highlighted background
+│  3 │ }                                 │
+│                                        │
+└────────────────────────────────────────┘
 ```
 
-### Active Step Detection
-Use `useInView` from Motion with:
-```ts
-const inViewMargin = "-45% 0px -45% 0px" // SCROLLY_DEFAULTS.inViewMargin
-```
+### Key Integration Points
+- Use `ShikiMagicMovePrecompiled` from `shiki-magic-move/react`
+- Get current theme from `next-themes` useTheme()
+- Select tokens: `theme === 'dark' ? compiledSteps.stepsDark : compiledSteps.stepsLight`
+- Use `extractTokensForPrecompiled()` helper from compile-steps.ts
 
-When a step enters the center 10% of viewport, it becomes active.
-
-### Context API
+### Magic Move Props
 ```tsx
-const ScrollyContext = createContext<{
-  activeIndex: number
-  setActiveIndex: (i: number) => void
-  totalSteps: number
-}>()
+<ShikiMagicMovePrecompiled
+  tokens={tokens}        // KeyedTokensInfo[]
+  stepIndex={activeIndex}
+  animate={!prefersReducedMotion}
+  lineNumbers={true}
+  onStart={() => {}}     // Animation start callback
+  onEnd={() => {}}       // Animation end callback
+/>
 ```
 
-### Files to Create
+### Focus Line Highlighting
+Options (needs decision):
+1. **Highlight band**: Full-width background color on focused lines
+2. **Line marker**: Left gutter indicator only
+3. **Both**: Combined approach
+
+Current leaning: Highlight band with subtle `bg-muted/50` for Swiss minimalism.
+
+### Styling Requirements
+- Minimal frame: No toolbar, no decorations
+- Corner radius: `rounded-md` (consistent with codebase)
+- Border: `border border-border`
+- Background: `bg-card`
+- Font: Monospace (from globals.css `--font-mono`)
+
+### Files
 ```
 components/ui/scrolly/
-  ScrollyCoding.tsx     ← Main container
-  ScrollyStep.tsx       ← Step card with useInView
-  ScrollyContext.tsx    ← State management
-  index.ts              ← Exports
+  ScrollyStage.tsx      ← New: Code stage with Magic Move
 ```
 
-### Key Props
-- `steps: ScrollyCodeStep[]` - Step definitions
-- `compiledSteps: CompilationResult` - From compile-steps.ts
-- `className?: string` - Additional styling
-
 ### Reference
-- Phase 2 complete: `lib/scrolly/compile-steps.ts` (server-only compiler)
-- Types: `lib/scrolly/types.ts`
-- Motion docs: https://motion.dev/docs/react-use-in-view
+- shiki-magic-move React component: https://github.com/shikijs/shiki-magic-move
+- Theme switching: Use `useTheme()` from `next-themes`
+- Compiled tokens: `CompilationResult.stepsLight` / `stepsDark`
