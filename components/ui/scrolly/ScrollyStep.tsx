@@ -97,14 +97,16 @@ export function ScrollyStep({ index, step, totalSteps, className }: ScrollyStepP
 		ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
 	};
 
+	// Determine if this step is "past" (before active step)
+	const isPast = activeIndex > index;
+
 	return (
 		<motion.div
 			ref={ref}
 			id={`${scrollyId}-step-${index}`}
 			className={cn(
-				"relative py-8 pl-6 pr-4",
-				"min-h-[40vh]", // Ensure enough height for scroll activation
-				"transition-colors duration-200",
+				"relative scrolly-step", // Uses CSS class for consistent padding
+				"min-h-[50vh]", // Generous height for scroll activation
 				"cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				className
 			)}
@@ -115,22 +117,24 @@ export function ScrollyStep({ index, step, totalSteps, className }: ScrollyStepP
 			aria-label={`Step ${index + 1} of ${totalSteps}: ${step.title}`}
 			onClick={handleClick}
 			onKeyDown={handleKeyDown}
-			// Spring-based transition for active state
+			// Step fading: active = full, past = more faded, future = slightly faded
 			animate={
 				prefersReducedMotion
 					? { opacity: 1, x: 0 }
 					: {
-							opacity: isActive ? 1 : 0.5,
+							opacity: isActive ? 1 : isPast ? 0.3 : 0.5,
 							x: isActive ? 4 : 0, // Subtle shift right when active
 						}
 			}
 			transition={prefersReducedMotion ? { duration: 0 } : springGentle}
 		>
-			{/* Left border indicator - Code Hike style with spring animation */}
+			{/* Left border indicator - lime green when active (matches site accent) */}
 			<motion.div
 				className={cn(
-					"absolute left-0 top-0 bottom-0",
-					isActive ? "bg-foreground" : "bg-border/40"
+					"absolute left-0 top-0 bottom-0 rounded-full",
+					isActive
+						? "bg-primary" // Lime green accent
+						: "bg-border/30"
 				)}
 				animate={
 					prefersReducedMotion
@@ -141,25 +145,13 @@ export function ScrollyStep({ index, step, totalSteps, className }: ScrollyStepP
 				aria-hidden="true"
 			/>
 
-			{/* Step content */}
-			<div className="space-y-3">
-				<h3
-					className={cn(
-						"text-swiss-subheading",
-						"transition-colors duration-200",
-						isActive ? "text-foreground" : "text-muted-foreground"
-					)}
-				>
+			{/* Step content - Devouring Details typography */}
+			<div className="space-y-4">
+				<h3 className="scrolly-text-title">
 					{step.title}
 				</h3>
 
-				<div
-					className={cn(
-						"text-swiss-body",
-						"transition-colors duration-200",
-						isActive ? "text-foreground" : "text-muted-foreground"
-					)}
-				>
+				<div className="scrolly-text-body">
 					{step.body}
 				</div>
 			</div>

@@ -734,8 +734,43 @@ article [role="tabpanel"][hidden] {
 }
 
 /* =====================================================
-   Scrolly Coding - Magic Move Stage Styling
+   Scrolly Coding - Devouring Details Inspired Styling
    ===================================================== */
+
+/* Scrolly Typography - Larger, more generous like Devouring Details */
+.scrolly-text-body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 1.25rem; /* 20px - larger than standard body */
+  font-weight: 500; /* Medium weight for better readability */
+  line-height: 2.375rem; /* 38px - generous line-height matching DD */
+  color: var(--foreground);
+}
+
+.scrolly-text-title {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+}
+
+/* Scrolly step container - generous spacing */
+.scrolly-step {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1rem;
+}
+
+/* Stage column background - subtle warm gray */
+.scrolly-stage-bg {
+  background-color: oklch(0.97 0.005 90); /* Warm off-white, slight cream tint */
+}
+
+.dark .scrolly-stage-bg {
+  background-color: oklch(0.12 0 0); /* Dark mode stage bg */
+}
 
 /* Base Magic Move container styling */
 .scrolly-stage-code .shiki-magic-move-container {
@@ -746,6 +781,8 @@ article [role="tabpanel"][hidden] {
   background: transparent !important;
   margin: 0;
   padding: 0;
+  font-size: 1rem; /* 16px */
+  line-height: 2.375rem; /* 38px - matches body text rhythm */
 }
 
 /* Line number styling */
@@ -756,6 +793,28 @@ article [role="tabpanel"][hidden] {
   padding-right: 1rem;
   text-align: right;
   min-width: 2rem;
+}
+
+/* Lime green focus line highlighting - matches site accent */
+.scrolly-stage-code .scrolly-focus-line {
+  background: oklch(0.95 0.15 125 / 30%); /* Lime green tint */
+  border-left: 2px solid oklch(0.65 0.2 125); /* Lime green indicator */
+  margin-left: -1rem;
+  padding-left: calc(1rem - 2px);
+  margin-right: -1rem;
+  padding-right: 1rem;
+  transition: background-color 200ms ease, opacity 200ms ease;
+}
+
+.dark .scrolly-stage-code .scrolly-focus-line {
+  background: oklch(0.3 0.1 125 / 30%); /* Dark mode lime tint */
+  border-left-color: oklch(0.75 0.2 125);
+}
+
+/* Dim non-focused lines */
+.scrolly-stage-code .scrolly-dim-line {
+  opacity: 0.5;
+  transition: opacity 200ms ease;
 }
 
 /* Smooth scrollbar for code overflow */
@@ -780,5 +839,33 @@ article [role="tabpanel"][hidden] {
 
 .scrolly-stage-code::-webkit-scrollbar-thumb:hover {
   background: var(--muted-foreground);
+}
+
+/* Stage slide-in animation */
+@keyframes scrolly-stage-enter {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.scrolly-stage-animate-in {
+  animation: scrolly-stage-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scrolly-stage-animate-in {
+    animation: none;
+  }
+
+  .scrolly-stage-code .scrolly-focus-line,
+  .scrolly-stage-code .scrolly-dim-line {
+    transition: none;
+  }
 }
 

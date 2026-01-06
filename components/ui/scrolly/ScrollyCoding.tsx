@@ -57,8 +57,8 @@ export function ScrollyCoding({
 					"relative w-screen",
 					// Center and break out of parent container
 					"left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]",
-					// Two-column grid on desktop (45/55 split for more code space)
-					"md:grid md:grid-cols-[45fr_55fr]",
+					// Two-column grid on desktop (50/50 split like Devouring Details)
+					"md:grid md:grid-cols-2",
 					// Single column on mobile
 					"flex flex-col",
 					className
@@ -69,9 +69,9 @@ export function ScrollyCoding({
 				{/* Screen reader announcements */}
 				<ScrollyLiveRegion steps={steps} />
 
-				{/* Steps Column (left on desktop) */}
+				{/* Steps Column (left on desktop) - generous padding like DD (48px) */}
 				<div
-					className="relative md:order-1 md:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] md:pr-8"
+					className="relative md:order-1 md:pl-[max(3rem,calc((100vw-80rem)/2+3rem))] md:pr-12"
 					role="list"
 					aria-label="Walkthrough steps"
 				>
@@ -84,7 +84,7 @@ export function ScrollyCoding({
 									totalSteps={steps.length}
 								/>
 								{/* Mobile: Inline code stage after each step */}
-								<div className="md:hidden px-4 pb-6">
+								<div className="md:hidden px-4 pb-8">
 									<ScrollyStageMobile
 										compiledSteps={compiledSteps}
 										step={step}
@@ -96,22 +96,24 @@ export function ScrollyCoding({
 					</div>
 
 					{/* Bottom padding to allow last step to reach center (desktop only) */}
-					<div className="hidden md:block h-[40vh]" aria-hidden="true" />
+					<div className="hidden md:block h-[50vh]" aria-hidden="true" />
 				</div>
 
-				{/* Stage Column (right on desktop, sticky) - with subtle background */}
+				{/* Stage Column (right on desktop, sticky) - warm background with slide-in */}
 				<div
 					className={cn(
 						// Mobile: hidden (inline stages shown instead)
 						"hidden md:block",
 						// Desktop: sticky positioning
 						"md:order-2",
-						// Subtle background like Devouring Details
-						"bg-muted/30"
+						// Warm subtle background (Devouring Details style)
+						"scrolly-stage-bg",
+						// Slide-in animation on mount
+						"scrolly-stage-animate-in"
 					)}
 				>
 					<div
-						className="sticky px-8 py-6"
+						className="sticky px-10 py-8"
 						style={{
 							top: stageConfig.stickyTop,
 							height: `calc(100vh - ${stageConfig.stickyTop}px)`,

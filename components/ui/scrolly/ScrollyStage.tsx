@@ -8,7 +8,7 @@
  * Features entrance animation with spring physics.
  */
 
-import { useMemo, useState, useCallback, memo } from "react";
+import { useMemo, useState, useCallback, memo, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { motion, useReducedMotion } from "motion/react";
 import { ShikiMagicMovePrecompiled } from "shiki-magic-move/react";
@@ -49,15 +49,22 @@ export function ScrollyStage({
 	const prefersReducedMotion = useReducedMotion();
 	const [isAnimating, setIsAnimating] = useState(false);
 	const [copied, setCopied] = useState(false);
+	const [mounted, setMounted] = useState(false);
+
+	// Hydration fix: only render theme-dependent content after mount
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	// Get current step metadata
 	const currentStep = steps[activeIndex];
 
 	// Select tokens based on current theme (steps prop for ShikiMagicMovePrecompiled)
+	// Use dark as default for SSR to avoid hydration mismatch, switch after mount
 	const magicMoveSteps = useMemo(() => {
-		const theme = resolvedTheme === "dark" ? "dark" : "light";
+		const theme = mounted && resolvedTheme === "light" ? "light" : "dark";
 		return getTokensForTheme(compiledSteps, theme);
-	}, [compiledSteps, resolvedTheme]);
+	}, [compiledSteps, resolvedTheme, mounted]);
 
 	// Derive filename from step or lang
 	const filename = currentStep ? deriveFilename(currentStep) : "";
@@ -209,18 +216,25 @@ const FOCUS_LINE_SPRING = "350ms linear(0, 0.3566, 0.7963, 1.0045, 1.0459, 1.028
 /**
  * Generate focus line CSS styles.
  * Memoized via useMemo in the component to avoid recalculating on every render.
+ *
+ * Uses lime green accent for highlighting (matches site theme).
  */
 function generateFocusLineStyles(focusLines: number[], isAnimating: boolean): string {
 	const highlightStyles = focusLines
 		.map(
 			(line) => `
 		.scrolly-stage-code.has-focus-lines .shiki-magic-move-line:nth-child(${line}) {
-			background: var(--muted);
+			background: oklch(0.95 0.15 125 / 30%); /* Lime green tint */
 			margin-left: -1rem;
 			margin-right: -1rem;
-			padding-left: 1rem;
+			padding-left: calc(1rem - 2px);
 			padding-right: 1rem;
-			border-left: 2px solid var(--foreground);
+			border-left: 2px solid oklch(0.65 0.2 125); /* Lime green indicator */
+		}
+		/* Dark mode override */
+		.dark .scrolly-stage-code.has-focus-lines .shiki-magic-move-line:nth-child(${line}) {
+			background: oklch(0.3 0.1 125 / 30%);
+			border-left-color: oklch(0.75 0.2 125);
 		}
 	`
 		)
@@ -245,7 +259,7 @@ function generateFocusLineStyles(focusLines: number[], isAnimating: boolean): st
 			            margin ${FOCUS_LINE_SPRING};
 		}
 
-		/* Highlight specific lines */
+		/* Highlight specific lines - warm peachy (Devouring Details style) */
 		${highlightStyles}
 
 		/* Dim non-focused lines when focus lines exist */
