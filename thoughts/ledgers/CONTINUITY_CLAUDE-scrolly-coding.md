@@ -1,5 +1,5 @@
 # Session: scrolly-coding
-Updated: 2026-01-06T06:45:00.000Z
+Updated: 2026-01-06T07:30:00.000Z
 
 ## Goal
 Implement ScrollyCoding component system for interactive code walkthroughs. Done when:
@@ -25,22 +25,23 @@ Implement ScrollyCoding component system for interactive code walkthroughs. Done
 - **Mobile breakpoint**: 768px switches to single-column stack
 - **Step cards**: Left border indicator for active state (Code Hike style)
 - **Stage**: Minimal frame, no toolbar, filename badge top-right
+- **Focus line highlighting**: CSS-based with highlight band + left border (CONFIRMED)
 
 ## State
 - Done:
   - [x] Phase 0: Visual direction reference (documented in plan)
   - [x] Phase 1: Typed steps API and data model (commit: dcf4c3e)
   - [x] Phase 2: Shiki Magic Move pipeline (commit: 9b44dcf)
-  - [x] Phase 3: Scrolly layout and active-step engine
-- Now: [->] Phase 4: Stage UI and Magic Move integration
+  - [x] Phase 3: Scrolly layout and active-step engine (commit: 338a1ce)
+  - [x] Phase 4: Stage UI and Magic Move integration
+- Now: [→] Phase 5: Motion choreography
 - Remaining:
-  - [ ] Phase 5: Motion choreography
   - [ ] Phase 6: Blog integration and TOC strategy
   - [ ] Phase 7: Mobile fallback and performance
   - [ ] Phase 8: QA, accessibility, authoring docs
 
 ## Open Questions
-- UNCONFIRMED: Best approach for focus line highlighting (highlight band vs line marker)
+- None currently open
 
 ## Working Set
 - Branch: `scrollyCoding`
@@ -52,74 +53,91 @@ Implement ScrollyCoding component system for interactive code walkthroughs. Done
   - `components/ui/scrolly/ScrollyCoding.tsx` - Main component (DONE)
   - `components/ui/scrolly/ScrollyStep.tsx` - Step card (DONE)
   - `components/ui/scrolly/ScrollyContext.tsx` - State context (DONE)
+  - `components/ui/scrolly/ScrollyStage.tsx` - Code stage with Magic Move (DONE)
   - `components/ui/scrolly/index.ts` - Exports (DONE)
-  - `components/ui/scrolly/ScrollyStage.tsx` - Code stage (NEXT)
 - Test: Create example in `content/blog/` with scrolly steps
 - Build: `pnpm build` to verify no SSR/client issues (deferred to Phase 8)
 
 ---
 
-## Phase 4 Handoff: Stage UI and Magic Move Integration
+## Phase 4 Completion Notes
 
-### What to Build
-Create the code stage component that renders Shiki Magic Move with animated transitions:
-1. `ScrollyStage.tsx` - Code stage with Magic Move rendering
-2. Theme-aware token rendering (light/dark mode support)
-3. Filename badge display
-4. Focus line highlighting
+### What Was Built
+Created `ScrollyStage.tsx` with full Shiki Magic Move integration:
 
-### Stage Structure
-```
-┌────────────────────────────────────────┐
-│                            filename.ts │  ← Filename badge (top-right)
-│                                        │
-│  1 │ const state = {                   │
-│  2 │   count: 0,         ← focus line  │  ← Highlighted background
-│  3 │ }                                 │
-│                                        │
-└────────────────────────────────────────┘
-```
+1. **ShikiMagicMovePrecompiled** integration
+   - Props: `steps` (KeyedTokensInfo[]), `step` (activeIndex), `animate`, `options`
+   - Animation callbacks: `onStart`, `onEnd` for tracking animation state
 
-### Key Integration Points
-- Use `ShikiMagicMovePrecompiled` from `shiki-magic-move/react`
-- Get current theme from `next-themes` useTheme()
-- Select tokens: `theme === 'dark' ? compiledSteps.stepsDark : compiledSteps.stepsLight`
-- Use `extractTokensForPrecompiled()` helper from compile-steps.ts
+2. **Theme-aware rendering**
+   - Uses `useTheme()` from next-themes
+   - Selects `stepsLight` or `stepsDark` based on `resolvedTheme`
+   - Theme changes trigger re-render with correct tokens
 
-### Magic Move Props
+3. **Filename badge**
+   - Positioned top-right with `absolute` positioning
+   - Uses `deriveFilename()` helper to generate from step or lang
+   - Fades slightly during animations
+
+4. **Focus line highlighting**
+   - CSS-based approach using dynamic `<style>` injection
+   - Highlights focused lines with `bg-muted` + left border
+   - Dims non-focused lines to 50% opacity
+   - Respects animation state (full opacity during transitions)
+
+### Key Files Modified
+- `components/ui/scrolly/ScrollyStage.tsx` - NEW: Full stage implementation
+- `components/ui/scrolly/ScrollyCoding.tsx` - Replaced StagePlaceholder with ScrollyStage
+- `components/ui/scrolly/index.ts` - Added ScrollyStage export
+- `app/globals.css` - Added shiki-magic-move CSS import and scrolly stage styling
+
+### ShikiMagicMovePrecompiled API (Confirmed)
 ```tsx
 <ShikiMagicMovePrecompiled
-  tokens={tokens}        // KeyedTokensInfo[]
-  stepIndex={activeIndex}
-  animate={!prefersReducedMotion}
-  lineNumbers={true}
-  onStart={() => {}}     // Animation start callback
-  onEnd={() => {}}       // Animation end callback
+  steps={KeyedTokensInfo[]}  // Array of precompiled tokens
+  step={number}              // Current step index
+  animate={boolean}          // Enable/disable animations
+  options={{
+    duration: number,        // Animation duration in ms
+    stagger: number,         // Token stagger delay in ms
+  }}
+  onStart={() => void}       // Animation start callback
+  onEnd={() => void}         // Animation end callback
 />
 ```
 
-### Focus Line Highlighting
-Options (needs decision):
-1. **Highlight band**: Full-width background color on focused lines
-2. **Line marker**: Left gutter indicator only
-3. **Both**: Combined approach
+---
 
-Current leaning: Highlight band with subtle `bg-muted/50` for Swiss minimalism.
+## Phase 5 Handoff: Motion Choreography
 
-### Styling Requirements
-- Minimal frame: No toolbar, no decorations
-- Corner radius: `rounded-md` (consistent with codebase)
-- Border: `border border-border`
-- Background: `bg-card`
-- Font: Monospace (from globals.css `--font-mono`)
+### What to Build
+Add spring physics and choreographed animations for step transitions:
 
-### Files
+1. **Stage entrance animation**
+   - Initial fade + scale from `lib/motion-variants.ts`
+   - Spring physics for natural feel
+
+2. **Step transition choreography**
+   - Coordinate step card fade with code stage update
+   - Potential: Stagger step content changes
+
+3. **Focus line animation**
+   - Smooth transition for highlight band movement
+   - Consider spring-based highlight position
+
+### Key Integration Points
+- Import spring presets from `lib/motion-variants.ts`
+- Use `useReducedMotion()` to disable all motion when needed
+- Coordinate with Magic Move's built-in animation timing
+
+### Files to Modify
 ```
 components/ui/scrolly/
-  ScrollyStage.tsx      ← New: Code stage with Magic Move
+  ScrollyStage.tsx     - Add entrance animation
+  ScrollyStep.tsx      - Refine step transition timing
+  ScrollyCoding.tsx    - Orchestrate overall choreography
 ```
 
 ### Reference
-- shiki-magic-move React component: https://github.com/shikijs/shiki-magic-move
-- Theme switching: Use `useTheme()` from `next-themes`
-- Compiled tokens: `CompilationResult.stepsLight` / `stepsDark`
+- `lib/motion-variants.ts` - Spring presets: `springGentle`, `springBouncy`, `springSnappy`
+- Motion library: `motion/react` for animations

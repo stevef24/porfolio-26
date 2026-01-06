@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "shiki-magic-move/dist/style.css";
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
@@ -730,5 +731,54 @@ article [role="tabpanel"][hidden] {
   top: calc(var(--navbar-height) + 1.5rem);
   max-height: calc(100vh - var(--navbar-height) - 3rem);
   overflow-y: auto;
+}
+
+/* =====================================================
+   Scrolly Coding - Magic Move Stage Styling
+   ===================================================== */
+
+/* Base Magic Move container styling */
+.scrolly-stage-code .shiki-magic-move-container {
+  background: transparent !important;
+}
+
+.scrolly-stage-code pre {
+  background: transparent !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* Line number styling */
+.scrolly-stage-code .shiki-magic-move-line-number {
+  color: var(--muted-foreground);
+  opacity: 0.5;
+  user-select: none;
+  padding-right: 1rem;
+  text-align: right;
+  min-width: 2rem;
+}
+
+/* Smooth scrollbar for code overflow */
+.scrolly-stage-code {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.scrolly-stage-code::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrolly-stage-code::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrolly-stage-code::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.scrolly-stage-code::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
 }
 

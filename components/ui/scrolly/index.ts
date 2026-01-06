@@ -17,6 +17,7 @@
 // Main components
 export { ScrollyCoding } from "./ScrollyCoding";
 export { ScrollyStep } from "./ScrollyStep";
+export { ScrollyStage } from "./ScrollyStage";
 
 // Context and hooks
 export {

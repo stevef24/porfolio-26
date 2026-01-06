@@ -5,14 +5,15 @@
  *
  * Two-column layout:
  * - Left column: Scrollable step cards
- * - Right column: Sticky code stage (placeholder for Phase 4)
+ * - Right column: Sticky code stage with Shiki Magic Move
  *
  * On mobile (<768px), falls back to single-column stacked layout.
  */
 
 import { cn } from "@/lib/utils";
-import { ScrollyProvider, useScrollyContext } from "./ScrollyContext";
+import { ScrollyProvider } from "./ScrollyContext";
 import { ScrollyStep } from "./ScrollyStep";
+import { ScrollyStage } from "./ScrollyStage";
 import { SCROLLY_DEFAULTS } from "@/lib/scrolly/types";
 import type { ScrollyCodingProps } from "@/lib/scrolly/types";
 import type { CompilationResult } from "@/lib/scrolly/compile-steps";
@@ -90,44 +91,13 @@ export function ScrollyCoding({
 							height: `calc(100vh - ${stageConfig.stickyTop + 40}px)`,
 						}}
 					>
-						{/* Stage placeholder - Phase 4 will add ScrollyStage */}
-						<StagePlaceholder compiledSteps={compiledSteps} />
+						<ScrollyStage
+							compiledSteps={compiledSteps}
+							steps={steps}
+						/>
 					</div>
 				</div>
 			</div>
 		</ScrollyProvider>
-	);
-}
-
-/**
- * Temporary stage placeholder.
- * Phase 4 will replace this with ScrollyStage component.
- */
-function StagePlaceholder({
-	compiledSteps,
-}: {
-	compiledSteps: CompilationResult;
-}) {
-	const { activeIndex, totalSteps } = useScrollyContext();
-
-	return (
-		<div
-			className={cn(
-				"h-full w-full rounded-md",
-				"bg-card border border-border",
-				"flex flex-col items-center justify-center",
-				"text-muted-foreground"
-			)}
-		>
-			<div className="text-swiss-label mb-2">Stage Placeholder</div>
-			<div className="text-swiss-caption">
-				Step {activeIndex + 1} of {totalSteps}
-			</div>
-			{compiledSteps.errors.length > 0 && (
-				<div className="mt-4 text-destructive text-xs">
-					{compiledSteps.errors.length} compilation error(s)
-				</div>
-			)}
-		</div>
 	);
 }
