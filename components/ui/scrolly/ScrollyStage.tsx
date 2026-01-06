@@ -6,6 +6,7 @@
  * Renders precompiled Magic Move tokens with smooth transitions between steps.
  * Supports theme switching (light/dark) and focus line highlighting.
  * Features entrance animation with spring physics.
+ * Includes canvas controls (fullscreen, copy, refresh) with ItsHover animated icons.
  */
 
 import { useMemo, useState, useCallback, memo, useEffect } from "react";
@@ -17,6 +18,8 @@ import { useScrollyContext } from "./ScrollyContext";
 import { getTokensForTheme, type CompilationResult } from "@/lib/scrolly/utils";
 import { deriveFilename, SCROLLY_DEFAULTS } from "@/lib/scrolly/types";
 import { springGentle } from "@/lib/motion-variants";
+import { StageControls } from "./StageControls";
+import { StageFullscreen } from "./StageFullscreen";
 import type { ScrollyCodeStep } from "@/lib/scrolly/types";
 
 interface ScrollyStageProps {
@@ -24,6 +27,10 @@ interface ScrollyStageProps {
 	compiledSteps: CompilationResult;
 	/** Original steps for metadata (focusLines, file) */
 	steps: ScrollyCodeStep[];
+	/** Show canvas controls toolbar (default: true) */
+	showControls?: boolean;
+	/** Show copy link button in controls (default: true) */
+	showCopyLink?: boolean;
 	/** Additional CSS classes */
 	className?: string;
 }
@@ -42,6 +49,8 @@ interface ScrollyStageProps {
 export function ScrollyStage({
 	compiledSteps,
 	steps,
+	showControls = true,
+	showCopyLink = true,
 	className,
 }: ScrollyStageProps) {
 	const { activeIndex } = useScrollyContext();
@@ -50,6 +59,7 @@ export function ScrollyStage({
 	const [isAnimating, setIsAnimating] = useState(false);
 	const [copied, setCopied] = useState(false);
 	const [mounted, setMounted] = useState(false);
+	const [isFullscreen, setIsFullscreen] = useState(false);
 
 	// Hydration fix: only render theme-dependent content after mount
 	useEffect(() => {
@@ -78,8 +88,8 @@ export function ScrollyStage({
 		setIsAnimating(false);
 	}, []);
 
-	// Copy to clipboard handler
-	const handleCopy = useCallback(async () => {
+	// Copy code to clipboard handler
+	const handleCopyCode = useCallback(async () => {
 		if (!currentStep) return;
 		try {
 			await navigator.clipboard.writeText(currentStep.code);
@@ -89,6 +99,25 @@ export function ScrollyStage({
 			// Silently fail - clipboard API may not be available
 		}
 	}, [currentStep]);
+
+	// Copy link to current step (URL hash)
+	const handleCopyLink = useCallback(async () => {
+		if (!currentStep) return;
+		try {
+			const url = new URL(window.location.href);
+			url.hash = `step-${currentStep.id}`;
+			await navigator.clipboard.writeText(url.toString());
+			setCopied(true);
+			setTimeout(() => setCopied(false), 2000);
+		} catch {
+			// Silently fail
+		}
+	}, [currentStep]);
+
+	// Fullscreen toggle
+	const handleToggleFullscreen = useCallback(() => {
+		setIsFullscreen((prev) => !prev);
+	}, []);
 
 	// Get focus lines for current step (1-based line numbers)
 	const focusLines = useMemo(() => {
@@ -120,6 +149,7 @@ export function ScrollyStage({
 	const { scrollyId } = useScrollyContext();
 
 	return (
+		<>
 		<motion.div
 			id={`${scrollyId}-stage`}
 			className={cn(
@@ -136,7 +166,7 @@ export function ScrollyStage({
 			animate={{ opacity: 1, scale: 1 }}
 			transition={prefersReducedMotion ? { duration: 0 } : springGentle}
 		>
-			{/* Header bar with filename and copy button */}
+			{/* Header bar with filename and canvas controls */}
 			<div
 				className={cn(
 					"flex items-center justify-between px-3 py-2",
@@ -145,25 +175,31 @@ export function ScrollyStage({
 					isAnimating && "opacity-70"
 				)}
 			>
-				{filename ? (
-					<span className="text-swiss-label text-muted-foreground">
-						{filename}
-					</span>
-				) : (
-					<span />
-				)}
-				<button
-					type="button"
-					onClick={handleCopy}
-					className={cn(
-						"text-swiss-label transition-colors cursor-pointer",
-						"hover:text-foreground",
-						copied ? "text-foreground" : "text-muted-foreground"
+				<div className="flex items-center gap-2">
+					{filename && (
+						<span className="text-swiss-label text-muted-foreground">
+							{filename}
+						</span>
 					)}
-					aria-label={copied ? "Copied!" : "Copy code"}
-				>
-					{copied ? "Copied!" : "Copy"}
-				</button>
+					{copied && (
+						<span className="text-swiss-caption text-primary animate-in fade-in">
+							Copied!
+						</span>
+					)}
+				</div>
+				{showControls && (
+					<StageControls
+						viewMode="rendered"
+						isFullscreen={isFullscreen}
+						showSourceToggle={false}
+						showRefresh={false}
+						showLink={showCopyLink}
+						showCopy={true}
+						onToggleFullscreen={handleToggleFullscreen}
+						onCopyLink={handleCopyLink}
+						onCopyCode={handleCopyCode}
+					/>
+				)}
 			</div>
 
 			{/* Code container with Magic Move - scrollable area */}
@@ -200,6 +236,78 @@ export function ScrollyStage({
 				/>
 			)}
 		</motion.div>
+
+		{/* Fullscreen modal portal */}
+		<StageFullscreen isOpen={isFullscreen} onClose={handleToggleFullscreen}>
+			<div className="flex flex-col h-full">
+				{/* Fullscreen header */}
+				<div
+					className={cn(
+						"flex items-center justify-between px-4 py-3",
+						"border-b border-border bg-muted/30"
+					)}
+				>
+					<div className="flex items-center gap-2">
+						{filename && (
+							<span className="text-swiss-label text-muted-foreground">
+								{filename}
+							</span>
+						)}
+						{copied && (
+							<span className="text-swiss-caption text-primary animate-in fade-in">
+								Copied!
+							</span>
+						)}
+					</div>
+					<StageControls
+						viewMode="rendered"
+						isFullscreen={true}
+						showSourceToggle={false}
+						showRefresh={false}
+						showLink={showCopyLink}
+						showCopy={true}
+						onToggleFullscreen={handleToggleFullscreen}
+						onCopyLink={handleCopyLink}
+						onCopyCode={handleCopyCode}
+					/>
+				</div>
+
+				{/* Fullscreen code container */}
+				<div
+					className={cn(
+						"scrolly-stage-code flex-1 overflow-auto p-6",
+						"font-mono text-base leading-relaxed",
+						focusLines.length > 0 && "has-focus-lines"
+					)}
+					data-focus-lines={focusLines.join(",")}
+				>
+					<ShikiMagicMovePrecompiled
+						steps={magicMoveSteps}
+						step={activeIndex}
+						animate={!prefersReducedMotion}
+						options={{
+							duration: prefersReducedMotion
+								? 0
+								: SCROLLY_DEFAULTS.magicMove.duration,
+							stagger: prefersReducedMotion
+								? 0
+								: SCROLLY_DEFAULTS.magicMove.stagger,
+						}}
+						onStart={handleAnimationStart}
+						onEnd={handleAnimationEnd}
+					/>
+				</div>
+
+				{/* Focus line styles for fullscreen */}
+				{focusLines.length > 0 && (
+					<FocusLineHighlights
+						focusLines={focusLines}
+						isAnimating={isAnimating}
+					/>
+				)}
+			</div>
+		</StageFullscreen>
+		</>
 	);
 }
 

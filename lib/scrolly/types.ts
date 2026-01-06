@@ -2,10 +2,174 @@
  * Scrolly Coding Type Definitions
  *
  * Typed API for scrollytelling code walkthroughs.
- * Designed for MDX authoring with incremental code changes.
+ * Supports multiple content types: code, playground, images, iframes, and custom components.
+ * Designed for MDX authoring with incremental content transitions.
  */
 
 import type { ReactNode } from "react";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Stage Content Types - Discriminated Union
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Code stage content - syntax highlighted with Shiki Magic Move.
+ */
+export type StageCodeContent = {
+	type: "code";
+	/** Code string for this step */
+	code: string;
+	/** Shiki language identifier (e.g., "ts", "tsx", "css") */
+	lang: string;
+	/** 1-based line numbers to highlight */
+	focusLines?: number[];
+	/** Optional filename displayed in stage badge */
+	file?: string;
+	/** Optional annotations on specific lines */
+	annotations?: Array<{
+		line: number;
+		label: string;
+	}>;
+};
+
+/**
+ * Playground stage content - live code editor with Sandpack.
+ */
+export type StagePlaygroundContent = {
+	type: "playground";
+	/** Files keyed by filename (e.g., "/App.tsx": "code...") */
+	files: Record<string, string>;
+	/** Sandpack template preset */
+	template?: "react" | "react-ts" | "vue" | "vanilla" | "vanilla-ts";
+	/** Show live preview panel (default: true) */
+	showPreview?: boolean;
+	/** Entry file path (default: "/App.tsx" for React) */
+	entry?: string;
+};
+
+/**
+ * Single image stage content.
+ */
+export type StageImageContent = {
+	type: "image";
+	/** Image source URL */
+	src: string;
+	/** Alt text for accessibility */
+	alt?: string;
+	/** Optional caption below image */
+	caption?: string;
+};
+
+/**
+ * Multiple images stage content - grid or carousel.
+ */
+export type StageImagesContent = {
+	type: "images";
+	/** Array of image items */
+	items: Array<{
+		src: string;
+		alt?: string;
+	}>;
+	/** Layout mode */
+	layout?: "grid" | "carousel";
+	/** Grid columns (for grid layout) */
+	columns?: 2 | 3 | 4;
+};
+
+/**
+ * Iframe stage content - embedded external content.
+ */
+export type StageIframeContent = {
+	type: "iframe";
+	/** Iframe source URL */
+	src: string;
+	/** Accessibility title */
+	title?: string;
+	/** Iframe sandbox permissions */
+	sandbox?: string;
+	/** Aspect ratio (e.g., "16/9", "4/3") */
+	aspectRatio?: string;
+};
+
+/**
+ * Custom stage content - render arbitrary React components.
+ */
+export type StageCustomContent = {
+	type: "custom";
+	/** React component to render */
+	component: ReactNode;
+};
+
+/**
+ * Union of all stage content types.
+ * Use discriminated union pattern for type narrowing.
+ *
+ * @example
+ * ```tsx
+ * switch (content.type) {
+ *   case "code":
+ *     // TypeScript knows content.code exists
+ *     break;
+ *   case "playground":
+ *     // TypeScript knows content.files exists
+ *     break;
+ * }
+ * ```
+ */
+export type StageContentType =
+	| StageCodeContent
+	| StagePlaygroundContent
+	| StageImageContent
+	| StageImagesContent
+	| StageIframeContent
+	| StageCustomContent;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Extended ScrollyStep (supports all content types)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Extended step with flexible stage content.
+ * Use this for mixed-content scrollytelling (code, images, playgrounds).
+ *
+ * @example
+ * ```tsx
+ * const steps: ScrollyStep[] = [
+ *   {
+ *     id: "intro",
+ *     title: "Introduction",
+ *     body: <p>Let's build something.</p>,
+ *     stage: { type: "image", src: "/overview.png", alt: "Architecture" },
+ *   },
+ *   {
+ *     id: "code",
+ *     title: "The Code",
+ *     body: <p>Here's how it works.</p>,
+ *     stage: { type: "code", code: "const x = 1", lang: "ts" },
+ *   },
+ * ];
+ * ```
+ */
+export type ScrollyStep = {
+	/** Unique identifier (kebab-case, stable across drafts) */
+	id: string;
+	/** Step title displayed above the body */
+	title: string;
+	/** Prose content - paragraphs, lists, inline code */
+	body: ReactNode;
+	/** Stage content to display */
+	stage: StageContentType;
+	/** Optional Magic Move overrides (only for code type) */
+	magicMove?: {
+		duration?: number;
+		stagger?: number;
+		lineNumbers?: boolean;
+	};
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Legacy ScrollyCodeStep (backward compatible)
+// ─────────────────────────────────────────────────────────────────────────────
 
 /**
  * A single step in a scrolly code walkthrough.
@@ -235,4 +399,143 @@ export const deriveFilename = (step: ScrollyCodeStep): string => {
 
 	const ext = extMap[step.lang] || step.lang;
 	return `snippet.${ext}`;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Type Guards & Converters
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Type guard: Check if stage content is code type.
+ */
+export const isCodeStage = (
+	stage: StageContentType
+): stage is StageCodeContent => {
+	return stage.type === "code";
+};
+
+/**
+ * Type guard: Check if stage content is playground type.
+ */
+export const isPlaygroundStage = (
+	stage: StageContentType
+): stage is StagePlaygroundContent => {
+	return stage.type === "playground";
+};
+
+/**
+ * Type guard: Check if stage content is image type.
+ */
+export const isImageStage = (
+	stage: StageContentType
+): stage is StageImageContent => {
+	return stage.type === "image";
+};
+
+/**
+ * Type guard: Check if stage content is images (gallery) type.
+ */
+export const isImagesStage = (
+	stage: StageContentType
+): stage is StageImagesContent => {
+	return stage.type === "images";
+};
+
+/**
+ * Type guard: Check if stage content is iframe type.
+ */
+export const isIframeStage = (
+	stage: StageContentType
+): stage is StageIframeContent => {
+	return stage.type === "iframe";
+};
+
+/**
+ * Type guard: Check if stage content is custom type.
+ */
+export const isCustomStage = (
+	stage: StageContentType
+): stage is StageCustomContent => {
+	return stage.type === "custom";
+};
+
+/**
+ * Convert legacy ScrollyCodeStep to new ScrollyStep format.
+ * Use this to migrate existing code-only steps to the new type system.
+ *
+ * @example
+ * ```tsx
+ * const legacySteps: ScrollyCodeStep[] = [...];
+ * const newSteps = legacySteps.map(codeStepToScrollyStep);
+ * ```
+ */
+export const codeStepToScrollyStep = (step: ScrollyCodeStep): ScrollyStep => {
+	return {
+		id: step.id,
+		title: step.title,
+		body: step.body,
+		stage: {
+			type: "code",
+			code: step.code,
+			lang: step.lang,
+			file: step.file,
+			focusLines: step.focusLines,
+			annotations: step.annotations,
+		},
+		magicMove: step.magicMove,
+	};
+};
+
+/**
+ * Extract code content from a ScrollyStep if it's a code stage.
+ * Returns null for non-code stages.
+ */
+export const extractCodeContent = (
+	step: ScrollyStep
+): StageCodeContent | null => {
+	return isCodeStage(step.stage) ? step.stage : null;
+};
+
+/**
+ * Derive filename from stage content.
+ * Works with both new ScrollyStep and legacy ScrollyCodeStep.
+ */
+export const deriveStageFilename = (stage: StageContentType): string => {
+	if (!isCodeStage(stage)) {
+		return "";
+	}
+
+	if (stage.file) return stage.file;
+
+	const extMap: Record<string, string> = {
+		ts: "ts",
+		tsx: "tsx",
+		js: "js",
+		jsx: "jsx",
+		css: "css",
+		html: "html",
+		json: "json",
+		yaml: "yaml",
+		yml: "yml",
+		md: "md",
+		mdx: "mdx",
+		py: "py",
+		rust: "rs",
+		go: "go",
+		sql: "sql",
+		sh: "sh",
+		bash: "sh",
+		zsh: "sh",
+	};
+
+	const ext = extMap[stage.lang] || stage.lang;
+	return `snippet.${ext}`;
+};
+
+/**
+ * Check if a step has compilable code content.
+ * Used by compile-steps.ts to determine if Shiki compilation is needed.
+ */
+export const hasCompilableCode = (step: ScrollyStep): boolean => {
+	return isCodeStage(step.stage);
 };

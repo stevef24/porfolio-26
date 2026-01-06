@@ -1,5 +1,5 @@
 # Session: scrolly-coding
-Updated: 2026-01-06T12:05:23.021Z
+Updated: 2026-01-06T15:34:59.028Z
 
 ## Goal
 Implement ScrollyCoding component system for interactive code walkthroughs. Done when:
@@ -40,6 +40,7 @@ Implement ScrollyCoding component system for interactive code walkthroughs. Done
   - [x] Phase 6: Blog integration and TOC strategy
   - [x] Phase 7: Mobile fallback and performance
   - [x] Phase 8: QA, accessibility, authoring docs
+  - [x] Phase 9: Canvas controls and fullscreen mode
 - Now: COMPLETE - Ready for manual testing
 - Remaining: (none)
 
@@ -568,3 +569,47 @@ const tokensInfo = useMemo(() => {
 - After hydration, `useEffect` sets `mounted=true`
 - Theme-dependent rendering only happens client-side after mount
 - Prevents React hydration mismatch warnings
+
+---
+
+## Phase 9: Canvas Controls and Fullscreen Mode
+
+### What Was Built
+Added canvas controls toolbar and fullscreen mode to ScrollyStage:
+
+1. **StageControls component** (previously created)
+   - ItsHover animated icons for all buttons
+   - Fullscreen toggle (expand/collapse icons)
+   - Copy code button
+   - Copy link button (generates URL with step hash)
+   - Motion entrance animation with spring physics
+   - Fully accessible with ARIA labels
+
+2. **StageFullscreen component** (previously created)
+   - Portal-based modal rendering to document.body
+   - Escape key to close
+   - Click outside to dismiss
+   - Body scroll lock with scrollbar compensation
+   - Spring animations (reduced motion aware)
+
+3. **ScrollyStage integration**
+   - Replaced inline copy button with StageControls toolbar
+   - Added fullscreen state management
+   - Copy link generates URL hash: `#step-{id}`
+   - "Copied!" feedback appears next to filename
+   - Fullscreen renders same Magic Move content in modal
+
+### Files Modified
+- `components/ui/scrolly/ScrollyStage.tsx` - Integrated StageControls + StageFullscreen
+
+### Key Props Added to ScrollyStage
+```tsx
+interface ScrollyStageProps {
+  showControls?: boolean;    // Default: true
+  showCopyLink?: boolean;    // Default: true
+}
+```
+
+### Build Status
+- `pnpm build` passes
+- All 20 static pages generated
