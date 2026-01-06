@@ -231,7 +231,7 @@ export function MobileFloatingTOC({
         <motion.div
           ref={panelRef}
           layout
-          className="pointer-events-auto bg-neutral-900/95 backdrop-blur-md border border-neutral-800 shadow-2xl shadow-black/50 overflow-hidden"
+          className="pointer-events-auto bg-background/95 backdrop-blur-md border border-border shadow-2xl shadow-black/50 overflow-hidden"
           style={{
             // Put dimensions AND borderRadius in style - Motion handles smooth interpolation
             width: isExpanded ? "calc(100vw - 48px)" : "auto",
@@ -264,9 +264,9 @@ export function MobileFloatingTOC({
                 {/* Left indicator - neutral circle (theme-aware) */}
                 <motion.div
                   layoutId="toc-left-indicator"
-                  className="relative w-7 h-7 flex-shrink-0 rounded-full bg-neutral-700 dark:bg-neutral-600"
+                  className="relative w-7 h-7 flex-shrink-0 rounded-full bg-primary"
                 >
-                  <span className="absolute inset-0 flex items-center justify-center text-[11px] font-semibold text-white">
+                  <span className="absolute inset-0 flex items-center justify-center text-[11px] font-semibold text-primary-foreground">
                     {activeIndex >= 0 ? activeIndex + 1 : 1}
                   </span>
                 </motion.div>
@@ -286,7 +286,7 @@ export function MobileFloatingTOC({
                       animate="center"
                       exit="exit"
                       transition={contentSpring}
-                      className="absolute inset-0 flex items-center text-sm font-medium text-neutral-100 truncate"
+                      className="absolute inset-0 flex items-center text-sm font-medium text-foreground truncate"
                     >
                       {activeItem?.title || items[0]?.title || "Contents"}
                     </motion.span>
@@ -306,7 +306,7 @@ export function MobileFloatingTOC({
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
-                      className="text-neutral-700"
+                      className="text-muted-foreground/40"
                     />
                     <motion.circle
                       cx="12"
@@ -315,7 +315,7 @@ export function MobileFloatingTOC({
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
-                      className="text-neutral-100"
+                      className="text-primary"
                       strokeLinecap="round"
                       initial={{ pathLength: 0 }}
                       animate={{ pathLength: scrollProgress }}
@@ -373,8 +373,8 @@ export function MobileFloatingTOC({
                             className={cn(
                               "w-full text-left py-2 px-3 rounded-lg cursor-pointer transition-all duration-200 text-sm",
                               isActive
-                                ? "bg-neutral-800 text-neutral-100 font-medium"
-                                : "text-neutral-400 hover:bg-neutral-800/50 hover:text-neutral-200",
+                                ? "bg-primary/10 text-foreground font-medium"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground",
                               isNested && "pl-8"
                             )}
                             aria-label={`Jump to ${item.title}`}
@@ -389,20 +389,20 @@ export function MobileFloatingTOC({
                 </nav>
 
                 {/* Bottom bar with title and indicators */}
-                <div className="flex items-center justify-between px-3 py-2.5 border-t border-neutral-800">
+                <div className="flex items-center justify-between px-3 py-2.5 border-t border-border">
                   <div className="flex items-center gap-3">
-                    {/* Left indicator - neutral circle (theme-aware) */}
+                    {/* Left indicator - lime accent */}
                     <motion.div
                       layoutId="toc-left-indicator"
-                      className="relative w-7 h-7 flex-shrink-0 rounded-full bg-neutral-700 dark:bg-neutral-600"
+                      className="relative w-7 h-7 flex-shrink-0 rounded-full bg-primary"
                     >
-                      <span className="absolute inset-0 flex items-center justify-center text-[11px] font-semibold text-white">
+                      <span className="absolute inset-0 flex items-center justify-center text-[11px] font-semibold text-primary-foreground">
                         {activeIndex >= 0 ? activeIndex + 1 : 1}
                       </span>
                     </motion.div>
 
                     {/* Title */}
-                    <span className="text-sm font-medium text-neutral-300">
+                    <span className="text-sm font-medium text-foreground">
                       Table of Contents
                     </span>
                   </div>
@@ -420,7 +420,7 @@ export function MobileFloatingTOC({
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
-                        className="text-neutral-700"
+                        className="text-muted-foreground/40"
                       />
                       <motion.circle
                         cx="12"
@@ -429,7 +429,7 @@ export function MobileFloatingTOC({
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
-                        className="text-neutral-100"
+                        className="text-primary"
                         strokeLinecap="round"
                         initial={{ pathLength: 0 }}
                         animate={{ pathLength: scrollProgress }}

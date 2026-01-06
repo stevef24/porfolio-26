@@ -136,7 +136,7 @@ export default function Navbar({
                       "transition-colors duration-150",
                       isActive
                         ? "text-foreground"
-                        : "text-muted-foreground hover:text-foreground"
+                        : "text-muted-foreground hover:text-primary"
                     )}
                   >
                     {link.text}

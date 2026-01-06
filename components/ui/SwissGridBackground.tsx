@@ -97,7 +97,7 @@ export function SwissGridBackground() {
 			className="fixed inset-0 -z-10 overflow-hidden select-none pointer-events-none"
 			aria-hidden="true"
 			style={{
-				backgroundColor: isDark ? "#050505" : "#ffffff",
+				backgroundColor: isDark ? "oklch(0.10 0 0)" : "oklch(0.99 0 0)",
 			}}
 		>
 			{/* 1. Subtle Ambient Glow (Dark Mode Only) */}
@@ -105,7 +105,7 @@ export function SwissGridBackground() {
 				<div
 					className="absolute inset-0 z-0 opacity-100 transition-opacity duration-1000"
 					style={{
-						background: `radial-gradient(circle 900px at 50% 20%, oklch(0.2 0.01 60 / 0.15), transparent 70%)`,
+						background: `radial-gradient(circle 900px at 50% 20%, oklch(0.3 0.08 125 / 0.12), transparent 70%)`,
 					}}
 				/>
 			)}
@@ -148,7 +148,7 @@ export function SwissGridBackground() {
 				className="absolute inset-0 z-[3]"
 				style={{
 					background: isDark
-						? "linear-gradient(to bottom, transparent 0%, #050505 100%)"
+						? "linear-gradient(to bottom, transparent 0%, oklch(0.10 0 0) 100%)"
 						: "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.1) 100%)",
 				}}
 			/>

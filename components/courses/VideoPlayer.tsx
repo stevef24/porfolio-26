@@ -307,12 +307,12 @@ export function VideoPlayer({
                 inset: 0,
                 width: "100%",
                 height: "100%",
-                // Custom OKLCH theme styling
+                // Custom OKLCH theme styling - lime green accent
                 "--controls": "oklch(0.985 0 0)",
-                "--media-accent-color": "oklch(0.77 0.20 131)",
-                "--media-primary-color": "oklch(0.77 0.20 131)",
+                "--media-accent-color": "oklch(0.85 0.2 125)",
+                "--media-primary-color": "oklch(0.85 0.2 125)",
                 "--media-secondary-color": "oklch(0.985 0 0)",
-                "--media-loading-indicator-color": "oklch(0.77 0.20 131)",
+                "--media-loading-indicator-color": "oklch(0.85 0.2 125)",
                 "--media-text-color": "oklch(0.985 0 0)",
                 "--media-control-background": "oklch(0.145 0 0 / 80%)",
                 "--media-control-hover-background": "oklch(0.145 0 0 / 90%)",
@@ -320,7 +320,7 @@ export function VideoPlayer({
                 "--media-font-family": "var(--font-subheading), monospace",
                 "--media-font-size": "1rem",
               }}
-              accentColor="oklch(0.77 0.20 131)"
+              accentColor="oklch(0.85 0.2 125)"
               onCanPlay={() => setPlayerState("ready")}
               onPlay={() => setPlayerState("playing")}
               onPause={() => setPlayerState("paused")}

@@ -41,7 +41,7 @@ const Contact = () => {
 				The best way to reach me is through{" "}
 				<a
 					href={getEmailHref()}
-					className="text-foreground hover:text-muted-foreground transition-colors cursor-pointer underline underline-offset-2"
+					className="text-primary hover:text-primary/80 transition-colors cursor-pointer underline underline-offset-2"
 				>
 					email
 				</a>
@@ -55,7 +55,7 @@ const Contact = () => {
 						target="_blank"
 						rel="noopener noreferrer"
 						aria-label={social.name}
-						className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+						className="p-2 text-muted-foreground hover:text-primary transition-colors"
 					>
 						<HugeiconsIcon icon={social.icon} size={16} />
 					</Link>

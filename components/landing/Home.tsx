@@ -80,9 +80,9 @@ const Home = ({ posts }: HomeProps) => {
 							Frontend developer. Building with AI, teaching what I learn.
 						</p>
 					</BlurFade>
-					{/* Accent line */}
+					{/* Accent line - lime */}
 					<motion.div
-						className="w-12 h-[1px] bg-border mt-6"
+						className="w-12 h-[1px] bg-primary mt-6"
 						initial={{ scaleX: 0, originX: 0 }}
 						animate={{ scaleX: 1 }}
 						transition={{ delay: 0.1, duration: 0.4, ease: "easeOut" }}
@@ -110,7 +110,7 @@ const Home = ({ posts }: HomeProps) => {
 									href="https://www.youtube.com/@CodewithStav"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="text-foreground hover:text-muted-foreground transition-colors underline underline-offset-2"
+									className="text-foreground hover:text-primary transition-colors underline underline-offset-2"
 								>
 									YouTube videos
 								</a>{" "}

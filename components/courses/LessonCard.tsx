@@ -27,7 +27,7 @@ function hashString(str: string): number {
 
 // Swiss minimal pattern - geometric shapes
 function CoursePattern({ seed }: { seed: number }) {
-  const hue = 131 + (seed % 20) - 10; // Stay close to primary lime hue
+  const hue = 125 + (seed % 20) - 10; // Stay close to primary lime hue (125)
 
   return (
     <div

@@ -95,7 +95,7 @@ export function EmailCaptureForm({
   return (
     <section
       className={cn(
-        "not-prose my-8 border border-primary/20 bg-primary/5 p-8 rounded-xl",
+        "not-prose my-8 border border-primary/30 bg-primary/5 p-8 rounded-xl",
         className
       )}
     >
