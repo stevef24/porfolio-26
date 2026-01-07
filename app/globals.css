@@ -71,112 +71,158 @@
 }
 
 :root {
-  /* Lime green accent palette - Devouring Details inspired */
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.18 0 0);
-  --card: oklch(0.99 0 0);
-  --card-foreground: oklch(0.18 0 0);
-  --popover: oklch(0.99 0 0);
-  --popover-foreground: oklch(0.18 0 0);
+  /* ═══════════════════════════════════════════════════════
+     OATMEAL DESIGN SYSTEM - LIGHT MODE
+     ═══════════════════════════════════════════════════════ */
 
-  /* Primary - Lime green accent */
-  --primary: oklch(0.65 0.2 125);
-  --primary-foreground: oklch(0.99 0 0);
+  /* Background Scale */
+  --background: #f8f6ef;           /* bg.base - warm cream */
+  --foreground: #19170f;           /* text.primary - near black */
 
-  /* Secondary - Light gray */
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.18 0 0);
+  /* Card/Elevated Surfaces */
+  --card: #ffffff;                 /* bg.elevated - pure white */
+  --card-foreground: #19170f;
 
-  /* Muted - Soft gray */
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.55 0 0);
+  /* Popover (same as card) */
+  --popover: #ffffff;
+  --popover-foreground: #19170f;
 
-  /* Accent - Lime green */
-  --accent: oklch(0.65 0.2 125);
-  --accent-foreground: oklch(0.99 0 0);
+  /* Primary - Olive Green Accent */
+  --primary: #566240;              /* accent.primary */
+  --primary-foreground: #ffffff;   /* text.inverse */
 
-  /* Destructive */
-  --destructive: oklch(0.58 0.22 27);
+  /* Secondary - Muted Background */
+  --secondary: #f1eee5;            /* bg.muted */
+  --secondary-foreground: #19170f;
 
-  /* Borders & Inputs */
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.65 0.2 125);
+  /* Muted - Testimonial/Emphasized Background */
+  --muted: #e8e5da;                /* bg.testimonial - darker olive tint */
+  --muted-foreground: #5f5a48;     /* text.secondary */
 
-  /* Charts - Lime green scale */
-  --chart-1: oklch(0.85 0.2 125);
-  --chart-2: oklch(0.75 0.2 125);
-  --chart-3: oklch(0.65 0.2 125);
-  --chart-4: oklch(0.55 0.18 125);
-  --chart-5: oklch(0.45 0.15 125);
+  /* Accent (same as primary for consistency) */
+  --accent: #566240;
+  --accent-foreground: #ffffff;
 
-  /* Layout */
-  --radius: 0.625rem;
+  /* Destructive - Errors */
+  --destructive: #b04a48;          /* Oatmeal state.danger */
+
+  /* Borders */
+  --border: #e3e0d5;               /* border.subtle */
+  --input: #d0cabc;                /* border.strong */
+  --ring: #566240;                 /* accent.primary for focus */
+
+  /* Chart Colors - Olive Scale */
+  --chart-1: #839167;              /* Lightest olive */
+  --chart-2: #6f7c5a;
+  --chart-3: #566240;
+  --chart-4: #4a5436;
+  --chart-5: #3d452c;              /* Darkest olive */
+
+  /* ═══════════════════════════════════════════════════════
+     OATMEAL SHADOWS - LIGHT MODE
+     ═══════════════════════════════════════════════════════ */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* ═══════════════════════════════════════════════════════
+     LAYOUT TOKENS
+     ═══════════════════════════════════════════════════════ */
+  --radius: 0.5rem;                /* 8px - Oatmeal default */
   --content-width: 840px;
   --toc-width: 14rem;
   --content-gap: 4rem;
   --navbar-height: 4rem;
 
-  /* Sidebar */
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Scrolly Drawer */
+  --scrolly-drawer-width: 50vw;
+  --scrolly-content-compressed: 50vw;
+  --scrolly-content-lock-width: 680px;
+
+  /* Canvas Zone Animation (Devouring Details pattern) */
+  --canvas-translate-duration: 0.35s;
+  --canvas-translate-timing: cubic-bezier(0.23, 0.88, 0.26, 0.92);
+  --blog-content-width: 680px;
+
+  /* ═══════════════════════════════════════════════════════
+     SIDEBAR COLORS
+     ═══════════════════════════════════════════════════════ */
+  --sidebar: #f1eee5;              /* bg.muted */
+  --sidebar-foreground: #19170f;
+  --sidebar-primary: #566240;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e8e5da;       /* bg.testimonial */
+  --sidebar-accent-foreground: #19170f;
+  --sidebar-border: #e3e0d5;       /* border.subtle */
+  --sidebar-ring: #566240;
 }
 
 .dark {
-  /* Dark palette - lime green accent (Devouring Details inspired) */
-  --background: oklch(0.10 0 0);
-  --foreground: oklch(1 0 0);
-  --card: oklch(0.14 0 0);
-  --card-foreground: oklch(1 0 0);
-  --popover: oklch(0.14 0 0);
-  --popover-foreground: oklch(1 0 0);
+  /* ═══════════════════════════════════════════════════════
+     OATMEAL DESIGN SYSTEM - DARK MODE
+     ═══════════════════════════════════════════════════════ */
 
-  /* Primary - Lime green accent */
-  --primary: oklch(0.85 0.2 125);
-  --primary-foreground: oklch(0.10 0 0);
+  /* Background Scale */
+  --background: #0e0e0c;           /* bg.base - deep charcoal */
+  --foreground: #f8f6ef;           /* text.primary - warm white */
 
-  /* Secondary - Dark gray */
-  --secondary: oklch(0.18 0 0);
-  --secondary-foreground: oklch(1 0 0);
+  /* Card/Elevated Surfaces */
+  --card: #1e1e1b;                 /* bg.elevated */
+  --card-foreground: #f8f6ef;
 
-  /* Muted - Dark gray */
-  --muted: oklch(0.18 0 0);
-  --muted-foreground: oklch(0.65 0 0);
+  /* Popover */
+  --popover: #1e1e1b;
+  --popover-foreground: #f8f6ef;
 
-  /* Accent - Lime green */
-  --accent: oklch(0.85 0.2 125);
-  --accent-foreground: oklch(0.10 0 0);
+  /* Primary - Olive Green (lighter for dark mode contrast) */
+  --primary: #6f7c5a;              /* accent.primary dark */
+  --primary-foreground: #0e0e0c;   /* text.inverse dark */
+
+  /* Secondary */
+  --secondary: #1a1a17;            /* bg.muted dark */
+  --secondary-foreground: #f8f6ef;
+
+  /* Muted */
+  --muted: #1e1e1b;                /* bg.testimonial dark */
+  --muted-foreground: #a19b86;     /* text.secondary dark */
+
+  /* Accent */
+  --accent: #6f7c5a;
+  --accent-foreground: #0e0e0c;
 
   /* Destructive */
-  --destructive: oklch(0.704 0.191 22.216);
+  --destructive: #c66a67;          /* Oatmeal state.danger dark */
 
-  /* Borders & Inputs */
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.85 0.2 125);
+  /* Borders */
+  --border: #2a2a26;               /* border.subtle dark */
+  --input: #3b3b36;                /* border.strong dark */
+  --ring: #6f7c5a;
 
-  /* Charts - Lime green scale */
-  --chart-1: oklch(0.85 0.2 125);
-  --chart-2: oklch(0.75 0.2 125);
-  --chart-3: oklch(0.65 0.2 125);
-  --chart-4: oklch(0.55 0.18 125);
-  --chart-5: oklch(0.45 0.15 125);
+  /* Chart Colors */
+  --chart-1: #839167;
+  --chart-2: #6f7c5a;
+  --chart-3: #566240;
+  --chart-4: #4a5436;
+  --chart-5: #3d452c;
 
-  /* Sidebar - matches lime accent theme */
-  --sidebar: oklch(0.14 0 0);
-  --sidebar-foreground: oklch(1 0 0);
-  --sidebar-primary: oklch(0.85 0.2 125);
-  --sidebar-primary-foreground: oklch(0.10 0 0);
-  --sidebar-accent: oklch(0.18 0 0);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.85 0.2 125);
+  /* ═══════════════════════════════════════════════════════
+     OATMEAL SHADOWS - DARK MODE
+     ═══════════════════════════════════════════════════════ */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.6);
+
+  /* ═══════════════════════════════════════════════════════
+     SIDEBAR COLORS - DARK
+     ═══════════════════════════════════════════════════════ */
+  --sidebar: #1a1a17;
+  --sidebar-foreground: #f8f6ef;
+  --sidebar-primary: #6f7c5a;
+  --sidebar-primary-foreground: #0e0e0c;
+  --sidebar-accent: #1e1e1b;
+  --sidebar-accent-foreground: #f8f6ef;
+  --sidebar-border: #2a2a26;
+  --sidebar-ring: #6f7c5a;
 }
 
 @layer base {
@@ -217,7 +263,7 @@
 }
 
 .dark body {
-  background-color: oklch(0.145 0 0); /* Neutral dark */
+  background-color: #0e0e0c; /* Oatmeal bg.base dark */
 }
 
 /* Force all layout components to be transparent to reveal unified background */
@@ -772,17 +818,17 @@ article [role="tabpanel"][hidden] {
 .scrolly-step {
   padding-top: 2.5rem;
   padding-bottom: 2.5rem;
-  padding-left: 1.5rem;
+  padding-left: 1rem;
   padding-right: 1rem;
 }
 
-/* Stage column background - subtle warm gray */
+/* Stage column background - Oatmeal warm cream */
 .scrolly-stage-bg {
-  background-color: oklch(0.97 0.005 90); /* Warm off-white, slight cream tint */
+  background-color: #f1eee5; /* Oatmeal bg.muted */
 }
 
 .dark .scrolly-stage-bg {
-  background-color: oklch(0.12 0 0); /* Dark mode stage bg */
+  background-color: #1a1a17; /* Oatmeal bg.muted dark */
 }
 
 /* Base Magic Move container styling */
@@ -808,10 +854,10 @@ article [role="tabpanel"][hidden] {
   min-width: 2rem;
 }
 
-/* Lime green focus line highlighting - matches site accent */
+/* Olive green focus line highlighting - Oatmeal accent */
 .scrolly-stage-code .scrolly-focus-line {
-  background: oklch(0.95 0.15 125 / 30%); /* Lime green tint */
-  border-left: 2px solid oklch(0.65 0.2 125); /* Lime green indicator */
+  background: rgba(86, 98, 64, 0.15); /* Olive green tint */
+  border-left: 2px solid #566240; /* Oatmeal primary */
   margin-left: -1rem;
   padding-left: calc(1rem - 2px);
   margin-right: -1rem;
@@ -820,8 +866,8 @@ article [role="tabpanel"][hidden] {
 }
 
 .dark .scrolly-stage-code .scrolly-focus-line {
-  background: oklch(0.3 0.1 125 / 30%); /* Dark mode lime tint */
-  border-left-color: oklch(0.75 0.2 125);
+  background: rgba(111, 124, 90, 0.2); /* Dark mode olive tint */
+  border-left-color: #6f7c5a; /* Oatmeal primary dark */
 }
 
 /* Dim non-focused lines */

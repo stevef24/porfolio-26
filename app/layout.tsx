@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
+import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { AuthProvider } from "@/components/auth/AuthProvider";
@@ -14,11 +14,11 @@ const inter = Inter({
   display: "swap",
 });
 
-// Display font - Playfair Display for elegant headings
-const playfair = Playfair_Display({
+// Display font - Instrument Serif for elegant headings (Oatmeal Design System)
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "500", "600"],
+  weight: ["400"], // Instrument Serif only has regular weight
   display: "swap",
 });
 
@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <body className="antialiased">
