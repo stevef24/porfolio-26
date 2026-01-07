@@ -39,7 +39,16 @@ function DialogOverlay({
   return (
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
-      className={cn("data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs fixed inset-0 isolate z-50", className)}
+      className={cn(
+        "fixed inset-0 z-50",
+        "bg-black/20", // Lighter overlay per Oatmeal
+        "backdrop-blur-sm",
+        // Animation
+        "data-[state=open]:animate-in data-[state=closed]:animate-out",
+        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "duration-200",
+        className
+      )}
       {...props}
     />
   )
@@ -59,7 +68,20 @@ function DialogContent({
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
-          "bg-background data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 ring-foreground/10 grid max-w-[calc(100%-2rem)] gap-4 rounded-none p-5 text-base/relaxed ring-1 duration-100 sm:max-w-sm fixed top-1/2 left-1/2 z-50 w-full -translate-x-1/2 -translate-y-1/2",
+          "fixed left-1/2 top-1/2 z-50",
+          "-translate-x-1/2 -translate-y-1/2",
+          "w-full max-w-lg max-w-[calc(100%-2rem)]",
+          "p-6", // 24px padding
+          // Oatmeal styling
+          "bg-card",
+          "rounded-xl", // 12px - radius.lg for dialogs
+          "border border-border",
+          "shadow-lg", // Elevated shadow
+          // Animation
+          "data-[state=open]:animate-in data-[state=closed]:animate-out",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "duration-200",
           className
         )}
         {...props}
@@ -67,7 +89,7 @@ function DialogContent({
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
-            <Button variant="ghost" className="absolute top-2 right-2" size="icon-sm">
+            <Button variant="ghost" className="absolute top-4 right-4" size="icon-sm">
               <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} />
               <span className="sr-only">Close</span>
             </Button>
@@ -82,7 +104,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("gap-1 text-left flex flex-col", className)}
+      className={cn("gap-1.5 text-left flex flex-col", className)}
       {...props}
     />
   )
@@ -101,6 +123,7 @@ function DialogFooter({
       data-slot="dialog-footer"
       className={cn(
         "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+        "pt-4",
         className
       )}
       {...props}
@@ -122,7 +145,7 @@ function DialogTitle({
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("text-base font-medium", className)}
+      className={cn("text-lg font-medium text-foreground", className)}
       {...props}
     />
   )
@@ -135,7 +158,11 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn("text-muted-foreground *:[a]:hover:text-foreground text-base/relaxed *:[a]:underline *:[a]:underline-offset-3", className)}
+      className={cn(
+        "text-sm text-muted-foreground",
+        "*:[a]:text-primary *:[a]:underline *:[a]:underline-offset-2",
+        className
+      )}
       {...props}
     />
   )

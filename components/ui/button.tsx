@@ -5,26 +5,76 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "cursor-pointer focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-sm border border-transparent bg-clip-padding text-xs font-medium focus-visible:ring-1 aria-invalid:ring-1 [&_svg:not([class*='size-'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none",
+  // Base styles - Oatmeal design system
+  [
+    "cursor-pointer",
+    "inline-flex items-center justify-center",
+    "whitespace-nowrap",
+    "font-medium text-base", // 16px
+    "transition-all duration-200",
+    "disabled:pointer-events-none disabled:opacity-60 disabled:cursor-not-allowed",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+    "select-none",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+    "shrink-0",
+    "outline-none",
+    "group/button",
+  ],
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
-        outline: "border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
-        ghost: "hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground",
-        destructive: "bg-destructive/10 hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30",
-        link: "text-primary underline-offset-4 hover:underline",
+        // Primary: Solid fill with inverted contrast
+        default: [
+          "bg-foreground text-background",
+          "hover:bg-primary hover:text-primary-foreground",
+          "rounded-full", // Pill shape
+        ],
+        // Secondary: Outline style
+        outline: [
+          "bg-transparent text-foreground",
+          "border border-input",
+          "hover:bg-muted hover:border-primary hover:text-primary",
+          "rounded-full",
+        ],
+        // Secondary solid
+        secondary: [
+          "bg-secondary text-secondary-foreground",
+          "hover:bg-muted",
+          "rounded-full",
+        ],
+        // Ghost: No background
+        ghost: [
+          "bg-transparent text-foreground",
+          "hover:bg-muted",
+          "rounded-full",
+        ],
+        // Destructive
+        destructive: [
+          "bg-destructive/10 text-destructive",
+          "hover:bg-destructive/20",
+          "rounded-full",
+        ],
+        // Link style
+        link: [
+          "text-primary underline-offset-4",
+          "hover:underline",
+          "p-0 h-auto",
+        ],
       },
       size: {
-        default: "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2",
-        xs: "h-6 gap-1 rounded-sm px-2 text-xs has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-7 gap-1 rounded-sm px-2.5 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
-        icon: "size-8",
-        "icon-xs": "size-6 rounded-sm [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-7 rounded-sm",
-        "icon-lg": "size-9",
+        // Oatmeal default: 48px height
+        default: "h-12 px-6 gap-2",
+        // Small: 36px (header CTA)
+        sm: "h-9 px-4 gap-1.5 text-sm",
+        // Large: 56px
+        lg: "h-14 px-8 gap-2",
+        // Extra small
+        xs: "h-7 px-3 gap-1 text-xs",
+        // Icon buttons
+        icon: "size-12",
+        "icon-sm": "size-9",
+        "icon-lg": "size-14",
+        "icon-xs": "size-7",
       },
     },
     defaultVariants: {
