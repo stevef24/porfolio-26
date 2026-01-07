@@ -11,7 +11,7 @@ export default function BlogPage() {
 
   return (
     <SiteShell>
-      <main className="py-16 lg:py-24">
+      <main className="py-8 lg:py-6">
         <h1 className="section-title text-swiss-subheading mb-6">
           Latest Blog Posts
         </h1>

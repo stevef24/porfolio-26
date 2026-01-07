@@ -20,6 +20,78 @@ export default async function BlogPostPage(props: {
   const Mdx = page.data.body;
   const { date } = page.data as { author?: string; date?: string };
 
+  const articleContent = (
+    <article className="relative py-8 lg:py-6">
+      {/* Back Link - Minimal */}
+      <Link
+        href="/blog"
+        className="inline-flex items-center gap-1.5 text-swiss-label hover:text-primary transition-colors mb-8"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg>
+        Back
+      </Link>
+
+      {/* Header - Minimal */}
+      <header className="mb-10">
+        <h1 className="text-swiss-hero mb-4">
+          {page.data.title}
+        </h1>
+        {page.data.description && (
+          <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
+            {page.data.description}
+          </p>
+        )}
+        {/* Date display */}
+        {date && (
+          <div className="mt-6">
+            <span className="text-swiss-label">
+              {format(new Date(date), "MMMM d, yyyy")}
+            </span>
+          </div>
+        )}
+      </header>
+
+      {/* Divider */}
+      <div className="h-px bg-border mb-10" />
+
+      {/* Content - Enhanced prose styling */}
+      <div className="prose prose-neutral dark:prose-invert max-w-none">
+        <Mdx components={customComponents} />
+      </div>
+
+      {/* Email Capture CTA */}
+      <EmailCaptureForm
+        title="Enjoyed this post?"
+        description="Get notified when I publish something new. No spam, just fresh content."
+        buttonLabel="Subscribe"
+        source="blog-footer"
+        className="mt-20"
+      />
+
+      {/* Footer */}
+      <footer className="mt-16 pt-10 border-t border-border">
+        {date && (
+          <span className="text-swiss-label">
+            {format(new Date(date), "MMMM d, yyyy")}
+          </span>
+        )}
+      </footer>
+    </article>
+  );
+
   // Helper to extract text content from React elements or strings
   const extractTextContent = (node: unknown): string => {
     if (typeof node === "string") return node;
@@ -58,75 +130,7 @@ export default async function BlogPostPage(props: {
       <GradualBlur />
 
       <SiteShell>
-        <article className="relative pt-4">
-          {/* Back Link - Minimal */}
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-1.5 text-swiss-label hover:text-primary transition-colors mb-8"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m12 19-7-7 7-7" />
-              <path d="M19 12H5" />
-            </svg>
-            Back
-          </Link>
-
-          {/* Header - Minimal */}
-          <header className="mb-10">
-            <h1 className="text-swiss-hero mb-4">
-              {page.data.title}
-            </h1>
-            {page.data.description && (
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                {page.data.description}
-              </p>
-            )}
-            {/* Date display */}
-            {date && (
-              <div className="mt-6">
-                <span className="text-swiss-label">
-                  {format(new Date(date), "MMMM d, yyyy")}
-                </span>
-              </div>
-            )}
-          </header>
-
-          {/* Divider */}
-          <div className="h-px bg-border mb-10" />
-
-          {/* Content - Enhanced prose styling */}
-          <div className="prose prose-neutral dark:prose-invert max-w-none">
-            <Mdx components={customComponents} />
-          </div>
-
-          {/* Email Capture CTA */}
-          <EmailCaptureForm
-            title="Enjoyed this post?"
-            description="Get notified when I publish something new. No spam, just fresh content."
-            buttonLabel="Subscribe"
-            source="blog-footer"
-            className="mt-20"
-          />
-
-          {/* Footer */}
-          <footer className="mt-16 pt-10 border-t border-border">
-            {date && (
-              <span className="text-swiss-label">
-                {format(new Date(date), "MMMM d, yyyy")}
-              </span>
-            )}
-          </footer>
-        </article>
+        {articleContent}
       </SiteShell>
     </>
   );
