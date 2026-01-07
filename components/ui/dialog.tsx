@@ -41,7 +41,7 @@ function DialogOverlay({
       data-slot="dialog-overlay"
       className={cn(
         "fixed inset-0 z-50",
-        "bg-black/20", // Lighter overlay per Oatmeal
+        "bg-foreground/10", // Oatmeal system color - adapts to theme
         "backdrop-blur-sm",
         // Animation
         "data-[state=open]:animate-in data-[state=closed]:animate-out",
