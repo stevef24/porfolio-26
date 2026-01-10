@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import Navbar from "@/components/layout/Navbar";
+import { Header } from "@/components/layout/Header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 interface SiteShellProps {
@@ -49,11 +49,7 @@ export function SiteShell({
 		<SidebarProvider defaultOpen={false}>
 			{sidebar}
 			<SidebarInset className={cn("min-h-svh flex flex-col bg-transparent", className)}>
-				<Navbar
-					showSidebarTrigger={hasSidebar}
-					fullBleed={hasSidebar}
-					containerClassName={cn("bg-transparent", hasSidebar ? undefined : layoutWidth)}
-				/>
+				<Header />
 
 				{/* Main content area */}
 				<main
@@ -61,8 +57,6 @@ export function SiteShell({
 						"flex-1",
 						// Top padding to account for fixed navbar
 						"pt-20",
-						// Consistent bottom padding
-						"pb-16 lg:pb-24",
 						contentClassName
 					)}
 				>

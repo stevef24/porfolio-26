@@ -2,28 +2,25 @@
 
 import Link from "next/link";
 import BlurFade from "@/components/shared/BlurFade";
-import {
-	Linkedin01Icon,
-	YoutubeIcon,
-	GithubIcon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
+import LinkedinIcon from "@/components/ui/linkedin-icon";
+import YoutubeIcon from "@/components/ui/youtube-icon";
+import GithubIcon from "@/components/ui/github-icon";
 
 const socials = [
 	{
 		name: "LinkedIn",
 		url: "https://www.linkedin.com/in/stavfernandes24/",
-		icon: Linkedin01Icon,
+		Icon: LinkedinIcon,
 	},
 	{
 		name: "YouTube",
 		url: "https://www.youtube.com/@CodewithStav",
-		icon: YoutubeIcon,
+		Icon: YoutubeIcon,
 	},
 	{
 		name: "GitHub",
 		url: "https://github.com/stevef24",
-		icon: GithubIcon,
+		Icon: GithubIcon,
 	},
 ];
 
@@ -57,7 +54,7 @@ const Contact = () => {
 						aria-label={social.name}
 						className="p-2 text-muted-foreground hover:text-primary transition-colors"
 					>
-						<HugeiconsIcon icon={social.icon} size={16} />
+						<social.Icon size={18} strokeWidth={1.5} />
 					</Link>
 				))}
 			</div>

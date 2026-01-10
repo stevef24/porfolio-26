@@ -36,12 +36,14 @@ export function GradualBlur({
 
       const scrollProgress = window.scrollY / scrollHeight;
 
-      // Smooth fade starting at threshold
+      // Fade out starting at threshold, fully hidden at bottom
       if (scrollProgress >= fadeThreshold) {
+        // fadeProgress: 0 at threshold, 1 at bottom
         const fadeProgress = (scrollProgress - fadeThreshold) / (1 - fadeThreshold);
-        // Use easeOutQuad for smoother fade
-        const easedFade = 1 - (1 - (1 - fadeProgress)) * (1 - (1 - fadeProgress));
-        setOpacity(Math.max(0, 1 - easedFade));
+        // Clamp and apply easeOutQuad: fades quickly then slows
+        const clamped = Math.min(1, Math.max(0, fadeProgress));
+        const eased = 1 - (1 - clamped) * (1 - clamped);
+        setOpacity(1 - eased);
       } else {
         setOpacity(1);
       }
@@ -74,12 +76,12 @@ export function GradualBlur({
         style={{
           background: `linear-gradient(
             to top,
-            hsl(var(--background)) 0%,
-            hsl(var(--background) / 0.95) 15%,
-            hsl(var(--background) / 0.7) 35%,
-            hsl(var(--background) / 0.4) 55%,
-            hsl(var(--background) / 0.15) 75%,
-            hsl(var(--background) / 0) 100%
+            var(--background) 0%,
+            color-mix(in srgb, var(--background) 95%, transparent) 15%,
+            color-mix(in srgb, var(--background) 70%, transparent) 35%,
+            color-mix(in srgb, var(--background) 40%, transparent) 55%,
+            color-mix(in srgb, var(--background) 15%, transparent) 75%,
+            transparent 100%
           )`,
         }}
       />

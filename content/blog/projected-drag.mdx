@@ -1,0 +1,59 @@
+---
+title: Building Physics-Based Drag Projection with Motion
+description: A deep dive into creating iOS-like momentum scrolling and projected drag interactions using Framer Motion's velocity tracking and spring physics.
+author: Stav Fernandes
+date: 2025-01-06
+---
+
+Ever wonder how iOS achieves that satisfying scroll momentum? Or how Figma's drag interactions feel so natural? The secret is **projected drag**—calculating where an element would land based on its release velocity, then animating smoothly to that destination.
+
+## The Core Concept
+
+When you flick a list on your phone, it doesn't just stop when you lift your finger. It *slides* to a projected destination based on how fast you were scrolling. This creates a feeling of physical weight and momentum that makes digital interfaces feel tangible.
+
+The physics are surprisingly simple: given a velocity and a deceleration rate, we can calculate exactly where an object would come to rest.
+
+## Try It Yourself
+
+Before we dive into the code, play with this interactive demo. Drag the pink element quickly and release—watch how it slides to its projected destination. If you fling it toward a drop zone, it'll snap into place.
+
+import { ProjectedDrag } from "@/components/demos/ProjectedDrag";
+
+<div className="md:hidden">
+  <ProjectedDrag className="my-8" showDebug={true} />
+</div>
+
+## Step-by-Step Implementation
+
+Let's build this from scratch. The implementation involves three key pieces: velocity tracking, projection calculation, and spring animation.
+
+import { projectedDragSteps } from "./projected-drag.steps";
+
+<Scrolly steps={projectedDragSteps} />
+
+## Key Takeaways
+
+Building projected drag taught me several important lessons about motion design:
+
+### 1. Physics Creates Believability
+The projection formula isn't arbitrary—it models real-world deceleration. When digital objects follow physical laws, they feel tangible even without haptic feedback.
+
+### 2. Inherit Momentum
+The key to natural-feeling animations is passing the release velocity into the spring config. This creates continuity between the gesture and the animation.
+
+### 3. Combine Projection with Intent
+Raw projection gives you physics. Combining it with drop zones or snap points gives you intentional UX. The best interactions balance organic feel with predictable outcomes.
+
+### 4. Visual Feedback Matters
+The subtle scale and rotation during drag aren't just decorative—they communicate that the system is responding to your input in real-time.
+
+## Going Further
+
+This pattern opens up many possibilities:
+
+- **Inertial scrolling** for custom scroll containers
+- **Swipe-to-dismiss** with momentum-based thresholds
+- **Drag-and-drop** with predictive drop zone highlighting
+- **Canvas interactions** like panning and zooming with inertia
+
+The foundation is always the same: track velocity, calculate projection, animate with springs. From there, you can build interactions that feel as natural as the native platform.

@@ -22,6 +22,10 @@ export { ScrollyStageMobile } from "./ScrollyStageMobile";
 export { ScrollyLiveRegion } from "./ScrollyLiveRegion";
 export { StageControls } from "./StageControls";
 export { StageFullscreen } from "./StageFullscreen";
+export { CodeDrawer } from "./CodeDrawer";
+
+// Standalone code canvas for CanvasZone integration
+export { CodeCanvas } from "./CodeCanvas";
 
 // Server component for MDX integration (async compilation)
 export { Scrolly, type ScrollyProps } from "./ScrollyServer";
@@ -33,3 +37,10 @@ export {
 	useScrollyContextOptional,
 	ScrollyContext,
 } from "./ScrollyContext";
+
+// Drawer context (for TOC coordination)
+export {
+	ScrollyDrawerProvider,
+	useScrollyDrawer,
+	useScrollyDrawerOptional,
+} from "./ScrollyDrawerContext";

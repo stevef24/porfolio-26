@@ -7,33 +7,13 @@ import { cn } from "@/lib/utils";
 import { springSmooth } from "@/lib/motion-variants";
 
 interface StageFullscreenProps {
-	/** Whether the fullscreen modal is open */
 	isOpen: boolean;
-	/** Callback when modal should close */
 	onClose: () => void;
-	/** Content to render in fullscreen */
 	children: ReactNode;
-	/** Additional CSS classes for the content container */
 	className?: string;
 }
 
-/**
- * Fullscreen modal for ScrollyStage canvas.
- * Renders via portal to document.body for proper stacking context.
- *
- * Features:
- * - Escape key closes modal
- * - Click outside (on overlay) closes modal
- * - Body scroll locked when open
- * - Spring animations (respects reduced motion)
- *
- * @example
- * ```tsx
- * <StageFullscreen isOpen={isFullscreen} onClose={() => setFullscreen(false)}>
- *   <ScrollyStage ... />
- * </StageFullscreen>
- * ```
- */
+/** Fullscreen modal for ScrollyStage canvas with escape key and click-outside close. */
 export function StageFullscreen({
 	isOpen,
 	onClose,
@@ -44,36 +24,27 @@ export function StageFullscreen({
 	const prefersReducedMotion = useReducedMotion();
 	const [mounted, setMounted] = useState(false);
 
-	// Only render portal after client-side mount
-	useEffect(() => {
-		setMounted(true);
-	}, []);
+	useEffect(() => setMounted(true), []);
 
-	// Escape key handler
+	// Escape key closes modal
 	useEffect(() => {
 		if (!isOpen) return;
-
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === "Escape") {
 				e.preventDefault();
 				onClose();
 			}
 		};
-
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [isOpen, onClose]);
 
-	// Body scroll lock
+	// Lock body scroll when open
 	useEffect(() => {
 		if (!isOpen) return;
-
 		const originalOverflow = document.body.style.overflow;
 		const originalPaddingRight = document.body.style.paddingRight;
-
-		// Get scrollbar width to prevent layout shift
-		const scrollbarWidth =
-			window.innerWidth - document.documentElement.clientWidth;
+		const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
 		document.body.style.overflow = "hidden";
 		if (scrollbarWidth > 0) {
@@ -86,33 +57,27 @@ export function StageFullscreen({
 		};
 	}, [isOpen]);
 
-	// Click outside handler
 	const handleOverlayClick = useCallback(
 		(e: React.MouseEvent) => {
-			if (e.target === overlayRef.current) {
-				onClose();
-			}
+			if (e.target === overlayRef.current) onClose();
 		},
 		[onClose]
 	);
 
-	// Don't render on server or before mount
 	if (!mounted) return null;
+
+	const reducedMotion = Boolean(prefersReducedMotion);
 
 	return createPortal(
 		<AnimatePresence mode="wait">
 			{isOpen && (
 				<motion.div
 					ref={overlayRef}
-					className={cn(
-						"fixed inset-0 z-50",
-						"bg-background/95 backdrop-blur-sm",
-						"flex items-center justify-center p-4 md:p-6"
-					)}
-					initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+					className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
+					initial={{ opacity: reducedMotion ? 1 : 0 }}
 					animate={{ opacity: 1 }}
-					exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0 }}
-					transition={{ duration: 0.15 }}
+					exit={{ opacity: 0 }}
+					transition={{ duration: 0.2 }}
 					onClick={handleOverlayClick}
 					role="dialog"
 					aria-modal="true"
@@ -120,22 +85,18 @@ export function StageFullscreen({
 				>
 					<motion.div
 						className={cn(
-							"w-full h-full max-w-7xl max-h-[90vh]",
-							"overflow-hidden rounded-lg",
-							"border border-border bg-card",
-							"shadow-2xl",
+							"absolute inset-y-2 right-2 overflow-hidden rounded-3xl",
+							"bg-secondary shadow-2xl",
 							className
 						)}
 						initial={
-							prefersReducedMotion
-								? { opacity: 1 }
-								: { scale: 0.96, opacity: 0 }
+							reducedMotion
+								? { width: "100%", left: "0.5rem", opacity: 1 }
+								: { width: "50vw", left: "auto", opacity: 0.8 }
 						}
-						animate={{ scale: 1, opacity: 1 }}
-						exit={
-							prefersReducedMotion ? { opacity: 0 } : { scale: 0.96, opacity: 0 }
-						}
-						transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
+						animate={{ width: "calc(100% - 1rem)", left: "0.5rem", opacity: 1 }}
+						exit={reducedMotion ? { opacity: 0 } : { width: "50vw", left: "auto", opacity: 0 }}
+						transition={reducedMotion ? { duration: 0 } : springSmooth}
 					>
 						{children}
 					</motion.div>

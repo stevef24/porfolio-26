@@ -23,7 +23,7 @@ import {
 } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { springGentle } from "@/lib/motion-variants";
+import { transitionCanvasSlide } from "@/lib/motion-variants";
 
 // ============================================================================
 // Context
@@ -102,8 +102,11 @@ interface BlogWithCanvasProps {
 export function BlogWithCanvas({
 	children,
 	className,
-	activationRootMargin = "-35% 0px -35% 0px",
-	minIntersectionRatio = 0.1,
+	// Narrow band at center of viewport - triggers when element reaches middle
+	// -45% from top and bottom = observe only middle 10% of viewport
+	activationRootMargin = "-45% 0px -45% 0px",
+	// Low threshold - just needs to enter the center band
+	minIntersectionRatio = 0.01,
 	deactivateDelay = 150,
 }: BlogWithCanvasProps) {
 	const [hasActiveZone, setHasActiveZone] = useState(false);
@@ -134,6 +137,8 @@ export function BlogWithCanvas({
 	const pendingEntriesRef = useRef<IntersectionObserverEntry[]>([]);
 	const isTransitioningRef = useRef(false);
 	const transitionTimerRef = useRef<NodeJS.Timeout | null>(null);
+	const pendingResolveRef = useRef(false);
+	const resolveActiveZoneRef = useRef<(() => void) | null>(null);
 
 	// Track desktop breakpoint (md: 768px) for margin animation
 	// On mobile, content stays full width since canvas is shown inline
@@ -214,12 +219,17 @@ export function BlogWithCanvas({
 	// Start transition lock to prevent observer feedback loops during animation
 	const startTransitionLock = useCallback(() => {
 		isTransitioningRef.current = true;
+		pendingResolveRef.current = false;
 		if (transitionTimerRef.current) {
 			clearTimeout(transitionTimerRef.current);
 		}
 		// Release lock after animation completes (400ms spring + buffer)
 		transitionTimerRef.current = setTimeout(() => {
 			isTransitioningRef.current = false;
+			if (pendingResolveRef.current) {
+				pendingResolveRef.current = false;
+				resolveActiveZoneRef.current?.();
+			}
 		}, 500);
 	}, []);
 
@@ -240,6 +250,31 @@ export function BlogWithCanvas({
 			closeCanvas();
 		}, delay);
 	}, [closeCanvas, getDeactivateDelay]);
+
+	// Select best zone candidate based on intersection ratio and scroll direction
+	function selectBestCandidate(
+		candidates: Array<{ id: string; entry: IntersectionObserverEntry }>,
+		direction: "up" | "down"
+	): string {
+		if (candidates.length === 1) return candidates[0].id;
+
+		// Filter to candidates with highest ratio (within epsilon tolerance)
+		const maxRatio = Math.max(...candidates.map((c) => c.entry.intersectionRatio));
+		const topCandidates = candidates.filter(
+			(c) => c.entry.intersectionRatio >= maxRatio - 0.02
+		);
+
+		if (topCandidates.length === 1) return topCandidates[0].id;
+
+		// Multiple candidates with similar ratio - pick based on scroll direction
+		const sorted = [...topCandidates].sort((a, b) =>
+			direction === "up"
+				? a.entry.boundingClientRect.bottom - b.entry.boundingClientRect.bottom
+				: b.entry.boundingClientRect.top - a.entry.boundingClientRect.top
+		);
+
+		return sorted[0].id;
+	}
 
 	const activateZone = useCallback(
 		(zoneId: string) => {
@@ -269,95 +304,51 @@ export function BlogWithCanvas({
 	);
 
 	const resolveActiveZone = useCallback(() => {
-		// Skip processing during layout transitions to prevent feedback loops
-		// This prevents observer updates from causing state thrash while animating
-		if (isTransitioningRef.current) {
+		// Collect zones meeting activation threshold (checked before transition lock
+		// so scroll-up can re-activate zones even during closing animation)
+		const candidates: Array<{ id: string; entry: IntersectionObserverEntry }> = [];
+		zoneEntryRef.current.forEach((entry, id) => {
+			if (entry.isIntersecting && entry.intersectionRatio >= effectiveMinRatio) {
+				candidates.push({ id, entry });
+			}
+		});
+
+		if (candidates.length > 0) {
+			clearCloseTimer();
+			activateZone(selectBestCandidate(candidates, scrollDirectionRef.current));
 			return;
 		}
 
-		// Check end sentinels - if visible, close canvas
-		const endSentinels = endSentinelIdsRef.current;
-		for (const id of endSentinels) {
-			if (sentinelEntryRef.current.get(id)?.isIntersecting) {
-				scheduleClose();
-				return;
-			}
+		// No zone candidates - defer close logic during transitions to prevent feedback loops
+		if (isTransitioningRef.current) {
+			pendingResolveRef.current = true;
+			return;
 		}
 
-		// Check gap sentinels - if a gap is strongly visible, close canvas
-		// Gaps represent intentional breaks between zones where canvas should hide
-		const gapSentinels = gapSentinelIdsRef.current;
-		for (const id of gapSentinels) {
-			const gapEntry = sentinelEntryRef.current.get(id);
-			if (gapEntry?.isIntersecting && gapEntry.intersectionRatio > 0.2) {
-				scheduleClose();
-				return;
-			}
-		}
-
-		const candidates: Array<{
-			id: string;
-			entry: IntersectionObserverEntry;
-		}> = [];
-
-		zoneEntryRef.current.forEach((entry, id) => {
-			if (!entry.isIntersecting) return;
-			if (entry.intersectionRatio < effectiveMinRatio) return;
-			candidates.push({ id, entry });
-		});
-
-		if (candidates.length === 0) {
+		// Close if any sentinel (end or gap) is visible in the center band
+		const allSentinelIds = Array.from(endSentinelIdsRef.current).concat(
+			Array.from(gapSentinelIdsRef.current)
+		);
+		const anySentinelVisible = allSentinelIds.some(
+			(id) => sentinelEntryRef.current.get(id)?.isIntersecting
+		);
+		if (anySentinelVisible) {
 			scheduleClose();
 			return;
 		}
 
-		clearCloseTimer();
-
-		if (candidates.length === 1) {
-			activateZone(candidates[0].id);
+		// Asymmetric hysteresis: scrolling down through zone content keeps canvas open,
+		// scrolling up past the zone's entry point closes it
+		if (scrollDirectionRef.current === "down" && hasActiveZoneRef.current) {
 			return;
 		}
 
-		const maxRatio = Math.max(
-			...candidates.map((candidate) => candidate.entry.intersectionRatio)
-		);
-		const ratioEpsilon = 0.02;
-		const ratioCandidates = candidates.filter(
-			(candidate) => candidate.entry.intersectionRatio >= maxRatio - ratioEpsilon
-		);
+		scheduleClose();
+	}, [activateZone, clearCloseTimer, effectiveMinRatio, scheduleClose]);
 
-		if (ratioCandidates.length === 1) {
-			activateZone(ratioCandidates[0].id);
-			return;
-		}
-
-		const direction = scrollDirectionRef.current;
-		const next =
-			direction === "up"
-				? ratioCandidates.reduce((best, candidate) => {
-						if (!best) return candidate;
-						return candidate.entry.boundingClientRect.bottom <
-							best.entry.boundingClientRect.bottom
-							? candidate
-							: best;
-					}, null as typeof ratioCandidates[number] | null)
-				: ratioCandidates.reduce((best, candidate) => {
-						if (!best) return candidate;
-						return candidate.entry.boundingClientRect.top >
-							best.entry.boundingClientRect.top
-							? candidate
-							: best;
-					}, null as typeof ratioCandidates[number] | null);
-
-		if (next) {
-			activateZone(next.id);
-		}
-	}, [
-		activateZone,
-		clearCloseTimer,
-		effectiveMinRatio,
-		scheduleClose,
-	]);
+	useEffect(() => {
+		resolveActiveZoneRef.current = resolveActiveZone;
+	}, [resolveActiveZone]);
 
 	const enqueueEntries = useCallback(
 		(entries: IntersectionObserverEntry[]) => {
@@ -488,8 +479,8 @@ export function BlogWithCanvas({
 		};
 	}, [clearCloseTimer]);
 
-	// Spring transition - disabled if user prefers reduced motion
-	const transition = prefersReducedMotion ? { duration: 0 } : springGentle;
+	// Smooth cubic-bezier transition (Devouring Details timing) - instant if reduced motion
+	const transition = prefersReducedMotion ? { duration: 0 } : transitionCanvasSlide;
 
 	return (
 		<CanvasLayoutContext.Provider
@@ -557,10 +548,10 @@ export function BlogWithCanvas({
 							transition={transition}
 							style={{ willChange: "transform" }}
 						>
-							{/* Canvas content area with background */}
-							<div className="w-full h-full bg-background/80 backdrop-blur-sm rounded-lg border border-border/50 overflow-hidden">
+							{/* Canvas content area - no background, let child handle styling */}
+							<div className="w-full h-full">
 								{canvasContent || (
-									<div className="w-full h-full flex items-center justify-center text-muted-foreground font-mono text-sm">
+									<div className="w-full h-full flex items-center justify-center text-muted-foreground font-mono text-sm bg-muted rounded-2xl">
 										Canvas Active
 									</div>
 								)}

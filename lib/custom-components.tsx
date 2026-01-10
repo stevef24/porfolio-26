@@ -22,6 +22,10 @@ import { EmailCaptureForm } from "@/components/shared/EmailCaptureForm";
 import { LinkPreview } from "@/components/ui/blog/LinkPreview";
 import { YouTubeEmbed } from "@/components/youtube-embed";
 import { Scrolly } from "@/components/ui/scrolly";
+import { CanvasZone } from "@/components/blog/CanvasZone";
+import { CanvasStep } from "@/components/blog/CanvasStep";
+import { AgentArchitectureDiagram } from "@/components/demos/AgentArchitectureDiagram";
+import { AgentArchitectureDemo } from "@/components/demos/AgentArchitectureDemo";
 import { cn } from "@/lib/utils";
 
 // Swiss-style minimal heading component without link icons
@@ -66,8 +70,21 @@ type CodeBlockChildProps = {
 
 const DefaultPre = defaultMdxComponents.pre;
 
-const parseMetaValue = (value: string | undefined) => {
+function parseBooleanValue(value: string | undefined): boolean | undefined {
+	if (value === "true") return true;
+	if (value === "false") return false;
+	return undefined;
+}
+
+function parseMetaValue(value: string | undefined): {
+	hasPlayground: boolean;
+	template?: string;
+	file?: string;
+	showPreview?: boolean;
+	showTabs?: boolean;
+} {
 	if (!value) return { hasPlayground: false };
+
 	const tokens = value.split(/\s+/).filter(Boolean);
 	const hasPlayground = tokens.includes("playground");
 	const options: {
@@ -82,29 +99,16 @@ const parseMetaValue = (value: string | undefined) => {
 		const [rawKey, rawValue] = token.split("=");
 		const key = rawKey.trim().toLowerCase();
 		const valueNormalized = rawValue?.trim();
-		const booleanValue =
-			valueNormalized === "true"
-				? true
-				: valueNormalized === "false"
-				? false
-				: undefined;
+		const booleanValue = parseBooleanValue(valueNormalized);
 
-		if (key === "template") {
-			options.template = valueNormalized;
-		}
-		if (key === "file") {
-			options.file = valueNormalized;
-		}
-		if (key === "preview" && booleanValue !== undefined) {
-			options.showPreview = booleanValue;
-		}
-		if (key === "tabs" && booleanValue !== undefined) {
-			options.showTabs = booleanValue;
-		}
+		if (key === "template") options.template = valueNormalized;
+		if (key === "file") options.file = valueNormalized;
+		if (key === "preview" && booleanValue !== undefined) options.showPreview = booleanValue;
+		if (key === "tabs" && booleanValue !== undefined) options.showTabs = booleanValue;
 	}
 
 	return { hasPlayground, ...options };
-};
+}
 
 const resolveLanguage = (
 	codeElement: ReactElement<CodeBlockChildProps>
@@ -241,6 +245,12 @@ const customComponents = {
 	YouTubeEmbed,
 	// Scrolly coding for interactive code walkthroughs
 	Scrolly,
+	// Canvas Zone for interactive demos with stepped mode
+	CanvasZone,
+	CanvasStep,
+	// Agent architecture diagram for SDK tutorial
+	AgentArchitectureDiagram,
+	AgentArchitectureDemo,
 	// Link with preview on hover for external links
 	a: (props: ComponentPropsWithoutRef<"a">) => {
 		const { href, children, ...rest } = props;

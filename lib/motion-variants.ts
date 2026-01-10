@@ -382,3 +382,39 @@ export const createItemVariants = (staggerDelay = 0.05): Variants => ({
 		},
 	}),
 });
+
+// ==========================================
+// SCROLLY DRAWER ANIMATIONS
+// ==========================================
+
+/** Unified spring for scrolly split-screen effect (cinematic push feel). */
+export const springScrollySplit: Transition = {
+	type: "spring",
+	visualDuration: 0.45,
+	bounce: 0.15,
+};
+
+/** Drawer slide in from right edge */
+export const drawerSlideIn: Variants = {
+	hidden: { x: "100%", opacity: 0 },
+	visible: { x: 0, opacity: 1 },
+};
+
+/** TOC slide out to left when drawer is active */
+export const tocSlideOut: Variants = {
+	visible: { x: 0, opacity: 1 },
+	hidden: { x: -100, opacity: 0 },
+};
+
+// ==========================================
+// CANVAS ZONE ANIMATIONS
+// ==========================================
+
+/** Devouring Details cubic-bezier easing - fast start, subtle overshoot, smooth settle */
+export const easingDevouringDetails = [0.23, 0.88, 0.26, 0.92] as const;
+
+/** Canvas slide transition - 350ms with Devouring Details easing */
+export const transitionCanvasSlide: Transition = {
+	duration: 0.35,
+	ease: easingDevouringDetails,
+};

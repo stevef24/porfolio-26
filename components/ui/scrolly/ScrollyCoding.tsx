@@ -1,128 +1,85 @@
 "use client";
 
 /**
- * ScrollyCoding - Main container for scrollytelling code walkthroughs
- *
- * Two-column layout:
- * - Left column: Scrollable step cards
- * - Right column: Sticky code stage with Shiki Magic Move
- *
- * On mobile (<768px), shows inline code after each step (no animation).
- *
- * Entrance Animation:
- * - Section slides in from off-screen when scrolled into view
- * - Similar to a sliding navbar effect
- * - Respects reduced motion preferences
+ * ScrollyCoding - Main container for scrollytelling code walkthroughs.
+ * Desktop: Two-column layout with fixed canvas drawer that slides in from right.
+ * Mobile: Inline code after each step (no drawer animation).
  */
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { springScrollySplit } from "@/lib/motion-variants";
 import { ScrollyProvider } from "./ScrollyContext";
+import { ScrollyDrawerProvider, useScrollyDrawer } from "./ScrollyDrawerContext";
 import { ScrollyStep } from "./ScrollyStep";
 import { ScrollyStage } from "./ScrollyStage";
 import { ScrollyStageMobile } from "./ScrollyStageMobile";
 import { ScrollyLiveRegion } from "./ScrollyLiveRegion";
-import { springSmooth } from "@/lib/motion-variants";
-import { SCROLLY_DEFAULTS } from "@/lib/scrolly/types";
 import type { ScrollyCodingProps } from "@/lib/scrolly/types";
 import type { CompilationResult } from "@/lib/scrolly/utils";
 
 interface ScrollyCodingComponentProps extends Omit<ScrollyCodingProps, "compiledSteps"> {
-	/** Compiled tokens from server-side compilation */
 	compiledSteps: CompilationResult;
 }
 
-/**
- * Main scrolly coding component.
- *
- * @example
- * ```tsx
- * // In a Server Component
- * const compiledSteps = await compileScrollySteps(steps);
- *
- * // Pass to client component
- * <ScrollyCoding steps={steps} compiledSteps={compiledSteps} />
- * ```
- */
-export function ScrollyCoding({
+/** Inner component that consumes drawer context. */
+function ScrollyCodingInner({
 	steps,
 	compiledSteps,
-	doc,
 	className,
 }: ScrollyCodingComponentProps) {
-	const stageConfig = {
-		...SCROLLY_DEFAULTS.stage,
-		...doc?.stage,
-	};
-
-	// Ref for entrance animation detection
-	const sectionRef = useRef<HTMLElement>(null);
+	const { isDrawerOpen, openDrawer, closeDrawer } = useScrollyDrawer();
 	const prefersReducedMotion = useReducedMotion();
+	const sectionRef = useRef<HTMLElement>(null);
+	const stepsContainerRef = useRef<HTMLDivElement>(null);
 
-	// Detect when section enters viewport (trigger once)
-	const isInView = useInView(sectionRef, {
-		once: true,
-		// Start animation when top of section is 20% from bottom of viewport
-		margin: "0px 0px -20% 0px",
+	// Track when steps container enters center zone (drawer trigger)
+	const isStepsInView = useInView(stepsContainerRef, {
+		margin: "-45% 0px -45% 0px",
 	});
 
-	// Entrance animation variants - slide up from below with fade
-	const sectionVariants = {
-		hidden: {
-			opacity: 0,
-			y: 100, // Start below current position
-			scale: 0.98,
-		},
-		visible: {
-			opacity: 1,
-			y: 0,
-			scale: 1,
-		},
-	};
+	// Sync drawer state with scroll position
+	useEffect(() => {
+		if (isStepsInView && !isDrawerOpen) openDrawer();
+		if (!isStepsInView && isDrawerOpen) closeDrawer();
+	}, [isStepsInView, isDrawerOpen, openDrawer, closeDrawer]);
+
+	const transition = prefersReducedMotion ? { duration: 0 } : springScrollySplit;
 
 	return (
-		<ScrollyProvider totalSteps={steps.length}>
-			{/* Full-bleed wrapper - breaks out of article container */}
-			<motion.section
-				ref={sectionRef}
-				className={cn(
-					// Full-bleed: expand to viewport width
-					"relative w-screen",
-					// Center and break out of parent container
-					"left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]",
-					// Two-column grid on desktop (50/50 split like Devouring Details)
-					"md:grid md:grid-cols-2",
-					// Single column on mobile
-					"flex flex-col",
-					className
-				)}
-				initial="hidden"
-				animate={isInView ? "visible" : "hidden"}
-				variants={prefersReducedMotion ? undefined : sectionVariants}
-				transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
-				aria-label="Interactive code walkthrough"
-				aria-roledescription="code walkthrough"
-			>
-				{/* Screen reader announcements */}
-				<ScrollyLiveRegion steps={steps} />
+		<motion.section
+			ref={sectionRef}
+			className={cn(
+				"relative flex w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden",
+				className
+			)}
+			aria-label="Interactive code walkthrough"
+			aria-roledescription="code walkthrough"
+		>
+			<ScrollyLiveRegion steps={steps} />
 
-				{/* Steps Column (left on desktop) - generous padding like DD (48px) */}
-				<div
-					className="relative md:order-1 md:pl-[max(3rem,calc((100vw-80rem)/2+3rem))] md:pr-12"
-					role="list"
-					aria-label="Walkthrough steps"
-				>
-					<div className="space-y-0">
+			{/* Blog content column - compresses when drawer opens */}
+			<motion.div
+				layout
+				className="flex-shrink-0 w-full flex justify-center"
+				animate={{ width: isDrawerOpen ? "50vw" : "100vw" }}
+				transition={transition}
+				style={{ willChange: "width" }}
+			>
+				<div className="w-[680px] max-w-full px-4 md:px-6 mx-auto">
+					<div className="hidden md:block h-[15vh]" aria-hidden="true" />
+
+					<div
+						ref={stepsContainerRef}
+						className="space-y-0"
+						role="list"
+						aria-label="Walkthrough steps"
+					>
 						{steps.map((step, index) => (
 							<div key={step.id} role="listitem">
-								<ScrollyStep
-									index={index}
-									step={step}
-									totalSteps={steps.length}
-								/>
-								{/* Mobile: Inline code stage after each step */}
-								<div className="md:hidden px-4 pb-8">
+								<ScrollyStep index={index} step={step} totalSteps={steps.length} />
+								<div className="md:hidden pb-6">
 									<ScrollyStageMobile
 										compiledSteps={compiledSteps}
 										step={step}
@@ -133,35 +90,30 @@ export function ScrollyCoding({
 						))}
 					</div>
 
-					{/* Bottom padding to allow last step to reach center (desktop only) */}
-					<div className="hidden md:block h-[50vh]" aria-hidden="true" />
+					<div className="hidden md:block h-[30vh]" aria-hidden="true" />
 				</div>
+			</motion.div>
 
-				{/* Stage Column (right on desktop, sticky) - warm background */}
-				<div
-					className={cn(
-						// Mobile: hidden (inline stages shown instead)
-						"hidden md:block",
-						// Desktop: sticky positioning
-						"md:order-2",
-						// Warm subtle background (Devouring Details style)
-						"scrolly-stage-bg"
-					)}
-				>
-					<div
-						className="sticky px-10 py-8"
-						style={{
-							top: stageConfig.stickyTop,
-							height: `calc(100vh - ${stageConfig.stickyTop}px)`,
-						}}
-					>
-						<ScrollyStage
-							compiledSteps={compiledSteps}
-							steps={steps}
-						/>
-					</div>
-				</div>
-			</motion.section>
-		</ScrollyProvider>
+			{/* Desktop drawer - slides in from right */}
+			<motion.div
+				className="hidden md:block fixed right-0 top-0 h-screen w-[50vw] p-2 z-30 font-mono"
+				initial={{ x: "100%" }}
+				animate={{ x: isDrawerOpen ? "0%" : "100%" }}
+				transition={transition}
+			>
+				<ScrollyStage compiledSteps={compiledSteps} steps={steps} />
+			</motion.div>
+		</motion.section>
+	);
+}
+
+/** Main scrolly coding component with context providers. */
+export function ScrollyCoding(props: ScrollyCodingComponentProps) {
+	return (
+		<ScrollyDrawerProvider>
+			<ScrollyProvider totalSteps={props.steps.length}>
+				<ScrollyCodingInner {...props} />
+			</ScrollyProvider>
+		</ScrollyDrawerProvider>
 	);
 }
