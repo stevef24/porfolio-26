@@ -13,7 +13,6 @@ export * from "./types";
 
 // Client-safe utilities and types
 export {
-	getTokensForTheme,
 	extractTokensForPrecompiled,
 	hasCompilationErrors,
 	isStepCompiled,

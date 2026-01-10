@@ -9,13 +9,12 @@
  * Includes canvas controls (fullscreen, copy, refresh) with ItsHover animated icons.
  */
 
-import { useMemo, useState, useCallback, memo, useEffect } from "react";
-import { useTheme } from "next-themes";
+import { useMemo, useState, useCallback, memo } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { ShikiMagicMovePrecompiled } from "shiki-magic-move/react";
 import { cn } from "@/lib/utils";
 import { useScrollyContext } from "./ScrollyContext";
-import { getTokensForTheme, type CompilationResult } from "@/lib/scrolly/utils";
+import { extractTokensForPrecompiled, type CompilationResult } from "@/lib/scrolly/utils";
 import { deriveFilename, SCROLLY_DEFAULTS } from "@/lib/scrolly/types";
 import { springGentle } from "@/lib/motion-variants";
 import { StageControls } from "./StageControls";
@@ -54,27 +53,18 @@ export function ScrollyStage({
 	className,
 }: ScrollyStageProps) {
 	const { activeIndex } = useScrollyContext();
-	const { resolvedTheme } = useTheme();
 	const prefersReducedMotion = useReducedMotion();
 	const [isAnimating, setIsAnimating] = useState(false);
 	const [copied, setCopied] = useState(false);
-	const [mounted, setMounted] = useState(false);
 	const [isFullscreen, setIsFullscreen] = useState(false);
-
-	// Hydration fix: only render theme-dependent content after mount
-	useEffect(() => {
-		setMounted(true);
-	}, []);
 
 	// Get current step metadata
 	const currentStep = steps[activeIndex];
 
-	// Select tokens based on current theme (steps prop for ShikiMagicMovePrecompiled)
-	// Use dark as default for SSR to avoid hydration mismatch, switch after mount
+	// Extract tokens for Magic Move (dual-theme - CSS handles theme switching)
 	const magicMoveSteps = useMemo(() => {
-		const theme = mounted && resolvedTheme === "light" ? "light" : "dark";
-		return getTokensForTheme(compiledSteps, theme);
-	}, [compiledSteps, resolvedTheme, mounted]);
+		return extractTokensForPrecompiled(compiledSteps.steps);
+	}, [compiledSteps]);
 
 	// Derive filename from step or lang
 	const filename = currentStep ? deriveFilename(currentStep) : "";

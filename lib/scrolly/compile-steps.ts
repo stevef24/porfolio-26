@@ -24,7 +24,6 @@ import type { CompiledStep, CompilationResult } from "./utils";
 // Re-export types for convenience
 export type { CompiledStep, CompilationResult } from "./utils";
 export {
-	getTokensForTheme,
 	extractTokensForPrecompiled,
 	hasCompilationErrors,
 	isStepCompiled,
@@ -85,27 +84,35 @@ async function getHighlighter(
 }
 
 /**
- * Compile a single step's code into Magic Move tokens.
+ * Compile a single step's code into Magic Move tokens with dual-theme support.
+ *
+ * Uses Shiki's native dual-theme feature which embeds both theme colors in each token:
+ * - `color`: Light theme color (default)
+ * - `--shiki-dark`: Dark theme color (CSS variable)
+ *
+ * This enables instant CSS-based theme switching without re-compilation.
  */
 async function compileStep(
 	highlighter: HighlighterGeneric<BundledLanguage, BundledTheme>,
 	step: ScrollyCodeStep,
 	index: number,
-	theme: string,
+	themes: { light: string; dark: string },
 	options: { lineNumbers?: boolean } = {}
 ): Promise<CompiledStep> {
 	const { lineNumbers = step.magicMove?.lineNumbers ?? SCROLLY_DEFAULTS.magicMove.lineNumbers } = options;
 
 	const tokens = codeToKeyedTokens(highlighter, step.code, {
 		lang: step.lang as BundledLanguage,
-		theme: theme as BundledTheme,
+		themes: {
+			light: themes.light as BundledTheme,
+			dark: themes.dark as BundledTheme,
+		},
 	}, lineNumbers);
 
 	return {
 		index,
 		id: step.id,
 		tokens,
-		theme,
 		lang: step.lang,
 	};
 }
@@ -156,55 +163,29 @@ export async function compileScrollySteps(
 		}
 	}
 
-	// Compile steps for both themes in parallel
-	const [stepsLight, stepsDark] = await Promise.all([
-		Promise.all(
-			steps.map((step, index) =>
-				compileStep(highlighter, step, index, themes.light, {
-					lineNumbers: options.lineNumbers,
-				}).catch((e) => {
-					errors.push({
-						stepId: step.id,
-						message: `Light theme compilation failed: ${e instanceof Error ? e.message : String(e)}`,
-					});
-					// Return fallback with empty tokens
-					return {
-						index,
-						id: step.id,
-						tokens: null as unknown as KeyedTokensInfo,
-						theme: themes.light,
-						lang: step.lang,
-					};
-				})
-			)
-		),
-		Promise.all(
-			steps.map((step, index) =>
-				compileStep(highlighter, step, index, themes.dark, {
-					lineNumbers: options.lineNumbers,
-				}).catch((e) => {
-					errors.push({
-						stepId: step.id,
-						message: `Dark theme compilation failed: ${e instanceof Error ? e.message : String(e)}`,
-					});
-					// Return fallback with empty tokens
-					return {
-						index,
-						id: step.id,
-						tokens: null as unknown as KeyedTokensInfo,
-						theme: themes.dark,
-						lang: step.lang,
-					};
-				})
-			)
-		),
-	]);
+	// Compile steps once with dual-theme tokens
+	const compiledSteps = await Promise.all(
+		steps.map((step, index) =>
+			compileStep(highlighter, step, index, themes, {
+				lineNumbers: options.lineNumbers,
+			}).catch((e) => {
+				errors.push({
+					stepId: step.id,
+					message: `Compilation failed: ${e instanceof Error ? e.message : String(e)}`,
+				});
+				// Return fallback with empty tokens
+				return {
+					index,
+					id: step.id,
+					tokens: null as unknown as KeyedTokensInfo,
+					lang: step.lang,
+				};
+			})
+		)
+	);
 
-	// Default to dark theme for main steps (can be switched client-side)
 	return {
-		steps: stepsDark,
-		stepsLight,
-		stepsDark,
+		steps: compiledSteps,
 		errors,
 	};
 }

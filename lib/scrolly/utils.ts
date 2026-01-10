@@ -9,30 +9,30 @@ import type { KeyedTokensInfo } from "shiki-magic-move/core";
 
 /**
  * Compiled step output structure (mirrored from compile-steps for client use).
+ *
+ * With dual-theme compilation, each token contains both theme colors:
+ * - `color`: Light theme color (default)
+ * - `--shiki-dark`: Dark theme color (CSS variable)
  */
 export type CompiledStep = {
 	/** Step index */
 	index: number;
 	/** Step ID for keying */
 	id: string;
-	/** Precompiled Magic Move tokens */
+	/** Precompiled Magic Move tokens with dual-theme colors */
 	tokens: KeyedTokensInfo;
-	/** Theme used for compilation */
-	theme: string;
 	/** Language used */
 	lang: string;
 };
 
 /**
  * Compilation result with metadata.
+ *
+ * Uses single compilation with dual-theme tokens for instant CSS-based theme switching.
  */
 export type CompilationResult = {
-	/** Compiled steps array */
+	/** Compiled steps array with dual-theme tokens */
 	steps: CompiledStep[];
-	/** Light theme tokens (for dual-theme support) */
-	stepsLight: CompiledStep[];
-	/** Dark theme tokens */
-	stepsDark: CompiledStep[];
 	/** Any compilation errors (non-fatal) */
 	errors: Array<{ stepId: string; message: string }>;
 };
@@ -48,17 +48,6 @@ export type CompilationResult = {
  */
 export function extractTokensForPrecompiled(compiledSteps: CompiledStep[]): KeyedTokensInfo[] {
 	return compiledSteps.map((step) => step.tokens);
-}
-
-/**
- * Get tokens for a specific theme from compilation result.
- */
-export function getTokensForTheme(
-	result: CompilationResult,
-	theme: "light" | "dark"
-): KeyedTokensInfo[] {
-	const steps = theme === "light" ? result.stepsLight : result.stepsDark;
-	return extractTokensForPrecompiled(steps);
 }
 
 /**
