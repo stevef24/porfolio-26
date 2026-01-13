@@ -145,6 +145,22 @@
   --blog-content-width: 680px;
 
   /* ═══════════════════════════════════════════════════════
+     CANVAS CODE STAGE COLORS - "Terminal Elegance"
+     ═══════════════════════════════════════════════════════ */
+  --canvas-bg: #f8f7f4;              /* Warm parchment */
+  --canvas-header-bg: #f1efe9;       /* Slightly darker header */
+  --canvas-border: rgba(0, 0, 0, 0.08);
+  --canvas-border-subtle: rgba(0, 0, 0, 0.04);
+  --canvas-toolbar-bg: rgba(241, 239, 233, 0.95);
+  --canvas-toolbar-icon: #7a7a72;
+  --canvas-toolbar-icon-hover: #1a1a1a;
+  --canvas-gutter: #e8e6df;          /* Line number gutter */
+  --canvas-gutter-text: #a0a098;
+  --canvas-focus-bg: rgba(86, 98, 64, 0.08);
+  --canvas-focus-border: #566240;
+  --canvas-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+
+  /* ═══════════════════════════════════════════════════════
      SIDEBAR COLORS
      ═══════════════════════════════════════════════════════ */
   --sidebar: #f1eee5;              /* bg.muted */
@@ -161,6 +177,7 @@
   /* ═══════════════════════════════════════════════════════
      OATMEAL DESIGN SYSTEM - DARK MODE
      ═══════════════════════════════════════════════════════ */
+  color-scheme: dark;
 
   /* Background Scale */
   --background: #0e0e0c;           /* bg.base - deep charcoal */
@@ -211,6 +228,22 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.6);
+
+  /* ═══════════════════════════════════════════════════════
+     CANVAS CODE STAGE COLORS - DARK "Terminal Elegance"
+     ═══════════════════════════════════════════════════════ */
+  --canvas-bg: #18181a;              /* Deep charcoal with subtle warmth */
+  --canvas-header-bg: #1f1f22;       /* Elevated header */
+  --canvas-border: rgba(255, 255, 255, 0.08);
+  --canvas-border-subtle: rgba(255, 255, 255, 0.04);
+  --canvas-toolbar-bg: rgba(31, 31, 34, 0.95);
+  --canvas-toolbar-icon: #6a6a70;
+  --canvas-toolbar-icon-hover: #f8f6ef;
+  --canvas-gutter: #1f1f22;          /* Line number gutter */
+  --canvas-gutter-text: #4a4a50;
+  --canvas-focus-bg: rgba(111, 124, 90, 0.12);
+  --canvas-focus-border: #6f7c5a;
+  --canvas-shadow: 0 4px 32px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2);
 
   /* ═══════════════════════════════════════════════════════
      SIDEBAR COLORS - DARK
@@ -1012,6 +1045,533 @@ article [role="tabpanel"][hidden] {
   .scrolly-stage-code .scrolly-focus-line,
   .scrolly-stage-code .scrolly-dim-line {
     transition: none;
+  }
+}
+
+/* =============================================================================
+   Canvas Code Stage - "Terminal Elegance" Design System
+
+   A refined, editorial approach to code display that feels like a premium
+   developer tool. Inspired by high-end code editors with Swiss minimalism.
+   ============================================================================= */
+
+/* Base container - elevated card with refined shadow */
+.canvas-code-stage {
+  background: var(--canvas-bg);
+  border-radius: 12px;
+  border: 1px solid var(--canvas-border);
+  box-shadow: var(--canvas-shadow);
+  scrollbar-width: thin;
+  scrollbar-color: var(--canvas-border) transparent;
+  overflow: hidden;
+}
+
+/* Header bar - file tabs and toolbar container */
+.canvas-code-stage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  height: 44px;
+  background: var(--canvas-header-bg);
+  border-bottom: 1px solid var(--canvas-border-subtle);
+}
+
+/* File badge styling - removed, see consolidated definition below */
+
+/* File tabs for multi-file mode */
+.canvas-code-stage-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 8px;
+  background: var(--canvas-border-subtle);
+}
+
+.canvas-code-stage-tab {
+  padding: 6px 12px;
+  font-family: "Berkeley Mono", "JetBrains Mono", var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--canvas-toolbar-icon);
+  border-radius: 6px;
+  transition: color 150ms ease, background 150ms ease;
+  cursor: pointer;
+  /* Keep filename in natural case */
+}
+
+.canvas-code-stage-tab:hover {
+  color: var(--canvas-toolbar-icon-hover);
+  background: var(--canvas-bg);
+}
+
+.canvas-code-stage-tab[data-active="true"] {
+  color: var(--foreground);
+  background: transparent;
+}
+
+/* Sliding underline indicator for tabs */
+.canvas-code-stage-tab-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--canvas-focus-border);
+  border-radius: 1px;
+}
+
+/* Step indicator badge - refined Terminal Elegance */
+.canvas-code-stage-step-badge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: var(--canvas-border-subtle);
+  font-family: "Berkeley Mono", "JetBrains Mono", var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.canvas-code-stage-step-num {
+  color: var(--foreground);
+}
+
+.canvas-code-stage-step-divider {
+  color: var(--canvas-toolbar-icon);
+  opacity: 0.4;
+  margin: 0 1px;
+}
+
+.canvas-code-stage-step-total {
+  color: var(--canvas-toolbar-icon);
+  opacity: 0.7;
+}
+
+/* Single file indicator - Terminal Elegance */
+.canvas-code-stage-file {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 5px 12px;
+  border-radius: 6px;
+  background: var(--canvas-border-subtle);
+  font-family: "Berkeley Mono", "JetBrains Mono", var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--canvas-toolbar-icon-hover);
+  /* Keep filename in natural case - no uppercase transform */
+}
+
+/* File changed highlight animation */
+.canvas-code-stage-file-changed {
+  animation: file-change-pulse 400ms ease-out;
+}
+
+@keyframes file-change-pulse {
+  0% {
+    background: var(--canvas-focus-border);
+    color: var(--foreground);
+  }
+  100% {
+    background: var(--canvas-border-subtle);
+    color: var(--canvas-toolbar-icon-hover);
+  }
+}
+
+/* Toolbar buttons group */
+.canvas-code-stage-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.canvas-code-stage-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--canvas-toolbar-icon);
+  transition: all 150ms ease;
+  cursor: pointer;
+}
+
+.canvas-code-stage-btn:hover {
+  color: var(--canvas-toolbar-icon-hover);
+  background: var(--canvas-border-subtle);
+}
+
+.canvas-code-stage-btn:active {
+  transform: scale(0.95);
+}
+
+/* Transparent Shiki backgrounds so canvas-bg shows through */
+.canvas-code-stage .shiki,
+.canvas-code-stage pre,
+.canvas-code-stage pre[style] {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Remove inner border from Magic Move container */
+.canvas-code-stage .shiki-magic-move-container {
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* Dark mode: instant theme switching via CSS variables */
+.dark .canvas-code-stage span[style*="color:"] {
+  color: var(--shiki-dark) !important;
+}
+
+/* Code container - scrollable area with breathing room */
+.canvas-code-stage-content {
+  overflow: auto;
+  padding: 1rem 0.5rem;
+}
+
+/* Line styling - refined spacing */
+.canvas-code-stage .line,
+.canvas-code-stage .shiki-magic-move-line {
+  display: block;
+  padding: 0 1.5rem;
+  min-height: 1.625rem;
+  line-height: 1.625rem;
+}
+
+/* Focus line highlighting - elegant olive accent */
+.canvas-code-stage.has-focus .shiki-magic-move-line {
+  opacity: 0.35;
+  transition: opacity 280ms ease, background-color 280ms ease;
+}
+
+.canvas-code-stage.has-focus .shiki-magic-move-line[data-focus="true"],
+.canvas-code-stage-focused-line {
+  opacity: 1 !important;
+  background: var(--canvas-focus-bg);
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  padding-left: calc(1.5rem - 3px);
+  padding-right: 1.5rem;
+  border-left: 3px solid var(--canvas-focus-border);
+}
+
+/* Code typography - refined mono stack */
+.canvas-code-stage pre {
+  font-family: "Berkeley Mono", "JetBrains Mono", "Fira Code", var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.625rem;
+  margin: 0;
+  padding: 0;
+  color: var(--foreground);
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+.canvas-code-stage code {
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Toolbar button styling (legacy support) */
+.canvas-code-stage button {
+  color: var(--canvas-toolbar-icon);
+}
+
+.canvas-code-stage button:hover {
+  color: var(--canvas-toolbar-icon-hover);
+}
+
+/* Scrollbar styling - refined */
+.canvas-code-stage::-webkit-scrollbar,
+.canvas-code-stage-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.canvas-code-stage::-webkit-scrollbar-track,
+.canvas-code-stage-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.canvas-code-stage::-webkit-scrollbar-thumb,
+.canvas-code-stage-content::-webkit-scrollbar-thumb {
+  background: var(--canvas-border);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.canvas-code-stage::-webkit-scrollbar-thumb:hover,
+.canvas-code-stage-content::-webkit-scrollbar-thumb:hover {
+  background: var(--canvas-toolbar-icon);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Corner for both scrollbars */
+.canvas-code-stage::-webkit-scrollbar-corner,
+.canvas-code-stage-content::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Reduced motion for canvas code stage */
+@media (prefers-reduced-motion: reduce) {
+  .canvas-code-stage.has-focus .line:not([data-focus="true"]) {
+    transition: none;
+  }
+}
+
+/* ============================================================================
+   Canvas Step Opacity - Active step highlighting
+   ============================================================================ */
+
+/* Base step styling - always has smooth transition */
+.canvas-step {
+  transition: opacity 280ms ease-out;
+}
+
+/* When canvas is active, dim inactive steps */
+[data-canvas-layout][data-active="true"] .canvas-step {
+  opacity: 0.45;
+}
+
+/* Active step stays fully visible */
+[data-canvas-layout][data-active="true"] .canvas-step[data-canvas-step-active="true"] {
+  opacity: 1;
+}
+
+/* Hover reveals dimmed steps slightly */
+[data-canvas-layout][data-active="true"] .canvas-step:hover {
+  opacity: 0.75;
+}
+
+/* Active step hover stays at full opacity */
+[data-canvas-layout][data-active="true"] .canvas-step[data-canvas-step-active="true"]:hover {
+  opacity: 1;
+}
+
+/* Reduced motion - instant opacity changes */
+@media (prefers-reduced-motion: reduce) {
+  .canvas-step {
+    transition: none;
+  }
+}
+
+/* Code content - wrapper for Shiki-compiled HTML */
+.code-content {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  padding: 1rem 0;
+}
+
+.code-content pre {
+  margin: 0;
+  background: transparent !important;
+}
+
+.code-content code {
+  display: block;
+  background: transparent !important;
+}
+
+.code-content .line {
+  display: block;
+  padding: 0 1.25rem;
+  min-height: 1.5rem;
+  color: var(--foreground);
+}
+
+/* Dark mode theme switching for code-content */
+.dark .code-content span[style*="color:"] {
+  color: var(--shiki-dark) !important;
+}
+
+/* Focus line highlighting for code-content */
+.code-content .line[data-focus="true"] {
+  background: oklch(0.95 0.15 125 / 20%);
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  border-left: 2px solid oklch(0.65 0.2 125);
+}
+
+.dark .code-content .line[data-focus="true"] {
+  background: oklch(0.3 0.1 125 / 25%);
+  border-left-color: oklch(0.75 0.2 125);
+}
+
+/* =============================================
+   TOC Scroll Container - Hidden Scrollbar
+   ============================================= */
+
+.toc-scroll-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.toc-scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* =============================================
+   V2 Preview Callout - Labs Terminal Aesthetic
+   Uses Oatmeal Design System olive accent (hue 125)
+   ============================================= */
+
+.v2-preview-callout {
+  /* Container with left accent bar positioning */
+  position: relative;
+  padding-left: 1rem;
+
+  /* Accent color - olive green from Oatmeal palette */
+  --v2-accent: oklch(0.48 0.08 125);        /* #566240 equivalent */
+  --v2-accent-light: oklch(0.58 0.10 125);  /* Lighter for glow */
+  --v2-accent-glow: oklch(0.55 0.12 125 / 25%);
+}
+
+/* Left accent bar with subtle glow effect */
+.v2-preview-accent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--v2-accent);
+  border-radius: 3px;
+  box-shadow:
+    0 0 8px var(--v2-accent-glow),
+    0 0 16px var(--v2-accent-glow);
+}
+
+/* Card container - warm cream from Oatmeal */
+.v2-preview-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Badge with pulsing dot */
+.v2-preview-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  background: var(--v2-accent);
+  border-radius: 4px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: white;
+}
+
+/* Pulsing dot indicator */
+.v2-preview-dot {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  animation: v2-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes v2-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+
+/* Version tag */
+.v2-preview-version {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  padding: 2px 6px;
+  background: var(--muted);
+  border-radius: 3px;
+}
+
+/* Title */
+.v2-preview-title {
+  font-family: var(--font-display), serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--foreground);
+  margin: 0;
+}
+
+/* Labs icon */
+.v2-preview-icon {
+  color: var(--v2-accent-light);
+  opacity: 0.7;
+}
+
+/* Body content */
+.v2-preview-body {
+  color: var(--muted-foreground);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.v2-preview-body > p {
+  margin-bottom: 0.875rem;
+}
+
+.v2-preview-body > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Code blocks inside V2 callout */
+.v2-preview-callout pre {
+  background: oklch(0.14 0.02 125) !important;
+  border: 1px solid oklch(0.25 0.03 125) !important;
+  border-radius: 6px !important;
+  margin: 1rem 0 !important;
+}
+
+.v2-preview-callout code {
+  font-size: 0.8125rem;
+}
+
+/* =============================================
+   V2 Preview Callout - Dark Mode
+   ============================================= */
+
+.dark .v2-preview-callout {
+  --v2-accent: oklch(0.58 0.10 125);        /* Lighter in dark mode */
+  --v2-accent-light: oklch(0.65 0.12 125);
+  --v2-accent-glow: oklch(0.60 0.12 125 / 20%);
+}
+
+.dark .v2-preview-card {
+  box-shadow:
+    0 1px 3px oklch(0 0 0 / 15%),
+    0 4px 12px oklch(0 0 0 / 10%);
+}
+
+.dark .v2-preview-callout pre {
+  background: oklch(0.12 0.015 125) !important;
+  border-color: oklch(0.22 0.02 125) !important;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .v2-preview-dot {
+    animation: none;
   }
 }
 

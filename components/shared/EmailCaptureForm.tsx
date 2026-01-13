@@ -17,7 +17,10 @@ type EmailCaptureFormProps = {
   className?: string;
 };
 
-function getStatusMessage(status: EmailCaptureStatus, errorMessage: string) {
+function getStatusMessage(
+  status: EmailCaptureStatus,
+  errorMessage: string
+): string {
   switch (status) {
     case "success":
       return "You're in. I'll send updates when new posts drop.";
@@ -36,7 +39,7 @@ export function EmailCaptureForm({
   buttonLabel = "Subscribe",
   source = "blog-inline",
   className,
-}: EmailCaptureFormProps) {
+}: EmailCaptureFormProps): JSX.Element {
   const [email, setEmail] = React.useState("");
   const [status, setStatus] = React.useState<EmailCaptureStatus>("idle");
   const [message, setMessage] = React.useState("");
@@ -46,7 +49,7 @@ export function EmailCaptureForm({
   const isLocked = status === "loading" || status === "success" || status === "exists";
   const statusMessage = getStatusMessage(status, message);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
 
     const trimmedEmail = email.trim().toLowerCase();
@@ -59,38 +62,38 @@ export function EmailCaptureForm({
     setStatus("loading");
     setMessage("");
 
-    try {
-      const response = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: trimmedEmail,
-          source,
-          website: honeypot,
-        }),
-      });
+    void fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: trimmedEmail,
+        source,
+        website: honeypot,
+      }),
+    })
+      .then(async (response) => {
+        const payload = await response.json().catch(() => ({}));
 
-      const payload = await response.json().catch(() => ({}));
+        if (!response.ok || payload?.ok === false) {
+          setStatus("error");
+          setMessage(payload?.error || "Unable to subscribe right now.");
+          return;
+        }
 
-      if (!response.ok || payload?.ok === false) {
-        setStatus("error");
-        setMessage(payload?.error || "Unable to subscribe right now.");
-        return;
-      }
+        if (payload?.status === "exists") {
+          setStatus("exists");
+          setEmail("");
+          return;
+        }
 
-      if (payload?.status === "exists") {
-        setStatus("exists");
+        setStatus("success");
         setEmail("");
-        return;
-      }
-
-      setStatus("success");
-      setEmail("");
-    } catch {
-      setStatus("error");
-      setMessage("Unable to subscribe right now.");
-    }
-  };
+      })
+      .catch(() => {
+        setStatus("error");
+        setMessage("Unable to subscribe right now.");
+      });
+  }
 
   return (
     <section
@@ -117,7 +120,7 @@ export function EmailCaptureForm({
             name="email"
             type="email"
             autoComplete="email"
-            placeholder="you@example.com"
+            placeholder="you@example.com..."
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             disabled={isLocked}

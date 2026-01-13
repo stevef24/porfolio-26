@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { ArrowUpRight01Icon, PlayCircle02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface LessonCardProps {
   title: string;
@@ -26,7 +26,7 @@ function hashString(str: string): number {
 }
 
 // Swiss minimal pattern - geometric shapes
-function CoursePattern({ seed }: { seed: number }) {
+function CoursePattern({ seed }: { seed: number }): JSX.Element {
   const hue = 125 + (seed % 20) - 10; // Stay close to primary lime hue (125)
 
   return (
@@ -55,6 +55,7 @@ function CoursePattern({ seed }: { seed: number }) {
           icon={PlayCircle02Icon}
           size={32}
           className="text-white/40"
+          aria-hidden={true}
         />
       </div>
     </div>
@@ -68,7 +69,7 @@ export function LessonCard({
   lessonCount,
   module,
   className,
-}: LessonCardProps) {
+}: LessonCardProps): JSX.Element {
   const seed = hashString(title);
 
   return (
@@ -109,6 +110,7 @@ export function LessonCard({
                 icon={ArrowUpRight01Icon}
                 size={12}
                 className="transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden={true}
               />
             </span>
           </div>

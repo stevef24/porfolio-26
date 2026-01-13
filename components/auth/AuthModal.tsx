@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useState, type FormEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import {
   Dialog,
@@ -22,7 +22,10 @@ interface AuthModalProps {
 
 type AuthStep = "email" | "sent" | "error";
 
-export function AuthModal({ open, onOpenChange }: AuthModalProps) {
+export function AuthModal({
+  open,
+  onOpenChange,
+}: AuthModalProps): JSX.Element {
   const { signInWithEmail } = useAuth();
   const prefersReducedMotion = useReducedMotion();
 
@@ -32,35 +35,36 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
+    function handleSubmit(e: FormEvent): Promise<void> {
       e.preventDefault();
 
-      if (!email.trim()) return;
+      if (!email.trim()) return Promise.resolve();
 
       setIsLoading(true);
       setErrorMessage("");
 
-      const { error } = await signInWithEmail(email.trim());
+      return signInWithEmail(email.trim()).then(({ error }) => {
+        setIsLoading(false);
 
-      setIsLoading(false);
+        if (error) {
+          setErrorMessage(error.message);
+          setStep("error");
+          return;
+        }
 
-      if (error) {
-        setErrorMessage(error.message);
-        setStep("error");
-      } else {
         setStep("sent");
-      }
+      });
     },
     [email, signInWithEmail]
   );
 
-  const handleReset = useCallback(() => {
+  const handleReset = useCallback(function handleReset(): void {
     setEmail("");
     setStep("email");
     setErrorMessage("");
   }, []);
 
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback(function handleClose(): void {
     onOpenChange(false);
     // Reset after animation completes
     setTimeout(handleReset, 200);
@@ -90,7 +94,7 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="you@example.com"
+                  placeholder="you@example.com..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -184,13 +188,14 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
 }
 
 // Simple inline icons to avoid external dependencies
-function LoadingSpinner({ className }: { className?: string }) {
+function LoadingSpinner({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={cn("animate-spin size-4", className)}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
+      aria-hidden="true"
     >
       <circle
         className="opacity-25"
@@ -209,7 +214,7 @@ function LoadingSpinner({ className }: { className?: string }) {
   );
 }
 
-function MailIcon({ className }: { className?: string }) {
+function MailIcon({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={className}
@@ -218,6 +223,7 @@ function MailIcon({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
+      aria-hidden="true"
     >
       <path
         strokeLinecap="round"
@@ -228,7 +234,7 @@ function MailIcon({ className }: { className?: string }) {
   );
 }
 
-function ErrorIcon({ className }: { className?: string }) {
+function ErrorIcon({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={className}
@@ -237,6 +243,7 @@ function ErrorIcon({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
+      aria-hidden="true"
     >
       <path
         strokeLinecap="round"

@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface MidCardProps {
@@ -23,7 +23,7 @@ export function MidCard({
 	href = "#",
 	className,
 	external = false,
-}: MidCardProps) {
+}: MidCardProps): JSX.Element {
 	const Component = external ? "a" : Link;
 	const externalProps = external
 		? { target: "_blank", rel: "noopener noreferrer" }
@@ -36,7 +36,7 @@ export function MidCard({
 			className={cn(
 				"group block py-4 -mx-4 px-4",
 				"rounded-lg",
-				"transition-all duration-200 ease-out",
+				"transition-[background-color,box-shadow] duration-200 ease-out",
 				"hover:bg-muted/40",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
 				className
@@ -66,13 +66,14 @@ export function MidCard({
 						"flex-shrink-0 mt-0.5",
 						"text-muted-foreground/60",
 						"group-hover:text-primary",
-						"transition-all duration-200"
+						"transition-colors duration-200"
 					)}
 				>
 					<HugeiconsIcon
 						icon={ArrowUpRight01Icon}
 						size={16}
 						className="transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+						aria-hidden={true}
 					/>
 				</span>
 			</article>

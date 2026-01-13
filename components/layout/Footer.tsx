@@ -3,10 +3,10 @@
 import { ArrowUp01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-export function Footer() {
-	const scrollToTop = () => {
+export function Footer(): JSX.Element {
+	function scrollToTop(): void {
 		window.scrollTo({ top: 0, behavior: "smooth" });
-	};
+	}
 
 	return (
 		<footer className="border-t border-border/40 py-4 mt-4">
@@ -27,6 +27,7 @@ export function Footer() {
 						icon={ArrowUp01Icon}
 						size={14}
 						className="transition-transform duration-200 group-hover:-translate-y-0.5"
+						aria-hidden={true}
 					/>
 				</button>
 			</div>

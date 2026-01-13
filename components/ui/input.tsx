@@ -1,8 +1,11 @@
-import * as React from "react"
-
+import type { ComponentProps } from "react"
 import { cn } from "@/lib/utils"
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+function Input({
+  className,
+  type,
+  ...props
+}: ComponentProps<"input">): JSX.Element {
   return (
     <input
       type={type}
@@ -26,7 +29,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         // File input
         "file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
         // Transition
-        "transition-all duration-200",
+        "transition-[color,background-color,border-color,box-shadow,opacity] duration-200",
         className
       )}
       {...props}

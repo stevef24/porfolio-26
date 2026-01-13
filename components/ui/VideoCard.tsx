@@ -21,13 +21,13 @@ export function VideoCard({
 	description,
 	href,
 	className,
-}: VideoCardProps) {
+}: VideoCardProps): JSX.Element {
 	const content = (
 		<article
 			className={cn(
 				"group py-4 -mx-4 px-4",
 				"rounded-lg",
-				"transition-all duration-200 ease-out",
+				"transition-[background-color,box-shadow] duration-200 ease-out",
 				"hover:bg-muted/40",
 				"cursor-pointer",
 				className
@@ -57,13 +57,14 @@ export function VideoCard({
 						"flex-shrink-0 mt-0.5",
 						"text-muted-foreground/60",
 						"group-hover:text-primary",
-						"transition-all duration-200"
+						"transition-colors duration-200"
 					)}
 				>
 					<HugeiconsIcon
 						icon={ArrowUpRight01Icon}
 						size={16}
 						className="transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+						aria-hidden={true}
 					/>
 				</span>
 			</div>

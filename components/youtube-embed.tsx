@@ -43,7 +43,7 @@ export function YouTubeEmbed({
   className,
   start,
   thumbnailUrl,
-}: YouTubeEmbedProps) {
+}: YouTubeEmbedProps): JSX.Element {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -94,6 +94,8 @@ export function YouTubeEmbed({
           <img
             src={thumbnail}
             alt={title}
+            width={1280}
+            height={720}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
@@ -118,6 +120,7 @@ export function YouTubeEmbed({
                 className="h-8 w-8 ml-1"
                 fill="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path d="M8 5v14l11-7z" />
               </svg>
