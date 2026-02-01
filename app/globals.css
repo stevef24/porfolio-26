@@ -70,66 +70,108 @@
   --color-fd-ring: var(--ring);
 }
 
+button,
+[role="button"] {
+  touch-action: manipulation;
+}
+
 :root {
   /* ═══════════════════════════════════════════════════════
-     OATMEAL DESIGN SYSTEM - LIGHT MODE
+     OPENAI DESIGN SYSTEM - LIGHT MODE
+     Opacity-based monochrome with cream surfaces
      ═══════════════════════════════════════════════════════ */
 
-  /* Background Scale */
-  --background: #f8f6ef;           /* bg.base - warm cream */
-  --foreground: #19170f;           /* text.primary - near black */
+  /* OpenAI Core Color Tokens */
+  --oai-bg-page: #ffffff;
+  --oai-bg-surface: #faf9f5;
+  --oai-bg-subtle: rgba(0, 0, 0, 0.04);
+  --oai-bg-muted: rgba(0, 0, 0, 0.08);
+  --oai-bg-emphasis: rgba(0, 0, 0, 0.12);
+  --oai-text-primary: #000000;
+  --oai-text-secondary: rgba(0, 0, 0, 0.6);
+  --oai-text-tertiary: rgba(0, 0, 0, 0.44);
+  --oai-border-default: rgba(0, 0, 0, 0.12);
+  --oai-border-subtle: rgba(0, 0, 0, 0.08);
+
+  /* OpenAI Spacing Scale (4px increments) */
+  --oai-space-1: 4px;
+  --oai-space-2: 8px;
+  --oai-space-3: 12px;
+  --oai-space-4: 16px;
+  --oai-space-6: 24px;
+  --oai-space-8: 32px;
+  --oai-space-12: 48px;
+  --oai-space-16: 64px;
+  --oai-space-20: 80px;
+
+  /* OpenAI Radius Scale */
+  --oai-radius-sm: 4px;
+  --oai-radius-md: 6px;
+  --oai-radius-lg: 8px;
+  --oai-radius-xl: 12px;
+  --oai-radius-pill: 9999px;
+
+  /* OpenAI Shadow System - Light Mode */
+  --oai-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --oai-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --oai-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* Background Scale - OpenAI pure white */
+  --background: #ffffff;           /* bg.page - pure white */
+  --background-rgb: 255, 255, 255; /* RGB values for gradient overlays */
+  --foreground: rgba(0, 0, 0, 0.95); /* text.primary - near black */
 
   /* Card/Elevated Surfaces */
-  --card: #ffffff;                 /* bg.elevated - pure white */
-  --card-foreground: #19170f;
+  --card: #faf9f5;                 /* bg.surface - warm cream for cards */
+  --card-foreground: rgba(0, 0, 0, 0.95);
 
   /* Popover (same as card) */
   --popover: #ffffff;
-  --popover-foreground: #19170f;
+  --popover-foreground: rgba(0, 0, 0, 0.95);
 
-  /* Primary - Olive Green Accent */
-  --primary: #566240;              /* accent.primary */
+  /* Primary - Monochrome accent */
+  --primary: rgba(0, 0, 0, 0.95);  /* accent.primary */
   --primary-foreground: #ffffff;   /* text.inverse */
 
   /* Secondary - Muted Background */
-  --secondary: #f1eee5;            /* bg.muted */
-  --secondary-foreground: #19170f;
+  --secondary: rgba(0, 0, 0, 0.04); /* bg.subtle */
+  --secondary-foreground: rgba(0, 0, 0, 0.95);
 
-  /* Muted - Testimonial/Emphasized Background */
-  --muted: #e8e5da;                /* bg.testimonial - darker olive tint */
-  --muted-foreground: #5f5a48;     /* text.secondary */
+  /* Muted - Emphasized Background */
+  --muted: rgba(0, 0, 0, 0.04);    /* bg.subtle */
+  --muted-foreground: rgba(0, 0, 0, 0.6); /* text.secondary */
 
   /* Accent (same as primary for consistency) */
-  --accent: #566240;
-  --accent-foreground: #ffffff;
+  --accent: rgba(0, 0, 0, 0.04);
+  --accent-foreground: rgba(0, 0, 0, 0.95);
 
   /* Destructive - Errors */
-  --destructive: #b04a48;          /* Oatmeal state.danger */
+  --destructive: #dc2626;          /* OpenAI red */
 
-  /* Borders */
-  --border: #e3e0d5;               /* border.subtle */
-  --input: #d0cabc;                /* border.strong */
-  --ring: #566240;                 /* accent.primary for focus */
+  /* Borders - Opacity based */
+  --border: rgba(0, 0, 0, 0.12);   /* border.default */
+  --input: rgba(0, 0, 0, 0.12);    /* border.default */
+  --ring: rgba(0, 0, 0, 0.95);     /* foreground for focus */
 
-  /* Chart Colors - Olive Scale */
-  --chart-1: #839167;              /* Lightest olive */
-  --chart-2: #6f7c5a;
-  --chart-3: #566240;
-  --chart-4: #4a5436;
-  --chart-5: #3d452c;              /* Darkest olive */
+  /* Chart Colors - Monochrome Scale */
+  --chart-1: rgba(0, 0, 0, 0.2);
+  --chart-2: rgba(0, 0, 0, 0.35);
+  --chart-3: rgba(0, 0, 0, 0.5);
+  --chart-4: rgba(0, 0, 0, 0.7);
+  --chart-5: rgba(0, 0, 0, 0.85);
 
   /* ═══════════════════════════════════════════════════════
-     OATMEAL SHADOWS - LIGHT MODE
+     OPENAI SHADOWS - LIGHT MODE
      ═══════════════════════════════════════════════════════ */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 
   /* ═══════════════════════════════════════════════════════
      LAYOUT TOKENS
      ═══════════════════════════════════════════════════════ */
   --radius: 0.5rem;                /* 8px - Oatmeal default */
-  --content-width: 840px;
+  --content-width: 680px;          /* Optimal reading width */
   --toc-width: 14rem;
   --content-gap: 4rem;
   --navbar-height: 4rem;
@@ -145,6 +187,16 @@
   --blog-content-width: 680px;
 
   /* ═══════════════════════════════════════════════════════
+     COURSE LAYOUT TOKENS
+     ═══════════════════════════════════════════════════════ */
+  --course-sidebar-width: 240px;
+  --course-content-width: 800px;
+  --course-toc-width: 200px;
+  --course-gap: 2rem;
+  --course-content-top: 2rem;         /* Content area top padding */
+  --course-header-baseline: 3.5rem;   /* Vertical alignment baseline */
+
+  /* ═══════════════════════════════════════════════════════
      CANVAS CODE STAGE COLORS - "Terminal Elegance"
      ═══════════════════════════════════════════════════════ */
   --canvas-bg: #f8f7f4;              /* Warm parchment */
@@ -156,8 +208,8 @@
   --canvas-toolbar-icon-hover: #1a1a1a;
   --canvas-gutter: #e8e6df;          /* Line number gutter */
   --canvas-gutter-text: #a0a098;
-  --canvas-focus-bg: rgba(86, 98, 64, 0.08);
-  --canvas-focus-border: #566240;
+  --canvas-focus-bg: rgba(0, 0, 0, 0.06);
+  --canvas-focus-border: rgba(0, 0, 0, 0.95);
   --canvas-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
 
   /* ═══════════════════════════════════════════════════════
@@ -165,69 +217,88 @@
      ═══════════════════════════════════════════════════════ */
   --sidebar: #f1eee5;              /* bg.muted */
   --sidebar-foreground: #19170f;
-  --sidebar-primary: #566240;
+  --sidebar-primary: rgba(0, 0, 0, 0.95);
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #e8e5da;       /* bg.testimonial */
   --sidebar-accent-foreground: #19170f;
   --sidebar-border: #e3e0d5;       /* border.subtle */
-  --sidebar-ring: #566240;
+  --sidebar-ring: rgba(0, 0, 0, 0.95);
 }
 
 .dark {
   /* ═══════════════════════════════════════════════════════
-     OATMEAL DESIGN SYSTEM - DARK MODE
+     OPENAI DESIGN SYSTEM - DARK MODE
+     Opacity-based monochrome, NO shadows
      ═══════════════════════════════════════════════════════ */
   color-scheme: dark;
 
+  /* OpenAI Core Color Tokens - Dark */
+  --oai-bg-page: #0d0d0d;
+  --oai-bg-surface: #1a1a1a;
+  --oai-bg-subtle: rgba(255, 255, 255, 0.04);
+  --oai-bg-muted: rgba(255, 255, 255, 0.08);
+  --oai-bg-emphasis: rgba(255, 255, 255, 0.12);
+  --oai-text-primary: rgba(255, 255, 255, 0.95);
+  --oai-text-secondary: rgba(255, 255, 255, 0.6);
+  --oai-text-tertiary: rgba(255, 255, 255, 0.44);
+  --oai-border-default: rgba(255, 255, 255, 0.12);
+  --oai-border-subtle: rgba(255, 255, 255, 0.08);
+
+  /* OpenAI Shadow System - Dark Mode (all shadows disabled) */
+  --oai-shadow-sm: none;
+  --oai-shadow-md: none;
+  --oai-shadow-lg: none;
+
   /* Background Scale */
-  --background: #0e0e0c;           /* bg.base - deep charcoal */
-  --foreground: #f8f6ef;           /* text.primary - warm white */
+  --background: #0d0d0d;           /* bg.page - true black */
+  --background-rgb: 13, 13, 13;    /* RGB values for gradient overlays */
+  --foreground: rgba(255, 255, 255, 0.95); /* text.primary - off white */
 
   /* Card/Elevated Surfaces */
-  --card: #1e1e1b;                 /* bg.elevated */
-  --card-foreground: #f8f6ef;
+  --card: #1a1a1a;                 /* bg.surface */
+  --card-foreground: rgba(255, 255, 255, 0.95);
 
   /* Popover */
-  --popover: #1e1e1b;
-  --popover-foreground: #f8f6ef;
+  --popover: #1a1a1a;
+  --popover-foreground: rgba(255, 255, 255, 0.95);
 
-  /* Primary - Olive Green (lighter for dark mode contrast) */
-  --primary: #6f7c5a;              /* accent.primary dark */
-  --primary-foreground: #0e0e0c;   /* text.inverse dark */
+  /* Primary - Monochrome (inverted for dark mode) */
+  --primary: rgba(255, 255, 255, 0.95);
+  --primary-foreground: #0d0d0d;
 
   /* Secondary */
-  --secondary: #1a1a17;            /* bg.muted dark */
-  --secondary-foreground: #f8f6ef;
+  --secondary: rgba(255, 255, 255, 0.04);
+  --secondary-foreground: rgba(255, 255, 255, 0.95);
 
   /* Muted */
-  --muted: #1e1e1b;                /* bg.testimonial dark */
-  --muted-foreground: #a19b86;     /* text.secondary dark */
+  --muted: rgba(255, 255, 255, 0.04);
+  --muted-foreground: rgba(255, 255, 255, 0.6);
 
   /* Accent */
-  --accent: #6f7c5a;
-  --accent-foreground: #0e0e0c;
+  --accent: rgba(255, 255, 255, 0.04);
+  --accent-foreground: rgba(255, 255, 255, 0.95);
 
   /* Destructive */
-  --destructive: #c66a67;          /* Oatmeal state.danger dark */
+  --destructive: #ef4444;          /* OpenAI red dark */
 
-  /* Borders */
-  --border: #2a2a26;               /* border.subtle dark */
-  --input: #3b3b36;                /* border.strong dark */
-  --ring: #6f7c5a;
+  /* Borders - Opacity based */
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: rgba(255, 255, 255, 0.95);
 
-  /* Chart Colors */
-  --chart-1: #839167;
-  --chart-2: #6f7c5a;
-  --chart-3: #566240;
-  --chart-4: #4a5436;
-  --chart-5: #3d452c;
+  /* Chart Colors - Monochrome Scale (inverted) */
+  --chart-1: rgba(255, 255, 255, 0.2);
+  --chart-2: rgba(255, 255, 255, 0.35);
+  --chart-3: rgba(255, 255, 255, 0.5);
+  --chart-4: rgba(255, 255, 255, 0.7);
+  --chart-5: rgba(255, 255, 255, 0.85);
 
   /* ═══════════════════════════════════════════════════════
-     OATMEAL SHADOWS - DARK MODE
+     OPENAI SHADOWS - DARK MODE (ALL DISABLED)
      ═══════════════════════════════════════════════════════ */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.6);
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
 
   /* ═══════════════════════════════════════════════════════
      CANVAS CODE STAGE COLORS - DARK "Terminal Elegance"
@@ -241,8 +312,8 @@
   --canvas-toolbar-icon-hover: #f8f6ef;
   --canvas-gutter: #1f1f22;          /* Line number gutter */
   --canvas-gutter-text: #4a4a50;
-  --canvas-focus-bg: rgba(111, 124, 90, 0.12);
-  --canvas-focus-border: #6f7c5a;
+  --canvas-focus-bg: rgba(255, 255, 255, 0.08);
+  --canvas-focus-border: rgba(255, 255, 255, 0.95);
   --canvas-shadow: 0 4px 32px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2);
 
   /* ═══════════════════════════════════════════════════════
@@ -250,12 +321,12 @@
      ═══════════════════════════════════════════════════════ */
   --sidebar: #1a1a17;
   --sidebar-foreground: #f8f6ef;
-  --sidebar-primary: #6f7c5a;
+  --sidebar-primary: rgba(255, 255, 255, 0.95);
   --sidebar-primary-foreground: #0e0e0c;
   --sidebar-accent: #1e1e1b;
   --sidebar-accent-foreground: #f8f6ef;
   --sidebar-border: #2a2a26;
-  --sidebar-ring: #6f7c5a;
+  --sidebar-ring: rgba(255, 255, 255, 0.95);
 }
 
 @layer base {
@@ -268,6 +339,28 @@
     overscroll-behavior-y: none;
   }
 
+  /* Inline links - underline for accessibility (WCAG: links distinguishable by more than color)
+     Excludes navigation, buttons, and explicitly styled components */
+  a:not([class*="button"]):not([class*="nav"]):not([class*="link-"]):not([role="button"]):not([data-slot]) {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklch, currentColor 30%, transparent);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 200ms ease;
+  }
+
+  a:not([class*="button"]):not([class*="nav"]):not([class*="link-"]):not([role="button"]):not([data-slot]):hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Focus-visible for all interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
   /* Smooth transition defaults for interactive elements */
   button,
   a,
@@ -276,7 +369,7 @@
   input,
   select,
   textarea {
-    transition-property: color, background-color, border-color, opacity, box-shadow;
+    transition-property: color, background-color, border-color, opacity, box-shadow, text-decoration-color;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 200ms;
   }
@@ -446,6 +539,18 @@ body {
   color: var(--muted-foreground);
 }
 
+/* Meta - Compact auxiliary labels
+   Usage: Module numbers, TOC headers, very small UI chrome
+   Font: Sans 10px uppercase */
+.text-swiss-meta {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.625rem; /* 10px */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+}
+
 /* Section Heading - Large section titles
    Usage: "Features", "Testimonials", etc.
    Font: Instrument Serif at 48px */
@@ -468,67 +573,171 @@ samp,
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   OPENAI TYPOGRAPHY CLASSES
+   Sans-serif only, weights 400-600, tight line heights
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* DEPRECATED: Use weight-based heading hierarchy in prose instead.
+   Kept for legacy compatibility - prefer .prose h1-h4 for new content. */
+.text-display-lg {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+
+.text-display {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+
+.text-heading {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.26;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+
+.text-title {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--foreground);
+}
+
+.text-body {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--muted-foreground);
+}
+
+.text-nav {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.64;
+  color: var(--muted-foreground);
+}
+
+.text-meta {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
+.text-caption {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--oai-text-tertiary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    PROSE TYPOGRAPHY (Article Content)
    ═══════════════════════════════════════════════════════════════════ */
 
 .prose {
   --tw-prose-body: var(--muted-foreground);
   --tw-prose-headings: var(--foreground);
-  --tw-prose-links: var(--primary);
+  --tw-prose-links: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   font-size: 1.0625rem; /* 17px - slightly larger for comfort */
-  line-height: 1.7;
+  line-height: 1.65;
   color: var(--foreground);
 }
 
-/* Prose Headings - Instrument Serif */
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4 {
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 400; /* Instrument Serif only weight */
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+/* Prose Headings - Weight-based hierarchy at body size (17px)
+   All headings share the same font-size, differentiated by weight */
+.prose h1 {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.0625rem; /* 17px - same as body */
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  color: var(--foreground);
+  margin-top: 2.5em;
+  margin-bottom: 0.75em;
+}
+
+.prose h2 {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.0625rem; /* 17px - same as body */
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
   color: var(--foreground);
   margin-top: 2em;
   margin-bottom: 0.5em;
 }
 
-.prose h1 {
-  font-size: 2.5rem; /* 40px */
-}
-
-.prose h2 {
-  font-size: 2rem; /* 32px - at Instrument Serif threshold */
-}
-
 .prose h3 {
-  font-size: 1.5rem; /* 24px */
-  /* Note: Below 32px threshold, but keeping serif for consistency */
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.0625rem; /* 17px - same as body */
+  font-weight: 550; /* slightly lighter than h1/h2 */
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  color: var(--foreground);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
 }
 
 .prose h4 {
-  font-size: 1.25rem; /* 20px */
-  font-family: var(--font-sans), system-ui, sans-serif; /* Switch to Inter */
-  font-weight: 600;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.0625rem; /* 17px - same as body */
+  font-weight: 500;
   letter-spacing: 0;
+  line-height: 1.4;
+  color: color-mix(in oklch, var(--foreground) 80%, transparent);
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  scroll-margin-top: 6rem;
 }
 
 /* Prose Body Elements */
 .prose p {
   margin-bottom: 1.5em;
+  line-height: 1.65;
 }
 
 .prose a {
-  color: var(--primary);
+  color: var(--foreground);
   text-decoration: underline;
   text-underline-offset: 2px;
-  transition: color 200ms ease-out;
+  transition: color 200ms ease-out, text-decoration-color 200ms ease-out;
 }
 
 .prose a:hover {
-  color: var(--accent);
+  color: var(--foreground);
+  text-decoration-color: var(--foreground);
+}
+
+.prose a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Prose Lists */
@@ -546,7 +755,7 @@ samp,
 .prose blockquote {
   font-style: italic;
   font-size: 1.25rem;
-  border-left: 3px solid var(--primary);
+  border-left: 3px solid var(--foreground);
   padding-left: 1.5em;
   margin: 2em 0;
   color: var(--muted-foreground);
@@ -556,20 +765,31 @@ samp,
 .prose code {
   font-family: var(--font-mono), monospace;
   font-size: 0.875em;
-  background-color: var(--muted);
+  background-color: rgba(0, 0, 0, 0.04);
   padding: 0.125em 0.375em;
-  border-radius: var(--radius-xs);
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark .prose code {
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.06);
 }
 
 .prose pre {
   font-family: var(--font-mono), monospace;
   font-size: 0.875rem;
-  line-height: 1.7;
-  background: var(--muted);
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  padding: 1.25rem 1.5rem;
+  line-height: 1.65;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 1rem 0;
   overflow-x: auto;
+}
+
+.dark .prose pre {
+  background: transparent;
+  border: none;
 }
 
 .prose img {
@@ -623,7 +843,7 @@ article [role="tab"] {
   border: none;
   border-bottom: 2px solid transparent;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
   white-space: nowrap;
 }
 
@@ -631,6 +851,13 @@ article [role="tab"] {
 article [role="tab"]:hover {
   color: var(--foreground);
   background: var(--secondary);
+  border-radius: 0.25rem;
+}
+
+.prose [role="tab"]:focus-visible,
+article [role="tab"]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
   border-radius: 0.25rem;
 }
 
@@ -671,74 +898,89 @@ article [role="tabpanel"][hidden] {
 /* Code block container styling */
 [data-rehype-pretty-code-figure] {
   margin: 1.5rem 0;
+  position: relative;
 }
 
 [data-rehype-pretty-code-figure] pre {
-  background: var(--muted) !important;
-  border: 1px solid var(--border);
-  border-radius: 0.5rem;
-  padding: 1.25rem 1.5rem;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 1rem 0;
   overflow-x: auto;
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.875rem;
   line-height: 1.7;
 }
 
+[data-rehype-pretty-code-figure] pre code {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+[data-rehype-pretty-code-figure] pre code span {
+  background: transparent !important;
+}
+
+[data-rehype-pretty-code-figure] [data-line] {
+  background: transparent !important;
+}
+
 /* Code title/filename */
 [data-rehype-pretty-code-title] {
-  background: var(--secondary);
-  border: 1px solid var(--border);
-  border-bottom: none;
-  border-radius: 0.5rem 0.5rem 0 0;
-  padding: 0.5rem 1rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--muted-foreground);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0 0 0.5rem 0;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--foreground);
+  opacity: 0.4;
   font-family: var(--font-mono), ui-monospace, monospace;
 }
 
 [data-rehype-pretty-code-title] + pre {
-  border-radius: 0 0 0.5rem 0.5rem;
+  border-radius: 0;
   margin-top: 0;
 }
 
 /* Copy button */
 [data-rehype-pretty-code-figure] button[aria-label="Copy"] {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  padding: 0.5rem;
-  background: var(--secondary);
-  border: 1px solid var(--border);
+  top: 0.5rem;
+  right: 0;
+  padding: 0.375rem;
+  background: transparent;
+  border: none;
   border-radius: 0.25rem;
-  color: var(--muted-foreground);
+  color: var(--foreground);
+  opacity: 0.3;
   cursor: pointer;
-  opacity: 0;
   transition: opacity 0.15s ease;
 }
 
 [data-rehype-pretty-code-figure]:hover button[aria-label="Copy"] {
-  opacity: 1;
+  opacity: 0.5;
 }
 
 [data-rehype-pretty-code-figure] button[aria-label="Copy"]:hover {
-  background: var(--accent);
-  color: var(--foreground);
+  background: transparent;
+  opacity: 1;
 }
 
-/* Line highlighting */
+/* Line highlighting - minimal */
 [data-highlighted-line] {
-  background: var(--accent);
-  margin: 0 -1.5rem;
-  padding: 0 1.5rem;
-  border-left: 3px solid var(--foreground);
+  background: transparent !important;
 }
 
-/* Word highlighting */
+/* Word highlighting - subtle */
 [data-highlighted-chars] {
-  background: var(--accent);
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
+  background: transparent;
+  text-decoration: underline;
+  text-decoration-color: var(--foreground);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
 }
 
 /* Line numbers */
@@ -760,19 +1002,27 @@ article [role="tabpanel"][hidden] {
 
 /* Shiki syntax highlighting token colors */
 .shiki,
-.shiki span {
+.shiki span,
+.shiki code {
   color: var(--shiki-light);
+  background: transparent !important;
   background-color: transparent !important;
 }
 
 .dark .shiki,
-.dark .shiki span {
+.dark .shiki span,
+.dark .shiki code {
   color: var(--shiki-dark);
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* Vitesse-inspired syntax colors for dark theme */
-.dark [data-rehype-pretty-code-figure] pre {
+.dark [data-rehype-pretty-code-figure] pre,
+.dark [data-rehype-pretty-code-figure] pre code,
+.dark [data-rehype-pretty-code-figure] pre span {
   --shiki-color-text: #dbd7ca;
+  background: transparent !important;
 }
 
 /* Light/dark theme handled via CSS variables automatically */
@@ -909,26 +1159,18 @@ article [role="tabpanel"][hidden] {
   padding-right: 1rem;
 }
 
-/* Stage column background - Oatmeal warm cream */
+/* Stage column background - uses CSS variables */
 .scrolly-stage-bg {
-  background-color: #f1eee5; /* Oatmeal bg.muted */
+  background-color: var(--muted); /* OpenAI bg.subtle */
 }
 
-.dark .scrolly-stage-bg {
-  background-color: #1a1a17; /* Oatmeal bg.muted dark */
-}
-
-/* Code area background - warm neutral that works with both themes */
+/* Code area background - uses CSS variables for theme consistency */
 .scrolly-stage-code {
-  background: oklch(0.97 0.005 90); /* Very light warm cream */
+  background: var(--muted); /* Same as parent for seamless look */
   border-radius: 0.5rem;
   margin: 0.5rem;
   /* Instant theme switch - no background transition */
   transition: none;
-}
-
-.dark .scrolly-stage-code {
-  background: oklch(0.18 0.01 90); /* Very dark warm gray */
 }
 
 /* Base Magic Move container styling - override Shiki backgrounds */
@@ -974,10 +1216,10 @@ article [role="tabpanel"][hidden] {
   min-width: 2rem;
 }
 
-/* Olive green focus line highlighting - OKLCH for consistency */
+/* Monochrome focus line highlighting */
 .scrolly-stage-code .scrolly-focus-line {
-  background: oklch(0.55 0.05 120 / 0.12);
-  border-left: 2px solid oklch(0.55 0.05 120);
+  background: rgba(0, 0, 0, 0.06);
+  border-left: 2px solid var(--foreground);
   margin-left: -1rem;
   padding-left: calc(1rem - 2px);
   margin-right: -1rem;
@@ -986,8 +1228,8 @@ article [role="tabpanel"][hidden] {
 }
 
 .dark .scrolly-stage-code .scrolly-focus-line {
-  background: oklch(0.55 0.04 120 / 0.15);
-  border-left-color: oklch(0.58 0.04 120);
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--foreground);
 }
 
 /* Dim non-focused lines */
@@ -1071,71 +1313,115 @@ article [role="tabpanel"][hidden] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1rem;
-  height: 44px;
+  gap: 12px;
+  padding: 0 12px;
+  height: 40px;
   background: var(--canvas-header-bg);
   border-bottom: 1px solid var(--canvas-border-subtle);
 }
 
-/* File badge styling - removed, see consolidated definition below */
-
-/* File tabs for multi-file mode */
-.canvas-code-stage-tabs {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 4px;
-  border-radius: 8px;
-  background: var(--canvas-border-subtle);
+/* Left side container - allows tabs to scroll without pushing toolbar */
+.canvas-code-stage-header > div:first-child {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
+/* ==========================================
+   NAKED TEXT TABS - Gradient Hover Design
+   ========================================== */
+
+/* Tab container - horizontal scroll for overflow */
+.canvas-code-stage-tabs {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  background: transparent;
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.canvas-code-stage-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tab button - minimal text with underline indicator */
 .canvas-code-stage-tab {
-  padding: 6px 12px;
+  position: relative;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
   font-family: "Berkeley Mono", "JetBrains Mono", var(--font-mono), ui-monospace, monospace;
-  font-size: 0.75rem;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.01em;
-  color: var(--canvas-toolbar-icon);
-  border-radius: 6px;
-  transition: color 150ms ease, background 150ms ease;
+  color: var(--muted-foreground);
   cursor: pointer;
-  /* Keep filename in natural case */
+  transition: color 150ms ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .canvas-code-stage-tab:hover {
-  color: var(--canvas-toolbar-icon-hover);
-  background: var(--canvas-bg);
+  color: var(--foreground);
 }
 
 .canvas-code-stage-tab[data-active="true"] {
   color: var(--foreground);
-  background: transparent;
 }
 
-/* Sliding underline indicator for tabs */
-.canvas-code-stage-tab-underline {
+/* Unavailable tabs - files not in current step */
+.canvas-code-stage-tab[data-available="false"] {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Focus visible for accessibility */
+.canvas-code-stage-tab:focus-visible {
+  outline: 1px solid oklch(var(--primary) / 0.5);
+  outline-offset: 2px;
+}
+
+.canvas-code-stage-tab[data-available="false"]:focus-visible {
+  outline: none;
+}
+
+/* Sliding underline indicator (rendered via Motion) */
+.canvas-code-stage-underline {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: var(--canvas-focus-border);
+  height: 1.5px;
+  background: var(--foreground);
   border-radius: 1px;
 }
 
-/* Step indicator badge - refined Terminal Elegance */
+@media (prefers-reduced-motion: reduce) {
+  .canvas-code-stage-tab {
+    transition: none;
+  }
+}
+
+/* Step indicator badge - minimal text only */
 .canvas-code-stage-step-badge {
   display: flex;
   align-items: center;
-  gap: 3px;
-  padding: 5px 10px;
-  border-radius: 6px;
-  background: var(--canvas-border-subtle);
+  gap: 2px;
+  padding: 0 8px 0 0;
   font-family: "Berkeley Mono", "JetBrains Mono", var(--font-mono), ui-monospace, monospace;
-  font-size: 0.6875rem;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+  color: var(--muted-foreground);
+  border-right: 1px solid var(--canvas-border-subtle);
+  margin-right: 4px;
 }
 
 .canvas-code-stage-step-num {
@@ -1185,27 +1471,30 @@ article [role="tabpanel"][hidden] {
   }
 }
 
-/* Toolbar buttons group */
+/* Toolbar buttons group - never shrink */
 .canvas-code-stage-toolbar {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
+  flex-shrink: 0;
 }
 
 .canvas-code-stage-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
   color: var(--canvas-toolbar-icon);
-  transition: all 150ms ease;
+  background: transparent;
+  border: none;
+  transition: color 150ms ease, background 150ms ease;
   cursor: pointer;
 }
 
 .canvas-code-stage-btn:hover {
-  color: var(--canvas-toolbar-icon-hover);
+  color: var(--foreground);
   background: var(--canvas-border-subtle);
 }
 
@@ -1247,21 +1536,15 @@ article [role="tabpanel"][hidden] {
   line-height: 1.625rem;
 }
 
-/* Focus line highlighting - elegant olive accent */
+/* Focus line highlighting - minimal, no left border */
 .canvas-code-stage.has-focus .shiki-magic-move-line {
   opacity: 0.35;
-  transition: opacity 280ms ease, background-color 280ms ease;
+  transition: opacity 280ms ease;
 }
 
 .canvas-code-stage.has-focus .shiki-magic-move-line[data-focus="true"],
 .canvas-code-stage-focused-line {
   opacity: 1 !important;
-  background: var(--canvas-focus-bg);
-  margin-left: -1.5rem;
-  margin-right: -1.5rem;
-  padding-left: calc(1.5rem - 3px);
-  padding-right: 1.5rem;
-  border-left: 3px solid var(--canvas-focus-border);
 }
 
 /* Code typography - refined mono stack */
@@ -1330,12 +1613,19 @@ article [role="tabpanel"][hidden] {
 }
 
 /* ============================================================================
-   Canvas Step Opacity - Active step highlighting
+   Canvas Step Visual Enhancement - Minimal Arrow Indicator
+   Clean left-side arrow that springs into place on active step
    ============================================================================ */
 
-/* Base step styling - always has smooth transition */
+/* Base step styling - fast transitions for snappy feel */
 .canvas-step {
-  transition: opacity 280ms ease-out;
+  position: relative;
+  font-weight: 400;
+  transition:
+    opacity 120ms ease-out,
+    font-weight 120ms ease-out;
+  /* Space for arrow indicator on left */
+  padding-left: 1.25rem;
 }
 
 /* When canvas is active, dim inactive steps */
@@ -1343,14 +1633,15 @@ article [role="tabpanel"][hidden] {
   opacity: 0.45;
 }
 
-/* Active step stays fully visible */
+/* Active step - full opacity + weight shift */
 [data-canvas-layout][data-active="true"] .canvas-step[data-canvas-step-active="true"] {
   opacity: 1;
+  font-weight: 450;
 }
 
 /* Hover reveals dimmed steps slightly */
 [data-canvas-layout][data-active="true"] .canvas-step:hover {
-  opacity: 0.75;
+  opacity: 0.7;
 }
 
 /* Active step hover stays at full opacity */
@@ -1358,7 +1649,7 @@ article [role="tabpanel"][hidden] {
   opacity: 1;
 }
 
-/* Reduced motion - instant opacity changes */
+/* Reduced motion - instant transitions */
 @media (prefers-reduced-motion: reduce) {
   .canvas-step {
     transition: none;
@@ -1397,17 +1688,17 @@ article [role="tabpanel"][hidden] {
 
 /* Focus line highlighting for code-content */
 .code-content .line[data-focus="true"] {
-  background: oklch(0.95 0.15 125 / 20%);
+  background: rgba(0, 0, 0, 0.06);
   margin-left: -1.25rem;
   margin-right: -1.25rem;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
-  border-left: 2px solid oklch(0.65 0.2 125);
+  border-left: 2px solid var(--foreground);
 }
 
 .dark .code-content .line[data-focus="true"] {
-  background: oklch(0.3 0.1 125 / 25%);
-  border-left-color: oklch(0.75 0.2 125);
+  background: rgba(255, 255, 255, 0.08);
+  border-left-color: var(--foreground);
 }
 
 /* =============================================
@@ -1424,84 +1715,60 @@ article [role="tabpanel"][hidden] {
 }
 
 /* =============================================
-   V2 Preview Callout - Labs Terminal Aesthetic
-   Uses Oatmeal Design System olive accent (hue 125)
+   V2 Preview Callout - Construction Marker Design
+   Swiss technical aesthetic with corner marker
    ============================================= */
 
 .v2-preview-callout {
-  /* Container with left accent bar positioning */
   position: relative;
-  padding-left: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: 2px;
+  padding: 20px 24px;
+  background: transparent;
+  margin: 2.5rem 0;
 
-  /* Accent color - olive green from Oatmeal palette */
-  --v2-accent: oklch(0.48 0.08 125);        /* #566240 equivalent */
-  --v2-accent-light: oklch(0.58 0.10 125);  /* Lighter for glow */
-  --v2-accent-glow: oklch(0.55 0.12 125 / 25%);
+  /* Accent color - monochrome */
+  --v2-accent: var(--foreground);
+  --v2-accent-light: var(--muted-foreground);
 }
 
-/* Left accent bar with subtle glow effect */
-.v2-preview-accent {
+/* Corner marker - top-left L-shape */
+.v2-preview-corner {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--v2-accent);
-  border-radius: 3px;
-  box-shadow:
-    0 0 8px var(--v2-accent-glow),
-    0 0 16px var(--v2-accent-glow);
+  top: -1px;
+  left: -1px;
+  width: 12px;
+  height: 12px;
+  border-left: 2px solid var(--v2-accent);
+  border-top: 2px solid var(--v2-accent);
 }
 
-/* Card container - warm cream from Oatmeal */
-.v2-preview-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.25rem 1.5rem;
-  box-shadow: var(--shadow-sm);
+/* Header with inline badge */
+.v2-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
-/* Badge with pulsing dot */
+/* Inline badge - no animation */
 .v2-preview-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 3px 10px 3px 8px;
-  background: var(--v2-accent);
-  border-radius: 4px;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: white;
-}
-
-/* Pulsing dot indicator */
-.v2-preview-dot {
-  width: 6px;
-  height: 6px;
-  background: white;
-  border-radius: 50%;
-  animation: v2-pulse 2s ease-in-out infinite;
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
-}
-
-@keyframes v2-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.85); }
-}
-
-/* Version tag */
-.v2-preview-version {
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 2px;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 10px;
   font-weight: 500;
-  color: var(--muted-foreground);
-  padding: 2px 6px;
-  background: var(--muted);
-  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--v2-accent);
+}
+
+.dark .v2-preview-badge {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Title */
@@ -1512,12 +1779,6 @@ article [role="tabpanel"][hidden] {
   line-height: 1.3;
   color: var(--foreground);
   margin: 0;
-}
-
-/* Labs icon */
-.v2-preview-icon {
-  color: var(--v2-accent-light);
-  opacity: 0.7;
 }
 
 /* Body content */
@@ -1537,9 +1798,9 @@ article [role="tabpanel"][hidden] {
 
 /* Code blocks inside V2 callout */
 .v2-preview-callout pre {
-  background: oklch(0.14 0.02 125) !important;
-  border: 1px solid oklch(0.25 0.03 125) !important;
-  border-radius: 6px !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 4px !important;
   margin: 1rem 0 !important;
 }
 
@@ -1552,26 +1813,220 @@ article [role="tabpanel"][hidden] {
    ============================================= */
 
 .dark .v2-preview-callout {
-  --v2-accent: oklch(0.58 0.10 125);        /* Lighter in dark mode */
-  --v2-accent-light: oklch(0.65 0.12 125);
-  --v2-accent-glow: oklch(0.60 0.12 125 / 20%);
-}
-
-.dark .v2-preview-card {
-  box-shadow:
-    0 1px 3px oklch(0 0 0 / 15%),
-    0 4px 12px oklch(0 0 0 / 10%);
+  --v2-accent: var(--foreground);
+  --v2-accent-light: var(--muted-foreground);
 }
 
 .dark .v2-preview-callout pre {
-  background: oklch(0.12 0.015 125) !important;
-  border-color: oklch(0.22 0.02 125) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Reduced motion */
+/* =============================================
+   Scrollbar Utilities - TOC and compact lists
+   ============================================= */
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.5 0 0 / 30%) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: oklch(0.5 0 0 / 30%);
+  border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.5 0 0 / 50%);
+}
+
+.dark .scrollbar-thin {
+  scrollbar-color: oklch(0.6 0 0 / 25%) transparent;
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: oklch(0.6 0 0 / 25%);
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.6 0 0 / 40%);
+}
+
+/* =============================================
+   GRADIENT HOVER SYSTEM
+   Minimalistic hover effect: transparent → subtle color
+   ============================================= */
+
+/* Base gradient hover utility */
+.hover-gradient {
+  position: relative;
+  isolation: isolate;
+}
+
+.hover-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 250ms ease-out;
+  pointer-events: none;
+  z-index: -1;
+
+  /* Light mode: monochrome sweep */
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+}
+
+.hover-gradient:hover::before {
+  opacity: 1;
+}
+
+/* Dark mode: monochrome sweep */
+.dark .hover-gradient::before {
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+}
+
+/* Card variant - larger elements like blog posts */
+.hover-gradient-card {
+  position: relative;
+  isolation: isolate;
+  /* Remove default border for gradient divider */
+  border-bottom: none !important;
+}
+
+/* Gradient divider - fades from edges to center */
+.hover-gradient-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--border) 30%,
+    var(--border) 70%,
+    transparent 100%
+  );
+}
+
+.hover-gradient-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 280ms ease-out;
+  pointer-events: none;
+  z-index: -1;
+
+  /* Light mode: monochrome gradient */
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0) 10%,
+    rgba(0, 0, 0, 0.03) 40%,
+    rgba(0, 0, 0, 0.05) 70%,
+    rgba(0, 0, 0, 0.07) 100%
+  );
+}
+
+.hover-gradient-card:hover::before {
+  opacity: 1;
+}
+
+/* Dark mode: monochrome charcoal gradient */
+.dark .hover-gradient-card::before {
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0.03) 40%,
+    rgba(255, 255, 255, 0.05) 70%,
+    rgba(255, 255, 255, 0.07) 100%
+  );
+}
+
+/* Nav link variant - smaller touch targets */
+.hover-gradient-nav {
+  position: relative;
+  isolation: isolate;
+}
+
+.hover-gradient-nav::before {
+  content: "";
+  position: absolute;
+  inset: -4px -8px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+  pointer-events: none;
+  z-index: -1;
+
+  /* Light mode: monochrome highlight */
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+}
+
+.hover-gradient-nav:hover::before {
+  opacity: 1;
+}
+
+.dark .hover-gradient-nav::before {
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+}
+
+/* Reduce motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .v2-preview-dot {
-    animation: none;
+  .hover-gradient::before,
+  .hover-gradient-card::before,
+  .hover-gradient-nav::before {
+    transition: none;
   }
 }
 
+/* =============================================
+   Simple opacity hover utility
+   ============================================= */
+
+.hover-surface {
+  transition: background-color 150ms ease;
+}
+
+.hover-surface:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dark .hover-surface:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-surface {
+    transition: none;
+  }
+}

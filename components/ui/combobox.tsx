@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import { Combobox as ComboboxPrimitive } from "@base-ui/react"
-
-import { cn } from "@/lib/utils"
+import { ArrowDown01Icon, Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
 import { Button } from "@/components/ui/button"
 import {
   InputGroup,
@@ -11,12 +11,13 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowDown01Icon, Cancel01Icon, Tick02Icon } from "@hugeicons/core-free-icons"
+import { cn } from "@/lib/utils"
 
 const Combobox = ComboboxPrimitive.Root
 
-function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
+function ComboboxValue({
+  ...props
+}: ComboboxPrimitive.Value.Props): JSX.Element {
   return <ComboboxPrimitive.Value data-slot="combobox-value" {...props} />
 }
 
@@ -24,7 +25,7 @@ function ComboboxTrigger({
   className,
   children,
   ...props
-}: ComboboxPrimitive.Trigger.Props) {
+}: ComboboxPrimitive.Trigger.Props): JSX.Element {
   return (
     <ComboboxPrimitive.Trigger
       data-slot="combobox-trigger"
@@ -37,15 +38,18 @@ function ComboboxTrigger({
   )
 }
 
-function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
+function ComboboxClear({
+  className,
+  ...props
+}: ComboboxPrimitive.Clear.Props): JSX.Element {
   return (
     <ComboboxPrimitive.Clear
       data-slot="combobox-clear"
-      render={<InputGroupButton variant="ghost" size="icon-xs" />}
+      render={<InputGroupButton variant="ghost" size="icon-xs" aria-label="Clear selection" />}
       className={cn(className)}
       {...props}
     >
-      <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="pointer-events-none" />
+      <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="pointer-events-none" aria-hidden="true" />
     </ComboboxPrimitive.Clear>
   )
 }
@@ -60,7 +64,7 @@ function ComboboxInput({
 }: ComboboxPrimitive.Input.Props & {
   showTrigger?: boolean
   showClear?: boolean
-}) {
+}): JSX.Element {
   return (
     <InputGroup className={cn("w-auto", className)}>
       <ComboboxPrimitive.Input
@@ -99,7 +103,7 @@ function ComboboxContent({
   Pick<
     ComboboxPrimitive.Positioner.Props,
     "side" | "align" | "sideOffset" | "alignOffset" | "anchor"
-  >) {
+  >): JSX.Element {
   return (
     <ComboboxPrimitive.Portal>
       <ComboboxPrimitive.Positioner
@@ -121,7 +125,10 @@ function ComboboxContent({
   )
 }
 
-function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
+function ComboboxList({
+  className,
+  ...props
+}: ComboboxPrimitive.List.Props): JSX.Element {
   return (
     <ComboboxPrimitive.List
       data-slot="combobox-list"
@@ -138,7 +145,7 @@ function ComboboxItem({
   className,
   children,
   ...props
-}: ComboboxPrimitive.Item.Props) {
+}: ComboboxPrimitive.Item.Props): JSX.Element {
   return (
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
@@ -158,7 +165,10 @@ function ComboboxItem({
   )
 }
 
-function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
+function ComboboxGroup({
+  className,
+  ...props
+}: ComboboxPrimitive.Group.Props): JSX.Element {
   return (
     <ComboboxPrimitive.Group
       data-slot="combobox-group"
@@ -171,7 +181,7 @@ function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
 function ComboboxLabel({
   className,
   ...props
-}: ComboboxPrimitive.GroupLabel.Props) {
+}: ComboboxPrimitive.GroupLabel.Props): JSX.Element {
   return (
     <ComboboxPrimitive.GroupLabel
       data-slot="combobox-label"
@@ -181,13 +191,18 @@ function ComboboxLabel({
   )
 }
 
-function ComboboxCollection({ ...props }: ComboboxPrimitive.Collection.Props) {
+function ComboboxCollection({
+  ...props
+}: ComboboxPrimitive.Collection.Props): JSX.Element {
   return (
     <ComboboxPrimitive.Collection data-slot="combobox-collection" {...props} />
   )
 }
 
-function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
+function ComboboxEmpty({
+  className,
+  ...props
+}: ComboboxPrimitive.Empty.Props): JSX.Element {
   return (
     <ComboboxPrimitive.Empty
       data-slot="combobox-empty"
@@ -200,7 +215,7 @@ function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
 function ComboboxSeparator({
   className,
   ...props
-}: ComboboxPrimitive.Separator.Props) {
+}: ComboboxPrimitive.Separator.Props): JSX.Element {
   return (
     <ComboboxPrimitive.Separator
       data-slot="combobox-separator"
@@ -214,7 +229,7 @@ function ComboboxChips({
   className,
   ...props
 }: React.ComponentPropsWithRef<typeof ComboboxPrimitive.Chips> &
-  ComboboxPrimitive.Chips.Props) {
+  ComboboxPrimitive.Chips.Props): JSX.Element {
   return (
     <ComboboxPrimitive.Chips
       data-slot="combobox-chips"
@@ -231,7 +246,7 @@ function ComboboxChip({
   ...props
 }: ComboboxPrimitive.Chip.Props & {
   showRemove?: boolean
-}) {
+}): JSX.Element {
   return (
     <ComboboxPrimitive.Chip
       data-slot="combobox-chip"
@@ -244,11 +259,11 @@ function ComboboxChip({
       {children}
       {showRemove && (
         <ComboboxPrimitive.ChipRemove
-          render={<Button variant="ghost" size="icon-xs" />}
+          render={<Button variant="ghost" size="icon-xs" aria-label="Remove" />}
           className="-ml-1 opacity-50 hover:opacity-100"
           data-slot="combobox-chip-remove"
         >
-          <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="pointer-events-none" />
+          <HugeiconsIcon icon={Cancel01Icon} strokeWidth={2} className="pointer-events-none" aria-hidden="true" />
         </ComboboxPrimitive.ChipRemove>
       )}
     </ComboboxPrimitive.Chip>
@@ -258,7 +273,7 @@ function ComboboxChip({
 function ComboboxChipsInput({
   className,
   ...props
-}: ComboboxPrimitive.Input.Props) {
+}: ComboboxPrimitive.Input.Props): JSX.Element {
   return (
     <ComboboxPrimitive.Input
       data-slot="combobox-chip-input"
@@ -271,7 +286,7 @@ function ComboboxChipsInput({
   )
 }
 
-function useComboboxAnchor() {
+function useComboboxAnchor(): React.RefObject<HTMLDivElement | null> {
   return React.useRef<HTMLDivElement | null>(null)
 }
 
