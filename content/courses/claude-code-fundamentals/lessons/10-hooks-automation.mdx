@@ -1,0 +1,268 @@
+---
+title: Hooks & Automation
+description: Automate workflows with event-driven hooks that respond to Claude Code actions.
+duration: 30m
+module: Power Features
+order: 10
+---
+
+## What Are Hooks?
+
+Hooks are scripts that run automatically in response to Claude Code events. They enable:
+
+- **Validation** - Check changes before they happen
+- **Automation** - Run commands after tool calls
+- **Logging** - Track what Claude does
+- **Integration** - Connect to external systems
+
+Think of hooks as event listeners for Claude Code actions.
+
+## Hook Events
+
+Claude Code supports several hook events:
+
+| Event | When It Fires |
+|-------|---------------|
+| `PreToolUse` | Before a tool runs |
+| `PostToolUse` | After a tool completes |
+| `UserPromptSubmit` | Before processing your prompt |
+| `PreCompact` | Before context compaction |
+| `SessionStart` | When session begins/resumes |
+| `Stop` | When Claude finishes responding |
+
+## Configuring Hooks
+
+Add hooks in `.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": ["Write", "Edit"],
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/lint-on-write.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Example: Auto-Lint on Write
+
+Run ESLint whenever Claude creates or edits a file:
+
+`.claude/hooks/lint-on-write.sh`:
+```bash
+#!/bin/bash
+set -e
+
+# Read the hook input
+input=$(cat)
+file_path=$(echo "$input" | jq -r '.tool_input.file_path // .tool_input.filePath')
+
+# Only lint TypeScript/JavaScript files
+if [[ "$file_path" == *.ts || "$file_path" == *.tsx || "$file_path" == *.js ]]; then
+  npx eslint --fix "$file_path" 2>/dev/null || true
+fi
+
+# Return success
+echo '{"result": "continue"}'
+```
+
+## Example: Block Dangerous Commands
+
+Prevent certain bash commands:
+
+`.claude/hooks/block-dangerous.sh`:
+```bash
+#!/bin/bash
+input=$(cat)
+command=$(echo "$input" | jq -r '.tool_input.command')
+
+# Block dangerous commands
+if [[ "$command" == *"rm -rf"* ]] || [[ "$command" == *"--force"* ]]; then
+  echo '{"result": "block", "message": "Blocked dangerous command: '"$command"'"}'
+  exit 0
+fi
+
+echo '{"result": "continue"}'
+```
+
+Register in settings:
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": ["Bash"],
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/block-dangerous.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Hook Input/Output
+
+### Input Format
+
+Hooks receive JSON via stdin:
+
+```json
+{
+  "type": "PostToolUse",
+  "tool_name": "Write",
+  "tool_input": {
+    "file_path": "src/components/Button.tsx",
+    "content": "..."
+  },
+  "tool_result": {
+    "success": true
+  }
+}
+```
+
+### Output Format
+
+Hooks return JSON to stdout:
+
+```json
+{
+  "result": "continue",
+  "message": "Optional message to display"
+}
+```
+
+Or to block:
+```json
+{
+  "result": "block",
+  "message": "Reason for blocking"
+}
+```
+
+## TypeScript Hooks
+
+For complex logic, use TypeScript with npx tsx:
+
+`.claude/hooks/validate-writes.ts`:
+```typescript
+import { readFileSync } from 'fs';
+
+interface HookInput {
+  type: string;
+  tool_name: string;
+  tool_input: {
+    file_path?: string;
+    content?: string;
+  };
+}
+
+async function main() {
+  const input: HookInput = JSON.parse(
+    readFileSync('/dev/stdin', 'utf-8')
+  );
+
+  const filePath = input.tool_input.file_path;
+
+  // Don't allow writes to sensitive directories
+  if (filePath?.includes('/config/') || filePath?.includes('/.env')) {
+    console.log(JSON.stringify({
+      result: 'block',
+      message: 'Cannot write to sensitive paths'
+    }));
+    return;
+  }
+
+  console.log(JSON.stringify({ result: 'continue' }));
+}
+
+main();
+```
+
+Wrapper script:
+```bash
+#!/bin/bash
+cd "$CLAUDE_PROJECT_DIR/.claude/hooks"
+cat | npx tsx validate-writes.ts
+```
+
+## SessionStart Hook
+
+Run setup when sessions begin:
+
+`.claude/hooks/session-start.sh`:
+```bash
+#!/bin/bash
+input=$(cat)
+session_type=$(echo "$input" | jq -r '.type')
+
+# Log session starts
+echo "[$(date)] Session $session_type started" >> .claude/logs/sessions.log
+
+# Load any project-specific context
+echo '{"result": "continue", "message": "Session initialized"}'
+```
+
+## Advanced: Continuous Learning Hook
+
+Index learnings after each session:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/index-learnings.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+The hook can extract patterns from the session and store them for future reference.
+
+## Hook Best Practices
+
+### Keep Hooks Fast
+Hooks run synchronously. Slow hooks slow down Claude Code.
+
+### Handle Errors Gracefully
+Always return valid JSON. Errors should continue, not crash.
+
+### Log for Debugging
+Write logs to `.claude/logs/` for troubleshooting.
+
+### Version Control Hooks
+Store hooks in `.claude/hooks/` and commit them.
+
+## Practice Exercise
+
+1. Create `.claude/hooks/` directory
+2. Write a simple PostToolUse hook that logs file writes
+3. Register it in `.claude/settings.json`
+4. Ask Claude to create a file
+5. Check your log
+
+## Key Takeaways
+
+- Hooks respond to Claude Code events
+- PreToolUse can block actions
+- PostToolUse runs after completion
+- Return JSON with result and optional message
+- Keep hooks fast and error-tolerant

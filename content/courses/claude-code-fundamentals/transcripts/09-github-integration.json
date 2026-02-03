@@ -1,0 +1,825 @@
+{
+  "videoId": "7pKN_pjPW04",
+  "title": "Claude Code with GitHub",
+  "duration": "5:47",
+  "module": "Integration & Best Practices",
+  "extractedAt": "2026-01-23T04:12:44.901Z",
+  "segments": [
+    {
+      "text": "All right then gang. So I want to move",
+      "offset": 1.76,
+      "duration": 3.68
+    },
+    {
+      "text": "away from prompting context commands and",
+      "offset": 3.28,
+      "duration": 3.92
+    },
+    {
+      "text": "sub aents now and move on to another",
+      "offset": 5.44,
+      "duration": 4.239
+    },
+    {
+      "text": "nice feature in Claude Code which is the",
+      "offset": 7.2,
+      "duration": 4.72
+    },
+    {
+      "text": "Claude Code GitHub app. And this is",
+      "offset": 9.679,
+      "duration": 4.08
+    },
+    {
+      "text": "something we can set up easily from",
+      "offset": 11.92,
+      "duration": 3.839
+    },
+    {
+      "text": "within the Claude Code chat session. And",
+      "offset": 13.759,
+      "duration": 3.121
+    },
+    {
+      "text": "I&amp;#39;m going to show you how to do that in",
+      "offset": 15.759,
+      "duration": 3.121
+    },
+    {
+      "text": "a moment. But basically when we install",
+      "offset": 16.88,
+      "duration": 4.239
+    },
+    {
+      "text": "it, it creates two GitHub actions for us",
+      "offset": 18.88,
+      "duration": 3.76
+    },
+    {
+      "text": "automatically which are both really",
+      "offset": 21.119,
+      "duration": 3.681
+    },
+    {
+      "text": "useful. The first one is that it can",
+      "offset": 22.64,
+      "duration": 4.399
+    },
+    {
+      "text": "autoreview pull requests and provide",
+      "offset": 24.8,
+      "duration": 4.479
+    },
+    {
+      "text": "feedback on those pull requests. The",
+      "offset": 27.039,
+      "duration": 3.921
+    },
+    {
+      "text": "second one allows Claude code to",
+      "offset": 29.279,
+      "duration": 4.001
+    },
+    {
+      "text": "automatically work on issues on a new",
+      "offset": 30.96,
+      "duration": 3.92
+    },
+    {
+      "text": "feature branch when you mention at",
+      "offset": 33.28,
+      "duration": 4.48
+    },
+    {
+      "text": "Claude inside it. Now before I show you",
+      "offset": 34.88,
+      "duration": 4.64
+    },
+    {
+      "text": "how to set up this feature, I will say",
+      "offset": 37.76,
+      "duration": 3.68
+    },
+    {
+      "text": "that you need to have the GitHub CLI",
+      "offset": 39.52,
+      "duration": 3.76
+    },
+    {
+      "text": "already installed on your computer,",
+      "offset": 41.44,
+      "duration": 3.52
+    },
+    {
+      "text": "which you can do by following these",
+      "offset": 43.28,
+      "duration": 3.759
+    },
+    {
+      "text": "installation instructions. So I&amp;#39;m going",
+      "offset": 44.96,
+      "duration": 4.079
+    },
+    {
+      "text": "to leave a link to this repo down below",
+      "offset": 47.039,
+      "duration": 4.561
+    },
+    {
+      "text": "the video, but essentially you can just",
+      "offset": 49.039,
+      "duration": 4.16
+    },
+    {
+      "text": "install it via something like Homebrew",
+      "offset": 51.6,
+      "duration": 4.08
+    },
+    {
+      "text": "on a Mac or Winger on Windows. It&amp;#39;s all",
+      "offset": 53.199,
+      "duration": 4.321
+    },
+    {
+      "text": "really simple to do and it outlines the",
+      "offset": 55.68,
+      "duration": 4.64
+    },
+    {
+      "text": "steps in this readme file. Once you&amp;#39;ve",
+      "offset": 57.52,
+      "duration": 4.64
+    },
+    {
+      "text": "installed the GitHub CLI, you&amp;#39;ll also",
+      "offset": 60.32,
+      "duration": 3.839
+    },
+    {
+      "text": "need to login by running this command in",
+      "offset": 62.16,
+      "duration": 5.36
+    },
+    {
+      "text": "your terminal. ghorth orth login. Once",
+      "offset": 64.159,
+      "duration": 4.881
+    },
+    {
+      "text": "you&amp;#39;ve done that, you&amp;#39;re ready to set up",
+      "offset": 67.52,
+      "duration": 4.16
+    },
+    {
+      "text": "the claude code GitHub app. All right,",
+      "offset": 69.04,
+      "duration": 4.399
+    },
+    {
+      "text": "so inside claude code, we can use a",
+      "offset": 71.68,
+      "duration": 3.68
+    },
+    {
+      "text": "built-in slash command, which is",
+      "offset": 73.439,
+      "duration": 3.441
+    },
+    {
+      "text": "slashinstall",
+      "offset": 75.36,
+      "duration": 3.759
+    },
+    {
+      "text": "github app. And I&amp;#39;m going to press enter",
+      "offset": 76.88,
+      "duration": 3.919
+    },
+    {
+      "text": "here. And what that does is set up the",
+      "offset": 79.119,
+      "duration": 4.081
+    },
+    {
+      "text": "GitHub actions for the repository that",
+      "offset": 80.799,
+      "duration": 4
+    },
+    {
+      "text": "we want to give it access to. So, I&amp;#39;m",
+      "offset": 83.2,
+      "duration": 4.16
+    },
+    {
+      "text": "going to press enter. And then it&amp;#39;s",
+      "offset": 84.799,
+      "duration": 4.161
+    },
+    {
+      "text": "going to ask us which repository we want",
+      "offset": 87.36,
+      "duration": 3.36
+    },
+    {
+      "text": "to use. We can enter a different one if",
+      "offset": 88.96,
+      "duration": 3.28
+    },
+    {
+      "text": "we want, but I&amp;#39;m going to use the one",
+      "offset": 90.72,
+      "duration": 3.28
+    },
+    {
+      "text": "linked up to this local repo right here",
+      "offset": 92.24,
+      "duration": 3.36
+    },
+    {
+      "text": "that I&amp;#39;m in. So, I&amp;#39;m going to press",
+      "offset": 94,
+      "duration": 3.68
+    },
+    {
+      "text": "enter on this option. Then, it&amp;#39;s going",
+      "offset": 95.6,
+      "duration": 3.6
+    },
+    {
+      "text": "to open a browser and it&amp;#39;s going to ask",
+      "offset": 97.68,
+      "duration": 4.96
+    },
+    {
+      "text": "us to install Claude Code on GitHub. So,",
+      "offset": 99.2,
+      "duration": 5.04
+    },
+    {
+      "text": "let&amp;#39;s click the install button over",
+      "offset": 102.64,
+      "duration": 4.479
+    },
+    {
+      "text": "here. We need to authorize it. Now, you",
+      "offset": 104.24,
+      "duration": 4.96
+    },
+    {
+      "text": "can choose to allow it access to all",
+      "offset": 107.119,
+      "duration": 3.521
+    },
+    {
+      "text": "repositories or only select",
+      "offset": 109.2,
+      "duration": 2.879
+    },
+    {
+      "text": "repositories. I&amp;#39;m just going to select",
+      "offset": 110.64,
+      "duration": 3.92
+    },
+    {
+      "text": "this one to give it access to the Claude",
+      "offset": 112.079,
+      "duration": 4.881
+    },
+    {
+      "text": "code tutorial one, which is this down",
+      "offset": 114.56,
+      "duration": 5.199
+    },
+    {
+      "text": "here. And then I&amp;#39;m going to install and",
+      "offset": 116.96,
+      "duration": 4.88
+    },
+    {
+      "text": "authorize this. And then once you&amp;#39;ve",
+      "offset": 119.759,
+      "duration": 4
+    },
+    {
+      "text": "authenticated it and installed it on",
+      "offset": 121.84,
+      "duration": 3.36
+    },
+    {
+      "text": "your GitHub account, you can just come",
+      "offset": 123.759,
+      "duration": 3.521
+    },
+    {
+      "text": "back to the terminal and press enter to",
+      "offset": 125.2,
+      "duration": 4.88
+    },
+    {
+      "text": "complete this. And it says select GitHub",
+      "offset": 127.28,
+      "duration": 4.16
+    },
+    {
+      "text": "workflows to install. We&amp;#39;re going to",
+      "offset": 130.08,
+      "duration": 2.799
+    },
+    {
+      "text": "install both of them. I&amp;#39;m just going to",
+      "offset": 131.44,
+      "duration": 3.68
+    },
+    {
+      "text": "press enter. And then we&amp;#39;re just going",
+      "offset": 132.879,
+      "duration": 4.321
+    },
+    {
+      "text": "to choose the first option here. Create",
+      "offset": 135.12,
+      "duration": 4.08
+    },
+    {
+      "text": "a long live token with your Claw",
+      "offset": 137.2,
+      "duration": 4.16
+    },
+    {
+      "text": "subscription. It&amp;#39;s going to ask you to",
+      "offset": 139.2,
+      "duration": 4.24
+    },
+    {
+      "text": "authorize with your Claude Code account.",
+      "offset": 141.36,
+      "duration": 4.4
+    },
+    {
+      "text": "So, I&amp;#39;m going to do that. Once you&amp;#39;ve",
+      "offset": 143.44,
+      "duration": 4.24
+    },
+    {
+      "text": "authenticated with Anthropic, it&amp;#39;s going",
+      "offset": 145.76,
+      "duration": 4.32
+    },
+    {
+      "text": "to ask you to create this pull request.",
+      "offset": 147.68,
+      "duration": 4.48
+    },
+    {
+      "text": "And this is basically two actions that",
+      "offset": 150.08,
+      "duration": 3.84
+    },
+    {
+      "text": "it&amp;#39;s created. It explains everything",
+      "offset": 152.16,
+      "duration": 4
+    },
+    {
+      "text": "down here. We can just create this pull",
+      "offset": 153.92,
+      "duration": 4.24
+    },
+    {
+      "text": "request.",
+      "offset": 156.16,
+      "duration": 4.24
+    },
+    {
+      "text": "And then one of the actions is to",
+      "offset": 158.16,
+      "duration": 5.6
+    },
+    {
+      "text": "automatically review pull requests. And",
+      "offset": 160.4,
+      "duration": 4.64
+    },
+    {
+      "text": "down here, we&amp;#39;re just waiting for some",
+      "offset": 163.76,
+      "duration": 3.6
+    },
+    {
+      "text": "checks to be completed. Once they&amp;#39;ve",
+      "offset": 165.04,
+      "duration": 4.16
+    },
+    {
+      "text": "completed, you can merge that request.",
+      "offset": 167.36,
+      "duration": 5.04
+    },
+    {
+      "text": "And now up here, if we go to actions, we",
+      "offset": 169.2,
+      "duration": 5.039
+    },
+    {
+      "text": "should be able to see we&amp;#39;ve got these",
+      "offset": 172.4,
+      "duration": 4.08
+    },
+    {
+      "text": "two actions right here, Claude Code and",
+      "offset": 174.239,
+      "duration": 5.201
+    },
+    {
+      "text": "Claude Code review. Okay, so now we&amp;#39;re",
+      "offset": 176.48,
+      "duration": 4.96
+    },
+    {
+      "text": "ready to put Cloud Code to use in the",
+      "offset": 179.44,
+      "duration": 3.92
+    },
+    {
+      "text": "GitHub repository. And I&amp;#39;m going to",
+      "offset": 181.44,
+      "duration": 3.439
+    },
+    {
+      "text": "create an issue in a second. And the",
+      "offset": 183.36,
+      "duration": 3.519
+    },
+    {
+      "text": "issue is going to be that this title up",
+      "offset": 184.879,
+      "duration": 3.36
+    },
+    {
+      "text": "here doesn&amp;#39;t link to anywhere. And",
+      "offset": 186.879,
+      "duration": 3.36
+    },
+    {
+      "text": "ideally, it should link to this page,",
+      "offset": 188.239,
+      "duration": 4.241
+    },
+    {
+      "text": "the homepage. So let&amp;#39;s create an issue",
+      "offset": 190.239,
+      "duration": 4.801
+    },
+    {
+      "text": "and tell Claude Code to handle this. All",
+      "offset": 192.48,
+      "duration": 5.039
+    },
+    {
+      "text": "right, then. So let&amp;#39;s head to issues.",
+      "offset": 195.04,
+      "duration": 5.36
+    },
+    {
+      "text": "And we&amp;#39;re going to create a new issue.",
+      "offset": 197.519,
+      "duration": 7.041
+    },
+    {
+      "text": "We&amp;#39;ll just say link from title missing.",
+      "offset": 200.4,
+      "duration": 8.64
+    },
+    {
+      "text": "And then I&amp;#39;ll say there is no link from",
+      "offset": 204.56,
+      "duration": 8.56
+    },
+    {
+      "text": "the title in navbar",
+      "offset": 209.04,
+      "duration": 6.96
+    },
+    {
+      "text": "to the homepage.",
+      "offset": 213.12,
+      "duration": 4.8
+    },
+    {
+      "text": "All right. So I&amp;#39;m going to create this",
+      "offset": 216,
+      "duration": 4.319
+    },
+    {
+      "text": "issue. Now nothing happens",
+      "offset": 217.92,
+      "duration": 5.28
+    },
+    {
+      "text": "automatically. But if I come down here",
+      "offset": 220.319,
+      "duration": 4.801
+    },
+    {
+      "text": "and mention Claude, I can just say at",
+      "offset": 223.2,
+      "duration": 6.88
+    },
+    {
+      "text": "Claude and I&amp;#39;ll say, &amp;quot;Can you fix this?",
+      "offset": 225.12,
+      "duration": 6.8
+    },
+    {
+      "text": "I&amp;#39;m going to comment over here.&amp;quot; And",
+      "offset": 230.08,
+      "duration": 3.84
+    },
+    {
+      "text": "hopefully just after a minute or so,",
+      "offset": 231.92,
+      "duration": 3.76
+    },
+    {
+      "text": "Claude is going to start work on this",
+      "offset": 233.92,
+      "duration": 4.08
+    },
+    {
+      "text": "task.",
+      "offset": 235.68,
+      "duration": 4.16
+    },
+    {
+      "text": "And you can see now Claude has picked it",
+      "offset": 238,
+      "duration": 3.439
+    },
+    {
+      "text": "up and it&amp;#39;s starting to work on this",
+      "offset": 239.84,
+      "duration": 3.2
+    },
+    {
+      "text": "issue.",
+      "offset": 241.439,
+      "duration": 3.041
+    },
+    {
+      "text": "All right. So, it&amp;#39;s created this little",
+      "offset": 243.04,
+      "duration": 3.44
+    },
+    {
+      "text": "to-do list much like it does in Claude",
+      "offset": 244.48,
+      "duration": 4.24
+    },
+    {
+      "text": "code within the terminal and it&amp;#39;s",
+      "offset": 246.48,
+      "duration": 3.6
+    },
+    {
+      "text": "looking at the different things it needs",
+      "offset": 248.72,
+      "duration": 3.519
+    },
+    {
+      "text": "to do. examining the current navbar,",
+      "offset": 250.08,
+      "duration": 4.32
+    },
+    {
+      "text": "adding the link for the title. It&amp;#39;s",
+      "offset": 252.239,
+      "duration": 3.761
+    },
+    {
+      "text": "going to test it. Then it&amp;#39;s going to",
+      "offset": 254.4,
+      "duration": 3.76
+    },
+    {
+      "text": "commit and push the changes. Then it&amp;#39;s",
+      "offset": 256,
+      "duration": 4.479
+    },
+    {
+      "text": "also going to provide a PR creation link",
+      "offset": 258.16,
+      "duration": 4.56
+    },
+    {
+      "text": "which we can go and take a look at. All",
+      "offset": 260.479,
+      "duration": 3.521
+    },
+    {
+      "text": "right. So, it&amp;#39;s finished its little",
+      "offset": 262.72,
+      "duration": 2.72
+    },
+    {
+      "text": "to-do list now. And there&amp;#39;s a summary",
+      "offset": 264,
+      "duration": 3.6
+    },
+    {
+      "text": "down here to say that it&amp;#39;s fixed it and",
+      "offset": 265.44,
+      "duration": 4.08
+    },
+    {
+      "text": "any changes that have been made. It&amp;#39;s",
+      "offset": 267.6,
+      "duration": 5.12
+    },
+    {
+      "text": "also created the PR or rather it gives",
+      "offset": 269.52,
+      "duration": 5.36
+    },
+    {
+      "text": "us a link to create the PR based on this",
+      "offset": 272.72,
+      "duration": 4.32
+    },
+    {
+      "text": "edit. So if we go there, it&amp;#39;s",
+      "offset": 274.88,
+      "duration": 4.56
+    },
+    {
+      "text": "prepopulated this description and also",
+      "offset": 277.04,
+      "duration": 4.4
+    },
+    {
+      "text": "the title for the PR. I&amp;#39;m going to",
+      "offset": 279.44,
+      "duration": 4.56
+    },
+    {
+      "text": "create this pull request. And when we",
+      "offset": 281.44,
+      "duration": 4.72
+    },
+    {
+      "text": "create a pull request, Claude Code",
+      "offset": 284,
+      "duration": 4.08
+    },
+    {
+      "text": "automatically picks up on the pull",
+      "offset": 286.16,
+      "duration": 4.24
+    },
+    {
+      "text": "request and provides us with a code",
+      "offset": 288.08,
+      "duration": 4.08
+    },
+    {
+      "text": "review. And you can see now down here,",
+      "offset": 290.4,
+      "duration": 4.72
+    },
+    {
+      "text": "the Claude Code review is going in the",
+      "offset": 292.16,
+      "duration": 4.96
+    },
+    {
+      "text": "background. Okay, so now it&amp;#39;s finished",
+      "offset": 295.12,
+      "duration": 3.76
+    },
+    {
+      "text": "its review and we can see the feedback",
+      "offset": 297.12,
+      "duration": 3.2
+    },
+    {
+      "text": "down here. We get a big green tick,",
+      "offset": 298.88,
+      "duration": 3.28
+    },
+    {
+      "text": "which means it&amp;#39;s pretty good overall.",
+      "offset": 300.32,
+      "duration": 4.08
+    },
+    {
+      "text": "So, we get a tick for code quality, a",
+      "offset": 302.16,
+      "duration": 4.72
+    },
+    {
+      "text": "tick for bugs, a tick for performance",
+      "offset": 304.4,
+      "duration": 5.84
+    },
+    {
+      "text": "and security. Overall, it says approve.",
+      "offset": 306.88,
+      "duration": 4.96
+    },
+    {
+      "text": "Yep. All right. So, let&amp;#39;s go down here.",
+      "offset": 310.24,
+      "duration": 4.32
+    },
+    {
+      "text": "We can merge the pull request now and",
+      "offset": 311.84,
+      "duration": 4.96
+    },
+    {
+      "text": "confirm the merge.",
+      "offset": 314.56,
+      "duration": 3.919
+    },
+    {
+      "text": "Okay. So, I just pulled down those",
+      "offset": 316.8,
+      "duration": 3.2
+    },
+    {
+      "text": "changes so we could preview this in a",
+      "offset": 318.479,
+      "duration": 3.44
+    },
+    {
+      "text": "browser. And now, if we hover over this",
+      "offset": 320,
+      "duration": 3.52
+    },
+    {
+      "text": "title, you can see it goes purple. We",
+      "offset": 321.919,
+      "duration": 3.28
+    },
+    {
+      "text": "get the little pointer icon. And if we",
+      "offset": 323.52,
+      "duration": 3.84
+    },
+    {
+      "text": "click on it, it goes to the homepage.",
+      "offset": 325.199,
+      "duration": 4.56
+    },
+    {
+      "text": "Awesome. So, that&amp;#39;s now working. So then",
+      "offset": 327.36,
+      "duration": 4.559
+    },
+    {
+      "text": "that&amp;#39;s how claude code can work directly",
+      "offset": 329.759,
+      "duration": 4.561
+    },
+    {
+      "text": "in your central GitHub repository and I",
+      "offset": 331.919,
+      "duration": 3.84
+    },
+    {
+      "text": "think it&amp;#39;s quite a nice addition to the",
+      "offset": 334.32,
+      "duration": 3.04
+    },
+    {
+      "text": "product. You can also make additional",
+      "offset": 335.759,
+      "duration": 3.601
+    },
+    {
+      "text": "actions by the way to include claude",
+      "offset": 337.36,
+      "duration": 3.44
+    },
+    {
+      "text": "code in different ways and different",
+      "offset": 339.36,
+      "duration": 3.36
+    },
+    {
+      "text": "workflows. So it&amp;#39;s definitely worth",
+      "offset": 340.8,
+      "duration": 3.6
+    },
+    {
+      "text": "looking through the action files and",
+      "offset": 342.72,
+      "duration": 4.8
+    },
+    {
+      "text": "playing around with them.",
+      "offset": 344.4,
+      "duration": 3.12
+    }
+  ],
+  "fullText": "All right then gang. So I want to move away from prompting context commands and sub aents now and move on to another nice feature in Claude Code which is the Claude Code GitHub app. And this is something we can set up easily from within the Claude Code chat session. And I&amp;#39;m going to show you how to do that in a moment. But basically when we install it, it creates two GitHub actions for us automatically which are both really useful. The first one is that it can autoreview pull requests and provide feedback on those pull requests. The second one allows Claude code to automatically work on issues on a new feature branch when you mention at Claude inside it. Now before I show you how to set up this feature, I will say that you need to have the GitHub CLI already installed on your computer, which you can do by following these installation instructions. So I&amp;#39;m going to leave a link to this repo down below the video, but essentially you can just install it via something like Homebrew on a Mac or Winger on Windows. It&amp;#39;s all really simple to do and it outlines the steps in this readme file. Once you&amp;#39;ve installed the GitHub CLI, you&amp;#39;ll also need to login by running this command in your terminal. ghorth orth login. Once you&amp;#39;ve done that, you&amp;#39;re ready to set up the claude code GitHub app. All right, so inside claude code, we can use a built-in slash command, which is slashinstall github app. And I&amp;#39;m going to press enter here. And what that does is set up the GitHub actions for the repository that we want to give it access to. So, I&amp;#39;m going to press enter. And then it&amp;#39;s going to ask us which repository we want to use. We can enter a different one if we want, but I&amp;#39;m going to use the one linked up to this local repo right here that I&amp;#39;m in. So, I&amp;#39;m going to press enter on this option. Then, it&amp;#39;s going to open a browser and it&amp;#39;s going to ask us to install Claude Code on GitHub. So, let&amp;#39;s click the install button over here. We need to authorize it. Now, you can choose to allow it access to all repositories or only select repositories. I&amp;#39;m just going to select this one to give it access to the Claude code tutorial one, which is this down here. And then I&amp;#39;m going to install and authorize this. And then once you&amp;#39;ve authenticated it and installed it on your GitHub account, you can just come back to the terminal and press enter to complete this. And it says select GitHub workflows to install. We&amp;#39;re going to install both of them. I&amp;#39;m just going to press enter. And then we&amp;#39;re just going to choose the first option here. Create a long live token with your Claw subscription. It&amp;#39;s going to ask you to authorize with your Claude Code account. So, I&amp;#39;m going to do that. Once you&amp;#39;ve authenticated with Anthropic, it&amp;#39;s going to ask you to create this pull request. And this is basically two actions that it&amp;#39;s created. It explains everything down here. We can just create this pull request. And then one of the actions is to automatically review pull requests. And down here, we&amp;#39;re just waiting for some checks to be completed. Once they&amp;#39;ve completed, you can merge that request. And now up here, if we go to actions, we should be able to see we&amp;#39;ve got these two actions right here, Claude Code and Claude Code review. Okay, so now we&amp;#39;re ready to put Cloud Code to use in the GitHub repository. And I&amp;#39;m going to create an issue in a second. And the issue is going to be that this title up here doesn&amp;#39;t link to anywhere. And ideally, it should link to this page, the homepage. So let&amp;#39;s create an issue and tell Claude Code to handle this. All right, then. So let&amp;#39;s head to issues. And we&amp;#39;re going to create a new issue. We&amp;#39;ll just say link from title missing. And then I&amp;#39;ll say there is no link from the title in navbar to the homepage. All right. So I&amp;#39;m going to create this issue. Now nothing happens automatically. But if I come down here and mention Claude, I can just say at Claude and I&amp;#39;ll say, &amp;quot;Can you fix this? I&amp;#39;m going to comment over here.&amp;quot; And hopefully just after a minute or so, Claude is going to start work on this task. And you can see now Claude has picked it up and it&amp;#39;s starting to work on this issue. All right. So, it&amp;#39;s created this little to-do list much like it does in Claude code within the terminal and it&amp;#39;s looking at the different things it needs to do. examining the current navbar, adding the link for the title. It&amp;#39;s going to test it. Then it&amp;#39;s going to commit and push the changes. Then it&amp;#39;s also going to provide a PR creation link which we can go and take a look at. All right. So, it&amp;#39;s finished its little to-do list now. And there&amp;#39;s a summary down here to say that it&amp;#39;s fixed it and any changes that have been made. It&amp;#39;s also created the PR or rather it gives us a link to create the PR based on this edit. So if we go there, it&amp;#39;s prepopulated this description and also the title for the PR. I&amp;#39;m going to create this pull request. And when we create a pull request, Claude Code automatically picks up on the pull request and provides us with a code review. And you can see now down here, the Claude Code review is going in the background. Okay, so now it&amp;#39;s finished its review and we can see the feedback down here. We get a big green tick, which means it&amp;#39;s pretty good overall. So, we get a tick for code quality, a tick for bugs, a tick for performance and security. Overall, it says approve. Yep. All right. So, let&amp;#39;s go down here. We can merge the pull request now and confirm the merge. Okay. So, I just pulled down those changes so we could preview this in a browser. And now, if we hover over this title, you can see it goes purple. We get the little pointer icon. And if we click on it, it goes to the homepage. Awesome. So, that&amp;#39;s now working. So then that&amp;#39;s how claude code can work directly in your central GitHub repository and I think it&amp;#39;s quite a nice addition to the product. You can also make additional actions by the way to include claude code in different ways and different workflows. So it&amp;#39;s definitely worth looking through the action files and playing around with them."
+}

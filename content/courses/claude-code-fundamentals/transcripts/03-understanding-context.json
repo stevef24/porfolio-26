@@ -1,0 +1,1825 @@
+{
+  "videoId": "ob-mYGqqFQw",
+  "title": "Context",
+  "duration": "13:03",
+  "module": "Core Concepts",
+  "extractedAt": "2026-01-23T04:12:31.308Z",
+  "segments": [
+    {
+      "text": "All right. So, in the last lesson, we",
+      "offset": 1.68,
+      "duration": 3.28
+    },
+    {
+      "text": "talked about the claude ND files,",
+      "offset": 3.2,
+      "duration": 3.679
+    },
+    {
+      "text": "otherwise known as memory, which Claude",
+      "offset": 4.96,
+      "duration": 3.52
+    },
+    {
+      "text": "code uses when you&amp;#39;re asking it to do",
+      "offset": 6.879,
+      "duration": 2.881
+    },
+    {
+      "text": "something. Now, it&amp;#39;s able to do this",
+      "offset": 8.48,
+      "duration": 3.84
+    },
+    {
+      "text": "because the claw.md file, gets added",
+      "offset": 9.76,
+      "duration": 5.36
+    },
+    {
+      "text": "automatically as context to any claw",
+      "offset": 12.32,
+      "duration": 4.32
+    },
+    {
+      "text": "code session like this one we&amp;#39;ve got",
+      "offset": 15.12,
+      "duration": 3.68
+    },
+    {
+      "text": "going on now. But what do we mean when",
+      "offset": 16.64,
+      "duration": 4.88
+    },
+    {
+      "text": "we say context? Well, just like in",
+      "offset": 18.8,
+      "duration": 4.479
+    },
+    {
+      "text": "conversations with real people,",
+      "offset": 21.52,
+      "duration": 3.44
+    },
+    {
+      "text": "responses are more accurate and",
+      "offset": 23.279,
+      "duration": 3.601
+    },
+    {
+      "text": "appropriate from AI models when you",
+      "offset": 24.96,
+      "duration": 3.68
+    },
+    {
+      "text": "provide additional relevant information",
+      "offset": 26.88,
+      "duration": 5.04
+    },
+    {
+      "text": "or context to your prompts. Imagine I",
+      "offset": 28.64,
+      "duration": 5.439
+    },
+    {
+      "text": "just said the word banana to you in a",
+      "offset": 31.92,
+      "duration": 3.44
+    },
+    {
+      "text": "conversation without any additional",
+      "offset": 34.079,
+      "duration": 3.281
+    },
+    {
+      "text": "context. You probably wouldn&amp;#39;t know how",
+      "offset": 35.36,
+      "duration": 3.92
+    },
+    {
+      "text": "to react and you would most likely think",
+      "offset": 37.36,
+      "duration": 3.76
+    },
+    {
+      "text": "I&amp;#39;m quite strange. But if I said to you,",
+      "offset": 39.28,
+      "duration": 4.48
+    },
+    {
+      "text": "first of all, my favorite fruit is a",
+      "offset": 41.12,
+      "duration": 5.04
+    },
+    {
+      "text": "banana, then I&amp;#39;ve added context to that",
+      "offset": 43.76,
+      "duration": 3.84
+    },
+    {
+      "text": "word, and you might still think I&amp;#39;m",
+      "offset": 46.16,
+      "duration": 2.719
+    },
+    {
+      "text": "strange, but at least you know why I&amp;#39;m",
+      "offset": 47.6,
+      "duration": 3.2
+    },
+    {
+      "text": "saying the word banana, and you could",
+      "offset": 48.879,
+      "duration": 3.68
+    },
+    {
+      "text": "even respond with your own favorite",
+      "offset": 50.8,
+      "duration": 3.84
+    },
+    {
+      "text": "fruit. The same is true when you&amp;#39;re",
+      "offset": 52.559,
+      "duration": 4.241
+    },
+    {
+      "text": "having a conversation with Claude Code",
+      "offset": 54.64,
+      "duration": 5.28
+    },
+    {
+      "text": "or any other AI powered chat. If I just",
+      "offset": 56.8,
+      "duration": 6.239
+    },
+    {
+      "text": "told Claude Code to fix the link, it",
+      "offset": 59.92,
+      "duration": 5.04
+    },
+    {
+      "text": "probably won&amp;#39;t know where to start or",
+      "offset": 63.039,
+      "duration": 4.08
+    },
+    {
+      "text": "what link I&amp;#39;m referring to or even",
+      "offset": 64.96,
+      "duration": 4.32
+    },
+    {
+      "text": "what&amp;#39;s wrong with the link. But if I",
+      "offset": 67.119,
+      "duration": 4.561
+    },
+    {
+      "text": "referenced a specific file or component",
+      "offset": 69.28,
+      "duration": 5.28
+    },
+    {
+      "text": "where that broken link is as context to",
+      "offset": 71.68,
+      "duration": 4.799
+    },
+    {
+      "text": "the prompt, then Claude&amp;#39;s got a much",
+      "offset": 74.56,
+      "duration": 3.52
+    },
+    {
+      "text": "better chance of knowing what I&amp;#39;m going",
+      "offset": 76.479,
+      "duration": 2.96
+    },
+    {
+      "text": "on about. And the results are going to",
+      "offset": 78.08,
+      "duration": 3.52
+    },
+    {
+      "text": "be much better because now instead of",
+      "offset": 79.439,
+      "duration": 4
+    },
+    {
+      "text": "having to scan the entire codebase for",
+      "offset": 81.6,
+      "duration": 3.28
+    },
+    {
+      "text": "some kind of broken link that it doesn&amp;#39;t",
+      "offset": 83.439,
+      "duration": 3.121
+    },
+    {
+      "text": "know about, it&amp;#39;s going to find it right",
+      "offset": 84.88,
+      "duration": 4.32
+    },
+    {
+      "text": "away in the file we added as context. So",
+      "offset": 86.56,
+      "duration": 5.28
+    },
+    {
+      "text": "we can manually add files as context to",
+      "offset": 89.2,
+      "duration": 4.559
+    },
+    {
+      "text": "Claude code by using the at symbol",
+      "offset": 91.84,
+      "duration": 4.88
+    },
+    {
+      "text": "followed by a path to the file. For",
+      "offset": 93.759,
+      "duration": 7.601
+    },
+    {
+      "text": "example, I could say at source and then",
+      "offset": 96.72,
+      "duration": 6.399
+    },
+    {
+      "text": "back slashcomponents",
+      "offset": 101.36,
+      "duration": 4.96
+    },
+    {
+      "text": "and then also back slash UI. And as I&amp;#39;m",
+      "offset": 103.119,
+      "duration": 4.801
+    },
+    {
+      "text": "writing this, notice that we get some",
+      "offset": 106.32,
+      "duration": 3.92
+    },
+    {
+      "text": "file options that appear down here,",
+      "offset": 107.92,
+      "duration": 4.08
+    },
+    {
+      "text": "which I can just cycle through using my",
+      "offset": 110.24,
+      "duration": 4.48
+    },
+    {
+      "text": "arrow keys to select a file. So I&amp;#39;m",
+      "offset": 112,
+      "duration": 4.64
+    },
+    {
+      "text": "going to select this button component",
+      "offset": 114.72,
+      "duration": 3.84
+    },
+    {
+      "text": "file and I&amp;#39;m going to shift on it so",
+      "offset": 116.64,
+      "duration": 4.159
+    },
+    {
+      "text": "that it gets added to my chat right",
+      "offset": 118.56,
+      "duration": 4.4
+    },
+    {
+      "text": "here. So now inside that button",
+      "offset": 120.799,
+      "duration": 3.68
+    },
+    {
+      "text": "component, we have different variants,",
+      "offset": 122.96,
+      "duration": 4.08
+    },
+    {
+      "text": "right? like primary, success, warning,",
+      "offset": 124.479,
+      "duration": 4.4
+    },
+    {
+      "text": "etc. I&amp;#39;m going to add two more, which is",
+      "offset": 127.04,
+      "duration": 3.999
+    },
+    {
+      "text": "just black and white variants for high",
+      "offset": 128.879,
+      "duration": 4.72
+    },
+    {
+      "text": "contrast. So, I&amp;#39;m going to say add a",
+      "offset": 131.039,
+      "duration": 5.2
+    },
+    {
+      "text": "black variant with white text and a",
+      "offset": 133.599,
+      "duration": 5.441
+    },
+    {
+      "text": "white variant with black text. And then",
+      "offset": 136.239,
+      "duration": 4.801
+    },
+    {
+      "text": "uh with black text rather, sorry. And",
+      "offset": 139.04,
+      "duration": 4.32
+    },
+    {
+      "text": "then I&amp;#39;m going to hit enter. And because",
+      "offset": 141.04,
+      "duration": 5.199
+    },
+    {
+      "text": "we provided the file as context, it&amp;#39;s",
+      "offset": 143.36,
+      "duration": 4.879
+    },
+    {
+      "text": "going to know to look at the variants in",
+      "offset": 146.239,
+      "duration": 5.281
+    },
+    {
+      "text": "that file and add them in. If we didn&amp;#39;t",
+      "offset": 148.239,
+      "duration": 5.201
+    },
+    {
+      "text": "add the context, then it wouldn&amp;#39;t know",
+      "offset": 151.52,
+      "duration": 3.999
+    },
+    {
+      "text": "maybe which file or components to add",
+      "offset": 153.44,
+      "duration": 4
+    },
+    {
+      "text": "the variants to. And now you can see",
+      "offset": 155.519,
+      "duration": 3.681
+    },
+    {
+      "text": "it&amp;#39;s asking us to make changes, which",
+      "offset": 157.44,
+      "duration": 4.159
+    },
+    {
+      "text": "I&amp;#39;m going to accept. And then if I open",
+      "offset": 159.2,
+      "duration": 3.84
+    },
+    {
+      "text": "up the file in a moment when it&amp;#39;s",
+      "offset": 161.599,
+      "duration": 3.92
+    },
+    {
+      "text": "completed this, we should hopefully see",
+      "offset": 163.04,
+      "duration": 5.199
+    },
+    {
+      "text": "the black and white variance. So, let me",
+      "offset": 165.519,
+      "duration": 4.401
+    },
+    {
+      "text": "cross this off. Oh, it&amp;#39;s asking to make",
+      "offset": 168.239,
+      "duration": 3.441
+    },
+    {
+      "text": "another change. So, let me press yes to",
+      "offset": 169.92,
+      "duration": 4.08
+    },
+    {
+      "text": "do that.",
+      "offset": 171.68,
+      "duration": 4.88
+    },
+    {
+      "text": "And now, if we open this file, we should",
+      "offset": 174,
+      "duration": 5.44
+    },
+    {
+      "text": "be able to see those two new variants.",
+      "offset": 176.56,
+      "duration": 4.8
+    },
+    {
+      "text": "Another way to give Claude code context",
+      "offset": 179.44,
+      "duration": 3.92
+    },
+    {
+      "text": "of the file that you want to work on is",
+      "offset": 181.36,
+      "duration": 3.599
+    },
+    {
+      "text": "by opening the file itself and just",
+      "offset": 183.36,
+      "duration": 3.04
+    },
+    {
+      "text": "putting your cursor somewhere inside it.",
+      "offset": 184.959,
+      "duration": 3.2
+    },
+    {
+      "text": "And when we do that, you can see the",
+      "offset": 186.4,
+      "duration": 3.36
+    },
+    {
+      "text": "file name underneath the chat window",
+      "offset": 188.159,
+      "duration": 3.681
+    },
+    {
+      "text": "over here, which tells us it&amp;#39;s been",
+      "offset": 189.76,
+      "duration": 4.16
+    },
+    {
+      "text": "added to the context. Now, if you close",
+      "offset": 191.84,
+      "duration": 4.16
+    },
+    {
+      "text": "that file, well, it&amp;#39;s still there. But",
+      "offset": 193.92,
+      "duration": 3.36
+    },
+    {
+      "text": "that&amp;#39;s because the cursor is still kind",
+      "offset": 196,
+      "duration": 3.04
+    },
+    {
+      "text": "of active inside that file. But if you",
+      "offset": 197.28,
+      "duration": 3.679
+    },
+    {
+      "text": "open a new file, just put your cursor",
+      "offset": 199.04,
+      "duration": 3.52
+    },
+    {
+      "text": "inside that one instead, then it&amp;#39;s going",
+      "offset": 200.959,
+      "duration": 3.92
+    },
+    {
+      "text": "to update over here as well. Now, you",
+      "offset": 202.56,
+      "duration": 4.08
+    },
+    {
+      "text": "can only add one file to the context",
+      "offset": 204.879,
+      "duration": 3.28
+    },
+    {
+      "text": "this way, but you can add multiple files",
+      "offset": 206.64,
+      "duration": 3.84
+    },
+    {
+      "text": "by using the at symbol several times in",
+      "offset": 208.159,
+      "duration": 4.72
+    },
+    {
+      "text": "the prompt itself. Also, you can select",
+      "offset": 210.48,
+      "duration": 4.72
+    },
+    {
+      "text": "a portion of code inside a file, and",
+      "offset": 212.879,
+      "duration": 3.681
+    },
+    {
+      "text": "it&amp;#39;s going to hone in and use that",
+      "offset": 215.2,
+      "duration": 2.959
+    },
+    {
+      "text": "little section you&amp;#39;ve highlighted as",
+      "offset": 216.56,
+      "duration": 3.759
+    },
+    {
+      "text": "context. And you can see that down here",
+      "offset": 218.159,
+      "duration": 4.241
+    },
+    {
+      "text": "in the chat as well, that this amount of",
+      "offset": 220.319,
+      "duration": 5.041
+    },
+    {
+      "text": "lines is selected.",
+      "offset": 222.4,
+      "duration": 5.44
+    },
+    {
+      "text": "So, you can also add references using",
+      "offset": 225.36,
+      "duration": 6.159
+    },
+    {
+      "text": "this at sign to claw. ND files. So if I",
+      "offset": 227.84,
+      "duration": 6.24
+    },
+    {
+      "text": "wanted to reference a schema file for",
+      "offset": 231.519,
+      "duration": 4.64
+    },
+    {
+      "text": "example for whenever Claude works with",
+      "offset": 234.08,
+      "duration": 3.76
+    },
+    {
+      "text": "data modules, I could do and it would",
+      "offset": 236.159,
+      "duration": 4.16
+    },
+    {
+      "text": "load that file up into the context then",
+      "offset": 237.84,
+      "duration": 4.8
+    },
+    {
+      "text": "or I could reference a testing config",
+      "offset": 240.319,
+      "duration": 4.401
+    },
+    {
+      "text": "file in here or anything else I think",
+      "offset": 242.64,
+      "duration": 3.84
+    },
+    {
+      "text": "Claude Code should know when making",
+      "offset": 244.72,
+      "duration": 4.4
+    },
+    {
+      "text": "edits to certain parts of the code. So",
+      "offset": 246.48,
+      "duration": 5.2
+    },
+    {
+      "text": "that&amp;#39;s how we add files as context using",
+      "offset": 249.12,
+      "duration": 4.88
+    },
+    {
+      "text": "the at sign or opening the file",
+      "offset": 251.68,
+      "duration": 5.04
+    },
+    {
+      "text": "manually. But we can also add images as",
+      "offset": 254,
+      "duration": 5.44
+    },
+    {
+      "text": "context too. So, I&amp;#39;ve got a picture of a",
+      "offset": 256.72,
+      "duration": 4.96
+    },
+    {
+      "text": "button over here with a 3D effect, and I",
+      "offset": 259.44,
+      "duration": 4.24
+    },
+    {
+      "text": "want Claude Code to apply that kind of",
+      "offset": 261.68,
+      "duration": 4.56
+    },
+    {
+      "text": "3D effect to our buttons. So, what I&amp;#39;m",
+      "offset": 263.68,
+      "duration": 5.04
+    },
+    {
+      "text": "going to do is drag and drop the button",
+      "offset": 266.24,
+      "duration": 5.28
+    },
+    {
+      "text": "file into the chat session over here.",
+      "offset": 268.72,
+      "duration": 5.199
+    },
+    {
+      "text": "And now, it&amp;#39;s added as context. Then,",
+      "offset": 271.52,
+      "duration": 3.76
+    },
+    {
+      "text": "what I&amp;#39;m going to do is paste in a",
+      "offset": 273.919,
+      "duration": 3.521
+    },
+    {
+      "text": "prompt, and it says, can you update the",
+      "offset": 275.28,
+      "duration": 4.08
+    },
+    {
+      "text": "button design? Let&amp;#39;s just make this more",
+      "offset": 277.44,
+      "duration": 4.96
+    },
+    {
+      "text": "specific. We&amp;#39;ll say button design in the",
+      "offset": 279.36,
+      "duration": 5.44
+    },
+    {
+      "text": "button",
+      "offset": 282.4,
+      "duration": 4.079
+    },
+    {
+      "text": "component",
+      "offset": 284.8,
+      "duration": 3.36
+    },
+    {
+      "text": "to look more like the button on this",
+      "offset": 286.479,
+      "duration": 3.601
+    },
+    {
+      "text": "image with a 3D effect keeping all of",
+      "offset": 288.16,
+      "duration": 5.28
+    },
+    {
+      "text": "the color variants. I&amp;#39;m also going to",
+      "offset": 290.08,
+      "duration": 5.92
+    },
+    {
+      "text": "reference the file in context as well by",
+      "offset": 293.44,
+      "duration": 5.199
+    },
+    {
+      "text": "saying at source and then we want to go",
+      "offset": 296,
+      "duration": 6
+    },
+    {
+      "text": "into components and let&amp;#39;s do backslash",
+      "offset": 298.639,
+      "duration": 5.921
+    },
+    {
+      "text": "components to do that. And then we want",
+      "offset": 302,
+      "duration": 5.759
+    },
+    {
+      "text": "the button file down here. So, I&amp;#39;m going",
+      "offset": 304.56,
+      "duration": 5.28
+    },
+    {
+      "text": "to tap on that to add it to the context",
+      "offset": 307.759,
+      "duration": 4.88
+    },
+    {
+      "text": "as well. Then press enter. All right.",
+      "offset": 309.84,
+      "duration": 4.4
+    },
+    {
+      "text": "So, I&amp;#39;m going to allow it to make these",
+      "offset": 312.639,
+      "duration": 3.521
+    },
+    {
+      "text": "edits.",
+      "offset": 314.24,
+      "duration": 3.36
+    },
+    {
+      "text": "And again, it wants to make some more",
+      "offset": 316.16,
+      "duration": 3.2
+    },
+    {
+      "text": "edits. I&amp;#39;m going to press yes to allow",
+      "offset": 317.6,
+      "duration": 4.319
+    },
+    {
+      "text": "it to do this. All right. And now it&amp;#39;s",
+      "offset": 319.36,
+      "duration": 5.44
+    },
+    {
+      "text": "changed it. Okay. And now in a browser,",
+      "offset": 321.919,
+      "duration": 5.201
+    },
+    {
+      "text": "we can see those buttons look a lot more",
+      "offset": 324.8,
+      "duration": 4.959
+    },
+    {
+      "text": "3D. It&amp;#39;s added that 3D effect. It&amp;#39;s also",
+      "offset": 327.12,
+      "duration": 5.12
+    },
+    {
+      "text": "added, I think, a subtle gradient going",
+      "offset": 329.759,
+      "duration": 3.841
+    },
+    {
+      "text": "from top to bottom. So, yeah, it&amp;#39;s done",
+      "offset": 332.24,
+      "duration": 3.04
+    },
+    {
+      "text": "a really good job there. So, we&amp;#39;ve seen",
+      "offset": 333.6,
+      "duration": 4
+    },
+    {
+      "text": "now how to add context to prompts, which",
+      "offset": 335.28,
+      "duration": 3.6
+    },
+    {
+      "text": "essentially gives Claude code more",
+      "offset": 337.6,
+      "duration": 3.12
+    },
+    {
+      "text": "information about any given task. So,",
+      "offset": 338.88,
+      "duration": 4
+    },
+    {
+      "text": "adding context when it&amp;#39;s needed is",
+      "offset": 340.72,
+      "duration": 4.16
+    },
+    {
+      "text": "really important. However, adding too",
+      "offset": 342.88,
+      "duration": 4.319
+    },
+    {
+      "text": "much unnecessary context can lead to",
+      "offset": 344.88,
+      "duration": 5.44
+    },
+    {
+      "text": "less accurate results. Now, on a prompt",
+      "offset": 347.199,
+      "duration": 5.28
+    },
+    {
+      "text": "byprompt basis, you&amp;#39;re probably not",
+      "offset": 350.32,
+      "duration": 3.76
+    },
+    {
+      "text": "going to intentionally do that. If",
+      "offset": 352.479,
+      "duration": 3.121
+    },
+    {
+      "text": "you&amp;#39;re working on the button component,",
+      "offset": 354.08,
+      "duration": 3.28
+    },
+    {
+      "text": "you most likely won&amp;#39;t add 50 other",
+      "offset": 355.6,
+      "duration": 4.24
+    },
+    {
+      "text": "unrelated files as context. However, it",
+      "offset": 357.36,
+      "duration": 4.559
+    },
+    {
+      "text": "can happen unintentionally. So let me",
+      "offset": 359.84,
+      "duration": 3.68
+    },
+    {
+      "text": "explain how first of all and then we&amp;#39;ll",
+      "offset": 361.919,
+      "duration": 4
+    },
+    {
+      "text": "look at some ways to combat that. So",
+      "offset": 363.52,
+      "duration": 4.239
+    },
+    {
+      "text": "imagine we&amp;#39;re working on a feature like",
+      "offset": 365.919,
+      "duration": 4
+    },
+    {
+      "text": "a shopping basket and we provide clawed",
+      "offset": 367.759,
+      "duration": 3.761
+    },
+    {
+      "text": "code with a bunch of different prompts",
+      "offset": 369.919,
+      "duration": 3.521
+    },
+    {
+      "text": "and files as context over several",
+      "offset": 371.52,
+      "duration": 4
+    },
+    {
+      "text": "different messages inside the session.",
+      "offset": 373.44,
+      "duration": 3.84
+    },
+    {
+      "text": "Well, all of those files and messages",
+      "offset": 375.52,
+      "duration": 3.92
+    },
+    {
+      "text": "including the AI model responses.",
+      "offset": 377.28,
+      "duration": 4.16
+    },
+    {
+      "text": "They&amp;#39;re all stored in context in the",
+      "offset": 379.44,
+      "duration": 4.16
+    },
+    {
+      "text": "current chat session. And that means",
+      "offset": 381.44,
+      "duration": 3.759
+    },
+    {
+      "text": "whenever you&amp;#39;re sending new prompts,",
+      "offset": 383.6,
+      "duration": 3.76
+    },
+    {
+      "text": "Claude codes got the entire chat history",
+      "offset": 385.199,
+      "duration": 3.921
+    },
+    {
+      "text": "plus any additional context you manually",
+      "offset": 387.36,
+      "duration": 4.08
+    },
+    {
+      "text": "added like files as context for the",
+      "offset": 389.12,
+      "duration": 4.96
+    },
+    {
+      "text": "session. Now, that&amp;#39;s okay while we&amp;#39;re",
+      "offset": 391.44,
+      "duration": 4.56
+    },
+    {
+      "text": "working on this feature because it is",
+      "offset": 394.08,
+      "duration": 4.16
+    },
+    {
+      "text": "probably useful for Claude to know about",
+      "offset": 396,
+      "duration": 4.4
+    },
+    {
+      "text": "that history and the changes that it&amp;#39;s",
+      "offset": 398.24,
+      "duration": 4.72
+    },
+    {
+      "text": "been making. But imagine we then get",
+      "offset": 400.4,
+      "duration": 4.48
+    },
+    {
+      "text": "sidetracked because the button doesn&amp;#39;t",
+      "offset": 402.96,
+      "duration": 3.679
+    },
+    {
+      "text": "quite look right inside the shopping",
+      "offset": 404.88,
+      "duration": 3.439
+    },
+    {
+      "text": "basket and we start asking Claude code",
+      "offset": 406.639,
+      "duration": 3.521
+    },
+    {
+      "text": "to make UI changes to the button",
+      "offset": 408.319,
+      "duration": 3.761
+    },
+    {
+      "text": "component which is I suppose a",
+      "offset": 410.16,
+      "duration": 3.92
+    },
+    {
+      "text": "completely separate thing to the",
+      "offset": 412.08,
+      "duration": 4.239
+    },
+    {
+      "text": "shopping basket. Yes, we might use the",
+      "offset": 414.08,
+      "duration": 4.88
+    },
+    {
+      "text": "button on that section but largely the",
+      "offset": 416.319,
+      "duration": 5.201
+    },
+    {
+      "text": "basket page is unrelated to the button",
+      "offset": 418.96,
+      "duration": 4.799
+    },
+    {
+      "text": "component. So, if we started working on",
+      "offset": 421.52,
+      "duration": 3.84
+    },
+    {
+      "text": "the button component in this chat,",
+      "offset": 423.759,
+      "duration": 3.681
+    },
+    {
+      "text": "Claude code&amp;#39;s going to still have all of",
+      "offset": 425.36,
+      "duration": 4.16
+    },
+    {
+      "text": "that previous chat and file context",
+      "offset": 427.44,
+      "duration": 3.84
+    },
+    {
+      "text": "about the basket page, which in respect",
+      "offset": 429.52,
+      "duration": 3.28
+    },
+    {
+      "text": "to working on the button is pretty",
+      "offset": 431.28,
+      "duration": 3.52
+    },
+    {
+      "text": "useless. And we&amp;#39;re essentially giving",
+      "offset": 432.8,
+      "duration": 3.76
+    },
+    {
+      "text": "Claude a bunch of useless context to",
+      "offset": 434.8,
+      "duration": 3.76
+    },
+    {
+      "text": "read while it&amp;#39;s working on the button.",
+      "offset": 436.56,
+      "duration": 3.919
+    },
+    {
+      "text": "And that could confuse him. It might",
+      "offset": 438.56,
+      "duration": 3.759
+    },
+    {
+      "text": "even start making inline edits to the",
+      "offset": 440.479,
+      "duration": 3.84
+    },
+    {
+      "text": "button itself on the basket page, which",
+      "offset": 442.319,
+      "duration": 4.481
+    },
+    {
+      "text": "isn&amp;#39;t what we wanted. So, when we&amp;#39;re",
+      "offset": 444.319,
+      "duration": 4.32
+    },
+    {
+      "text": "working on a feature with claude code,",
+      "offset": 446.8,
+      "duration": 3.44
+    },
+    {
+      "text": "it&amp;#39;s always best to keep the context",
+      "offset": 448.639,
+      "duration": 3.28
+    },
+    {
+      "text": "clean and focused on whatever we&amp;#39;re",
+      "offset": 450.24,
+      "duration": 4.399
+    },
+    {
+      "text": "working on and not let it get bloated",
+      "offset": 451.919,
+      "duration": 5.041
+    },
+    {
+      "text": "with information that it doesn&amp;#39;t need.",
+      "offset": 454.639,
+      "duration": 4.4
+    },
+    {
+      "text": "So, how do we combat this? Well, there&amp;#39;s",
+      "offset": 456.96,
+      "duration": 4.32
+    },
+    {
+      "text": "a few ways. First of all, you could just",
+      "offset": 459.039,
+      "duration": 4.401
+    },
+    {
+      "text": "exit the chat using the forward/exit",
+      "offset": 461.28,
+      "duration": 3.84
+    },
+    {
+      "text": "command and then start a new one in the",
+      "offset": 463.44,
+      "duration": 3.36
+    },
+    {
+      "text": "terminal by typing claude again and",
+      "offset": 465.12,
+      "duration": 4.079
+    },
+    {
+      "text": "hitting enter. And then from inside any",
+      "offset": 466.8,
+      "duration": 4.32
+    },
+    {
+      "text": "session, you can resume all the previous",
+      "offset": 469.199,
+      "duration": 4.4
+    },
+    {
+      "text": "sessions by using the forward slashres",
+      "offset": 471.12,
+      "duration": 3.6
+    },
+    {
+      "text": "command, which I&amp;#39;m going to show you",
+      "offset": 473.599,
+      "duration": 3.921
+    },
+    {
+      "text": "later. But if you don&amp;#39;t want to do that",
+      "offset": 474.72,
+      "duration": 4.8
+    },
+    {
+      "text": "and you want to stay inside the same",
+      "offset": 477.52,
+      "duration": 4
+    },
+    {
+      "text": "session, you&amp;#39;ve got essentially three",
+      "offset": 479.52,
+      "duration": 4.239
+    },
+    {
+      "text": "options. You can use the clear command",
+      "offset": 481.52,
+      "duration": 3.76
+    },
+    {
+      "text": "and that&amp;#39;s going to clear the entire",
+      "offset": 483.759,
+      "duration": 3.601
+    },
+    {
+      "text": "session history and context back to its",
+      "offset": 485.28,
+      "duration": 4.479
+    },
+    {
+      "text": "original state. It will keep the claw MD",
+      "offset": 487.36,
+      "duration": 4.08
+    },
+    {
+      "text": "files as context, but anything else that",
+      "offset": 489.759,
+      "duration": 3.681
+    },
+    {
+      "text": "you manually added in the chat and any",
+      "offset": 491.44,
+      "duration": 3.68
+    },
+    {
+      "text": "conversation history that all gets",
+      "offset": 493.44,
+      "duration": 3.599
+    },
+    {
+      "text": "cleared. So, it&amp;#39;s like deleting the chat",
+      "offset": 495.12,
+      "duration": 3.519
+    },
+    {
+      "text": "and starting a fresh one, which might be",
+      "offset": 497.039,
+      "duration": 3.921
+    },
+    {
+      "text": "useful if you fully completed a task and",
+      "offset": 498.639,
+      "duration": 4.641
+    },
+    {
+      "text": "you want to move on to the next one. The",
+      "offset": 500.96,
+      "duration": 4.239
+    },
+    {
+      "text": "other option or one other option should",
+      "offset": 503.28,
+      "duration": 4.319
+    },
+    {
+      "text": "I say is to use a command called forward",
+      "offset": 505.199,
+      "duration": 4.961
+    },
+    {
+      "text": "slashcompact. And this tells claw to",
+      "offset": 507.599,
+      "duration": 4.641
+    },
+    {
+      "text": "look through the entire session history",
+      "offset": 510.16,
+      "duration": 4.879
+    },
+    {
+      "text": "and context and compact it into a small",
+      "offset": 512.24,
+      "duration": 4.799
+    },
+    {
+      "text": "summary and then just delete the rest.",
+      "offset": 515.039,
+      "duration": 3.761
+    },
+    {
+      "text": "So that small summary of the session",
+      "offset": 517.039,
+      "duration": 3.36
+    },
+    {
+      "text": "history will remain in the session",
+      "offset": 518.8,
+      "duration": 4.08
+    },
+    {
+      "text": "context, but the rest gets deleted. So",
+      "offset": 520.399,
+      "duration": 4.801
+    },
+    {
+      "text": "it reduces all of the context a lot. It",
+      "offset": 522.88,
+      "duration": 4.72
+    },
+    {
+      "text": "squashes it right down. Now, I find this",
+      "offset": 525.2,
+      "duration": 4.319
+    },
+    {
+      "text": "useful if I&amp;#39;m working on a single",
+      "offset": 527.6,
+      "duration": 4.48
+    },
+    {
+      "text": "feature, but the session starts to get",
+      "offset": 529.519,
+      "duration": 5.121
+    },
+    {
+      "text": "really long and the context bloated. And",
+      "offset": 532.08,
+      "duration": 4.319
+    },
+    {
+      "text": "then I can just carry on with the same",
+      "offset": 534.64,
+      "duration": 4.08
+    },
+    {
+      "text": "feature in the same session using that",
+      "offset": 536.399,
+      "duration": 4.401
+    },
+    {
+      "text": "compact summary, and it&amp;#39;s still going to",
+      "offset": 538.72,
+      "duration": 4.72
+    },
+    {
+      "text": "be there as context. The third option is",
+      "offset": 540.8,
+      "duration": 6.08
+    },
+    {
+      "text": "to tap escape twice in the chat window.",
+      "offset": 543.44,
+      "duration": 6
+    },
+    {
+      "text": "And this lets you essentially rewind to",
+      "offset": 546.88,
+      "duration": 4.72
+    },
+    {
+      "text": "a previous point in the session and",
+      "offset": 549.44,
+      "duration": 4.72
+    },
+    {
+      "text": "remove all later chats and files from",
+      "offset": 551.6,
+      "duration": 4.88
+    },
+    {
+      "text": "the context. So, this could be useful if",
+      "offset": 554.16,
+      "duration": 4.64
+    },
+    {
+      "text": "you were working on a feature, maybe you",
+      "offset": 556.48,
+      "duration": 4.24
+    },
+    {
+      "text": "got sidetracked by a bug or something",
+      "offset": 558.8,
+      "duration": 4.24
+    },
+    {
+      "text": "else and you wanted to trim all of that",
+      "offset": 560.72,
+      "duration": 4.799
+    },
+    {
+      "text": "last bit from the history in the",
+      "offset": 563.04,
+      "duration": 5.12
+    },
+    {
+      "text": "context. So, you could do that. So,",
+      "offset": 565.519,
+      "duration": 4.641
+    },
+    {
+      "text": "that&amp;#39;s three approaches to keeping the",
+      "offset": 568.16,
+      "duration": 3.84
+    },
+    {
+      "text": "context clean and focused. Now, let me",
+      "offset": 570.16,
+      "duration": 4.32
+    },
+    {
+      "text": "show you them in action. All right. So,",
+      "offset": 572,
+      "duration": 4.56
+    },
+    {
+      "text": "first of all, let&amp;#39;s try double escape.",
+      "offset": 574.48,
+      "duration": 4.72
+    },
+    {
+      "text": "So, press it twice like so. And you can",
+      "offset": 576.56,
+      "duration": 4.88
+    },
+    {
+      "text": "see I can go back in the chat. Now, I",
+      "offset": 579.2,
+      "duration": 4.16
+    },
+    {
+      "text": "cleared it earlier on. So that&amp;#39;s why you",
+      "offset": 581.44,
+      "duration": 3.76
+    },
+    {
+      "text": "see this clear and that&amp;#39;s the beginning.",
+      "offset": 583.36,
+      "duration": 3.12
+    },
+    {
+      "text": "But you could go back to an earlier",
+      "offset": 585.2,
+      "duration": 2.88
+    },
+    {
+      "text": "point in the chat by just pressing enter",
+      "offset": 586.48,
+      "duration": 3.28
+    },
+    {
+      "text": "on any one of these. Now I&amp;#39;m going to",
+      "offset": 588.08,
+      "duration": 3.52
+    },
+    {
+      "text": "escape to get out of this because I",
+      "offset": 589.76,
+      "duration": 3.84
+    },
+    {
+      "text": "don&amp;#39;t want to do that just yet. Uh the",
+      "offset": 591.6,
+      "duration": 4.72
+    },
+    {
+      "text": "next one I&amp;#39;m going to try is compact. So",
+      "offset": 593.6,
+      "duration": 5.44
+    },
+    {
+      "text": "I&amp;#39;m going to use that compact command.",
+      "offset": 596.32,
+      "duration": 4.4
+    },
+    {
+      "text": "And you can see also you can give this",
+      "offset": 599.04,
+      "duration": 3.68
+    },
+    {
+      "text": "an additional argument right here or",
+      "offset": 600.72,
+      "duration": 3.6
+    },
+    {
+      "text": "instructions as to how you would like",
+      "offset": 602.72,
+      "duration": 3.119
+    },
+    {
+      "text": "this compacted. I&amp;#39;m not going to do",
+      "offset": 604.32,
+      "duration": 5.36
+    },
+    {
+      "text": "that. I&amp;#39;m just going to press enter.",
+      "offset": 605.839,
+      "duration": 5.68
+    },
+    {
+      "text": "And then you can see it&amp;#39;s created a",
+      "offset": 609.68,
+      "duration": 5.68
+    },
+    {
+      "text": "summary right here. And we can now have",
+      "offset": 611.519,
+      "duration": 6.081
+    },
+    {
+      "text": "that in our context. But if we now press",
+      "offset": 615.36,
+      "duration": 5.12
+    },
+    {
+      "text": "double escape, you can see this is the",
+      "offset": 617.6,
+      "duration": 5.6
+    },
+    {
+      "text": "only thing left. So we have this which",
+      "offset": 620.48,
+      "duration": 4.88
+    },
+    {
+      "text": "is the original one and then the compact",
+      "offset": 623.2,
+      "duration": 4.639
+    },
+    {
+      "text": "command. So all the history has actually",
+      "offset": 625.36,
+      "duration": 5.44
+    },
+    {
+      "text": "been cleared except for this bit of",
+      "offset": 627.839,
+      "duration": 6
+    },
+    {
+      "text": "context that remains in the session. All",
+      "offset": 630.8,
+      "duration": 4.719
+    },
+    {
+      "text": "right. So let me escape out of this. And",
+      "offset": 633.839,
+      "duration": 3.44
+    },
+    {
+      "text": "then finally I&amp;#39;m going to use the clear",
+      "offset": 635.519,
+      "duration": 4.081
+    },
+    {
+      "text": "command like so. And you can see here it",
+      "offset": 637.279,
+      "duration": 4.081
+    },
+    {
+      "text": "says clear conversation history and free",
+      "offset": 639.6,
+      "duration": 4.08
+    },
+    {
+      "text": "up context. I&amp;#39;m going to press enter and",
+      "offset": 641.36,
+      "duration": 3.68
+    },
+    {
+      "text": "that&amp;#39;s going to get rid of everything.",
+      "offset": 643.68,
+      "duration": 4
+    },
+    {
+      "text": "So now if I press double escape, you can",
+      "offset": 645.04,
+      "duration": 5.44
+    },
+    {
+      "text": "see there&amp;#39;s no history in the chat.",
+      "offset": 647.68,
+      "duration": 5.12
+    },
+    {
+      "text": "Awesome. I also mentioned that one",
+      "offset": 650.48,
+      "duration": 3.84
+    },
+    {
+      "text": "option would be to exit out of the",
+      "offset": 652.8,
+      "duration": 3.68
+    },
+    {
+      "text": "current chat using for/exit and then",
+      "offset": 654.32,
+      "duration": 3.84
+    },
+    {
+      "text": "just pressing enter. So that&amp;#39;s going to",
+      "offset": 656.48,
+      "duration": 3.44
+    },
+    {
+      "text": "stop the session and dump you back in",
+      "offset": 658.16,
+      "duration": 4.16
+    },
+    {
+      "text": "the regular terminal interface again.",
+      "offset": 659.92,
+      "duration": 4.4
+    },
+    {
+      "text": "And if you start Claude up again by",
+      "offset": 662.32,
+      "duration": 3.92
+    },
+    {
+      "text": "typing Claude and then hitting enter,",
+      "offset": 664.32,
+      "duration": 4.4
+    },
+    {
+      "text": "it&amp;#39;s going to start on a brand new chat",
+      "offset": 666.24,
+      "duration": 4.48
+    },
+    {
+      "text": "session with zero context added to it",
+      "offset": 668.72,
+      "duration": 4.96
+    },
+    {
+      "text": "except for that claw md file. So you can",
+      "offset": 670.72,
+      "duration": 4.16
+    },
+    {
+      "text": "start working on your new feature",
+      "offset": 673.68,
+      "duration": 4
+    },
+    {
+      "text": "straight away. And then if you wanted to",
+      "offset": 674.88,
+      "duration": 5.199
+    },
+    {
+      "text": "resume a previous chat session, you can",
+      "offset": 677.68,
+      "duration": 4.88
+    },
+    {
+      "text": "use the forward slashres command and",
+      "offset": 680.079,
+      "duration": 4.081
+    },
+    {
+      "text": "then press enter. And that&amp;#39;s going to",
+      "offset": 682.56,
+      "duration": 3.68
+    },
+    {
+      "text": "show you all of the current chat",
+      "offset": 684.16,
+      "duration": 4.239
+    },
+    {
+      "text": "sessions you have going on with Claude",
+      "offset": 686.24,
+      "duration": 4.64
+    },
+    {
+      "text": "Code for this project, including when",
+      "offset": 688.399,
+      "duration": 4.88
+    },
+    {
+      "text": "you last used that session, how many",
+      "offset": 690.88,
+      "duration": 4.639
+    },
+    {
+      "text": "messages are in it, uh the branch it&amp;#39;s",
+      "offset": 693.279,
+      "duration": 4.401
+    },
+    {
+      "text": "working on, and a summary. So, I could",
+      "offset": 695.519,
+      "duration": 4.241
+    },
+    {
+      "text": "select one of these, and then I get put",
+      "offset": 697.68,
+      "duration": 4.399
+    },
+    {
+      "text": "back into that chat session with all of",
+      "offset": 699.76,
+      "duration": 4.8
+    },
+    {
+      "text": "its previous context intact. Now, there",
+      "offset": 702.079,
+      "duration": 4.241
+    },
+    {
+      "text": "is one more small thing I want to",
+      "offset": 704.56,
+      "duration": 3.04
+    },
+    {
+      "text": "quickly mention when it comes to",
+      "offset": 706.32,
+      "duration": 2.72
+    },
+    {
+      "text": "context, and that is something called",
+      "offset": 707.6,
+      "duration": 3.359
+    },
+    {
+      "text": "the context window. And the context",
+      "offset": 709.04,
+      "duration": 4.479
+    },
+    {
+      "text": "window represents how much context an AI",
+      "offset": 710.959,
+      "duration": 5.12
+    },
+    {
+      "text": "model or tool can handle at once. It&amp;#39;s",
+      "offset": 713.519,
+      "duration": 5.041
+    },
+    {
+      "text": "measured in tokens where one token is I",
+      "offset": 716.079,
+      "duration": 4.081
+    },
+    {
+      "text": "think about three or four characters in",
+      "offset": 718.56,
+      "duration": 3.839
+    },
+    {
+      "text": "a word. Now the context window is",
+      "offset": 720.16,
+      "duration": 3.919
+    },
+    {
+      "text": "generally different depending on which",
+      "offset": 722.399,
+      "duration": 3.761
+    },
+    {
+      "text": "tools or models that you&amp;#39;re using in",
+      "offset": 724.079,
+      "duration": 4.56
+    },
+    {
+      "text": "Claude code. The context window is",
+      "offset": 726.16,
+      "duration": 4.72
+    },
+    {
+      "text": "200,000 tokens at this point in time",
+      "offset": 728.639,
+      "duration": 3.841
+    },
+    {
+      "text": "which is a fair amount. But if your",
+      "offset": 730.88,
+      "duration": 4.24
+    },
+    {
+      "text": "sessions last a long time, have a lot of",
+      "offset": 732.48,
+      "duration": 4.88
+    },
+    {
+      "text": "manually added context and back and",
+      "offset": 735.12,
+      "duration": 4.48
+    },
+    {
+      "text": "forths, then that context window is",
+      "offset": 737.36,
+      "duration": 4.56
+    },
+    {
+      "text": "eventually going to fill up. Claude Code",
+      "offset": 739.6,
+      "duration": 4.08
+    },
+    {
+      "text": "actually tells you when you&amp;#39;re",
+      "offset": 741.92,
+      "duration": 3.28
+    },
+    {
+      "text": "approaching this limit as well by giving",
+      "offset": 743.68,
+      "duration": 3.279
+    },
+    {
+      "text": "you a little message. And when that",
+      "offset": 745.2,
+      "duration": 4.4
+    },
+    {
+      "text": "happens, I found the results to drop off",
+      "offset": 746.959,
+      "duration": 5.201
+    },
+    {
+      "text": "a little bit. So if your session context",
+      "offset": 749.6,
+      "duration": 4.72
+    },
+    {
+      "text": "is ever getting a bit bloated, remember",
+      "offset": 752.16,
+      "duration": 4.4
+    },
+    {
+      "text": "those three things that we can do to",
+      "offset": 754.32,
+      "duration": 4.24
+    },
+    {
+      "text": "reduce it. We can double escape to trim",
+      "offset": 756.56,
+      "duration": 4.64
+    },
+    {
+      "text": "out any recent history and go back to a",
+      "offset": 758.56,
+      "duration": 4.64
+    },
+    {
+      "text": "previous part of the chat session. We",
+      "offset": 761.2,
+      "duration": 4.079
+    },
+    {
+      "text": "can use the forward slashcompact command",
+      "offset": 763.2,
+      "duration": 3.759
+    },
+    {
+      "text": "to summarize the context and",
+      "offset": 765.279,
+      "duration": 4.081
+    },
+    {
+      "text": "significantly reduce it. Or we can use",
+      "offset": 766.959,
+      "duration": 4.481
+    },
+    {
+      "text": "the forward slashclear command to",
+      "offset": 769.36,
+      "duration": 4.64
+    },
+    {
+      "text": "completely clear the entire context and",
+      "offset": 771.44,
+      "duration": 5.12
+    },
+    {
+      "text": "start a fresh. So then I think that&amp;#39;s",
+      "offset": 774,
+      "duration": 4.639
+    },
+    {
+      "text": "enough about context for now and in the",
+      "offset": 776.56,
+      "duration": 3.68
+    },
+    {
+      "text": "next lesson we&amp;#39;re going to talk about",
+      "offset": 778.639,
+      "duration": 5.44
+    },
+    {
+      "text": "tools and permissions.",
+      "offset": 780.24,
+      "duration": 3.839
+    }
+  ],
+  "fullText": "All right. So, in the last lesson, we talked about the claude ND files, otherwise known as memory, which Claude code uses when you&amp;#39;re asking it to do something. Now, it&amp;#39;s able to do this because the claw.md file, gets added automatically as context to any claw code session like this one we&amp;#39;ve got going on now. But what do we mean when we say context? Well, just like in conversations with real people, responses are more accurate and appropriate from AI models when you provide additional relevant information or context to your prompts. Imagine I just said the word banana to you in a conversation without any additional context. You probably wouldn&amp;#39;t know how to react and you would most likely think I&amp;#39;m quite strange. But if I said to you, first of all, my favorite fruit is a banana, then I&amp;#39;ve added context to that word, and you might still think I&amp;#39;m strange, but at least you know why I&amp;#39;m saying the word banana, and you could even respond with your own favorite fruit. The same is true when you&amp;#39;re having a conversation with Claude Code or any other AI powered chat. If I just told Claude Code to fix the link, it probably won&amp;#39;t know where to start or what link I&amp;#39;m referring to or even what&amp;#39;s wrong with the link. But if I referenced a specific file or component where that broken link is as context to the prompt, then Claude&amp;#39;s got a much better chance of knowing what I&amp;#39;m going on about. And the results are going to be much better because now instead of having to scan the entire codebase for some kind of broken link that it doesn&amp;#39;t know about, it&amp;#39;s going to find it right away in the file we added as context. So we can manually add files as context to Claude code by using the at symbol followed by a path to the file. For example, I could say at source and then back slashcomponents and then also back slash UI. And as I&amp;#39;m writing this, notice that we get some file options that appear down here, which I can just cycle through using my arrow keys to select a file. So I&amp;#39;m going to select this button component file and I&amp;#39;m going to shift on it so that it gets added to my chat right here. So now inside that button component, we have different variants, right? like primary, success, warning, etc. I&amp;#39;m going to add two more, which is just black and white variants for high contrast. So, I&amp;#39;m going to say add a black variant with white text and a white variant with black text. And then uh with black text rather, sorry. And then I&amp;#39;m going to hit enter. And because we provided the file as context, it&amp;#39;s going to know to look at the variants in that file and add them in. If we didn&amp;#39;t add the context, then it wouldn&amp;#39;t know maybe which file or components to add the variants to. And now you can see it&amp;#39;s asking us to make changes, which I&amp;#39;m going to accept. And then if I open up the file in a moment when it&amp;#39;s completed this, we should hopefully see the black and white variance. So, let me cross this off. Oh, it&amp;#39;s asking to make another change. So, let me press yes to do that. And now, if we open this file, we should be able to see those two new variants. Another way to give Claude code context of the file that you want to work on is by opening the file itself and just putting your cursor somewhere inside it. And when we do that, you can see the file name underneath the chat window over here, which tells us it&amp;#39;s been added to the context. Now, if you close that file, well, it&amp;#39;s still there. But that&amp;#39;s because the cursor is still kind of active inside that file. But if you open a new file, just put your cursor inside that one instead, then it&amp;#39;s going to update over here as well. Now, you can only add one file to the context this way, but you can add multiple files by using the at symbol several times in the prompt itself. Also, you can select a portion of code inside a file, and it&amp;#39;s going to hone in and use that little section you&amp;#39;ve highlighted as context. And you can see that down here in the chat as well, that this amount of lines is selected. So, you can also add references using this at sign to claw. ND files. So if I wanted to reference a schema file for example for whenever Claude works with data modules, I could do and it would load that file up into the context then or I could reference a testing config file in here or anything else I think Claude Code should know when making edits to certain parts of the code. So that&amp;#39;s how we add files as context using the at sign or opening the file manually. But we can also add images as context too. So, I&amp;#39;ve got a picture of a button over here with a 3D effect, and I want Claude Code to apply that kind of 3D effect to our buttons. So, what I&amp;#39;m going to do is drag and drop the button file into the chat session over here. And now, it&amp;#39;s added as context. Then, what I&amp;#39;m going to do is paste in a prompt, and it says, can you update the button design? Let&amp;#39;s just make this more specific. We&amp;#39;ll say button design in the button component to look more like the button on this image with a 3D effect keeping all of the color variants. I&amp;#39;m also going to reference the file in context as well by saying at source and then we want to go into components and let&amp;#39;s do backslash components to do that. And then we want the button file down here. So, I&amp;#39;m going to tap on that to add it to the context as well. Then press enter. All right. So, I&amp;#39;m going to allow it to make these edits. And again, it wants to make some more edits. I&amp;#39;m going to press yes to allow it to do this. All right. And now it&amp;#39;s changed it. Okay. And now in a browser, we can see those buttons look a lot more 3D. It&amp;#39;s added that 3D effect. It&amp;#39;s also added, I think, a subtle gradient going from top to bottom. So, yeah, it&amp;#39;s done a really good job there. So, we&amp;#39;ve seen now how to add context to prompts, which essentially gives Claude code more information about any given task. So, adding context when it&amp;#39;s needed is really important. However, adding too much unnecessary context can lead to less accurate results. Now, on a prompt byprompt basis, you&amp;#39;re probably not going to intentionally do that. If you&amp;#39;re working on the button component, you most likely won&amp;#39;t add 50 other unrelated files as context. However, it can happen unintentionally. So let me explain how first of all and then we&amp;#39;ll look at some ways to combat that. So imagine we&amp;#39;re working on a feature like a shopping basket and we provide clawed code with a bunch of different prompts and files as context over several different messages inside the session. Well, all of those files and messages including the AI model responses. They&amp;#39;re all stored in context in the current chat session. And that means whenever you&amp;#39;re sending new prompts, Claude codes got the entire chat history plus any additional context you manually added like files as context for the session. Now, that&amp;#39;s okay while we&amp;#39;re working on this feature because it is probably useful for Claude to know about that history and the changes that it&amp;#39;s been making. But imagine we then get sidetracked because the button doesn&amp;#39;t quite look right inside the shopping basket and we start asking Claude code to make UI changes to the button component which is I suppose a completely separate thing to the shopping basket. Yes, we might use the button on that section but largely the basket page is unrelated to the button component. So, if we started working on the button component in this chat, Claude code&amp;#39;s going to still have all of that previous chat and file context about the basket page, which in respect to working on the button is pretty useless. And we&amp;#39;re essentially giving Claude a bunch of useless context to read while it&amp;#39;s working on the button. And that could confuse him. It might even start making inline edits to the button itself on the basket page, which isn&amp;#39;t what we wanted. So, when we&amp;#39;re working on a feature with claude code, it&amp;#39;s always best to keep the context clean and focused on whatever we&amp;#39;re working on and not let it get bloated with information that it doesn&amp;#39;t need. So, how do we combat this? Well, there&amp;#39;s a few ways. First of all, you could just exit the chat using the forward/exit command and then start a new one in the terminal by typing claude again and hitting enter. And then from inside any session, you can resume all the previous sessions by using the forward slashres command, which I&amp;#39;m going to show you later. But if you don&amp;#39;t want to do that and you want to stay inside the same session, you&amp;#39;ve got essentially three options. You can use the clear command and that&amp;#39;s going to clear the entire session history and context back to its original state. It will keep the claw MD files as context, but anything else that you manually added in the chat and any conversation history that all gets cleared. So, it&amp;#39;s like deleting the chat and starting a fresh one, which might be useful if you fully completed a task and you want to move on to the next one. The other option or one other option should I say is to use a command called forward slashcompact. And this tells claw to look through the entire session history and context and compact it into a small summary and then just delete the rest. So that small summary of the session history will remain in the session context, but the rest gets deleted. So it reduces all of the context a lot. It squashes it right down. Now, I find this useful if I&amp;#39;m working on a single feature, but the session starts to get really long and the context bloated. And then I can just carry on with the same feature in the same session using that compact summary, and it&amp;#39;s still going to be there as context. The third option is to tap escape twice in the chat window. And this lets you essentially rewind to a previous point in the session and remove all later chats and files from the context. So, this could be useful if you were working on a feature, maybe you got sidetracked by a bug or something else and you wanted to trim all of that last bit from the history in the context. So, you could do that. So, that&amp;#39;s three approaches to keeping the context clean and focused. Now, let me show you them in action. All right. So, first of all, let&amp;#39;s try double escape. So, press it twice like so. And you can see I can go back in the chat. Now, I cleared it earlier on. So that&amp;#39;s why you see this clear and that&amp;#39;s the beginning. But you could go back to an earlier point in the chat by just pressing enter on any one of these. Now I&amp;#39;m going to escape to get out of this because I don&amp;#39;t want to do that just yet. Uh the next one I&amp;#39;m going to try is compact. So I&amp;#39;m going to use that compact command. And you can see also you can give this an additional argument right here or instructions as to how you would like this compacted. I&amp;#39;m not going to do that. I&amp;#39;m just going to press enter. And then you can see it&amp;#39;s created a summary right here. And we can now have that in our context. But if we now press double escape, you can see this is the only thing left. So we have this which is the original one and then the compact command. So all the history has actually been cleared except for this bit of context that remains in the session. All right. So let me escape out of this. And then finally I&amp;#39;m going to use the clear command like so. And you can see here it says clear conversation history and free up context. I&amp;#39;m going to press enter and that&amp;#39;s going to get rid of everything. So now if I press double escape, you can see there&amp;#39;s no history in the chat. Awesome. I also mentioned that one option would be to exit out of the current chat using for/exit and then just pressing enter. So that&amp;#39;s going to stop the session and dump you back in the regular terminal interface again. And if you start Claude up again by typing Claude and then hitting enter, it&amp;#39;s going to start on a brand new chat session with zero context added to it except for that claw md file. So you can start working on your new feature straight away. And then if you wanted to resume a previous chat session, you can use the forward slashres command and then press enter. And that&amp;#39;s going to show you all of the current chat sessions you have going on with Claude Code for this project, including when you last used that session, how many messages are in it, uh the branch it&amp;#39;s working on, and a summary. So, I could select one of these, and then I get put back into that chat session with all of its previous context intact. Now, there is one more small thing I want to quickly mention when it comes to context, and that is something called the context window. And the context window represents how much context an AI model or tool can handle at once. It&amp;#39;s measured in tokens where one token is I think about three or four characters in a word. Now the context window is generally different depending on which tools or models that you&amp;#39;re using in Claude code. The context window is 200,000 tokens at this point in time which is a fair amount. But if your sessions last a long time, have a lot of manually added context and back and forths, then that context window is eventually going to fill up. Claude Code actually tells you when you&amp;#39;re approaching this limit as well by giving you a little message. And when that happens, I found the results to drop off a little bit. So if your session context is ever getting a bit bloated, remember those three things that we can do to reduce it. We can double escape to trim out any recent history and go back to a previous part of the chat session. We can use the forward slashcompact command to summarize the context and significantly reduce it. Or we can use the forward slashclear command to completely clear the entire context and start a fresh. So then I think that&amp;#39;s enough about context for now and in the next lesson we&amp;#39;re going to talk about tools and permissions."
+}

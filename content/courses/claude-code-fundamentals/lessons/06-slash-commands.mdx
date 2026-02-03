@@ -1,0 +1,202 @@
+---
+title: Slash Commands
+description: Master built-in commands and create custom workflows for your team.
+duration: 25m
+module: Core Features
+order: 6
+---
+
+## Built-in Commands
+
+Claude Code includes several built-in slash commands:
+
+### Context Management
+- `/clear` - Clear conversation history
+- `/compact` - Summarize and compress context
+
+### Configuration
+- `/init` - Generate CLAUDE.md
+- `/permissions` - Manage tool permissions
+- `/model` - Switch between Claude models
+
+### Features
+- `/agents` - Manage subagents
+- `/mcp` - Manage MCP servers
+- `/help` - Show available commands
+
+### Navigation
+- `/add-dir` - Add directory to context
+- `/teleport` - Jump to a different project
+
+## The `/model` Command
+
+Switch between models during a session:
+
+```
+/model
+```
+
+Options typically include:
+- **Sonnet 4** - Fast, capable (default)
+- **Opus 4.5** - Most capable, complex reasoning
+- **Haiku 4.5** - Fastest, simple tasks
+
+Choose based on task complexity:
+- Haiku for quick fixes
+- Sonnet for most development
+- Opus for architecture decisions
+
+## Creating Custom Commands
+
+Create custom commands in `.claude/commands/`:
+
+```
+.claude/
+  commands/
+    ui-component.md
+    test-coverage.md
+    pr-review.md
+```
+
+### Basic Command
+
+`.claude/commands/ui-component.md`:
+
+```markdown
+Create a new React component with these requirements:
+- TypeScript with proper types
+- Tailwind CSS for styling
+- Include unit tests
+- Follow project naming conventions
+```
+
+Usage:
+```
+/ui-component
+```
+
+## Commands with Arguments
+
+Add frontmatter to accept arguments:
+
+`.claude/commands/ui-component.md`:
+
+```markdown
+---
+arguments:
+  - name: component name
+  - description: what the component does
+---
+
+Create a new React component called $1 that $2.
+
+Requirements:
+- TypeScript with proper types
+- Tailwind CSS for styling
+- Unit tests in __tests__ folder
+- Export from components/index.ts
+```
+
+Usage:
+```
+/ui-component Button | handles click actions with loading state
+```
+
+The `|` separates arguments matching the frontmatter order.
+
+## Advanced: Using $ARGUMENTS
+
+For flexible argument handling:
+
+`.claude/commands/generate.md`:
+
+```markdown
+---
+description: Generate code based on description
+---
+
+Generate the following: $ARGUMENTS
+
+Follow these guidelines:
+- Use TypeScript
+- Include error handling
+- Add JSDoc comments
+```
+
+Usage:
+```
+/generate a utility function for debouncing
+```
+
+## Command Organization
+
+Organize commands by purpose:
+
+```
+.claude/commands/
+  # Development
+  component.md      # Create components
+  hook.md           # Create React hooks
+  api-route.md      # Create API endpoints
+
+  # Testing
+  test.md           # Write tests
+  coverage.md       # Check coverage
+
+  # Review
+  review.md         # Code review
+  security.md       # Security audit
+```
+
+## Team Commands
+
+Share commands via version control:
+
+1. Add `.claude/commands/` to your repository
+2. Team members get commands automatically
+3. Standardize workflows across the team
+
+### Example Team Commands
+
+**`pr-description.md`**:
+```markdown
+Generate a PR description for the current changes.
+
+Include:
+- Summary of changes (2-3 sentences)
+- List of modified files
+- Testing notes
+- Breaking changes (if any)
+```
+
+**`deploy-checklist.md`**:
+```markdown
+Review the current changes for deployment readiness:
+
+Check for:
+- [ ] No console.log statements
+- [ ] No TODO comments
+- [ ] Tests passing
+- [ ] No hardcoded secrets
+- [ ] Database migrations documented
+```
+
+## Built-in vs. Custom Priority
+
+Custom commands with the same name as built-in commands override them. Be careful not to accidentally shadow important built-ins.
+
+## Practice Exercise
+
+1. Create `.claude/commands/` directory
+2. Create a simple command (e.g., `hello.md`)
+3. Test with `/hello`
+4. Add arguments to make it dynamic
+5. Test with `/hello YourName | your role`
+
+## Key Takeaways
+
+- Built-in commands handle common tasks
+- Custom commands live in `.claude/commands/`
+- Use arguments for flexible commands
+- Share commands via version control
+- `$ARGUMENTS` captures free-form input

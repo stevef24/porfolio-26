@@ -1,0 +1,1460 @@
+{
+  "videoId": "MTGJuu9CeMk",
+  "title": "Planning & Thinking",
+  "duration": "11:11",
+  "module": "Core Concepts",
+  "extractedAt": "2026-01-23T04:12:35.495Z",
+  "segments": [
+    {
+      "text": "Okay, so in this lesson we&amp;#39;re going to",
+      "offset": 1.36,
+      "duration": 3.52
+    },
+    {
+      "text": "talk about two things that Claude Code",
+      "offset": 3.2,
+      "duration": 3.52
+    },
+    {
+      "text": "can do. Planning and thinking, which are",
+      "offset": 4.88,
+      "duration": 3.84
+    },
+    {
+      "text": "both two very different things. Thinking",
+      "offset": 6.72,
+      "duration": 3.52
+    },
+    {
+      "text": "is when you ask Claude code to think",
+      "offset": 8.72,
+      "duration": 3.039
+    },
+    {
+      "text": "about a solution before writing any",
+      "offset": 10.24,
+      "duration": 3.6
+    },
+    {
+      "text": "code. And planning is when Claude puts",
+      "offset": 11.759,
+      "duration": 4.08
+    },
+    {
+      "text": "together its own plan of action on how",
+      "offset": 13.84,
+      "duration": 4
+    },
+    {
+      "text": "it intends to implement some features",
+      "offset": 15.839,
+      "duration": 4.401
+    },
+    {
+      "text": "and asks you to approve it. So let&amp;#39;s",
+      "offset": 17.84,
+      "duration": 4.24
+    },
+    {
+      "text": "start with planning. And you might have",
+      "offset": 20.24,
+      "duration": 3.68
+    },
+    {
+      "text": "caught a glimpse of this at the end of",
+      "offset": 22.08,
+      "duration": 4
+    },
+    {
+      "text": "the last lesson where we used Alt plus M",
+      "offset": 23.92,
+      "duration": 4.08
+    },
+    {
+      "text": "to cycle through the autoedit option",
+      "offset": 26.08,
+      "duration": 5.439
+    },
+    {
+      "text": "down here. So, if I press AltM once, I",
+      "offset": 28,
+      "duration": 5.52
+    },
+    {
+      "text": "turn on the accept edits feature. But if",
+      "offset": 31.519,
+      "duration": 4.081
+    },
+    {
+      "text": "I press it twice, we go into the",
+      "offset": 33.52,
+      "duration": 4
+    },
+    {
+      "text": "planning mode instead. Now, planning",
+      "offset": 35.6,
+      "duration": 3.119
+    },
+    {
+      "text": "mode is good for when you&amp;#39;re giving",
+      "offset": 37.52,
+      "duration": 3.44
+    },
+    {
+      "text": "Claude code a task which has a wide",
+      "offset": 38.719,
+      "duration": 3.84
+    },
+    {
+      "text": "breadth of changes over several",
+      "offset": 40.96,
+      "duration": 3.84
+    },
+    {
+      "text": "different files. But where individually",
+      "offset": 42.559,
+      "duration": 3.68
+    },
+    {
+      "text": "each of those changes might not",
+      "offset": 44.8,
+      "duration": 3.759
+    },
+    {
+      "text": "necessarily be complex. They could be,",
+      "offset": 46.239,
+      "duration": 4.64
+    },
+    {
+      "text": "but maybe not. Still, the scope of those",
+      "offset": 48.559,
+      "duration": 4.241
+    },
+    {
+      "text": "changes might be quite wide. And with a",
+      "offset": 50.879,
+      "duration": 4.241
+    },
+    {
+      "text": "plan, it makes easier for Claude Code to",
+      "offset": 52.8,
+      "duration": 4.399
+    },
+    {
+      "text": "stay on track and complete each task in",
+      "offset": 55.12,
+      "duration": 4.8
+    },
+    {
+      "text": "order. So then let&amp;#39;s keep planning mode",
+      "offset": 57.199,
+      "duration": 4.721
+    },
+    {
+      "text": "on and we&amp;#39;re going to ask it to do the",
+      "offset": 59.92,
+      "duration": 4.239
+    },
+    {
+      "text": "following. Can you make a custom",
+      "offset": 61.92,
+      "duration": 4.72
+    },
+    {
+      "text": "component for an avatar? No pick only",
+      "offset": 64.159,
+      "duration": 4.801
+    },
+    {
+      "text": "initial and find any places in the",
+      "offset": 66.64,
+      "duration": 4.56
+    },
+    {
+      "text": "project where it can replace avatar like",
+      "offset": 68.96,
+      "duration": 4.24
+    },
+    {
+      "text": "templates. So I&amp;#39;m going to press enter",
+      "offset": 71.2,
+      "duration": 4.88
+    },
+    {
+      "text": "now and see what it comes up with.",
+      "offset": 73.2,
+      "duration": 4.559
+    },
+    {
+      "text": "So first of all, it&amp;#39;s analyzing the",
+      "offset": 76.08,
+      "duration": 3.28
+    },
+    {
+      "text": "codebase to understand where an avatar",
+      "offset": 77.759,
+      "duration": 3.601
+    },
+    {
+      "text": "component could be useful. So it&amp;#39;s",
+      "offset": 79.36,
+      "duration": 3.68
+    },
+    {
+      "text": "searching things. It&amp;#39;s reading different",
+      "offset": 81.36,
+      "duration": 4.68
+    },
+    {
+      "text": "files.",
+      "offset": 83.04,
+      "duration": 3
+    },
+    {
+      "text": "All right. And now it&amp;#39;s come up with a",
+      "offset": 87.439,
+      "duration": 4.481
+    },
+    {
+      "text": "plan right here. So if we scroll to the",
+      "offset": 89.6,
+      "duration": 5.04
+    },
+    {
+      "text": "top, you can see it&amp;#39;s discovered avatar",
+      "offset": 91.92,
+      "duration": 4.64
+    },
+    {
+      "text": "like implementations in the blog system",
+      "offset": 94.64,
+      "duration": 4
+    },
+    {
+      "text": "in a few different places in the blog",
+      "offset": 96.56,
+      "duration": 4.4
+    },
+    {
+      "text": "post cards and also in recent activity",
+      "offset": 98.64,
+      "duration": 5.04
+    },
+    {
+      "text": "in the sidebar. So it&amp;#39;s detected those",
+      "offset": 100.96,
+      "duration": 4.799
+    },
+    {
+      "text": "and then it&amp;#39;s proposing this avatar",
+      "offset": 103.68,
+      "duration": 4.24
+    },
+    {
+      "text": "component. So it&amp;#39;s in the correct place",
+      "offset": 105.759,
+      "duration": 4.4
+    },
+    {
+      "text": "inside the UI folder, then an avatar",
+      "offset": 107.92,
+      "duration": 4.559
+    },
+    {
+      "text": "folder, then avatar.tsx.",
+      "offset": 110.159,
+      "duration": 4.801
+    },
+    {
+      "text": "So, it&amp;#39;s going to have the initial based",
+      "offset": 112.479,
+      "duration": 4.161
+    },
+    {
+      "text": "avatar, which is going to be the first",
+      "offset": 114.96,
+      "duration": 4.08
+    },
+    {
+      "text": "letter from their name. Multiple sizes,",
+      "offset": 116.64,
+      "duration": 4.4
+    },
+    {
+      "text": "color variants, consistent styling. So,",
+      "offset": 119.04,
+      "duration": 3.84
+    },
+    {
+      "text": "it&amp;#39;s kind of following the same pattern",
+      "offset": 121.04,
+      "duration": 5.2
+    },
+    {
+      "text": "as the button component, which is nice.",
+      "offset": 122.88,
+      "duration": 5.599
+    },
+    {
+      "text": "So, for the implementation plan, it&amp;#39;s",
+      "offset": 126.24,
+      "duration": 3.68
+    },
+    {
+      "text": "going to first of all create the avatar",
+      "offset": 128.479,
+      "duration": 3.84
+    },
+    {
+      "text": "component, then replace the existing",
+      "offset": 129.92,
+      "duration": 5.44
+    },
+    {
+      "text": "avatar code in the blog post cards, and",
+      "offset": 132.319,
+      "duration": 5.121
+    },
+    {
+      "text": "it even specifies exactly where it&amp;#39;s",
+      "offset": 135.36,
+      "duration": 4
+    },
+    {
+      "text": "going to do that for us. Then it says",
+      "offset": 137.44,
+      "duration": 4.08
+    },
+    {
+      "text": "it&amp;#39;s going to work on the blog sidebar",
+      "offset": 139.36,
+      "duration": 3.92
+    },
+    {
+      "text": "and it&amp;#39;s going to add the avatar to",
+      "offset": 141.52,
+      "duration": 5.04
+    },
+    {
+      "text": "individual blog posts as well inside the",
+      "offset": 143.28,
+      "duration": 5.76
+    },
+    {
+      "text": "blog post details page. Then it&amp;#39;s going",
+      "offset": 146.56,
+      "duration": 4.96
+    },
+    {
+      "text": "to create a test file to follow the",
+      "offset": 149.04,
+      "duration": 4.559
+    },
+    {
+      "text": "existing button test patterns so it can",
+      "offset": 151.52,
+      "duration": 4.24
+    },
+    {
+      "text": "be tested on the avatar component as",
+      "offset": 153.599,
+      "duration": 4.241
+    },
+    {
+      "text": "well. And then we&amp;#39;re going to add a link",
+      "offset": 155.76,
+      "duration": 4.88
+    },
+    {
+      "text": "to the avatar preview in the header",
+      "offset": 157.84,
+      "duration": 5.84
+    },
+    {
+      "text": "navigation. So you can go ahead and",
+      "offset": 160.64,
+      "duration": 5.84
+    },
+    {
+      "text": "accept this plan or you can accept the",
+      "offset": 163.68,
+      "duration": 4.8
+    },
+    {
+      "text": "plan but then keep manually approving",
+      "offset": 166.48,
+      "duration": 4.8
+    },
+    {
+      "text": "any edits or you can say no and keep",
+      "offset": 168.48,
+      "duration": 4.399
+    },
+    {
+      "text": "planning and provide feedback for the",
+      "offset": 171.28,
+      "duration": 4.16
+    },
+    {
+      "text": "plan so it adjusts the plan. So I&amp;#39;m",
+      "offset": 172.879,
+      "duration": 4.801
+    },
+    {
+      "text": "going to select the first option up here",
+      "offset": 175.44,
+      "duration": 7
+    },
+    {
+      "text": "which is yes and auto accept edits.",
+      "offset": 177.68,
+      "duration": 4.76
+    },
+    {
+      "text": "Okay. So down here it is saying it wants",
+      "offset": 191.36,
+      "duration": 4.959
+    },
+    {
+      "text": "to run this bash command npm run test",
+      "offset": 193.36,
+      "duration": 5.12
+    },
+    {
+      "text": "and I want to select the second option",
+      "offset": 196.319,
+      "duration": 4.081
+    },
+    {
+      "text": "which is yes and don&amp;#39;t ask me again for",
+      "offset": 198.48,
+      "duration": 4.399
+    },
+    {
+      "text": "npm run test commands. And when I do",
+      "offset": 200.4,
+      "duration": 4.96
+    },
+    {
+      "text": "that, it should automatically go into",
+      "offset": 202.879,
+      "duration": 5.041
+    },
+    {
+      "text": "the settings.local file right here,",
+      "offset": 205.36,
+      "duration": 6.68
+    },
+    {
+      "text": "which we can see it does. Awesome.",
+      "offset": 207.92,
+      "duration": 4.12
+    },
+    {
+      "text": "All right. So, this time it&amp;#39;s trying to",
+      "offset": 219.2,
+      "duration": 3.039
+    },
+    {
+      "text": "link the file. And again, I&amp;#39;m going to",
+      "offset": 220.64,
+      "duration": 6.28
+    },
+    {
+      "text": "choose the second option down here.",
+      "offset": 222.239,
+      "duration": 4.681
+    },
+    {
+      "text": "Okay. And then finally, it looks like",
+      "offset": 232.879,
+      "duration": 2.961
+    },
+    {
+      "text": "it&amp;#39;s done. So, it&amp;#39;s checked off",
+      "offset": 234.56,
+      "duration": 4.319
+    },
+    {
+      "text": "everything from the plan it created. All",
+      "offset": 235.84,
+      "duration": 5.28
+    },
+    {
+      "text": "the tests are passing. And if we close",
+      "offset": 238.879,
+      "duration": 4.161
+    },
+    {
+      "text": "this off and take a look over here, we",
+      "offset": 241.12,
+      "duration": 4
+    },
+    {
+      "text": "should be able to see that new avatar",
+      "offset": 243.04,
+      "duration": 5.04
+    },
+    {
+      "text": "folder. And okay, so it&amp;#39;s actually",
+      "offset": 245.12,
+      "duration": 6.399
+    },
+    {
+      "text": "created a full page for the avatar. Now,",
+      "offset": 248.08,
+      "duration": 4.96
+    },
+    {
+      "text": "maybe that was in the plan and I didn&amp;#39;t",
+      "offset": 251.519,
+      "duration": 2.961
+    },
+    {
+      "text": "fully understand it. I thought it was",
+      "offset": 253.04,
+      "duration": 3.12
+    },
+    {
+      "text": "just going to add it to the preview",
+      "offset": 254.48,
+      "duration": 3.36
+    },
+    {
+      "text": "page. But you see, this is where",
+      "offset": 256.16,
+      "duration": 4.639
+    },
+    {
+      "text": "sometimes AI can go wrong. Claude Code,",
+      "offset": 257.84,
+      "duration": 4.799
+    },
+    {
+      "text": "Copilot, whatever you&amp;#39;re using. So, it&amp;#39;s",
+      "offset": 260.799,
+      "duration": 4.001
+    },
+    {
+      "text": "important to keep it on track. Either",
+      "offset": 262.639,
+      "duration": 4.081
+    },
+    {
+      "text": "way, it doesn&amp;#39;t so much matter for this",
+      "offset": 264.8,
+      "duration": 4.16
+    },
+    {
+      "text": "particular task. Um, it&amp;#39;s just to",
+      "offset": 266.72,
+      "duration": 3.84
+    },
+    {
+      "text": "preview it after all. And I can delete",
+      "offset": 268.96,
+      "duration": 3.28
+    },
+    {
+      "text": "this page afterwards. But you can see",
+      "offset": 270.56,
+      "duration": 3.359
+    },
+    {
+      "text": "we&amp;#39;ve got this component folder down",
+      "offset": 272.24,
+      "duration": 3.6
+    },
+    {
+      "text": "here, avatar. We&amp;#39;ve got the test file",
+      "offset": 273.919,
+      "duration": 4.321
+    },
+    {
+      "text": "and the avatar component itself. So,",
+      "offset": 275.84,
+      "duration": 4.72
+    },
+    {
+      "text": "we&amp;#39;ve got the default size right here",
+      "offset": 278.24,
+      "duration": 4.56
+    },
+    {
+      "text": "set to medium. The variant is gradient.",
+      "offset": 280.56,
+      "duration": 3.44
+    },
+    {
+      "text": "But we have these different variant",
+      "offset": 282.8,
+      "duration": 3.04
+    },
+    {
+      "text": "options up here in different sizes as",
+      "offset": 284,
+      "duration": 4.24
+    },
+    {
+      "text": "well for the props. Um we have the size",
+      "offset": 285.84,
+      "duration": 5.68
+    },
+    {
+      "text": "classes, the variant classes, and then",
+      "offset": 288.24,
+      "duration": 6.16
+    },
+    {
+      "text": "down here we have the avatar itself.",
+      "offset": 291.52,
+      "duration": 4.88
+    },
+    {
+      "text": "Okay. So let&amp;#39;s see if this works in the",
+      "offset": 294.4,
+      "duration": 4.56
+    },
+    {
+      "text": "browser. All right. So you can see added",
+      "offset": 296.4,
+      "duration": 4.4
+    },
+    {
+      "text": "the avatar page and the link to the",
+      "offset": 298.96,
+      "duration": 3.2
+    },
+    {
+      "text": "header. So it did get a little bit",
+      "offset": 300.8,
+      "duration": 3.839
+    },
+    {
+      "text": "trigger happy. And now if we take a look",
+      "offset": 302.16,
+      "duration": 3.92
+    },
+    {
+      "text": "down here, we can see all the different",
+      "offset": 304.639,
+      "duration": 2.961
+    },
+    {
+      "text": "variants that we have, the different",
+      "offset": 306.08,
+      "duration": 4.399
+    },
+    {
+      "text": "sizes, even use cases down here. So I",
+      "offset": 307.6,
+      "duration": 5.439
+    },
+    {
+      "text": "think this is all really really nice.",
+      "offset": 310.479,
+      "duration": 4.641
+    },
+    {
+      "text": "It&amp;#39;s created that component and shown us",
+      "offset": 313.039,
+      "duration": 4.961
+    },
+    {
+      "text": "different ways we can use it. Now if I",
+      "offset": 315.12,
+      "duration": 4.96
+    },
+    {
+      "text": "go to the actual blog part of the",
+      "offset": 318,
+      "duration": 3.759
+    },
+    {
+      "text": "website, you can see it&amp;#39;s now using that",
+      "offset": 320.08,
+      "duration": 4.399
+    },
+    {
+      "text": "avatar here. It&amp;#39;s using it down here as",
+      "offset": 321.759,
+      "duration": 5.761
+    },
+    {
+      "text": "well inside recent activity. And if I",
+      "offset": 324.479,
+      "duration": 5.521
+    },
+    {
+      "text": "was to select an individual blog like",
+      "offset": 327.52,
+      "duration": 4.399
+    },
+    {
+      "text": "this one right here, you can see we have",
+      "offset": 330,
+      "duration": 4.32
+    },
+    {
+      "text": "the avatar on the blog details as well.",
+      "offset": 331.919,
+      "duration": 4.641
+    },
+    {
+      "text": "So, the only thing it did really that I",
+      "offset": 334.32,
+      "duration": 4.64
+    },
+    {
+      "text": "didn&amp;#39;t want it to do was place the",
+      "offset": 336.56,
+      "duration": 4.079
+    },
+    {
+      "text": "avatar link up here and create a full",
+      "offset": 338.96,
+      "duration": 4.799
+    },
+    {
+      "text": "page for the avatars when I specified in",
+      "offset": 340.639,
+      "duration": 5.201
+    },
+    {
+      "text": "a claw.md file that they should go",
+      "offset": 343.759,
+      "duration": 4.88
+    },
+    {
+      "text": "inside the preview uh file. So, maybe I",
+      "offset": 345.84,
+      "duration": 4.96
+    },
+    {
+      "text": "wasn&amp;#39;t specific enough. Maybe I looked",
+      "offset": 348.639,
+      "duration": 4.4
+    },
+    {
+      "text": "over the plan too quickly. I don&amp;#39;t know.",
+      "offset": 350.8,
+      "duration": 4.56
+    },
+    {
+      "text": "But this is easy to rectify. I can just",
+      "offset": 353.039,
+      "duration": 4.72
+    },
+    {
+      "text": "delete these pages, no problem. So I",
+      "offset": 355.36,
+      "duration": 4.96
+    },
+    {
+      "text": "just told claw code to remove the avatar",
+      "offset": 357.759,
+      "duration": 5.121
+    },
+    {
+      "text": "page and instead put all of the samples",
+      "offset": 360.32,
+      "duration": 4.159
+    },
+    {
+      "text": "inside the preview page and it&amp;#39;s gone",
+      "offset": 362.88,
+      "duration": 3.2
+    },
+    {
+      "text": "ahead and done that which is good. I&amp;#39;ve",
+      "offset": 364.479,
+      "duration": 5.44
+    },
+    {
+      "text": "also updated the claw MD file with this",
+      "offset": 366.08,
+      "duration": 6
+    },
+    {
+      "text": "more specific instruction at the bottom",
+      "offset": 369.919,
+      "duration": 3.921
+    },
+    {
+      "text": "which says now when making new page",
+      "offset": 372.08,
+      "duration": 3.36
+    },
+    {
+      "text": "components always had a link to that",
+      "offset": 373.84,
+      "duration": 3.44
+    },
+    {
+      "text": "page in the header. So it did this for",
+      "offset": 375.44,
+      "duration": 4.08
+    },
+    {
+      "text": "our UI component. So I added this bit on",
+      "offset": 377.28,
+      "duration": 4.8
+    },
+    {
+      "text": "only do this for page components not UI",
+      "offset": 379.52,
+      "duration": 5.2
+    },
+    {
+      "text": "or other dropin components. So, I guess",
+      "offset": 382.08,
+      "duration": 5.839
+    },
+    {
+      "text": "this is a lesson in instructions and",
+      "offset": 384.72,
+      "duration": 5.84
+    },
+    {
+      "text": "also in how you have to be specific in",
+      "offset": 387.919,
+      "duration": 4.641
+    },
+    {
+      "text": "what you want Claude Code to do. Okay,",
+      "offset": 390.56,
+      "duration": 3.84
+    },
+    {
+      "text": "so that all work pretty well and I think",
+      "offset": 392.56,
+      "duration": 3.84
+    },
+    {
+      "text": "having plan mode turned on probably",
+      "offset": 394.4,
+      "duration": 3.919
+    },
+    {
+      "text": "helped Claude Code complete the task",
+      "offset": 396.4,
+      "duration": 3.919
+    },
+    {
+      "text": "correctly. Now, it may still have done",
+      "offset": 398.319,
+      "duration": 4.481
+    },
+    {
+      "text": "so without planning mode on, but when it",
+      "offset": 400.319,
+      "duration": 4.401
+    },
+    {
+      "text": "is turned on, I find it&amp;#39;s worked to stay",
+      "offset": 402.8,
+      "duration": 4.48
+    },
+    {
+      "text": "on track more for tasks with a wider",
+      "offset": 404.72,
+      "duration": 4.96
+    },
+    {
+      "text": "scope. And arguably the scope wasn&amp;#39;t",
+      "offset": 407.28,
+      "duration": 3.919
+    },
+    {
+      "text": "huge for this task, but it still",
+      "offset": 409.68,
+      "duration": 4.079
+    },
+    {
+      "text": "involved making a component, testing the",
+      "offset": 411.199,
+      "duration": 4.56
+    },
+    {
+      "text": "component, looking for places it can be",
+      "offset": 413.759,
+      "duration": 5.361
+    },
+    {
+      "text": "used, editing those files, etc. Anyway,",
+      "offset": 415.759,
+      "duration": 5.921
+    },
+    {
+      "text": "now let&amp;#39;s look at thinking mode. Now,",
+      "offset": 419.12,
+      "duration": 4.16
+    },
+    {
+      "text": "thinking mode is good when you want",
+      "offset": 421.68,
+      "duration": 3.2
+    },
+    {
+      "text": "claude code to work on something that",
+      "offset": 423.28,
+      "duration": 4.24
+    },
+    {
+      "text": "includes more complex logic. So, not",
+      "offset": 424.88,
+      "duration": 4.879
+    },
+    {
+      "text": "necessarily a wide scope like planning",
+      "offset": 427.52,
+      "duration": 4.799
+    },
+    {
+      "text": "mode is for. It could be quite a narrow",
+      "offset": 429.759,
+      "duration": 4.641
+    },
+    {
+      "text": "scope, but one where the logic is more",
+      "offset": 432.319,
+      "duration": 4.241
+    },
+    {
+      "text": "complex. For example, I might want to",
+      "offset": 434.4,
+      "duration": 4.4
+    },
+    {
+      "text": "implement a comment system for the blog",
+      "offset": 436.56,
+      "duration": 4.56
+    },
+    {
+      "text": "where users can comment on the blogs.",
+      "offset": 438.8,
+      "duration": 4
+    },
+    {
+      "text": "And that would include perhaps some",
+      "offset": 441.12,
+      "duration": 3.519
+    },
+    {
+      "text": "thought about exactly how it should be",
+      "offset": 442.8,
+      "duration": 4.32
+    },
+    {
+      "text": "done, what services, if any, should be",
+      "offset": 444.639,
+      "duration": 4.481
+    },
+    {
+      "text": "used, what React components need to be",
+      "offset": 447.12,
+      "duration": 4.079
+    },
+    {
+      "text": "made, what additional pages might need",
+      "offset": 449.12,
+      "duration": 4.32
+    },
+    {
+      "text": "to be made, what about live updates and",
+      "offset": 451.199,
+      "duration": 3.761
+    },
+    {
+      "text": "how does this get structured and fit",
+      "offset": 453.44,
+      "duration": 3.92
+    },
+    {
+      "text": "well together in this application. So",
+      "offset": 454.96,
+      "duration": 4.16
+    },
+    {
+      "text": "for something like this, you would turn",
+      "offset": 457.36,
+      "duration": 3.92
+    },
+    {
+      "text": "on extended thinking mode, which does",
+      "offset": 459.12,
+      "duration": 4.32
+    },
+    {
+      "text": "consume more tokens, but it allows the",
+      "offset": 461.28,
+      "duration": 4.72
+    },
+    {
+      "text": "model to reason and think more about how",
+      "offset": 463.44,
+      "duration": 4.159
+    },
+    {
+      "text": "to complete something in a way that",
+      "offset": 466,
+      "duration": 3.68
+    },
+    {
+      "text": "actually works. Now, to be honest, we&amp;#39;re",
+      "offset": 467.599,
+      "duration": 4.241
+    },
+    {
+      "text": "entering into the realms of vibe coding",
+      "offset": 469.68,
+      "duration": 4.32
+    },
+    {
+      "text": "when we ask the AI to implement a whole",
+      "offset": 471.84,
+      "duration": 5.039
+    },
+    {
+      "text": "system like this. And I would personally",
+      "offset": 474,
+      "duration": 4.8
+    },
+    {
+      "text": "break this down into smaller chunks or",
+      "offset": 476.879,
+      "duration": 5.04
+    },
+    {
+      "text": "tasks and work on each one one at a time",
+      "offset": 478.8,
+      "duration": 5.76
+    },
+    {
+      "text": "with Claude code so I could more easily",
+      "offset": 481.919,
+      "duration": 5.761
+    },
+    {
+      "text": "guide the AI to do what I want it to do.",
+      "offset": 484.56,
+      "duration": 4.72
+    },
+    {
+      "text": "But for the sake of this lesson and to",
+      "offset": 487.68,
+      "duration": 3.519
+    },
+    {
+      "text": "demonstrate thinking mode, we&amp;#39;ll run",
+      "offset": 489.28,
+      "duration": 4.4
+    },
+    {
+      "text": "with this example. So let me paste in",
+      "offset": 491.199,
+      "duration": 3.921
+    },
+    {
+      "text": "this prompt right here first of all",
+      "offset": 493.68,
+      "duration": 4.079
+    },
+    {
+      "text": "which says implement a comment system",
+      "offset": 495.12,
+      "duration": 5.12
+    },
+    {
+      "text": "into the application where users can",
+      "offset": 497.759,
+      "duration": 4.481
+    },
+    {
+      "text": "authenticate and then comment on blog",
+      "offset": 500.24,
+      "duration": 4.239
+    },
+    {
+      "text": "posts. think hard about this",
+      "offset": 502.24,
+      "duration": 4.399
+    },
+    {
+      "text": "implementation, including the database,",
+      "offset": 504.479,
+      "duration": 4.241
+    },
+    {
+      "text": "schema, authentication services,",
+      "offset": 506.639,
+      "duration": 4.481
+    },
+    {
+      "text": "moderation, and real-time updates. I&amp;#39;m",
+      "offset": 508.72,
+      "duration": 4.64
+    },
+    {
+      "text": "also going to keep planning mode on so I",
+      "offset": 511.12,
+      "duration": 4.24
+    },
+    {
+      "text": "can see the plan that Claude code makes",
+      "offset": 513.36,
+      "duration": 5.119
+    },
+    {
+      "text": "as well. Now, I&amp;#39;m triggering think mode",
+      "offset": 515.36,
+      "duration": 6
+    },
+    {
+      "text": "in this prompt by using the word think",
+      "offset": 518.479,
+      "duration": 5.201
+    },
+    {
+      "text": "right here. And whenever Claude code",
+      "offset": 521.36,
+      "duration": 3.919
+    },
+    {
+      "text": "sees that in your prompt, that word,",
+      "offset": 523.68,
+      "duration": 3.52
+    },
+    {
+      "text": "it&amp;#39;s going to use extended thinking",
+      "offset": 525.279,
+      "duration": 4.401
+    },
+    {
+      "text": "mode. So then, let me press enter now",
+      "offset": 527.2,
+      "duration": 6.72
+    },
+    {
+      "text": "and we&amp;#39;ll see what Claude code does.",
+      "offset": 529.68,
+      "duration": 4.24
+    },
+    {
+      "text": "All right. So already in this kind of",
+      "offset": 534.8,
+      "duration": 4.4
+    },
+    {
+      "text": "gray color, you can see it&amp;#39;s thinking",
+      "offset": 537.519,
+      "duration": 3.76
+    },
+    {
+      "text": "and this is the thinking process that it",
+      "offset": 539.2,
+      "duration": 4.4
+    },
+    {
+      "text": "has kind of behind the scenes. So by",
+      "offset": 541.279,
+      "duration": 4.641
+    },
+    {
+      "text": "using that think keyword in our prompt,",
+      "offset": 543.6,
+      "duration": 7
+    },
+    {
+      "text": "we&amp;#39;ve enabled this thinking mode.",
+      "offset": 545.92,
+      "duration": 4.68
+    },
+    {
+      "text": "All right. And now it&amp;#39;s come up with the",
+      "offset": 552.959,
+      "duration": 3.601
+    },
+    {
+      "text": "plan. So that took a little bit longer,",
+      "offset": 554.64,
+      "duration": 4.08
+    },
+    {
+      "text": "but it&amp;#39;s because Claude Code was",
+      "offset": 556.56,
+      "duration": 4.16
+    },
+    {
+      "text": "thinking. So, this is the plan and it&amp;#39;s",
+      "offset": 558.72,
+      "duration": 4.08
+    },
+    {
+      "text": "quite extensive. There&amp;#39;s a lot of steps",
+      "offset": 560.72,
+      "duration": 5.2
+    },
+    {
+      "text": "involved. All right. And anything in a",
+      "offset": 562.8,
+      "duration": 6
+    },
+    {
+      "text": "kind of faded gray up here. And this is",
+      "offset": 565.92,
+      "duration": 5.68
+    },
+    {
+      "text": "all of Claude&amp;#39;s thinking. And it also",
+      "offset": 568.8,
+      "duration": 4.4
+    },
+    {
+      "text": "prefixes that if you like with this",
+      "offset": 571.6,
+      "duration": 4.08
+    },
+    {
+      "text": "little thinking uh text right here. So,",
+      "offset": 573.2,
+      "duration": 3.52
+    },
+    {
+      "text": "every time it&amp;#39;s thinking about",
+      "offset": 575.68,
+      "duration": 2.8
+    },
+    {
+      "text": "something, you&amp;#39;ll see that. All right.",
+      "offset": 576.72,
+      "duration": 4.64
+    },
+    {
+      "text": "Thinking. Thinking. So, it thinks quite",
+      "offset": 578.48,
+      "duration": 4.56
+    },
+    {
+      "text": "a lot. So, then I&amp;#39;m not going to go",
+      "offset": 581.36,
+      "duration": 3.52
+    },
+    {
+      "text": "ahead with these changes because that",
+      "offset": 583.04,
+      "duration": 3.68
+    },
+    {
+      "text": "would drastically change my project",
+      "offset": 584.88,
+      "duration": 4.079
+    },
+    {
+      "text": "right now. And I&amp;#39;d also have to set up",
+      "offset": 586.72,
+      "duration": 4.4
+    },
+    {
+      "text": "some external services as well. And",
+      "offset": 588.959,
+      "duration": 4
+    },
+    {
+      "text": "again, because I wouldn&amp;#39;t normally let",
+      "offset": 591.12,
+      "duration": 4.24
+    },
+    {
+      "text": "AI completely loose on tasks like this,",
+      "offset": 592.959,
+      "duration": 3.761
+    },
+    {
+      "text": "I don&amp;#39;t know which direction it&amp;#39;s going",
+      "offset": 595.36,
+      "duration": 3.36
+    },
+    {
+      "text": "to go off in. Instead, I would break it",
+      "offset": 596.72,
+      "duration": 3.84
+    },
+    {
+      "text": "down into logical steps. Maybe taking",
+      "offset": 598.72,
+      "duration": 3.52
+    },
+    {
+      "text": "each of these checkpoints in the plan",
+      "offset": 600.56,
+      "duration": 3.68
+    },
+    {
+      "text": "and working on them individually. That",
+      "offset": 602.24,
+      "duration": 3.92
+    },
+    {
+      "text": "way, I can stay in a loop, check the",
+      "offset": 604.24,
+      "duration": 4.159
+    },
+    {
+      "text": "code in small steps manually, and make",
+      "offset": 606.16,
+      "duration": 4.88
+    },
+    {
+      "text": "changes myself where I need to along the",
+      "offset": 608.399,
+      "duration": 4.801
+    },
+    {
+      "text": "way. Doing everything at once sometimes",
+      "offset": 611.04,
+      "duration": 4
+    },
+    {
+      "text": "makes things harder in the long run. And",
+      "offset": 613.2,
+      "duration": 3.68
+    },
+    {
+      "text": "I find that pretty soon you&amp;#39;re out of",
+      "offset": 615.04,
+      "duration": 3.6
+    },
+    {
+      "text": "the loop and you get sucked into this",
+      "offset": 616.88,
+      "duration": 3.76
+    },
+    {
+      "text": "kind of full-on vibe coding experience",
+      "offset": 618.64,
+      "duration": 3.68
+    },
+    {
+      "text": "where you&amp;#39;re just asking Claw to fix",
+      "offset": 620.64,
+      "duration": 3.52
+    },
+    {
+      "text": "everything and ignoring the code",
+      "offset": 622.32,
+      "duration": 4.32
+    },
+    {
+      "text": "completely. So, I&amp;#39;m going to choose not",
+      "offset": 624.16,
+      "duration": 4.64
+    },
+    {
+      "text": "to do this now. But just very quickly",
+      "offset": 626.64,
+      "duration": 3.6
+    },
+    {
+      "text": "before we finish this video, I want to",
+      "offset": 628.8,
+      "duration": 3.2
+    },
+    {
+      "text": "mention that Claude Code does have",
+      "offset": 630.24,
+      "duration": 3.68
+    },
+    {
+      "text": "different levels of thinking that you",
+      "offset": 632,
+      "duration": 4.32
+    },
+    {
+      "text": "can activate. In the example I just",
+      "offset": 633.92,
+      "duration": 4.8
+    },
+    {
+      "text": "used, I said, &amp;quot;Think hard.&amp;quot; But you can",
+      "offset": 636.32,
+      "duration": 4.24
+    },
+    {
+      "text": "also just say, &amp;quot;Think,&amp;quot; and that&amp;#39;s going",
+      "offset": 638.72,
+      "duration": 3.84
+    },
+    {
+      "text": "to trigger a smaller amount of thinking",
+      "offset": 640.56,
+      "duration": 4.8
+    },
+    {
+      "text": "and reasoning. Likewise, you can go the",
+      "offset": 642.56,
+      "duration": 5.04
+    },
+    {
+      "text": "other way by saying, &amp;quot;Think harder,&amp;quot; and",
+      "offset": 645.36,
+      "duration": 3.84
+    },
+    {
+      "text": "that&amp;#39;s going to crank the thinking up",
+      "offset": 647.6,
+      "duration": 3.679
+    },
+    {
+      "text": "even more. And if you want to go all in,",
+      "offset": 649.2,
+      "duration": 3.92
+    },
+    {
+      "text": "then you can ask Claude to ultra think,",
+      "offset": 651.279,
+      "duration": 3.441
+    },
+    {
+      "text": "which activates the hardest thinking",
+      "offset": 653.12,
+      "duration": 4.32
+    },
+    {
+      "text": "mode it has. But again, remember that",
+      "offset": 654.72,
+      "duration": 5.04
+    },
+    {
+      "text": "thinking consumes more tokens, and the",
+      "offset": 657.44,
+      "duration": 4.959
+    },
+    {
+      "text": "harder you ask Claw Code to think, the",
+      "offset": 659.76,
+      "duration": 4.48
+    },
+    {
+      "text": "more tokens it&amp;#39;s going to use up. All",
+      "offset": 662.399,
+      "duration": 3.601
+    },
+    {
+      "text": "right then. So now we know a little bit",
+      "offset": 664.24,
+      "duration": 3.76
+    },
+    {
+      "text": "about planning and thinking. Next up",
+      "offset": 666,
+      "duration": 5.6
+    },
+    {
+      "text": "we&amp;#39;ll talk about commands.",
+      "offset": 668,
+      "duration": 3.6
+    }
+  ],
+  "fullText": "Okay, so in this lesson we&amp;#39;re going to talk about two things that Claude Code can do. Planning and thinking, which are both two very different things. Thinking is when you ask Claude code to think about a solution before writing any code. And planning is when Claude puts together its own plan of action on how it intends to implement some features and asks you to approve it. So let&amp;#39;s start with planning. And you might have caught a glimpse of this at the end of the last lesson where we used Alt plus M to cycle through the autoedit option down here. So, if I press AltM once, I turn on the accept edits feature. But if I press it twice, we go into the planning mode instead. Now, planning mode is good for when you&amp;#39;re giving Claude code a task which has a wide breadth of changes over several different files. But where individually each of those changes might not necessarily be complex. They could be, but maybe not. Still, the scope of those changes might be quite wide. And with a plan, it makes easier for Claude Code to stay on track and complete each task in order. So then let&amp;#39;s keep planning mode on and we&amp;#39;re going to ask it to do the following. Can you make a custom component for an avatar? No pick only initial and find any places in the project where it can replace avatar like templates. So I&amp;#39;m going to press enter now and see what it comes up with. So first of all, it&amp;#39;s analyzing the codebase to understand where an avatar component could be useful. So it&amp;#39;s searching things. It&amp;#39;s reading different files. All right. And now it&amp;#39;s come up with a plan right here. So if we scroll to the top, you can see it&amp;#39;s discovered avatar like implementations in the blog system in a few different places in the blog post cards and also in recent activity in the sidebar. So it&amp;#39;s detected those and then it&amp;#39;s proposing this avatar component. So it&amp;#39;s in the correct place inside the UI folder, then an avatar folder, then avatar.tsx. So, it&amp;#39;s going to have the initial based avatar, which is going to be the first letter from their name. Multiple sizes, color variants, consistent styling. So, it&amp;#39;s kind of following the same pattern as the button component, which is nice. So, for the implementation plan, it&amp;#39;s going to first of all create the avatar component, then replace the existing avatar code in the blog post cards, and it even specifies exactly where it&amp;#39;s going to do that for us. Then it says it&amp;#39;s going to work on the blog sidebar and it&amp;#39;s going to add the avatar to individual blog posts as well inside the blog post details page. Then it&amp;#39;s going to create a test file to follow the existing button test patterns so it can be tested on the avatar component as well. And then we&amp;#39;re going to add a link to the avatar preview in the header navigation. So you can go ahead and accept this plan or you can accept the plan but then keep manually approving any edits or you can say no and keep planning and provide feedback for the plan so it adjusts the plan. So I&amp;#39;m going to select the first option up here which is yes and auto accept edits. Okay. So down here it is saying it wants to run this bash command npm run test and I want to select the second option which is yes and don&amp;#39;t ask me again for npm run test commands. And when I do that, it should automatically go into the settings.local file right here, which we can see it does. Awesome. All right. So, this time it&amp;#39;s trying to link the file. And again, I&amp;#39;m going to choose the second option down here. Okay. And then finally, it looks like it&amp;#39;s done. So, it&amp;#39;s checked off everything from the plan it created. All the tests are passing. And if we close this off and take a look over here, we should be able to see that new avatar folder. And okay, so it&amp;#39;s actually created a full page for the avatar. Now, maybe that was in the plan and I didn&amp;#39;t fully understand it. I thought it was just going to add it to the preview page. But you see, this is where sometimes AI can go wrong. Claude Code, Copilot, whatever you&amp;#39;re using. So, it&amp;#39;s important to keep it on track. Either way, it doesn&amp;#39;t so much matter for this particular task. Um, it&amp;#39;s just to preview it after all. And I can delete this page afterwards. But you can see we&amp;#39;ve got this component folder down here, avatar. We&amp;#39;ve got the test file and the avatar component itself. So, we&amp;#39;ve got the default size right here set to medium. The variant is gradient. But we have these different variant options up here in different sizes as well for the props. Um we have the size classes, the variant classes, and then down here we have the avatar itself. Okay. So let&amp;#39;s see if this works in the browser. All right. So you can see added the avatar page and the link to the header. So it did get a little bit trigger happy. And now if we take a look down here, we can see all the different variants that we have, the different sizes, even use cases down here. So I think this is all really really nice. It&amp;#39;s created that component and shown us different ways we can use it. Now if I go to the actual blog part of the website, you can see it&amp;#39;s now using that avatar here. It&amp;#39;s using it down here as well inside recent activity. And if I was to select an individual blog like this one right here, you can see we have the avatar on the blog details as well. So, the only thing it did really that I didn&amp;#39;t want it to do was place the avatar link up here and create a full page for the avatars when I specified in a claw.md file that they should go inside the preview uh file. So, maybe I wasn&amp;#39;t specific enough. Maybe I looked over the plan too quickly. I don&amp;#39;t know. But this is easy to rectify. I can just delete these pages, no problem. So I just told claw code to remove the avatar page and instead put all of the samples inside the preview page and it&amp;#39;s gone ahead and done that which is good. I&amp;#39;ve also updated the claw MD file with this more specific instruction at the bottom which says now when making new page components always had a link to that page in the header. So it did this for our UI component. So I added this bit on only do this for page components not UI or other dropin components. So, I guess this is a lesson in instructions and also in how you have to be specific in what you want Claude Code to do. Okay, so that all work pretty well and I think having plan mode turned on probably helped Claude Code complete the task correctly. Now, it may still have done so without planning mode on, but when it is turned on, I find it&amp;#39;s worked to stay on track more for tasks with a wider scope. And arguably the scope wasn&amp;#39;t huge for this task, but it still involved making a component, testing the component, looking for places it can be used, editing those files, etc. Anyway, now let&amp;#39;s look at thinking mode. Now, thinking mode is good when you want claude code to work on something that includes more complex logic. So, not necessarily a wide scope like planning mode is for. It could be quite a narrow scope, but one where the logic is more complex. For example, I might want to implement a comment system for the blog where users can comment on the blogs. And that would include perhaps some thought about exactly how it should be done, what services, if any, should be used, what React components need to be made, what additional pages might need to be made, what about live updates and how does this get structured and fit well together in this application. So for something like this, you would turn on extended thinking mode, which does consume more tokens, but it allows the model to reason and think more about how to complete something in a way that actually works. Now, to be honest, we&amp;#39;re entering into the realms of vibe coding when we ask the AI to implement a whole system like this. And I would personally break this down into smaller chunks or tasks and work on each one one at a time with Claude code so I could more easily guide the AI to do what I want it to do. But for the sake of this lesson and to demonstrate thinking mode, we&amp;#39;ll run with this example. So let me paste in this prompt right here first of all which says implement a comment system into the application where users can authenticate and then comment on blog posts. think hard about this implementation, including the database, schema, authentication services, moderation, and real-time updates. I&amp;#39;m also going to keep planning mode on so I can see the plan that Claude code makes as well. Now, I&amp;#39;m triggering think mode in this prompt by using the word think right here. And whenever Claude code sees that in your prompt, that word, it&amp;#39;s going to use extended thinking mode. So then, let me press enter now and we&amp;#39;ll see what Claude code does. All right. So already in this kind of gray color, you can see it&amp;#39;s thinking and this is the thinking process that it has kind of behind the scenes. So by using that think keyword in our prompt, we&amp;#39;ve enabled this thinking mode. All right. And now it&amp;#39;s come up with the plan. So that took a little bit longer, but it&amp;#39;s because Claude Code was thinking. So, this is the plan and it&amp;#39;s quite extensive. There&amp;#39;s a lot of steps involved. All right. And anything in a kind of faded gray up here. And this is all of Claude&amp;#39;s thinking. And it also prefixes that if you like with this little thinking uh text right here. So, every time it&amp;#39;s thinking about something, you&amp;#39;ll see that. All right. Thinking. Thinking. So, it thinks quite a lot. So, then I&amp;#39;m not going to go ahead with these changes because that would drastically change my project right now. And I&amp;#39;d also have to set up some external services as well. And again, because I wouldn&amp;#39;t normally let AI completely loose on tasks like this, I don&amp;#39;t know which direction it&amp;#39;s going to go off in. Instead, I would break it down into logical steps. Maybe taking each of these checkpoints in the plan and working on them individually. That way, I can stay in a loop, check the code in small steps manually, and make changes myself where I need to along the way. Doing everything at once sometimes makes things harder in the long run. And I find that pretty soon you&amp;#39;re out of the loop and you get sucked into this kind of full-on vibe coding experience where you&amp;#39;re just asking Claw to fix everything and ignoring the code completely. So, I&amp;#39;m going to choose not to do this now. But just very quickly before we finish this video, I want to mention that Claude Code does have different levels of thinking that you can activate. In the example I just used, I said, &amp;quot;Think hard.&amp;quot; But you can also just say, &amp;quot;Think,&amp;quot; and that&amp;#39;s going to trigger a smaller amount of thinking and reasoning. Likewise, you can go the other way by saying, &amp;quot;Think harder,&amp;quot; and that&amp;#39;s going to crank the thinking up even more. And if you want to go all in, then you can ask Claude to ultra think, which activates the hardest thinking mode it has. But again, remember that thinking consumes more tokens, and the harder you ask Claw Code to think, the more tokens it&amp;#39;s going to use up. All right then. So now we know a little bit about planning and thinking. Next up we&amp;#39;ll talk about commands."
+}

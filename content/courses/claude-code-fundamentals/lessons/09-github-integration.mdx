@@ -1,0 +1,191 @@
+---
+title: GitHub Integration
+description: Set up Claude Code to review PRs and work on issues directly in GitHub.
+duration: 20m
+module: Power Features
+order: 9
+---
+
+## Claude Code GitHub App
+
+Claude Code can integrate directly with GitHub to:
+
+1. **Auto-review pull requests** - Provide feedback on code changes
+2. **Work on issues** - Fix bugs and implement features from issue descriptions
+
+This extends Claude Code beyond your terminal into your team's workflow.
+
+## Prerequisites
+
+Before setting up, ensure:
+
+1. **GitHub CLI installed** - [Install instructions](https://cli.github.com/)
+2. **Authenticated** - Run `gh auth login`
+3. **Repository access** - You need admin access to the repo
+
+## Installation
+
+Inside Claude Code, run:
+
+```
+/install github app
+```
+
+Follow the prompts:
+1. Select the repository
+2. Authorize in browser
+3. Choose workflows (PR review, issue handling)
+4. Create the PR for GitHub Actions
+
+This creates two GitHub Actions in your repository.
+
+## PR Review Workflow
+
+When you create a pull request, Claude Code automatically:
+
+1. Analyzes the code changes
+2. Checks for issues:
+   - Code quality
+   - Potential bugs
+   - Performance concerns
+   - Security vulnerabilities
+3. Provides a review summary
+4. Approves or requests changes
+
+### Review Output
+
+```
+✅ Code Quality - Clean, follows conventions
+✅ Bugs - No obvious issues
+✅ Performance - Efficient implementation
+✅ Security - No vulnerabilities detected
+
+Overall: Approved
+
+Minor suggestion: Consider adding error handling
+for the edge case on line 42.
+```
+
+## Issue Handling Workflow
+
+To have Claude Code work on an issue:
+
+1. Create a GitHub issue describing the problem
+2. Add a comment mentioning `@claude`
+3. Claude Code creates a feature branch
+4. Works on the solution
+5. Provides a PR link
+
+### Example
+
+**Issue:** "Link from title missing - The navbar title doesn't link to homepage"
+
+**Comment:** `@claude can you fix this?`
+
+Claude Code will:
+1. Create branch `fix/navbar-title-link`
+2. Find the navbar component
+3. Add the link
+4. Commit changes
+5. Reply with PR creation link
+
+## Customizing Review Behavior
+
+Configure review preferences in `.github/claude-config.yml`:
+
+```yaml
+review:
+  auto_approve: false
+  check_tests: true
+  require_coverage: 80
+
+focus_areas:
+  - security
+  - performance
+  - accessibility
+
+ignore_patterns:
+  - "*.test.ts"
+  - "*.spec.ts"
+  - "__mocks__/**"
+```
+
+## Working with Teams
+
+### Permissions
+- Repository admins can install the app
+- Team members can mention `@claude` on issues
+- Reviews are visible to all collaborators
+
+### Cost Considerations
+Each review or issue response uses API credits. Consider:
+- Rate limiting on busy repositories
+- Restricting to certain labels
+- Manual trigger only (remove auto-review)
+
+## Advanced: Custom Actions
+
+You can create additional GitHub Actions using Claude Code:
+
+`.github/workflows/claude-security.yml`:
+```yaml
+name: Claude Security Review
+
+on:
+  pull_request:
+    paths:
+      - 'src/auth/**'
+      - 'src/api/**'
+
+jobs:
+  security-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: anthropics/claude-code-action@v1
+        with:
+          prompt: |
+            Review this PR for security vulnerabilities.
+            Focus on: authentication, authorization,
+            input validation, and secrets exposure.
+```
+
+## Disabling Features
+
+To disable auto-review but keep issue handling:
+
+1. Edit `.github/workflows/claude-review.yml`
+2. Change trigger from `pull_request` to `workflow_dispatch`
+3. Reviews only run when manually triggered
+
+## Troubleshooting
+
+### Claude Not Responding to Issues
+- Verify the action is enabled
+- Check GitHub Actions logs
+- Ensure `@claude` mention is exact
+
+### Reviews Not Appearing
+- Check action workflow status
+- Verify authentication token
+- Review permissions in GitHub app settings
+
+### Slow Responses
+- Large PRs take longer
+- Complex issues need more analysis
+- Check API rate limits
+
+## Practice Exercise
+
+1. Install GitHub app with `/install github app`
+2. Create a small PR with a simple change
+3. Watch for the automatic review
+4. Try creating an issue and mentioning `@claude`
+
+## Key Takeaways
+
+- GitHub integration adds PR review and issue handling
+- Install via `/install github app`
+- `@claude` mention triggers issue work
+- Customize via `.github/claude-config.yml`
+- Consider costs for busy repositories

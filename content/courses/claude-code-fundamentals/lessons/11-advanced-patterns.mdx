@@ -1,0 +1,281 @@
+---
+title: Advanced Patterns
+description: Production-ready patterns for agent delegation, context management, and memory persistence.
+duration: 35m
+module: Production Patterns
+order: 11
+---
+
+## Agent Delegation Patterns
+
+For complex projects, establish a team of specialized agents:
+
+### The Orchestrator Pattern
+
+```
+Main Session (Orchestrator)
+    ├── planner-agent     → Architecture decisions
+    ├── tdd-guide         → Test-first development
+    ├── code-reviewer     → Quality checks
+    ├── security-auditor  → Vulnerability scanning
+    └── docs-writer       → Documentation
+```
+
+The main session delegates to specialists, keeping its own context clean.
+
+### When to Delegate
+
+| Task | Delegate to |
+|------|-------------|
+| Complex feature | planner-agent |
+| Writing tests | tdd-guide |
+| Code review | code-reviewer |
+| Security check | security-auditor |
+| Documentation | docs-writer |
+
+### Delegation Command
+
+Create a command that orchestrates delegation:
+
+`.claude/commands/implement.md`:
+```markdown
+---
+description: Implement a feature with full workflow
+---
+
+Implement: $ARGUMENTS
+
+Workflow:
+1. Ask planner-agent to create implementation plan
+2. Review and approve the plan
+3. Implement following the plan
+4. Ask tdd-guide to write tests
+5. Ask code-reviewer to review
+6. Address feedback
+7. Ask docs-writer to document
+```
+
+## Strategic Context Management
+
+### The Ledger Pattern
+
+Maintain a "ledger" file that persists across sessions:
+
+`thoughts/ledgers/CONTINUITY.md`:
+```markdown
+# Session: feature-auth
+Updated: 2025-01-23
+
+## Goal
+Implement user authentication with NextAuth.js
+
+## State
+- [x] Phase 1: Basic setup
+- [→] Phase 2: Provider configuration
+- [ ] Phase 3: Protected routes
+- [ ] Phase 4: Session management
+
+## Key Decisions
+- Using database sessions (not JWT)
+- Prisma adapter for persistence
+- Google + GitHub providers
+
+## Working Set
+- Branch: feature/auth
+- Key files: lib/auth.ts, middleware.ts
+```
+
+Load this at session start to restore context.
+
+### Clear vs. Compact
+
+| Situation | Action |
+|-----------|--------|
+| New feature | `/clear` |
+| Continuing work | Load ledger, continue |
+| Context at 70%+ | `/clear` and reload essentials |
+| Mid-task pause | `/compact` (less preferred) |
+
+## Memory Persistence
+
+### Session Files
+
+Store session summaries for continuity:
+
+`.claude/sessions/2025-01-23-auth.md`:
+```markdown
+# Session: Auth Implementation
+Date: 2025-01-23
+Duration: 2 hours
+
+## Completed
+- NextAuth configuration
+- Google provider setup
+- Basic middleware
+
+## In Progress
+- GitHub provider
+- Protected route patterns
+
+## Learnings
+- NextAuth v5 requires explicit exports
+- Middleware runs on edge, limited APIs
+
+## Next Session
+1. Complete GitHub provider
+2. Add protected route wrapper
+3. Test sign-in flow
+```
+
+### Handoff Documents
+
+For longer pauses or team handoffs:
+
+`thoughts/handoffs/auth-handoff.md`:
+```markdown
+# Handoff: Auth Feature
+
+## Context
+Implementing authentication for the dashboard.
+
+## Completed Work
+- NextAuth v5 installed and configured
+- Google OAuth working in dev
+- Session stored in database
+
+## Current State
+- Branch: feature/auth
+- Tests: 8 passing
+- Build: Clean
+
+## Blocked On
+- GitHub OAuth app credentials (waiting on admin)
+
+## Next Steps
+1. Add GitHub provider when credentials arrive
+2. Create protected route HOC
+3. Add sign-out functionality
+4. Write integration tests
+
+## Key Files
+- lib/auth.ts:1-50 - Configuration
+- middleware.ts - Route protection
+- app/api/auth/[...nextauth]/route.ts - Handler
+```
+
+## Model Selection Strategy
+
+Choose models based on task:
+
+| Model | Use Case | Cost |
+|-------|----------|------|
+| Haiku 4.5 | Quick fixes, simple queries | $ |
+| Sonnet 4 | General development | $$ |
+| Opus 4.5 | Architecture, complex reasoning | $$$ |
+
+### Dynamic Selection
+
+```
+# Quick fix
+/model haiku
+Fix the typo in the README
+
+# Complex feature
+/model opus
+Think hard about the best authentication
+architecture for a multi-tenant SaaS
+```
+
+## Context Modes
+
+Configure Claude's focus:
+
+### Development Mode
+```json
+{
+  "contextMode": "dev",
+  "focus": ["implementation", "testing"],
+  "ignore": ["docs", "ci"]
+}
+```
+
+### Review Mode
+```json
+{
+  "contextMode": "review",
+  "focus": ["quality", "security", "performance"],
+  "ignore": ["implementation"]
+}
+```
+
+### Research Mode
+```json
+{
+  "contextMode": "research",
+  "focus": ["documentation", "examples", "alternatives"],
+  "ignore": ["implementation"]
+}
+```
+
+## Verification Loops
+
+For critical changes, implement verification:
+
+```markdown
+## Verification Loop
+
+1. Make change
+2. Run tests
+3. Check types
+4. If errors → fix and repeat
+5. If passing → proceed
+```
+
+Hook implementation:
+```bash
+# PostToolUse hook for Write/Edit
+pnpm tsc --noEmit
+if [ $? -ne 0 ]; then
+  echo '{"result": "continue", "message": "TypeScript errors detected"}'
+else
+  echo '{"result": "continue"}'
+fi
+```
+
+## Skills System
+
+Create reusable workflows as skills:
+
+`.claude/skills/tdd-workflow/SKILL.md`:
+```markdown
+---
+name: tdd-workflow
+description: Test-driven development workflow
+---
+
+# TDD Workflow
+
+1. Write failing test first
+2. Run test, confirm failure
+3. Write minimal implementation
+4. Run test, confirm passing
+5. Refactor if needed
+6. Repeat
+```
+
+Invoke with `/tdd-workflow`.
+
+## Practice Exercise
+
+1. Create a ledger file for a current project
+2. Document the current state and next steps
+3. Clear context, then reload from ledger
+4. Notice how you maintain continuity
+
+## Key Takeaways
+
+- Delegate to specialized agents
+- Use ledgers for session continuity
+- Create handoff documents for pauses
+- Choose models based on task complexity
+- Implement verification loops for critical changes

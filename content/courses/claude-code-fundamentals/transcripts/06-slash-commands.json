@@ -1,0 +1,1670 @@
+{
+  "videoId": "52KBhQqqHuc",
+  "title": "Slash Commands",
+  "duration": "12:10",
+  "module": "Power Features",
+  "extractedAt": "2026-01-23T04:12:37.529Z",
+  "segments": [
+    {
+      "text": "Okay, then my friends, in this lesson,",
+      "offset": 1.04,
+      "duration": 2.399
+    },
+    {
+      "text": "we&amp;#39;re going to talk about something",
+      "offset": 2.48,
+      "duration": 2.72
+    },
+    {
+      "text": "called slash commands, which I&amp;#39;m just",
+      "offset": 3.439,
+      "duration": 3.601
+    },
+    {
+      "text": "going to call commands from here on out",
+      "offset": 5.2,
+      "duration": 3.52
+    },
+    {
+      "text": "because it&amp;#39;s much shorter. And we&amp;#39;re",
+      "offset": 7.04,
+      "duration": 3.519
+    },
+    {
+      "text": "also going to make a custom command as",
+      "offset": 8.72,
+      "duration": 4.879
+    },
+    {
+      "text": "well. So then, we&amp;#39;ve already seen and",
+      "offset": 10.559,
+      "duration": 5.28
+    },
+    {
+      "text": "used several built-in commands that",
+      "offset": 13.599,
+      "duration": 4.001
+    },
+    {
+      "text": "Claude Code gives to us out of the box.",
+      "offset": 15.839,
+      "duration": 3.44
+    },
+    {
+      "text": "And we&amp;#39;ve done that by typing a slash,",
+      "offset": 17.6,
+      "duration": 3.28
+    },
+    {
+      "text": "then whatever the command name was, for",
+      "offset": 19.279,
+      "duration": 4.08
+    },
+    {
+      "text": "example, clear to clear the context, or",
+      "offset": 20.88,
+      "duration": 4
+    },
+    {
+      "text": "initialize",
+      "offset": 23.359,
+      "duration": 4.401
+    },
+    {
+      "text": "a claw.md file. Now if you just type",
+      "offset": 24.88,
+      "duration": 4.479
+    },
+    {
+      "text": "slash on its own then you&amp;#39;re going to",
+      "offset": 27.76,
+      "duration": 3.279
+    },
+    {
+      "text": "see a list of all the available commands",
+      "offset": 29.359,
+      "duration": 3.921
+    },
+    {
+      "text": "that come with claude code and you can",
+      "offset": 31.039,
+      "duration": 4.321
+    },
+    {
+      "text": "key up and down to go through these. So",
+      "offset": 33.28,
+      "duration": 4.08
+    },
+    {
+      "text": "we&amp;#39;ve got add dur to give claude access",
+      "offset": 35.36,
+      "duration": 4.08
+    },
+    {
+      "text": "to another working directory which in",
+      "offset": 37.36,
+      "duration": 5.039
+    },
+    {
+      "text": "essence it allows multiple repository",
+      "offset": 39.44,
+      "duration": 5.439
+    },
+    {
+      "text": "development then from one location which",
+      "offset": 42.399,
+      "duration": 4
+    },
+    {
+      "text": "could be useful if you have related",
+      "offset": 44.879,
+      "duration": 4.321
+    },
+    {
+      "text": "projects like a backend and a front end.",
+      "offset": 46.399,
+      "duration": 5.441
+    },
+    {
+      "text": "We&amp;#39;ve got forward/ aents for managing",
+      "offset": 49.2,
+      "duration": 4.56
+    },
+    {
+      "text": "sub aents which we will see later on in",
+      "offset": 51.84,
+      "duration": 4.08
+    },
+    {
+      "text": "the course. There&amp;#39;s clear and compact",
+      "offset": 53.76,
+      "duration": 3.84
+    },
+    {
+      "text": "down here which we&amp;#39;ve used already.",
+      "offset": 55.92,
+      "duration": 3.52
+    },
+    {
+      "text": "There&amp;#39;s a model one which if we use",
+      "offset": 57.6,
+      "duration": 4.24
+    },
+    {
+      "text": "allows us to choose which model we want",
+      "offset": 59.44,
+      "duration": 4.48
+    },
+    {
+      "text": "to use. I&amp;#39;ve got Sonic 4 selected at the",
+      "offset": 61.84,
+      "duration": 4.8
+    },
+    {
+      "text": "moment. And also you can escape these",
+      "offset": 63.92,
+      "duration": 5.6
+    },
+    {
+      "text": "screens by just hitting the escape key.",
+      "offset": 66.64,
+      "duration": 5.36
+    },
+    {
+      "text": "There&amp;#39;s also a permissions one somewhere",
+      "offset": 69.52,
+      "duration": 4.24
+    },
+    {
+      "text": "which we can use to add permissions for",
+      "offset": 72,
+      "duration": 3.36
+    },
+    {
+      "text": "different tools in Claude Code for this",
+      "offset": 73.76,
+      "duration": 3.92
+    },
+    {
+      "text": "project. And that adds those permissions",
+      "offset": 75.36,
+      "duration": 4.32
+    },
+    {
+      "text": "to the local settings file for you when",
+      "offset": 77.68,
+      "duration": 3.6
+    },
+    {
+      "text": "you set them up this way. I normally",
+      "offset": 79.68,
+      "duration": 3.68
+    },
+    {
+      "text": "just manually add them myself. But",
+      "offset": 81.28,
+      "duration": 3.44
+    },
+    {
+      "text": "anyway, I&amp;#39;m not going to read all these",
+      "offset": 83.36,
+      "duration": 2.64
+    },
+    {
+      "text": "different commands now because there&amp;#39;s",
+      "offset": 84.72,
+      "duration": 2.96
+    },
+    {
+      "text": "way too many and we will be using some",
+      "offset": 86,
+      "duration": 3.04
+    },
+    {
+      "text": "of them in future lessons. But",
+      "offset": 87.68,
+      "duration": 3.04
+    },
+    {
+      "text": "definitely take a look through and have",
+      "offset": 89.04,
+      "duration": 3.36
+    },
+    {
+      "text": "a little play around with them. The",
+      "offset": 90.72,
+      "duration": 3.439
+    },
+    {
+      "text": "thing I&amp;#39;d like to focus on in this",
+      "offset": 92.4,
+      "duration": 4
+    },
+    {
+      "text": "lesson is making a custom command which",
+      "offset": 94.159,
+      "duration": 4.64
+    },
+    {
+      "text": "we can add to this list. And we would",
+      "offset": 96.4,
+      "duration": 4.48
+    },
+    {
+      "text": "make a custom command for common tasks",
+      "offset": 98.799,
+      "duration": 3.841
+    },
+    {
+      "text": "we might perform in the project. For",
+      "offset": 100.88,
+      "duration": 4
+    },
+    {
+      "text": "example, in this project, I might be",
+      "offset": 102.64,
+      "duration": 5.28
+    },
+    {
+      "text": "making a lot of UI components. So I",
+      "offset": 104.88,
+      "duration": 5.12
+    },
+    {
+      "text": "could make a command for generating",
+      "offset": 107.92,
+      "duration": 4.159
+    },
+    {
+      "text": "those components which includes a",
+      "offset": 110,
+      "duration": 4.72
+    },
+    {
+      "text": "detailed prompt. Any context needed and",
+      "offset": 112.079,
+      "duration": 4.72
+    },
+    {
+      "text": "any other specific details I can pass to",
+      "offset": 114.72,
+      "duration": 4.8
+    },
+    {
+      "text": "the AI model. Then whenever I need to",
+      "offset": 116.799,
+      "duration": 5.28
+    },
+    {
+      "text": "make a new UI component, I can just use",
+      "offset": 119.52,
+      "duration": 5.04
+    },
+    {
+      "text": "that custom component command to do it.",
+      "offset": 122.079,
+      "duration": 4.161
+    },
+    {
+      "text": "So let&amp;#39;s give this a shot. The first",
+      "offset": 124.56,
+      "duration": 3.44
+    },
+    {
+      "text": "thing we need to do is make a commands",
+      "offset": 126.24,
+      "duration": 4.48
+    },
+    {
+      "text": "folder inside this.claw folder. And if",
+      "offset": 128,
+      "duration": 4.64
+    },
+    {
+      "text": "you don&amp;#39;t see that claw folder already,",
+      "offset": 130.72,
+      "duration": 3.92
+    },
+    {
+      "text": "you can go ahead and make that too. Then",
+      "offset": 132.64,
+      "duration": 3.679
+    },
+    {
+      "text": "inside the commands folder, we can make",
+      "offset": 134.64,
+      "duration": 3.84
+    },
+    {
+      "text": "a new markdown file called whatever we",
+      "offset": 136.319,
+      "duration": 4
+    },
+    {
+      "text": "want the command to be named. For",
+      "offset": 138.48,
+      "duration": 4.479
+    },
+    {
+      "text": "example, I&amp;#39;m going to call it UI-",
+      "offset": 140.319,
+      "duration": 4.961
+    },
+    {
+      "text": "component.mmd.",
+      "offset": 142.959,
+      "duration": 4.881
+    },
+    {
+      "text": "All right. So now inside this file, we",
+      "offset": 145.28,
+      "duration": 3.84
+    },
+    {
+      "text": "can give Claude code whatever",
+      "offset": 147.84,
+      "duration": 3.52
+    },
+    {
+      "text": "instructions that we want to make a new",
+      "offset": 149.12,
+      "duration": 4.72
+    },
+    {
+      "text": "UI component. So I could tell Claude",
+      "offset": 151.36,
+      "duration": 4.72
+    },
+    {
+      "text": "where the file should go, the naming",
+      "offset": 153.84,
+      "duration": 4.399
+    },
+    {
+      "text": "convention, any component variants I",
+      "offset": 156.08,
+      "duration": 4.56
+    },
+    {
+      "text": "want, how to test the component, etc.",
+      "offset": 158.239,
+      "duration": 4.321
+    },
+    {
+      "text": "For now, I&amp;#39;m just going to paste in a",
+      "offset": 160.64,
+      "duration": 3.92
+    },
+    {
+      "text": "simple set of instructions which tells",
+      "offset": 162.56,
+      "duration": 5.039
+    },
+    {
+      "text": "it to make a new single UI component in",
+      "offset": 164.56,
+      "duration": 6.08
+    },
+    {
+      "text": "the components folder and then in the UI",
+      "offset": 167.599,
+      "duration": 5.041
+    },
+    {
+      "text": "folder. And I say that the component",
+      "offset": 170.64,
+      "duration": 3.76
+    },
+    {
+      "text": "should be a functional component with",
+      "offset": 172.64,
+      "duration": 4.08
+    },
+    {
+      "text": "the name in Pascal case. I&amp;#39;m also",
+      "offset": 174.4,
+      "duration": 4.64
+    },
+    {
+      "text": "telling it to add the following variants",
+      "offset": 176.72,
+      "duration": 4.879
+    },
+    {
+      "text": "and sizes for the component using the",
+      "offset": 179.04,
+      "duration": 4.4
+    },
+    {
+      "text": "colors from the theme variables in the",
+      "offset": 181.599,
+      "duration": 4.161
+    },
+    {
+      "text": "CSS file. And notice how I&amp;#39;m using the",
+      "offset": 183.44,
+      "duration": 4.48
+    },
+    {
+      "text": "at sign to load in another file as",
+      "offset": 185.76,
+      "duration": 3.92
+    },
+    {
+      "text": "context here. You can do that in these",
+      "offset": 187.92,
+      "duration": 5.12
+    },
+    {
+      "text": "custom uh custom commands. Then I tell",
+      "offset": 189.68,
+      "duration": 5.52
+    },
+    {
+      "text": "Claude to make a test file for the",
+      "offset": 193.04,
+      "duration": 4.479
+    },
+    {
+      "text": "component as well. And I want it to run",
+      "offset": 195.2,
+      "duration": 5.2
+    },
+    {
+      "text": "the test until they all pass. Finally, I",
+      "offset": 197.519,
+      "duration": 4.8
+    },
+    {
+      "text": "ask it to add the component to the",
+      "offset": 200.4,
+      "duration": 3.839
+    },
+    {
+      "text": "preview page so that we can preview it",
+      "offset": 202.319,
+      "duration": 4.56
+    },
+    {
+      "text": "in the browser when we&amp;#39;re done and not",
+      "offset": 204.239,
+      "duration": 4.161
+    },
+    {
+      "text": "to add it anywhere else in the project",
+      "offset": 206.879,
+      "duration": 3.28
+    },
+    {
+      "text": "because sometimes Claude can get giddy",
+      "offset": 208.4,
+      "duration": 3.52
+    },
+    {
+      "text": "and it wants to use this new stuff",
+      "offset": 210.159,
+      "duration": 4
+    },
+    {
+      "text": "everywhere else, too. So, by adding",
+      "offset": 211.92,
+      "duration": 3.76
+    },
+    {
+      "text": "this, it&amp;#39;s just going to get added to",
+      "offset": 214.159,
+      "duration": 3.36
+    },
+    {
+      "text": "the preview page. And all this, by the",
+      "offset": 215.68,
+      "duration": 4.32
+    },
+    {
+      "text": "way, is just like a really big prompt.",
+      "offset": 217.519,
+      "duration": 4.64
+    },
+    {
+      "text": "When we use a custom command, claude",
+      "offset": 220,
+      "duration": 4.08
+    },
+    {
+      "text": "code essentially pulls in this markdown",
+      "offset": 222.159,
+      "duration": 4.401
+    },
+    {
+      "text": "file and it uses it as a prompt. All",
+      "offset": 224.08,
+      "duration": 5.12
+    },
+    {
+      "text": "right, so let me close this file. And we",
+      "offset": 226.56,
+      "duration": 4.959
+    },
+    {
+      "text": "also need to restart a new Claude",
+      "offset": 229.2,
+      "duration": 4.24
+    },
+    {
+      "text": "session for it to pick up on this new",
+      "offset": 231.519,
+      "duration": 3.44
+    },
+    {
+      "text": "tool that we&amp;#39;ve just created or this new",
+      "offset": 233.44,
+      "duration": 3.359
+    },
+    {
+      "text": "command rather we&amp;#39;ve just created. So",
+      "offset": 234.959,
+      "duration": 3.681
+    },
+    {
+      "text": "exit out of the current session, then",
+      "offset": 236.799,
+      "duration": 4.321
+    },
+    {
+      "text": "start cla back up again. All right. So",
+      "offset": 238.64,
+      "duration": 5.2
+    },
+    {
+      "text": "now if we do forward slash, we should",
+      "offset": 241.12,
+      "duration": 4.479
+    },
+    {
+      "text": "see the new command that we just",
+      "offset": 243.84,
+      "duration": 3.36
+    },
+    {
+      "text": "created. this one right here, UI",
+      "offset": 245.599,
+      "duration": 3.681
+    },
+    {
+      "text": "component. So, I&amp;#39;m going to tap on that",
+      "offset": 247.2,
+      "duration": 4.239
+    },
+    {
+      "text": "and then I&amp;#39;m just going to press enter",
+      "offset": 249.28,
+      "duration": 5.44
+    },
+    {
+      "text": "to run this command. And notice though,",
+      "offset": 251.439,
+      "duration": 5.76
+    },
+    {
+      "text": "nowhere in the command did we say what",
+      "offset": 254.72,
+      "duration": 5.519
+    },
+    {
+      "text": "kind of UI component to make. So, it&amp;#39;s",
+      "offset": 257.199,
+      "duration": 5.44
+    },
+    {
+      "text": "basically just handing the reins over to",
+      "offset": 260.239,
+      "duration": 4.481
+    },
+    {
+      "text": "the AI to make whatever component it",
+      "offset": 262.639,
+      "duration": 5.321
+    },
+    {
+      "text": "sees fit.",
+      "offset": 264.72,
+      "duration": 3.24
+    },
+    {
+      "text": "All right, so we can see that it&amp;#39;s",
+      "offset": 268.72,
+      "duration": 4.4
+    },
+    {
+      "text": "decided to create a card component. So,",
+      "offset": 270.24,
+      "duration": 4.72
+    },
+    {
+      "text": "let&amp;#39;s go ahead and let it do this. If",
+      "offset": 273.12,
+      "duration": 3.359
+    },
+    {
+      "text": "you wanted it to do something different,",
+      "offset": 274.96,
+      "duration": 3.44
+    },
+    {
+      "text": "you could say no and tell clog what to",
+      "offset": 276.479,
+      "duration": 3.681
+    },
+    {
+      "text": "do differently. We&amp;#39;re just going to",
+      "offset": 278.4,
+      "duration": 4.16
+    },
+    {
+      "text": "press yes and don&amp;#39;t ask again for make",
+      "offset": 280.16,
+      "duration": 6.84
+    },
+    {
+      "text": "the commands in this project.",
+      "offset": 282.56,
+      "duration": 4.44
+    },
+    {
+      "text": "Okay. And we&amp;#39;re going to allow it to",
+      "offset": 287.199,
+      "duration": 4.841
+    },
+    {
+      "text": "make these changes.",
+      "offset": 288.72,
+      "duration": 3.32
+    },
+    {
+      "text": "And now it wants to run this bash",
+      "offset": 293.919,
+      "duration": 5.801
+    },
+    {
+      "text": "command to test out the component.",
+      "offset": 295.44,
+      "duration": 4.28
+    },
+    {
+      "text": "Okay, so it looks like it&amp;#39;s all done.",
+      "offset": 302,
+      "duration": 3.6
+    },
+    {
+      "text": "It&amp;#39;s created the card component, the",
+      "offset": 303.759,
+      "duration": 4.16
+    },
+    {
+      "text": "test file. It&amp;#39;s got five variants, three",
+      "offset": 305.6,
+      "duration": 5.599
+    },
+    {
+      "text": "sizes, and all the tests have passed.",
+      "offset": 307.919,
+      "duration": 4.801
+    },
+    {
+      "text": "It&amp;#39;s added the preview to the preview",
+      "offset": 311.199,
+      "duration": 3.041
+    },
+    {
+      "text": "page as well. Let&amp;#39;s just check over here",
+      "offset": 312.72,
+      "duration": 3.28
+    },
+    {
+      "text": "that everything is added before we",
+      "offset": 314.24,
+      "duration": 3.679
+    },
+    {
+      "text": "preview this in the browser ourselves.",
+      "offset": 316,
+      "duration": 4.24
+    },
+    {
+      "text": "So, if we go to UI, we can see the card",
+      "offset": 317.919,
+      "duration": 4.801
+    },
+    {
+      "text": "folder and the card file over here. So,",
+      "offset": 320.24,
+      "duration": 4.72
+    },
+    {
+      "text": "this is the component. And again, I",
+      "offset": 322.72,
+      "duration": 3.36
+    },
+    {
+      "text": "would normally just go through this",
+      "offset": 324.96,
+      "duration": 3.12
+    },
+    {
+      "text": "thoroughly, make sure it is coded how I",
+      "offset": 326.08,
+      "duration": 4.32
+    },
+    {
+      "text": "would want it. Same for this file. any",
+      "offset": 328.08,
+      "duration": 4.399
+    },
+    {
+      "text": "content that Claude generates, I would",
+      "offset": 330.4,
+      "duration": 4.32
+    },
+    {
+      "text": "just have a look through. Then if we go",
+      "offset": 332.479,
+      "duration": 4.961
+    },
+    {
+      "text": "to app and then go to preview, we can",
+      "offset": 334.72,
+      "duration": 5.28
+    },
+    {
+      "text": "see we&amp;#39;ve got changes in the page file.",
+      "offset": 337.44,
+      "duration": 5.759
+    },
+    {
+      "text": "So somewhere in here, there should be a",
+      "offset": 340,
+      "duration": 5.6
+    },
+    {
+      "text": "new card component probably right at the",
+      "offset": 343.199,
+      "duration": 4.321
+    },
+    {
+      "text": "bottom. So let&amp;#39;s scroll all the way",
+      "offset": 345.6,
+      "duration": 3.599
+    },
+    {
+      "text": "down.",
+      "offset": 347.52,
+      "duration": 4.16
+    },
+    {
+      "text": "It&amp;#39;s a big file now, but there we go. We",
+      "offset": 349.199,
+      "duration": 3.921
+    },
+    {
+      "text": "can see the different variants of the",
+      "offset": 351.68,
+      "duration": 3.84
+    },
+    {
+      "text": "card component. So now let&amp;#39;s see what it",
+      "offset": 353.12,
+      "duration": 4.32
+    },
+    {
+      "text": "looks like in a browser. All right.",
+      "offset": 355.52,
+      "duration": 3.6
+    },
+    {
+      "text": "Right. So, I&amp;#39;m just on the preview page",
+      "offset": 357.44,
+      "duration": 4.08
+    },
+    {
+      "text": "and if we scroll right down, we should",
+      "offset": 359.12,
+      "duration": 4.079
+    },
+    {
+      "text": "hopefully see these cards. Yeah, we do.",
+      "offset": 361.52,
+      "duration": 2.799
+    },
+    {
+      "text": "So, we can see these different",
+      "offset": 363.199,
+      "duration": 3.44
+    },
+    {
+      "text": "variations as well. They look pretty",
+      "offset": 364.319,
+      "duration": 3.44
+    },
+    {
+      "text": "nice to be honest. So, we&amp;#39;ve got",
+      "offset": 366.639,
+      "duration": 3.441
+    },
+    {
+      "text": "primary, secondary, success, warning",
+      "offset": 367.759,
+      "duration": 3.601
+    },
+    {
+      "text": "card, danger, and they&amp;#39;ve all got a",
+      "offset": 370.08,
+      "duration": 2.8
+    },
+    {
+      "text": "little hover effect as well, which I",
+      "offset": 371.36,
+      "duration": 4
+    },
+    {
+      "text": "quite like. We&amp;#39;ve got different sizes,",
+      "offset": 372.88,
+      "duration": 4.879
+    },
+    {
+      "text": "interactive cards. Wow, that&amp;#39;s quite",
+      "offset": 375.36,
+      "duration": 5.6
+    },
+    {
+      "text": "nice. Uh, disabled card, uh, feature",
+      "offset": 377.759,
+      "duration": 5.28
+    },
+    {
+      "text": "cards with little icons on them. So,",
+      "offset": 380.96,
+      "duration": 4.32
+    },
+    {
+      "text": "it&amp;#39;s done a pretty extensive job here",
+      "offset": 383.039,
+      "duration": 4.321
+    },
+    {
+      "text": "and I could easily see myself using",
+      "offset": 385.28,
+      "duration": 4
+    },
+    {
+      "text": "these kind of cards in this project.",
+      "offset": 387.36,
+      "duration": 3.76
+    },
+    {
+      "text": "Let&amp;#39;s just check what they look like in",
+      "offset": 389.28,
+      "duration": 3.84
+    },
+    {
+      "text": "dark mode. So, let&amp;#39;s click on this. And",
+      "offset": 391.12,
+      "duration": 4.72
+    },
+    {
+      "text": "if we scroll right down, yeah, we&amp;#39;ve got",
+      "offset": 393.12,
+      "duration": 6.24
+    },
+    {
+      "text": "dark mode variations as well. Awesome.",
+      "offset": 395.84,
+      "duration": 5.68
+    },
+    {
+      "text": "All right. So, that worked and it looked",
+      "offset": 399.36,
+      "duration": 3.92
+    },
+    {
+      "text": "okay. But currently, whenever we use",
+      "offset": 401.52,
+      "duration": 3.76
+    },
+    {
+      "text": "this command, we&amp;#39;re getting a mystery",
+      "offset": 403.28,
+      "duration": 3.919
+    },
+    {
+      "text": "component. We don&amp;#39;t know what it&amp;#39;s going",
+      "offset": 405.28,
+      "duration": 3.919
+    },
+    {
+      "text": "to be and we&amp;#39;re passing that decision to",
+      "offset": 407.199,
+      "duration": 4.241
+    },
+    {
+      "text": "cla code. Instead, when I use this",
+      "offset": 409.199,
+      "duration": 4
+    },
+    {
+      "text": "command, I&amp;#39;d like to specify exactly",
+      "offset": 411.44,
+      "duration": 3.759
+    },
+    {
+      "text": "what UI component that I want. So, for",
+      "offset": 413.199,
+      "duration": 4.56
+    },
+    {
+      "text": "example, I would say forward/ UI",
+      "offset": 415.199,
+      "duration": 4.321
+    },
+    {
+      "text": "component and then something like card",
+      "offset": 417.759,
+      "duration": 4.081
+    },
+    {
+      "text": "with maybe a brief description as well.",
+      "offset": 419.52,
+      "duration": 3.92
+    },
+    {
+      "text": "And we can do that using command",
+      "offset": 421.84,
+      "duration": 4.24
+    },
+    {
+      "text": "arguments. So, if we open up the command",
+      "offset": 423.44,
+      "duration": 4.8
+    },
+    {
+      "text": "file, I&amp;#39;m going to add this little",
+      "offset": 426.08,
+      "duration": 3.92
+    },
+    {
+      "text": "section at the top of the file. And",
+      "offset": 428.24,
+      "duration": 3.359
+    },
+    {
+      "text": "there&amp;#39;s a few things we need to go over.",
+      "offset": 430,
+      "duration": 2.8
+    },
+    {
+      "text": "First of all, we&amp;#39;ve got this front",
+      "offset": 431.599,
+      "duration": 3.04
+    },
+    {
+      "text": "matter at the top of the file, which is",
+      "offset": 432.8,
+      "duration": 4.239
+    },
+    {
+      "text": "a markdown feature that lets us supply a",
+      "offset": 434.639,
+      "duration": 4.481
+    },
+    {
+      "text": "kind of metadata for the file. In this",
+      "offset": 437.039,
+      "duration": 3.521
+    },
+    {
+      "text": "case, we&amp;#39;ve got two properties inside",
+      "offset": 439.12,
+      "duration": 3.76
+    },
+    {
+      "text": "the front matter. Description, which is",
+      "offset": 440.56,
+      "duration": 4.16
+    },
+    {
+      "text": "what the command does, right? And an",
+      "offset": 442.88,
+      "duration": 3.92
+    },
+    {
+      "text": "argument hint to tell us what kind of",
+      "offset": 444.72,
+      "duration": 4.479
+    },
+    {
+      "text": "arguments are expected when we run this",
+      "offset": 446.8,
+      "duration": 4.32
+    },
+    {
+      "text": "command. Now, both of these are going to",
+      "offset": 449.199,
+      "duration": 3.84
+    },
+    {
+      "text": "show up in the chat interface when we",
+      "offset": 451.12,
+      "duration": 4.16
+    },
+    {
+      "text": "use the tool to remind us of what this",
+      "offset": 453.039,
+      "duration": 4.88
+    },
+    {
+      "text": "command does and what it needs. Next up,",
+      "offset": 455.28,
+      "duration": 4.479
+    },
+    {
+      "text": "I&amp;#39;ve added this new context section",
+      "offset": 457.919,
+      "duration": 3.84
+    },
+    {
+      "text": "where we instruct Claude code to pass",
+      "offset": 459.759,
+      "duration": 4
+    },
+    {
+      "text": "this dollar sign arguments variable to",
+      "offset": 461.759,
+      "duration": 4.241
+    },
+    {
+      "text": "get some values. Now, this arguments",
+      "offset": 463.759,
+      "duration": 4.081
+    },
+    {
+      "text": "thing is how Claude code captures",
+      "offset": 466,
+      "duration": 3.36
+    },
+    {
+      "text": "whatever arguments we pass into the",
+      "offset": 467.84,
+      "duration": 3.44
+    },
+    {
+      "text": "command when we call it. And it doesn&amp;#39;t",
+      "offset": 469.36,
+      "duration": 5.119
+    },
+    {
+      "text": "matter whether we pass one, two, or five",
+      "offset": 471.28,
+      "duration": 4.639
+    },
+    {
+      "text": "arguments. They&amp;#39;re all caught within",
+      "offset": 474.479,
+      "duration": 3.761
+    },
+    {
+      "text": "this single dollar sign arguments value.",
+      "offset": 475.919,
+      "duration": 4.641
+    },
+    {
+      "text": "In our case, I want to be able to pass",
+      "offset": 478.24,
+      "duration": 4.88
+    },
+    {
+      "text": "two arguments, a name and a summary of",
+      "offset": 480.56,
+      "duration": 4.56
+    },
+    {
+      "text": "the component we&amp;#39;re making. So, we",
+      "offset": 483.12,
+      "duration": 4.799
+    },
+    {
+      "text": "somehow need to pass those two arguments",
+      "offset": 485.12,
+      "duration": 5.28
+    },
+    {
+      "text": "from the arguments value. Now, I&amp;#39;ve not",
+      "offset": 487.919,
+      "duration": 4.241
+    },
+    {
+      "text": "seen any official guidance on how to",
+      "offset": 490.4,
+      "duration": 3.919
+    },
+    {
+      "text": "pass multiple values from this on the",
+      "offset": 492.16,
+      "duration": 3.759
+    },
+    {
+      "text": "docs or anywhere else, but I found the",
+      "offset": 494.319,
+      "duration": 3.841
+    },
+    {
+      "text": "following method works really well. I",
+      "offset": 495.919,
+      "duration": 4.081
+    },
+    {
+      "text": "use square brackets to essentially",
+      "offset": 498.16,
+      "duration": 3.84
+    },
+    {
+      "text": "create variables with values where the",
+      "offset": 500,
+      "duration": 3.44
+    },
+    {
+      "text": "name of the variable is the thing in the",
+      "offset": 502,
+      "duration": 3.039
+    },
+    {
+      "text": "square brackets and the text on the",
+      "offset": 503.44,
+      "duration": 3.52
+    },
+    {
+      "text": "right is telling Claude code what to",
+      "offset": 505.039,
+      "duration": 4.241
+    },
+    {
+      "text": "store for this. This is actually how we",
+      "offset": 506.96,
+      "duration": 4.56
+    },
+    {
+      "text": "make reference links in markdown, but I",
+      "offset": 509.28,
+      "duration": 3.92
+    },
+    {
+      "text": "also find it works well for this kind of",
+      "offset": 511.52,
+      "duration": 3.6
+    },
+    {
+      "text": "thing. So, we&amp;#39;re telling Claude code to",
+      "offset": 513.2,
+      "duration": 4
+    },
+    {
+      "text": "try and pass the arguments to find and",
+      "offset": 515.12,
+      "duration": 3.919
+    },
+    {
+      "text": "store these values, which means we can",
+      "offset": 517.2,
+      "duration": 3.36
+    },
+    {
+      "text": "then use them down here in the",
+      "offset": 519.039,
+      "duration": 3.12
+    },
+    {
+      "text": "instructions.",
+      "offset": 520.56,
+      "duration": 3.52
+    },
+    {
+      "text": "So, I&amp;#39;m now just going to highlight all",
+      "offset": 522.159,
+      "duration": 3.921
+    },
+    {
+      "text": "of this task part, delete it, and",
+      "offset": 524.08,
+      "duration": 3.759
+    },
+    {
+      "text": "replace it with a new instruction",
+      "offset": 526.08,
+      "duration": 4.16
+    },
+    {
+      "text": "incorporating those argument values. And",
+      "offset": 527.839,
+      "duration": 4.881
+    },
+    {
+      "text": "I still tell it to make a UI component,",
+      "offset": 530.24,
+      "duration": 4.4
+    },
+    {
+      "text": "but this time I tell it to use the name",
+      "offset": 532.72,
+      "duration": 4.64
+    },
+    {
+      "text": "and summary values. first for the folder",
+      "offset": 534.64,
+      "duration": 5.12
+    },
+    {
+      "text": "and file names, second for the component",
+      "offset": 537.36,
+      "duration": 4.32
+    },
+    {
+      "text": "name, and lastly I tell it to reference",
+      "offset": 539.76,
+      "duration": 3.68
+    },
+    {
+      "text": "the summary when making the component",
+      "offset": 541.68,
+      "duration": 4.08
+    },
+    {
+      "text": "itself. So now when we call this command",
+      "offset": 543.44,
+      "duration": 4
+    },
+    {
+      "text": "from claude code, we can pass in the",
+      "offset": 545.76,
+      "duration": 3.6
+    },
+    {
+      "text": "arguments which then get passed and then",
+      "offset": 547.44,
+      "duration": 3.6
+    },
+    {
+      "text": "used by the AI to come up with the",
+      "offset": 549.36,
+      "duration": 4.479
+    },
+    {
+      "text": "component using those values. Before we",
+      "offset": 551.04,
+      "duration": 5.12
+    },
+    {
+      "text": "do that though, we need to exit Claude",
+      "offset": 553.839,
+      "duration": 4.401
+    },
+    {
+      "text": "and restart it again because we made a",
+      "offset": 556.16,
+      "duration": 4.16
+    },
+    {
+      "text": "change to the command file. So exit out",
+      "offset": 558.24,
+      "duration": 5.599
+    },
+    {
+      "text": "and then fire it back up.",
+      "offset": 560.32,
+      "duration": 5.76
+    },
+    {
+      "text": "Okay, then. So now if I press forward",
+      "offset": 563.839,
+      "duration": 4.641
+    },
+    {
+      "text": "slash we can see UI component and it",
+      "offset": 566.08,
+      "duration": 4.72
+    },
+    {
+      "text": "tells us create a UI component in this",
+      "offset": 568.48,
+      "duration": 3.919
+    },
+    {
+      "text": "directory. I&amp;#39;m going to press tab on",
+      "offset": 570.8,
+      "duration": 3.68
+    },
+    {
+      "text": "this and you can see it&amp;#39;s given us a",
+      "offset": 572.399,
+      "duration": 4.801
+    },
+    {
+      "text": "hint for the arguments it expects now.",
+      "offset": 574.48,
+      "duration": 5.84
+    },
+    {
+      "text": "So let&amp;#39;s make maybe an icon component.",
+      "offset": 577.2,
+      "duration": 5.12
+    },
+    {
+      "text": "So it should be called icon. Then I&amp;#39;m",
+      "offset": 580.32,
+      "duration": 3.6
+    },
+    {
+      "text": "going to do a pipe to do the second",
+      "offset": 582.32,
+      "duration": 5.28
+    },
+    {
+      "text": "argument. And I&amp;#39;ll just say an icon",
+      "offset": 583.92,
+      "duration": 9.28
+    },
+    {
+      "text": "component for showing icons with a",
+      "offset": 587.6,
+      "duration": 8.56
+    },
+    {
+      "text": "circular background. Let&amp;#39;s see what it",
+      "offset": 593.2,
+      "duration": 7.56
+    },
+    {
+      "text": "does for that. And let&amp;#39;s press enter.",
+      "offset": 596.16,
+      "duration": 4.6
+    },
+    {
+      "text": "All right, then. So, it&amp;#39;s asking to make",
+      "offset": 602.56,
+      "duration": 3.04
+    },
+    {
+      "text": "edits. So, I&amp;#39;m going to select the",
+      "offset": 604.16,
+      "duration": 5.4
+    },
+    {
+      "text": "second option and press enter.",
+      "offset": 605.6,
+      "duration": 3.96
+    },
+    {
+      "text": "Okay, so it looks like it&amp;#39;s done",
+      "offset": 617.519,
+      "duration": 4.401
+    },
+    {
+      "text": "everything. So let&amp;#39;s close this and also",
+      "offset": 618.959,
+      "duration": 5.761
+    },
+    {
+      "text": "this and see what files it&amp;#39;s created and",
+      "offset": 621.92,
+      "duration": 5.12
+    },
+    {
+      "text": "changed. If we take a look inside the UI",
+      "offset": 624.72,
+      "duration": 4
+    },
+    {
+      "text": "folder, we can see now we&amp;#39;ve got an icon",
+      "offset": 627.04,
+      "duration": 3.68
+    },
+    {
+      "text": "folder. We&amp;#39;ve got the test file and the",
+      "offset": 628.72,
+      "duration": 5.6
+    },
+    {
+      "text": "component itself. So we have the",
+      "offset": 630.72,
+      "duration": 6.48
+    },
+    {
+      "text": "variants that we can pass in the size.",
+      "offset": 634.32,
+      "duration": 4.72
+    },
+    {
+      "text": "We have the on click. We also have a",
+      "offset": 637.2,
+      "duration": 3.28
+    },
+    {
+      "text": "class name as well. They&amp;#39;re the icon",
+      "offset": 639.04,
+      "duration": 4.08
+    },
+    {
+      "text": "props. Okay, let&amp;#39;s have a look around",
+      "offset": 640.48,
+      "duration": 6.16
+    },
+    {
+      "text": "here. So, the child I think will be a",
+      "offset": 643.12,
+      "duration": 5.839
+    },
+    {
+      "text": "icon itself, I think. Let&amp;#39;s have a look",
+      "offset": 646.64,
+      "duration": 5.36
+    },
+    {
+      "text": "what it&amp;#39;s done inside the preview page.",
+      "offset": 648.959,
+      "duration": 4.641
+    },
+    {
+      "text": "Let&amp;#39;s scroll right to the bottom where",
+      "offset": 652,
+      "duration": 3.279
+    },
+    {
+      "text": "the icons are. Yeah, it&amp;#39;s added them.",
+      "offset": 653.6,
+      "duration": 4.08
+    },
+    {
+      "text": "Okay, so we have these little emojis",
+      "offset": 655.279,
+      "duration": 4.321
+    },
+    {
+      "text": "embedded into the icon. So, I guess",
+      "offset": 657.68,
+      "duration": 4.159
+    },
+    {
+      "text": "whatever icon we want, we would output",
+      "offset": 659.6,
+      "duration": 4.239
+    },
+    {
+      "text": "it here, whether it&amp;#39;s an emoji or some",
+      "offset": 661.839,
+      "duration": 5.44
+    },
+    {
+      "text": "icon from a package that you might use.",
+      "offset": 663.839,
+      "duration": 5.12
+    },
+    {
+      "text": "All right. So, I&amp;#39;m just on the preview",
+      "offset": 667.279,
+      "duration": 3.761
+    },
+    {
+      "text": "page again and I&amp;#39;m going to scroll right",
+      "offset": 668.959,
+      "duration": 4.081
+    },
+    {
+      "text": "the way down. All right. So, we can see",
+      "offset": 671.04,
+      "duration": 4.799
+    },
+    {
+      "text": "these icons right here and they look",
+      "offset": 673.04,
+      "duration": 6.4
+    },
+    {
+      "text": "okay. I think instead of using emojis, I",
+      "offset": 675.839,
+      "duration": 5.761
+    },
+    {
+      "text": "would probably have used some icon",
+      "offset": 679.44,
+      "duration": 4
+    },
+    {
+      "text": "package. I would have preferred that.",
+      "offset": 681.6,
+      "duration": 3.28
+    },
+    {
+      "text": "And to be honest, that&amp;#39;s something I",
+      "offset": 683.44,
+      "duration": 2.48
+    },
+    {
+      "text": "would have just gone back and told",
+      "offset": 684.88,
+      "duration": 2.56
+    },
+    {
+      "text": "Claude and it could have edited those",
+      "offset": 685.92,
+      "duration": 4.159
+    },
+    {
+      "text": "files again and it would have updated it",
+      "offset": 687.44,
+      "duration": 4.639
+    },
+    {
+      "text": "to make it work correctly as I see fit.",
+      "offset": 690.079,
+      "duration": 3.841
+    },
+    {
+      "text": "And that&amp;#39;s the importance of staying in",
+      "offset": 692.079,
+      "duration": 3.281
+    },
+    {
+      "text": "the loop, looking what it&amp;#39;s doing, and",
+      "offset": 693.92,
+      "duration": 4
+    },
+    {
+      "text": "not just accepting everything it does by",
+      "offset": 695.36,
+      "duration": 4.96
+    },
+    {
+      "text": "default.",
+      "offset": 697.92,
+      "duration": 4
+    },
+    {
+      "text": "And in fact, I couldn&amp;#39;t help myself.",
+      "offset": 700.32,
+      "duration": 2.88
+    },
+    {
+      "text": "I&amp;#39;ve just been back to the code. I&amp;#39;ve",
+      "offset": 701.92,
+      "duration": 3.68
+    },
+    {
+      "text": "asked Cloud Code to change it and use an",
+      "offset": 703.2,
+      "duration": 4.319
+    },
+    {
+      "text": "icon library instead. And if we take a",
+      "offset": 705.6,
+      "duration": 3.359
+    },
+    {
+      "text": "look at these now, I&amp;#39;m hopeful that",
+      "offset": 707.519,
+      "duration": 2.481
+    },
+    {
+      "text": "they&amp;#39;re going to look a little bit",
+      "offset": 708.959,
+      "duration": 4.241
+    },
+    {
+      "text": "better. If we go right down. Okay, there",
+      "offset": 710,
+      "duration": 4.8
+    },
+    {
+      "text": "we go. Yeah, that looks loads better.",
+      "offset": 713.2,
+      "duration": 3.12
+    },
+    {
+      "text": "We&amp;#39;ve got all these different variants.",
+      "offset": 714.8,
+      "duration": 3.76
+    },
+    {
+      "text": "We&amp;#39;ve got different sizes, interactive",
+      "offset": 716.32,
+      "duration": 3.84
+    },
+    {
+      "text": "icons. We&amp;#39;ve got action bars, different",
+      "offset": 718.56,
+      "duration": 3.519
+    },
+    {
+      "text": "ways we can use them. Yeah, they all",
+      "offset": 720.16,
+      "duration": 3.6
+    },
+    {
+      "text": "look loads better. Anyway, I think",
+      "offset": 722.079,
+      "duration": 3.521
+    },
+    {
+      "text": "that&amp;#39;s enough on commands and custom",
+      "offset": 723.76,
+      "duration": 3.36
+    },
+    {
+      "text": "commands. And in the next lesson, we&amp;#39;re",
+      "offset": 725.6,
+      "duration": 5.28
+    },
+    {
+      "text": "going to look at MCP servers.",
+      "offset": 727.12,
+      "duration": 3.76
+    }
+  ],
+  "fullText": "Okay, then my friends, in this lesson, we&amp;#39;re going to talk about something called slash commands, which I&amp;#39;m just going to call commands from here on out because it&amp;#39;s much shorter. And we&amp;#39;re also going to make a custom command as well. So then, we&amp;#39;ve already seen and used several built-in commands that Claude Code gives to us out of the box. And we&amp;#39;ve done that by typing a slash, then whatever the command name was, for example, clear to clear the context, or initialize a claw.md file. Now if you just type slash on its own then you&amp;#39;re going to see a list of all the available commands that come with claude code and you can key up and down to go through these. So we&amp;#39;ve got add dur to give claude access to another working directory which in essence it allows multiple repository development then from one location which could be useful if you have related projects like a backend and a front end. We&amp;#39;ve got forward/ aents for managing sub aents which we will see later on in the course. There&amp;#39;s clear and compact down here which we&amp;#39;ve used already. There&amp;#39;s a model one which if we use allows us to choose which model we want to use. I&amp;#39;ve got Sonic 4 selected at the moment. And also you can escape these screens by just hitting the escape key. There&amp;#39;s also a permissions one somewhere which we can use to add permissions for different tools in Claude Code for this project. And that adds those permissions to the local settings file for you when you set them up this way. I normally just manually add them myself. But anyway, I&amp;#39;m not going to read all these different commands now because there&amp;#39;s way too many and we will be using some of them in future lessons. But definitely take a look through and have a little play around with them. The thing I&amp;#39;d like to focus on in this lesson is making a custom command which we can add to this list. And we would make a custom command for common tasks we might perform in the project. For example, in this project, I might be making a lot of UI components. So I could make a command for generating those components which includes a detailed prompt. Any context needed and any other specific details I can pass to the AI model. Then whenever I need to make a new UI component, I can just use that custom component command to do it. So let&amp;#39;s give this a shot. The first thing we need to do is make a commands folder inside this.claw folder. And if you don&amp;#39;t see that claw folder already, you can go ahead and make that too. Then inside the commands folder, we can make a new markdown file called whatever we want the command to be named. For example, I&amp;#39;m going to call it UI- component.mmd. All right. So now inside this file, we can give Claude code whatever instructions that we want to make a new UI component. So I could tell Claude where the file should go, the naming convention, any component variants I want, how to test the component, etc. For now, I&amp;#39;m just going to paste in a simple set of instructions which tells it to make a new single UI component in the components folder and then in the UI folder. And I say that the component should be a functional component with the name in Pascal case. I&amp;#39;m also telling it to add the following variants and sizes for the component using the colors from the theme variables in the CSS file. And notice how I&amp;#39;m using the at sign to load in another file as context here. You can do that in these custom uh custom commands. Then I tell Claude to make a test file for the component as well. And I want it to run the test until they all pass. Finally, I ask it to add the component to the preview page so that we can preview it in the browser when we&amp;#39;re done and not to add it anywhere else in the project because sometimes Claude can get giddy and it wants to use this new stuff everywhere else, too. So, by adding this, it&amp;#39;s just going to get added to the preview page. And all this, by the way, is just like a really big prompt. When we use a custom command, claude code essentially pulls in this markdown file and it uses it as a prompt. All right, so let me close this file. And we also need to restart a new Claude session for it to pick up on this new tool that we&amp;#39;ve just created or this new command rather we&amp;#39;ve just created. So exit out of the current session, then start cla back up again. All right. So now if we do forward slash, we should see the new command that we just created. this one right here, UI component. So, I&amp;#39;m going to tap on that and then I&amp;#39;m just going to press enter to run this command. And notice though, nowhere in the command did we say what kind of UI component to make. So, it&amp;#39;s basically just handing the reins over to the AI to make whatever component it sees fit. All right, so we can see that it&amp;#39;s decided to create a card component. So, let&amp;#39;s go ahead and let it do this. If you wanted it to do something different, you could say no and tell clog what to do differently. We&amp;#39;re just going to press yes and don&amp;#39;t ask again for make the commands in this project. Okay. And we&amp;#39;re going to allow it to make these changes. And now it wants to run this bash command to test out the component. Okay, so it looks like it&amp;#39;s all done. It&amp;#39;s created the card component, the test file. It&amp;#39;s got five variants, three sizes, and all the tests have passed. It&amp;#39;s added the preview to the preview page as well. Let&amp;#39;s just check over here that everything is added before we preview this in the browser ourselves. So, if we go to UI, we can see the card folder and the card file over here. So, this is the component. And again, I would normally just go through this thoroughly, make sure it is coded how I would want it. Same for this file. any content that Claude generates, I would just have a look through. Then if we go to app and then go to preview, we can see we&amp;#39;ve got changes in the page file. So somewhere in here, there should be a new card component probably right at the bottom. So let&amp;#39;s scroll all the way down. It&amp;#39;s a big file now, but there we go. We can see the different variants of the card component. So now let&amp;#39;s see what it looks like in a browser. All right. Right. So, I&amp;#39;m just on the preview page and if we scroll right down, we should hopefully see these cards. Yeah, we do. So, we can see these different variations as well. They look pretty nice to be honest. So, we&amp;#39;ve got primary, secondary, success, warning card, danger, and they&amp;#39;ve all got a little hover effect as well, which I quite like. We&amp;#39;ve got different sizes, interactive cards. Wow, that&amp;#39;s quite nice. Uh, disabled card, uh, feature cards with little icons on them. So, it&amp;#39;s done a pretty extensive job here and I could easily see myself using these kind of cards in this project. Let&amp;#39;s just check what they look like in dark mode. So, let&amp;#39;s click on this. And if we scroll right down, yeah, we&amp;#39;ve got dark mode variations as well. Awesome. All right. So, that worked and it looked okay. But currently, whenever we use this command, we&amp;#39;re getting a mystery component. We don&amp;#39;t know what it&amp;#39;s going to be and we&amp;#39;re passing that decision to cla code. Instead, when I use this command, I&amp;#39;d like to specify exactly what UI component that I want. So, for example, I would say forward/ UI component and then something like card with maybe a brief description as well. And we can do that using command arguments. So, if we open up the command file, I&amp;#39;m going to add this little section at the top of the file. And there&amp;#39;s a few things we need to go over. First of all, we&amp;#39;ve got this front matter at the top of the file, which is a markdown feature that lets us supply a kind of metadata for the file. In this case, we&amp;#39;ve got two properties inside the front matter. Description, which is what the command does, right? And an argument hint to tell us what kind of arguments are expected when we run this command. Now, both of these are going to show up in the chat interface when we use the tool to remind us of what this command does and what it needs. Next up, I&amp;#39;ve added this new context section where we instruct Claude code to pass this dollar sign arguments variable to get some values. Now, this arguments thing is how Claude code captures whatever arguments we pass into the command when we call it. And it doesn&amp;#39;t matter whether we pass one, two, or five arguments. They&amp;#39;re all caught within this single dollar sign arguments value. In our case, I want to be able to pass two arguments, a name and a summary of the component we&amp;#39;re making. So, we somehow need to pass those two arguments from the arguments value. Now, I&amp;#39;ve not seen any official guidance on how to pass multiple values from this on the docs or anywhere else, but I found the following method works really well. I use square brackets to essentially create variables with values where the name of the variable is the thing in the square brackets and the text on the right is telling Claude code what to store for this. This is actually how we make reference links in markdown, but I also find it works well for this kind of thing. So, we&amp;#39;re telling Claude code to try and pass the arguments to find and store these values, which means we can then use them down here in the instructions. So, I&amp;#39;m now just going to highlight all of this task part, delete it, and replace it with a new instruction incorporating those argument values. And I still tell it to make a UI component, but this time I tell it to use the name and summary values. first for the folder and file names, second for the component name, and lastly I tell it to reference the summary when making the component itself. So now when we call this command from claude code, we can pass in the arguments which then get passed and then used by the AI to come up with the component using those values. Before we do that though, we need to exit Claude and restart it again because we made a change to the command file. So exit out and then fire it back up. Okay, then. So now if I press forward slash we can see UI component and it tells us create a UI component in this directory. I&amp;#39;m going to press tab on this and you can see it&amp;#39;s given us a hint for the arguments it expects now. So let&amp;#39;s make maybe an icon component. So it should be called icon. Then I&amp;#39;m going to do a pipe to do the second argument. And I&amp;#39;ll just say an icon component for showing icons with a circular background. Let&amp;#39;s see what it does for that. And let&amp;#39;s press enter. All right, then. So, it&amp;#39;s asking to make edits. So, I&amp;#39;m going to select the second option and press enter. Okay, so it looks like it&amp;#39;s done everything. So let&amp;#39;s close this and also this and see what files it&amp;#39;s created and changed. If we take a look inside the UI folder, we can see now we&amp;#39;ve got an icon folder. We&amp;#39;ve got the test file and the component itself. So we have the variants that we can pass in the size. We have the on click. We also have a class name as well. They&amp;#39;re the icon props. Okay, let&amp;#39;s have a look around here. So, the child I think will be a icon itself, I think. Let&amp;#39;s have a look what it&amp;#39;s done inside the preview page. Let&amp;#39;s scroll right to the bottom where the icons are. Yeah, it&amp;#39;s added them. Okay, so we have these little emojis embedded into the icon. So, I guess whatever icon we want, we would output it here, whether it&amp;#39;s an emoji or some icon from a package that you might use. All right. So, I&amp;#39;m just on the preview page again and I&amp;#39;m going to scroll right the way down. All right. So, we can see these icons right here and they look okay. I think instead of using emojis, I would probably have used some icon package. I would have preferred that. And to be honest, that&amp;#39;s something I would have just gone back and told Claude and it could have edited those files again and it would have updated it to make it work correctly as I see fit. And that&amp;#39;s the importance of staying in the loop, looking what it&amp;#39;s doing, and not just accepting everything it does by default. And in fact, I couldn&amp;#39;t help myself. I&amp;#39;ve just been back to the code. I&amp;#39;ve asked Cloud Code to change it and use an icon library instead. And if we take a look at these now, I&amp;#39;m hopeful that they&amp;#39;re going to look a little bit better. If we go right down. Okay, there we go. Yeah, that looks loads better. We&amp;#39;ve got all these different variants. We&amp;#39;ve got different sizes, interactive icons. We&amp;#39;ve got action bars, different ways we can use them. Yeah, they all look loads better. Anyway, I think that&amp;#39;s enough on commands and custom commands. And in the next lesson, we&amp;#39;re going to look at MCP servers."
+}

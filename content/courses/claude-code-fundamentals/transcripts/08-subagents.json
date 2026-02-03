@@ -1,0 +1,1485 @@
+{
+  "videoId": "Phr7vBx9yFQ",
+  "title": "Subagents",
+  "duration": "10:55",
+  "module": "Power Features",
+  "extractedAt": "2026-01-23T04:12:42.511Z",
+  "segments": [
+    {
+      "text": "Okay then gang, in this lesson I want to",
+      "offset": 0.719,
+      "duration": 3.281
+    },
+    {
+      "text": "talk about something called sub aents",
+      "offset": 2.56,
+      "duration": 3.199
+    },
+    {
+      "text": "which are really cool and they allow you",
+      "offset": 4,
+      "duration": 3.52
+    },
+    {
+      "text": "to basically create a whole team working",
+      "offset": 5.759,
+      "duration": 3.92
+    },
+    {
+      "text": "on your project where each sub agent can",
+      "offset": 7.52,
+      "duration": 4.4
+    },
+    {
+      "text": "have a different area of expertise that",
+      "offset": 9.679,
+      "duration": 4.08
+    },
+    {
+      "text": "can be isolated and configured to work",
+      "offset": 11.92,
+      "duration": 4.08
+    },
+    {
+      "text": "on certain tasks. For example, we could",
+      "offset": 13.759,
+      "duration": 4.401
+    },
+    {
+      "text": "make a unit test agent whose expertise",
+      "offset": 16,
+      "duration": 4.24
+    },
+    {
+      "text": "and function would be to really hone in",
+      "offset": 18.16,
+      "duration": 4.72
+    },
+    {
+      "text": "on writing and running tests. Or we",
+      "offset": 20.24,
+      "duration": 4.64
+    },
+    {
+      "text": "could make a sub agent who specializes",
+      "offset": 22.88,
+      "duration": 4.639
+    },
+    {
+      "text": "in security audits. We could make a UX",
+      "offset": 24.88,
+      "duration": 4.399
+    },
+    {
+      "text": "reviewer who specializes in providing",
+      "offset": 27.519,
+      "duration": 3.52
+    },
+    {
+      "text": "feedback for new components by viewing",
+      "offset": 29.279,
+      "duration": 4.001
+    },
+    {
+      "text": "them in a browser, etc. Now, each of",
+      "offset": 31.039,
+      "duration": 4.161
+    },
+    {
+      "text": "these sub aents all run independently",
+      "offset": 33.28,
+      "duration": 3.439
+    },
+    {
+      "text": "from each other. They have their own",
+      "offset": 35.2,
+      "duration": 3.199
+    },
+    {
+      "text": "system prompts, tools they&amp;#39;re allowed to",
+      "offset": 36.719,
+      "duration": 3.761
+    },
+    {
+      "text": "run, and their own context window. So,",
+      "offset": 38.399,
+      "duration": 3.761
+    },
+    {
+      "text": "they&amp;#39;re a really good way of isolating",
+      "offset": 40.48,
+      "duration": 4
+    },
+    {
+      "text": "certain workflows and tasks. And what&amp;#39;s",
+      "offset": 42.16,
+      "duration": 4
+    },
+    {
+      "text": "really cool is that Claude Code can",
+      "offset": 44.48,
+      "duration": 4.079
+    },
+    {
+      "text": "delegate tasks to them when it needs to.",
+      "offset": 46.16,
+      "duration": 4.64
+    },
+    {
+      "text": "So you can kind of think of claude code",
+      "offset": 48.559,
+      "duration": 4
+    },
+    {
+      "text": "as being maybe a senior developer",
+      "offset": 50.8,
+      "duration": 3.84
+    },
+    {
+      "text": "working on tasks who then instructs",
+      "offset": 52.559,
+      "duration": 4
+    },
+    {
+      "text": "these sub aents to carry out certain",
+      "offset": 54.64,
+      "duration": 4.239
+    },
+    {
+      "text": "work. And one of the main benefits of",
+      "offset": 56.559,
+      "duration": 4.081
+    },
+    {
+      "text": "working this way is that each sub aent",
+      "offset": 58.879,
+      "duration": 4.48
+    },
+    {
+      "text": "has a specialized expertise which we can",
+      "offset": 60.64,
+      "duration": 4.96
+    },
+    {
+      "text": "fine-tune to excel in a particular area",
+      "offset": 63.359,
+      "duration": 5.601
+    },
+    {
+      "text": "through detail system prompts. Also",
+      "offset": 65.6,
+      "duration": 5.28
+    },
+    {
+      "text": "because each sub aent has their own",
+      "offset": 68.96,
+      "duration": 4.159
+    },
+    {
+      "text": "isolated context window. It keeps their",
+      "offset": 70.88,
+      "duration": 4.88
+    },
+    {
+      "text": "context clean and focused leading to I",
+      "offset": 73.119,
+      "duration": 4.881
+    },
+    {
+      "text": "think better results a lot of the time.",
+      "offset": 75.76,
+      "duration": 4.399
+    },
+    {
+      "text": "And it also means the main thread stays",
+      "offset": 78,
+      "duration": 3.52
+    },
+    {
+      "text": "cleaner and trimmer if we do this",
+      "offset": 80.159,
+      "duration": 3.761
+    },
+    {
+      "text": "correctly because we&amp;#39;re delegating tasks",
+      "offset": 81.52,
+      "duration": 4.56
+    },
+    {
+      "text": "to those sub aents. So it reduces the",
+      "offset": 83.92,
+      "duration": 4.559
+    },
+    {
+      "text": "context overload in your main session.",
+      "offset": 86.08,
+      "duration": 4.079
+    },
+    {
+      "text": "So then in this lesson we&amp;#39;re going to",
+      "offset": 88.479,
+      "duration": 3.521
+    },
+    {
+      "text": "make a sub agent who can use the",
+      "offset": 90.159,
+      "duration": 4.161
+    },
+    {
+      "text": "playright MCP server to preview and",
+      "offset": 92,
+      "duration": 5.52
+    },
+    {
+      "text": "review the UI UX of new components once",
+      "offset": 94.32,
+      "duration": 5.119
+    },
+    {
+      "text": "they&amp;#39;ve been made. And the workflow is",
+      "offset": 97.52,
+      "duration": 4
+    },
+    {
+      "text": "going to look something like this. We&amp;#39;re",
+      "offset": 99.439,
+      "duration": 4.241
+    },
+    {
+      "text": "going to use the custom slash command to",
+      "offset": 101.52,
+      "duration": 4.16
+    },
+    {
+      "text": "tell Claude Code to make a new UI",
+      "offset": 103.68,
+      "duration": 3.84
+    },
+    {
+      "text": "component for us. Inside that command,",
+      "offset": 105.68,
+      "duration": 3.119
+    },
+    {
+      "text": "we&amp;#39;re going to add an instruction",
+      "offset": 107.52,
+      "duration": 4.08
+    },
+    {
+      "text": "telling it to invoke the UX reviewer sub",
+      "offset": 108.799,
+      "duration": 5.28
+    },
+    {
+      "text": "aent to review its work after it&amp;#39;s made",
+      "offset": 111.6,
+      "duration": 4.72
+    },
+    {
+      "text": "code edits. That sub aents going to use",
+      "offset": 114.079,
+      "duration": 3.921
+    },
+    {
+      "text": "playright to open a browser and look at",
+      "offset": 116.32,
+      "duration": 4.079
+    },
+    {
+      "text": "the component from a UX perspective.",
+      "offset": 118,
+      "duration": 4.079
+    },
+    {
+      "text": "Then it&amp;#39;s going to provide feedback to",
+      "offset": 120.399,
+      "duration": 3.36
+    },
+    {
+      "text": "the main thread on clawed code which",
+      "offset": 122.079,
+      "duration": 3.36
+    },
+    {
+      "text": "will make edits to the component based",
+      "offset": 123.759,
+      "duration": 3.761
+    },
+    {
+      "text": "on that feedback. If needed, it can ask",
+      "offset": 125.439,
+      "duration": 4.641
+    },
+    {
+      "text": "the UX reviewer again to review the code",
+      "offset": 127.52,
+      "duration": 5.6
+    },
+    {
+      "text": "or review the uh component in a browser",
+      "offset": 130.08,
+      "duration": 4.799
+    },
+    {
+      "text": "and provide more feedback until",
+      "offset": 133.12,
+      "duration": 3.759
+    },
+    {
+      "text": "eventually everyone&amp;#39;s happy and the",
+      "offset": 134.879,
+      "duration": 4.321
+    },
+    {
+      "text": "component is finished. So let&amp;#39;s give",
+      "offset": 136.879,
+      "duration": 4.881
+    },
+    {
+      "text": "this a whirl. So then let&amp;#39;s start by",
+      "offset": 139.2,
+      "duration": 4.8
+    },
+    {
+      "text": "making a new sub agent which we can do",
+      "offset": 141.76,
+      "duration": 4.16
+    },
+    {
+      "text": "by coming into the claude code chat",
+      "offset": 144,
+      "duration": 4.56
+    },
+    {
+      "text": "session and using a command which is",
+      "offset": 145.92,
+      "duration": 5.039
+    },
+    {
+      "text": "forward/ agents. Now when we do that",
+      "offset": 148.56,
+      "duration": 3.679
+    },
+    {
+      "text": "we&amp;#39;re going to see a list of agents",
+      "offset": 150.959,
+      "duration": 2.801
+    },
+    {
+      "text": "you&amp;#39;ve already created. Now, we&amp;#39;ve not",
+      "offset": 152.239,
+      "duration": 3.521
+    },
+    {
+      "text": "created any. So, we can make one by",
+      "offset": 153.76,
+      "duration": 4.32
+    },
+    {
+      "text": "selecting this create new agent option.",
+      "offset": 155.76,
+      "duration": 4.32
+    },
+    {
+      "text": "Once we&amp;#39;ve done that, we can choose a",
+      "offset": 158.08,
+      "duration": 3.76
+    },
+    {
+      "text": "scope for this new agent, either project",
+      "offset": 160.08,
+      "duration": 4
+    },
+    {
+      "text": "or personal. I&amp;#39;m going to select the",
+      "offset": 161.84,
+      "duration": 4
+    },
+    {
+      "text": "project scope so that anyone working on",
+      "offset": 164.08,
+      "duration": 4.159
+    },
+    {
+      "text": "this project can use the sub agent.",
+      "offset": 165.84,
+      "duration": 4.16
+    },
+    {
+      "text": "Then, we&amp;#39;re going to get two options.",
+      "offset": 168.239,
+      "duration": 4.08
+    },
+    {
+      "text": "You can get Claude to generate one for",
+      "offset": 170,
+      "duration": 4.239
+    },
+    {
+      "text": "you, or you can manually make one from",
+      "offset": 172.319,
+      "duration": 3.28
+    },
+    {
+      "text": "scratch. Now, what I&amp;#39;d like to do is",
+      "offset": 174.239,
+      "duration": 3.521
+    },
+    {
+      "text": "have Claude make one for me, then just",
+      "offset": 175.599,
+      "duration": 4.481
+    },
+    {
+      "text": "change it where I see fit. So, let&amp;#39;s",
+      "offset": 177.76,
+      "duration": 4.72
+    },
+    {
+      "text": "select that first option. And then we&amp;#39;re",
+      "offset": 180.08,
+      "duration": 4.72
+    },
+    {
+      "text": "asked to describe what this agent should",
+      "offset": 182.48,
+      "duration": 5.52
+    },
+    {
+      "text": "do and when it should be used. And I&amp;#39;m",
+      "offset": 184.8,
+      "duration": 4.799
+    },
+    {
+      "text": "just going to paste in a summary of this",
+      "offset": 188,
+      "duration": 4.56
+    },
+    {
+      "text": "agent now which says expert UI and UX",
+      "offset": 189.599,
+      "duration": 5.28
+    },
+    {
+      "text": "engineer who reviews the UI and UX of",
+      "offset": 192.56,
+      "duration": 4.08
+    },
+    {
+      "text": "React components in a browser using",
+      "offset": 194.879,
+      "duration": 3.521
+    },
+    {
+      "text": "Playright, takes screenshots, then",
+      "offset": 196.64,
+      "duration": 3.84
+    },
+    {
+      "text": "offers feedback on how to improve the",
+      "offset": 198.4,
+      "duration": 3.919
+    },
+    {
+      "text": "component in terms of visual design,",
+      "offset": 200.48,
+      "duration": 4.96
+    },
+    {
+      "text": "user experience, and accessibility. So",
+      "offset": 202.319,
+      "duration": 4.961
+    },
+    {
+      "text": "then I&amp;#39;m going to hit enter and Claude",
+      "offset": 205.44,
+      "duration": 3.439
+    },
+    {
+      "text": "Code&amp;#39;s going to go ahead and make this",
+      "offset": 207.28,
+      "duration": 5.28
+    },
+    {
+      "text": "new agent for us.",
+      "offset": 208.879,
+      "duration": 3.681
+    },
+    {
+      "text": "Now, at some point, it&amp;#39;s going to ask",
+      "offset": 213.04,
+      "duration": 3.919
+    },
+    {
+      "text": "you what tools you want to provide your",
+      "offset": 214.799,
+      "duration": 4.8
+    },
+    {
+      "text": "agent with. And the default option is to",
+      "offset": 216.959,
+      "duration": 4.64
+    },
+    {
+      "text": "allow all tools, but I&amp;#39;m going to",
+      "offset": 219.599,
+      "duration": 4.881
+    },
+    {
+      "text": "unselect the edit tools because I don&amp;#39;t",
+      "offset": 221.599,
+      "duration": 5.36
+    },
+    {
+      "text": "want to give the agent the power to edit",
+      "offset": 224.48,
+      "duration": 4.88
+    },
+    {
+      "text": "files. I only want it to review the",
+      "offset": 226.959,
+      "duration": 5.121
+    },
+    {
+      "text": "components and offer feedback. It&amp;#39;s also",
+      "offset": 229.36,
+      "duration": 4.56
+    },
+    {
+      "text": "going to ask you which AI mode you want",
+      "offset": 232.08,
+      "duration": 3.6
+    },
+    {
+      "text": "to use for the sub agent, and I&amp;#39;m going",
+      "offset": 233.92,
+      "duration": 4.8
+    },
+    {
+      "text": "to select the Sonic 4 model. Then it&amp;#39;s",
+      "offset": 235.68,
+      "duration": 4.8
+    },
+    {
+      "text": "going to ask you what color you want the",
+      "offset": 238.72,
+      "duration": 3.36
+    },
+    {
+      "text": "sub agent to use when it&amp;#39;s providing",
+      "offset": 240.48,
+      "duration": 3.119
+    },
+    {
+      "text": "updates in the terminal. I&amp;#39;m going to go",
+      "offset": 242.08,
+      "duration": 2.879
+    },
+    {
+      "text": "for the purple color. You choose",
+      "offset": 243.599,
+      "duration": 3.84
+    },
+    {
+      "text": "whatever you want. And then finally,",
+      "offset": 244.959,
+      "duration": 4.64
+    },
+    {
+      "text": "it&amp;#39;s going to give you a summary of the",
+      "offset": 247.439,
+      "duration": 4.88
+    },
+    {
+      "text": "agent it&amp;#39;s making, which you can confirm",
+      "offset": 249.599,
+      "duration": 5.36
+    },
+    {
+      "text": "by pressing enter. Okay. So, we can see",
+      "offset": 252.319,
+      "duration": 4.721
+    },
+    {
+      "text": "that now we have this project agent",
+      "offset": 254.959,
+      "duration": 5.441
+    },
+    {
+      "text": "called UI UX- reviewer that uses the",
+      "offset": 257.04,
+      "duration": 5.52
+    },
+    {
+      "text": "Sonic model. Let&amp;#39;s close this off. And",
+      "offset": 260.4,
+      "duration": 4
+    },
+    {
+      "text": "if we open up this file tree, we should",
+      "offset": 262.56,
+      "duration": 4
+    },
+    {
+      "text": "see inside the claude folder, an agents",
+      "offset": 264.4,
+      "duration": 4.96
+    },
+    {
+      "text": "folder with this markdown file for the",
+      "offset": 266.56,
+      "duration": 4.56
+    },
+    {
+      "text": "agent. So we&amp;#39;ve got some front matter at",
+      "offset": 269.36,
+      "duration": 4.16
+    },
+    {
+      "text": "the top, which is the name of the agent",
+      "offset": 271.12,
+      "duration": 5.44
+    },
+    {
+      "text": "a description. And then down here, the",
+      "offset": 273.52,
+      "duration": 6.16
+    },
+    {
+      "text": "tools that it&amp;#39;s allowed to use. Now,",
+      "offset": 276.56,
+      "duration": 5.04
+    },
+    {
+      "text": "it&amp;#39;s added the playright one right here,",
+      "offset": 279.68,
+      "duration": 4
+    },
+    {
+      "text": "or a few of the playright tools rather,",
+      "offset": 281.6,
+      "duration": 4.48
+    },
+    {
+      "text": "because we specifically said in the",
+      "offset": 283.68,
+      "duration": 5.12
+    },
+    {
+      "text": "summary, we wanted to use playright, the",
+      "offset": 286.08,
+      "duration": 5.52
+    },
+    {
+      "text": "model, and the color. Then a bit of a",
+      "offset": 288.8,
+      "duration": 4.56
+    },
+    {
+      "text": "description down here. Then we&amp;#39;ve got",
+      "offset": 291.6,
+      "duration": 5.2
+    },
+    {
+      "text": "the actual workflow. So the setup, the",
+      "offset": 293.36,
+      "duration": 6.88
+    },
+    {
+      "text": "visual documentation, how to analyze, uh",
+      "offset": 296.8,
+      "duration": 5.119
+    },
+    {
+      "text": "some testing methodology. We&amp;#39;re not",
+      "offset": 300.24,
+      "duration": 4.08
+    },
+    {
+      "text": "going to read all this, but essentially",
+      "offset": 301.919,
+      "duration": 4.881
+    },
+    {
+      "text": "it&amp;#39;s created this for us. And the job of",
+      "offset": 304.32,
+      "duration": 4.719
+    },
+    {
+      "text": "this agent now is to review components",
+      "offset": 306.8,
+      "duration": 5.6
+    },
+    {
+      "text": "using the Playright MCP in a browser.",
+      "offset": 309.039,
+      "duration": 5.201
+    },
+    {
+      "text": "And you can edit this, by the way, if",
+      "offset": 312.4,
+      "duration": 4
+    },
+    {
+      "text": "you want to. It&amp;#39;s basically like a",
+      "offset": 314.24,
+      "duration": 4.959
+    },
+    {
+      "text": "gigantic prompt for the sub agent which",
+      "offset": 316.4,
+      "duration": 4.72
+    },
+    {
+      "text": "gets used when the sub aent gets",
+      "offset": 319.199,
+      "duration": 4.641
+    },
+    {
+      "text": "invoked. So by all means go through this",
+      "offset": 321.12,
+      "duration": 4.32
+    },
+    {
+      "text": "and just edit anything that you don&amp;#39;t",
+      "offset": 323.84,
+      "duration": 3.84
+    },
+    {
+      "text": "agree with or any additional information",
+      "offset": 325.44,
+      "duration": 4.08
+    },
+    {
+      "text": "that you want to add, just add it. Okay,",
+      "offset": 327.68,
+      "duration": 3.68
+    },
+    {
+      "text": "so now we&amp;#39;ve got this sub aent created.",
+      "offset": 329.52,
+      "duration": 3.36
+    },
+    {
+      "text": "We can go back to the custom UI",
+      "offset": 331.36,
+      "duration": 3.2
+    },
+    {
+      "text": "component command we created earlier in",
+      "offset": 332.88,
+      "duration": 3.68
+    },
+    {
+      "text": "the course. And remember this command",
+      "offset": 334.56,
+      "duration": 4.24
+    },
+    {
+      "text": "instructs claw code to make a new UI",
+      "offset": 336.56,
+      "duration": 4.72
+    },
+    {
+      "text": "component based on certain criteria. And",
+      "offset": 338.8,
+      "duration": 4.32
+    },
+    {
+      "text": "now at the end I&amp;#39;m going to paste in one",
+      "offset": 341.28,
+      "duration": 4
+    },
+    {
+      "text": "final instruction which tells Claude to",
+      "offset": 343.12,
+      "duration": 4.88
+    },
+    {
+      "text": "invoke the new sub agent we just created",
+      "offset": 345.28,
+      "duration": 5.44
+    },
+    {
+      "text": "and ask it for feedback. Once it has",
+      "offset": 348,
+      "duration": 4.8
+    },
+    {
+      "text": "that feedback it should implement it by",
+      "offset": 350.72,
+      "duration": 4.96
+    },
+    {
+      "text": "updating the component. And then finally",
+      "offset": 352.8,
+      "duration": 5.119
+    },
+    {
+      "text": "if it needs to it can ask for another",
+      "offset": 355.68,
+      "duration": 4.959
+    },
+    {
+      "text": "review and more feedback. So then now",
+      "offset": 357.919,
+      "duration": 4.481
+    },
+    {
+      "text": "everything is kind of set up and ready",
+      "offset": 360.639,
+      "duration": 3.601
+    },
+    {
+      "text": "to go. So let&amp;#39;s give this a shot. And",
+      "offset": 362.4,
+      "duration": 3.519
+    },
+    {
+      "text": "remember, we need to exit out of claude",
+      "offset": 364.24,
+      "duration": 3.84
+    },
+    {
+      "text": "code first of all because we just made a",
+      "offset": 365.919,
+      "duration": 3.761
+    },
+    {
+      "text": "change to this command. And then we&amp;#39;re",
+      "offset": 368.08,
+      "duration": 3.44
+    },
+    {
+      "text": "going to start the session back up",
+      "offset": 369.68,
+      "duration": 3.359
+    },
+    {
+      "text": "again.",
+      "offset": 371.52,
+      "duration": 4.88
+    },
+    {
+      "text": "All right, then. So, let&amp;#39;s use the UI",
+      "offset": 373.039,
+      "duration": 4.88
+    },
+    {
+      "text": "component",
+      "offset": 376.4,
+      "duration": 4.48
+    },
+    {
+      "text": "tool if I can spell it. Components like",
+      "offset": 377.919,
+      "duration": 5.84
+    },
+    {
+      "text": "so. And then the component name is going",
+      "offset": 380.88,
+      "duration": 6.8
+    },
+    {
+      "text": "to be modal. And I&amp;#39;m going to say make a",
+      "offset": 383.759,
+      "duration": 10.641
+    },
+    {
+      "text": "clean modern looking modal which also",
+      "offset": 387.68,
+      "duration": 11.6
+    },
+    {
+      "text": "has a semi transparent",
+      "offset": 394.4,
+      "duration": 7.6
+    },
+    {
+      "text": "backdrop.",
+      "offset": 399.28,
+      "duration": 7.32
+    },
+    {
+      "text": "All right. So, press enter.",
+      "offset": 402,
+      "duration": 4.6
+    },
+    {
+      "text": "All right. And we can see already that",
+      "offset": 408,
+      "duration": 3.36
+    },
+    {
+      "text": "it has a little to-do list that it&amp;#39;s",
+      "offset": 409.759,
+      "duration": 3.921
+    },
+    {
+      "text": "going to work on. And right at the",
+      "offset": 411.36,
+      "duration": 4.32
+    },
+    {
+      "text": "bottom down here, it&amp;#39;s going to say",
+      "offset": 413.68,
+      "duration": 5.04
+    },
+    {
+      "text": "review the component with the UI SL uh",
+      "offset": 415.68,
+      "duration": 5.359
+    },
+    {
+      "text": "hyphen UX - reviewer agent. So that&amp;#39;s",
+      "offset": 418.72,
+      "duration": 4.72
+    },
+    {
+      "text": "the final step. Okay, so it wants to do",
+      "offset": 421.039,
+      "duration": 4.961
+    },
+    {
+      "text": "something. Yep, we&amp;#39;ll allow that. And",
+      "offset": 423.44,
+      "duration": 4.56
+    },
+    {
+      "text": "I&amp;#39;m going to allow for the rest of the",
+      "offset": 426,
+      "duration": 5
+    },
+    {
+      "text": "session.",
+      "offset": 428,
+      "duration": 3
+    },
+    {
+      "text": "Okay, so now you can see it&amp;#39;s invoked",
+      "offset": 432.56,
+      "duration": 4.56
+    },
+    {
+      "text": "this UIUX reviewer and that reviewer",
+      "offset": 434.08,
+      "duration": 5.44
+    },
+    {
+      "text": "wants to open up a browser. Now, in",
+      "offset": 437.12,
+      "duration": 3.919
+    },
+    {
+      "text": "order to do that, it wants to start the",
+      "offset": 439.52,
+      "duration": 3.28
+    },
+    {
+      "text": "dev server. So, I&amp;#39;m going to let it do",
+      "offset": 441.039,
+      "duration": 4.401
+    },
+    {
+      "text": "that.",
+      "offset": 442.8,
+      "duration": 4.799
+    },
+    {
+      "text": "And now it wants to navigate to the",
+      "offset": 445.44,
+      "duration": 4.319
+    },
+    {
+      "text": "preview page, which is where Claude Code",
+      "offset": 447.599,
+      "duration": 3.921
+    },
+    {
+      "text": "added that component to when it created",
+      "offset": 449.759,
+      "duration": 5.44
+    },
+    {
+      "text": "it. So, let&amp;#39;s allow it to do this.",
+      "offset": 451.52,
+      "duration": 5.28
+    },
+    {
+      "text": "And now on my other screen, I can see",
+      "offset": 455.199,
+      "duration": 3.201
+    },
+    {
+      "text": "it&amp;#39;s opened up the browser. It&amp;#39;s over",
+      "offset": 456.8,
+      "duration": 4.72
+    },
+    {
+      "text": "here. You can see. All right.",
+      "offset": 458.4,
+      "duration": 5.6
+    },
+    {
+      "text": "And it&amp;#39;s asking me for permission to",
+      "offset": 461.52,
+      "duration": 4.16
+    },
+    {
+      "text": "take a screenshot. Yes, I&amp;#39;m going to",
+      "offset": 464,
+      "duration": 5.319
+    },
+    {
+      "text": "allow it to do that.",
+      "offset": 465.68,
+      "duration": 3.639
+    },
+    {
+      "text": "So something else you can do through",
+      "offset": 470.08,
+      "duration": 3.519
+    },
+    {
+      "text": "playright is click elements on a page.",
+      "offset": 471.52,
+      "duration": 3.84
+    },
+    {
+      "text": "And now it&amp;#39;s asking for permission to do",
+      "offset": 473.599,
+      "duration": 5.88
+    },
+    {
+      "text": "that. So we&amp;#39;ll say yes.",
+      "offset": 475.36,
+      "duration": 4.119
+    },
+    {
+      "text": "And this is taking a long time by the",
+      "offset": 480.16,
+      "duration": 2.879
+    },
+    {
+      "text": "way because there&amp;#39;s so many different",
+      "offset": 481.84,
+      "duration": 3.12
+    },
+    {
+      "text": "variants that Claude Code created for",
+      "offset": 483.039,
+      "duration": 3.761
+    },
+    {
+      "text": "this modal. There&amp;#39;s about seven or eight",
+      "offset": 484.96,
+      "duration": 3.679
+    },
+    {
+      "text": "different things it needs to do on the",
+      "offset": 486.8,
+      "duration": 6.2
+    },
+    {
+      "text": "web page to test everything.",
+      "offset": 488.639,
+      "duration": 4.361
+    },
+    {
+      "text": "All right. And now it wants to resize",
+      "offset": 493.759,
+      "duration": 3.761
+    },
+    {
+      "text": "the browser width. So, it&amp;#39;s even testing",
+      "offset": 495.36,
+      "duration": 4.16
+    },
+    {
+      "text": "for smaller device screens, which is",
+      "offset": 497.52,
+      "duration": 3.2
+    },
+    {
+      "text": "really nice. So, I&amp;#39;m going to allow it",
+      "offset": 499.52,
+      "duration": 4.44
+    },
+    {
+      "text": "to do that.",
+      "offset": 500.72,
+      "duration": 3.24
+    },
+    {
+      "text": "All right. So, eventually it finished",
+      "offset": 505.12,
+      "duration": 5.759
+    },
+    {
+      "text": "its review process and you can see now",
+      "offset": 507.12,
+      "duration": 6.479
+    },
+    {
+      "text": "it&amp;#39;s made some additional edits and",
+      "offset": 510.879,
+      "duration": 4.72
+    },
+    {
+      "text": "these are all the features it&amp;#39;s",
+      "offset": 513.599,
+      "duration": 4
+    },
+    {
+      "text": "implemented. So, we&amp;#39;ve got the color",
+      "offset": 515.599,
+      "duration": 4.961
+    },
+    {
+      "text": "variants. We&amp;#39;ve got the different sizes.",
+      "offset": 517.599,
+      "duration": 4.24
+    },
+    {
+      "text": "We&amp;#39;ve made sure it&amp;#39;s good for",
+      "offset": 520.56,
+      "duration": 3.44
+    },
+    {
+      "text": "accessibility. Uh we&amp;#39;ve got these",
+      "offset": 521.839,
+      "duration": 3.841
+    },
+    {
+      "text": "different interactions so we can close",
+      "offset": 524,
+      "duration": 3.68
+    },
+    {
+      "text": "via the cross button, escape key, or the",
+      "offset": 525.68,
+      "duration": 4.88
+    },
+    {
+      "text": "backdrop click. Um these are the files",
+      "offset": 527.68,
+      "duration": 5.44
+    },
+    {
+      "text": "created for the model and the test. And",
+      "offset": 530.56,
+      "duration": 5.279
+    },
+    {
+      "text": "then it&amp;#39;s updated the page, the preview",
+      "offset": 533.12,
+      "duration": 4.32
+    },
+    {
+      "text": "page right here to have interactive",
+      "offset": 535.839,
+      "duration": 5.601
+    },
+    {
+      "text": "demos. So, it says right here, the UI UX",
+      "offset": 537.44,
+      "duration": 6.16
+    },
+    {
+      "text": "reviewer gave it a five out of five",
+      "offset": 541.44,
+      "duration": 4.64
+    },
+    {
+      "text": "stars and marked it production ready.",
+      "offset": 543.6,
+      "duration": 3.679
+    },
+    {
+      "text": "Well, that is really good. So, it",
+      "offset": 546.08,
+      "duration": 2.879
+    },
+    {
+      "text": "obviously did a good job of making these",
+      "offset": 547.279,
+      "duration": 4.24
+    },
+    {
+      "text": "components. So, now let&amp;#39;s view these in",
+      "offset": 548.959,
+      "duration": 4.481
+    },
+    {
+      "text": "a browser. All right. So, I&amp;#39;m just on",
+      "offset": 551.519,
+      "duration": 3.601
+    },
+    {
+      "text": "the preview page and I&amp;#39;ve scrolled all",
+      "offset": 553.44,
+      "duration": 3.76
+    },
+    {
+      "text": "the way down to the modal components.",
+      "offset": 555.12,
+      "duration": 3.92
+    },
+    {
+      "text": "So, we&amp;#39;ve got buttons here to open the",
+      "offset": 557.2,
+      "duration": 4.24
+    },
+    {
+      "text": "modules. So, I could click on primary",
+      "offset": 559.04,
+      "duration": 4.4
+    },
+    {
+      "text": "and yeah, that looks pretty good. So, we",
+      "offset": 561.44,
+      "duration": 3.839
+    },
+    {
+      "text": "can close it via the cross or clicking",
+      "offset": 563.44,
+      "duration": 3.6
+    },
+    {
+      "text": "over here. I&amp;#39;m going to try the",
+      "offset": 565.279,
+      "duration": 3.601
+    },
+    {
+      "text": "secondary one and then press escape.",
+      "offset": 567.04,
+      "duration": 4.239
+    },
+    {
+      "text": "Yeah, that closes it. Confirm. All",
+      "offset": 568.88,
+      "duration": 5.36
+    },
+    {
+      "text": "right. And then we&amp;#39;ll click on cancel.",
+      "offset": 571.279,
+      "duration": 4.401
+    },
+    {
+      "text": "And then finally, we&amp;#39;ll click on the",
+      "offset": 574.24,
+      "duration": 2.56
+    },
+    {
+      "text": "cross. So, we&amp;#39;ve got these different",
+      "offset": 575.68,
+      "duration": 2.4
+    },
+    {
+      "text": "variants, which is really nice.",
+      "offset": 576.8,
+      "duration": 4.159
+    },
+    {
+      "text": "Different sizes. So, that&amp;#39;s small. Uh,",
+      "offset": 578.08,
+      "duration": 4.72
+    },
+    {
+      "text": "medium. I think that&amp;#39;s a little bigger.",
+      "offset": 580.959,
+      "duration": 4.081
+    },
+    {
+      "text": "Large. Yeah, a little bit bigger again.",
+      "offset": 582.8,
+      "duration": 3.52
+    },
+    {
+      "text": "All right. So, these are the features",
+      "offset": 585.04,
+      "duration": 3.68
+    },
+    {
+      "text": "it&amp;#39;s implemented. So, that&amp;#39;s nice. It&amp;#39;s",
+      "offset": 586.32,
+      "duration": 4.16
+    },
+    {
+      "text": "kind of documented it for me as well.",
+      "offset": 588.72,
+      "duration": 3.76
+    },
+    {
+      "text": "So, these are actually using I think the",
+      "offset": 590.48,
+      "duration": 3.359
+    },
+    {
+      "text": "card component because the card",
+      "offset": 592.48,
+      "duration": 3.28
+    },
+    {
+      "text": "components are up here. So, you know,",
+      "offset": 593.839,
+      "duration": 3.601
+    },
+    {
+      "text": "like I said earlier on in the series",
+      "offset": 595.76,
+      "duration": 3.68
+    },
+    {
+      "text": "that Claude Code does get a little bit",
+      "offset": 597.44,
+      "duration": 4.64
+    },
+    {
+      "text": "giddy sometimes. It likes to use the",
+      "offset": 599.44,
+      "duration": 4.72
+    },
+    {
+      "text": "work it&amp;#39;s done elsewhere in the",
+      "offset": 602.08,
+      "duration": 3.759
+    },
+    {
+      "text": "application. So I think this is just an",
+      "offset": 604.16,
+      "duration": 3.679
+    },
+    {
+      "text": "example of that. It&amp;#39;s reusing the card",
+      "offset": 605.839,
+      "duration": 4.881
+    },
+    {
+      "text": "component to tell me about this modal",
+      "offset": 607.839,
+      "duration": 5.601
+    },
+    {
+      "text": "component it just created. So kudos.",
+      "offset": 610.72,
+      "duration": 5.2
+    },
+    {
+      "text": "That&amp;#39;s very nice. Anyway, all looks",
+      "offset": 613.44,
+      "duration": 4.16
+    },
+    {
+      "text": "pretty good. Maybe I would make some",
+      "offset": 615.92,
+      "duration": 3.12
+    },
+    {
+      "text": "tweaks here and there, but I think it&amp;#39;s",
+      "offset": 617.6,
+      "duration": 3.52
+    },
+    {
+      "text": "done a good job of creating and also",
+      "offset": 619.04,
+      "duration": 4.32
+    },
+    {
+      "text": "testing this component in the browser.",
+      "offset": 621.12,
+      "duration": 4.159
+    },
+    {
+      "text": "And one more thing really quickly. Just",
+      "offset": 623.36,
+      "duration": 3.28
+    },
+    {
+      "text": "because we&amp;#39;ve made a sub agent to",
+      "offset": 625.279,
+      "duration": 3.041
+    },
+    {
+      "text": "automate the review process, it doesn&amp;#39;t",
+      "offset": 626.64,
+      "duration": 2.96
+    },
+    {
+      "text": "mean you shouldn&amp;#39;t review the work",
+      "offset": 628.32,
+      "duration": 3.12
+    },
+    {
+      "text": "yourself. both in the browser and in the",
+      "offset": 629.6,
+      "duration": 3.679
+    },
+    {
+      "text": "code. This is something I think is",
+      "offset": 631.44,
+      "duration": 3.76
+    },
+    {
+      "text": "really important and something I always",
+      "offset": 633.279,
+      "duration": 3.761
+    },
+    {
+      "text": "do to stay in the loop because even",
+      "offset": 635.2,
+      "duration": 3.52
+    },
+    {
+      "text": "though everything looks okay in the",
+      "offset": 637.04,
+      "duration": 3.2
+    },
+    {
+      "text": "browser, it doesn&amp;#39;t mean it&amp;#39;s coded",
+      "offset": 638.72,
+      "duration": 3.28
+    },
+    {
+      "text": "correctly and you might find something",
+      "offset": 640.24,
+      "duration": 4.24
+    },
+    {
+      "text": "you don&amp;#39;t like. Also, if you&amp;#39;re not",
+      "offset": 642,
+      "duration": 3.92
+    },
+    {
+      "text": "looking over the code that Claude",
+      "offset": 644.48,
+      "duration": 3.28
+    },
+    {
+      "text": "produces, you&amp;#39;re going to find yourself",
+      "offset": 645.92,
+      "duration": 3.76
+    },
+    {
+      "text": "out of the loop very quickly and find it",
+      "offset": 647.76,
+      "duration": 3.6
+    },
+    {
+      "text": "harder to navigate the codebase in the",
+      "offset": 649.68,
+      "duration": 3.839
+    },
+    {
+      "text": "future when you do need to dig into the",
+      "offset": 651.36,
+      "duration": 4.8
+    },
+    {
+      "text": "weeds.",
+      "offset": 653.519,
+      "duration": 2.641
+    }
+  ],
+  "fullText": "Okay then gang, in this lesson I want to talk about something called sub aents which are really cool and they allow you to basically create a whole team working on your project where each sub agent can have a different area of expertise that can be isolated and configured to work on certain tasks. For example, we could make a unit test agent whose expertise and function would be to really hone in on writing and running tests. Or we could make a sub agent who specializes in security audits. We could make a UX reviewer who specializes in providing feedback for new components by viewing them in a browser, etc. Now, each of these sub aents all run independently from each other. They have their own system prompts, tools they&amp;#39;re allowed to run, and their own context window. So, they&amp;#39;re a really good way of isolating certain workflows and tasks. And what&amp;#39;s really cool is that Claude Code can delegate tasks to them when it needs to. So you can kind of think of claude code as being maybe a senior developer working on tasks who then instructs these sub aents to carry out certain work. And one of the main benefits of working this way is that each sub aent has a specialized expertise which we can fine-tune to excel in a particular area through detail system prompts. Also because each sub aent has their own isolated context window. It keeps their context clean and focused leading to I think better results a lot of the time. And it also means the main thread stays cleaner and trimmer if we do this correctly because we&amp;#39;re delegating tasks to those sub aents. So it reduces the context overload in your main session. So then in this lesson we&amp;#39;re going to make a sub agent who can use the playright MCP server to preview and review the UI UX of new components once they&amp;#39;ve been made. And the workflow is going to look something like this. We&amp;#39;re going to use the custom slash command to tell Claude Code to make a new UI component for us. Inside that command, we&amp;#39;re going to add an instruction telling it to invoke the UX reviewer sub aent to review its work after it&amp;#39;s made code edits. That sub aents going to use playright to open a browser and look at the component from a UX perspective. Then it&amp;#39;s going to provide feedback to the main thread on clawed code which will make edits to the component based on that feedback. If needed, it can ask the UX reviewer again to review the code or review the uh component in a browser and provide more feedback until eventually everyone&amp;#39;s happy and the component is finished. So let&amp;#39;s give this a whirl. So then let&amp;#39;s start by making a new sub agent which we can do by coming into the claude code chat session and using a command which is forward/ agents. Now when we do that we&amp;#39;re going to see a list of agents you&amp;#39;ve already created. Now, we&amp;#39;ve not created any. So, we can make one by selecting this create new agent option. Once we&amp;#39;ve done that, we can choose a scope for this new agent, either project or personal. I&amp;#39;m going to select the project scope so that anyone working on this project can use the sub agent. Then, we&amp;#39;re going to get two options. You can get Claude to generate one for you, or you can manually make one from scratch. Now, what I&amp;#39;d like to do is have Claude make one for me, then just change it where I see fit. So, let&amp;#39;s select that first option. And then we&amp;#39;re asked to describe what this agent should do and when it should be used. And I&amp;#39;m just going to paste in a summary of this agent now which says expert UI and UX engineer who reviews the UI and UX of React components in a browser using Playright, takes screenshots, then offers feedback on how to improve the component in terms of visual design, user experience, and accessibility. So then I&amp;#39;m going to hit enter and Claude Code&amp;#39;s going to go ahead and make this new agent for us. Now, at some point, it&amp;#39;s going to ask you what tools you want to provide your agent with. And the default option is to allow all tools, but I&amp;#39;m going to unselect the edit tools because I don&amp;#39;t want to give the agent the power to edit files. I only want it to review the components and offer feedback. It&amp;#39;s also going to ask you which AI mode you want to use for the sub agent, and I&amp;#39;m going to select the Sonic 4 model. Then it&amp;#39;s going to ask you what color you want the sub agent to use when it&amp;#39;s providing updates in the terminal. I&amp;#39;m going to go for the purple color. You choose whatever you want. And then finally, it&amp;#39;s going to give you a summary of the agent it&amp;#39;s making, which you can confirm by pressing enter. Okay. So, we can see that now we have this project agent called UI UX- reviewer that uses the Sonic model. Let&amp;#39;s close this off. And if we open up this file tree, we should see inside the claude folder, an agents folder with this markdown file for the agent. So we&amp;#39;ve got some front matter at the top, which is the name of the agent a description. And then down here, the tools that it&amp;#39;s allowed to use. Now, it&amp;#39;s added the playright one right here, or a few of the playright tools rather, because we specifically said in the summary, we wanted to use playright, the model, and the color. Then a bit of a description down here. Then we&amp;#39;ve got the actual workflow. So the setup, the visual documentation, how to analyze, uh some testing methodology. We&amp;#39;re not going to read all this, but essentially it&amp;#39;s created this for us. And the job of this agent now is to review components using the Playright MCP in a browser. And you can edit this, by the way, if you want to. It&amp;#39;s basically like a gigantic prompt for the sub agent which gets used when the sub aent gets invoked. So by all means go through this and just edit anything that you don&amp;#39;t agree with or any additional information that you want to add, just add it. Okay, so now we&amp;#39;ve got this sub aent created. We can go back to the custom UI component command we created earlier in the course. And remember this command instructs claw code to make a new UI component based on certain criteria. And now at the end I&amp;#39;m going to paste in one final instruction which tells Claude to invoke the new sub agent we just created and ask it for feedback. Once it has that feedback it should implement it by updating the component. And then finally if it needs to it can ask for another review and more feedback. So then now everything is kind of set up and ready to go. So let&amp;#39;s give this a shot. And remember, we need to exit out of claude code first of all because we just made a change to this command. And then we&amp;#39;re going to start the session back up again. All right, then. So, let&amp;#39;s use the UI component tool if I can spell it. Components like so. And then the component name is going to be modal. And I&amp;#39;m going to say make a clean modern looking modal which also has a semi transparent backdrop. All right. So, press enter. All right. And we can see already that it has a little to-do list that it&amp;#39;s going to work on. And right at the bottom down here, it&amp;#39;s going to say review the component with the UI SL uh hyphen UX - reviewer agent. So that&amp;#39;s the final step. Okay, so it wants to do something. Yep, we&amp;#39;ll allow that. And I&amp;#39;m going to allow for the rest of the session. Okay, so now you can see it&amp;#39;s invoked this UIUX reviewer and that reviewer wants to open up a browser. Now, in order to do that, it wants to start the dev server. So, I&amp;#39;m going to let it do that. And now it wants to navigate to the preview page, which is where Claude Code added that component to when it created it. So, let&amp;#39;s allow it to do this. And now on my other screen, I can see it&amp;#39;s opened up the browser. It&amp;#39;s over here. You can see. All right. And it&amp;#39;s asking me for permission to take a screenshot. Yes, I&amp;#39;m going to allow it to do that. So something else you can do through playright is click elements on a page. And now it&amp;#39;s asking for permission to do that. So we&amp;#39;ll say yes. And this is taking a long time by the way because there&amp;#39;s so many different variants that Claude Code created for this modal. There&amp;#39;s about seven or eight different things it needs to do on the web page to test everything. All right. And now it wants to resize the browser width. So, it&amp;#39;s even testing for smaller device screens, which is really nice. So, I&amp;#39;m going to allow it to do that. All right. So, eventually it finished its review process and you can see now it&amp;#39;s made some additional edits and these are all the features it&amp;#39;s implemented. So, we&amp;#39;ve got the color variants. We&amp;#39;ve got the different sizes. We&amp;#39;ve made sure it&amp;#39;s good for accessibility. Uh we&amp;#39;ve got these different interactions so we can close via the cross button, escape key, or the backdrop click. Um these are the files created for the model and the test. And then it&amp;#39;s updated the page, the preview page right here to have interactive demos. So, it says right here, the UI UX reviewer gave it a five out of five stars and marked it production ready. Well, that is really good. So, it obviously did a good job of making these components. So, now let&amp;#39;s view these in a browser. All right. So, I&amp;#39;m just on the preview page and I&amp;#39;ve scrolled all the way down to the modal components. So, we&amp;#39;ve got buttons here to open the modules. So, I could click on primary and yeah, that looks pretty good. So, we can close it via the cross or clicking over here. I&amp;#39;m going to try the secondary one and then press escape. Yeah, that closes it. Confirm. All right. And then we&amp;#39;ll click on cancel. And then finally, we&amp;#39;ll click on the cross. So, we&amp;#39;ve got these different variants, which is really nice. Different sizes. So, that&amp;#39;s small. Uh, medium. I think that&amp;#39;s a little bigger. Large. Yeah, a little bit bigger again. All right. So, these are the features it&amp;#39;s implemented. So, that&amp;#39;s nice. It&amp;#39;s kind of documented it for me as well. So, these are actually using I think the card component because the card components are up here. So, you know, like I said earlier on in the series that Claude Code does get a little bit giddy sometimes. It likes to use the work it&amp;#39;s done elsewhere in the application. So I think this is just an example of that. It&amp;#39;s reusing the card component to tell me about this modal component it just created. So kudos. That&amp;#39;s very nice. Anyway, all looks pretty good. Maybe I would make some tweaks here and there, but I think it&amp;#39;s done a good job of creating and also testing this component in the browser. And one more thing really quickly. Just because we&amp;#39;ve made a sub agent to automate the review process, it doesn&amp;#39;t mean you shouldn&amp;#39;t review the work yourself. both in the browser and in the code. This is something I think is really important and something I always do to stay in the loop because even though everything looks okay in the browser, it doesn&amp;#39;t mean it&amp;#39;s coded correctly and you might find something you don&amp;#39;t like. Also, if you&amp;#39;re not looking over the code that Claude produces, you&amp;#39;re going to find yourself out of the loop very quickly and find it harder to navigate the codebase in the future when you do need to dig into the weeds."
+}

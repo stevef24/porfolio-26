@@ -1,0 +1,1395 @@
+{
+  "videoId": "SUysp3sJHbA",
+  "title": "Introduction & Setup",
+  "duration": "10:11",
+  "module": "Getting Started",
+  "extractedAt": "2026-01-23T04:12:27.077Z",
+  "segments": [
+    {
+      "text": "All right then gang. In this course,",
+      "offset": 0.08,
+      "duration": 3.2
+    },
+    {
+      "text": "we&amp;#39;re going to be diving into claude",
+      "offset": 1.6,
+      "duration": 4
+    },
+    {
+      "text": "code which is an AI powered agentic",
+      "offset": 3.28,
+      "duration": 4.72
+    },
+    {
+      "text": "coding tool created by Enthropic which",
+      "offset": 5.6,
+      "duration": 4.8
+    },
+    {
+      "text": "you can use to analyze, plan, write and",
+      "offset": 8,
+      "duration": 4.8
+    },
+    {
+      "text": "edit code within your projects. Similar",
+      "offset": 10.4,
+      "duration": 4.08
+    },
+    {
+      "text": "to other agentic coding tools like",
+      "offset": 12.8,
+      "duration": 4
+    },
+    {
+      "text": "copilot or cursor or windsurf. But",
+      "offset": 14.48,
+      "duration": 4.48
+    },
+    {
+      "text": "whereas those other tools typically come",
+      "offset": 16.8,
+      "duration": 4.08
+    },
+    {
+      "text": "with a user interface embedded within",
+      "offset": 18.96,
+      "duration": 4.239
+    },
+    {
+      "text": "code editors themselves, claude code",
+      "offset": 20.88,
+      "duration": 4.639
+    },
+    {
+      "text": "lives directly in the terminal and we",
+      "offset": 23.199,
+      "duration": 4.4
+    },
+    {
+      "text": "interact with it through the terminal.",
+      "offset": 25.519,
+      "duration": 3.361
+    },
+    {
+      "text": "And that means it can integrate with",
+      "offset": 27.599,
+      "duration": 3.281
+    },
+    {
+      "text": "your existing development workflow a",
+      "offset": 28.88,
+      "duration": 3.359
+    },
+    {
+      "text": "little more seamlessly without forcing",
+      "offset": 30.88,
+      "duration": 3.519
+    },
+    {
+      "text": "you to switch your IDE. On top of that,",
+      "offset": 32.239,
+      "duration": 3.84
+    },
+    {
+      "text": "you can use cloud code within GitHub",
+      "offset": 34.399,
+      "duration": 3.68
+    },
+    {
+      "text": "workflows to automate code reviews on",
+      "offset": 36.079,
+      "duration": 4.081
+    },
+    {
+      "text": "pull requests to provide feedback as",
+      "offset": 38.079,
+      "duration": 3.761
+    },
+    {
+      "text": "well as have it work independently on",
+      "offset": 40.16,
+      "duration": 4.16
+    },
+    {
+      "text": "open issues in your repository. I also",
+      "offset": 41.84,
+      "duration": 3.92
+    },
+    {
+      "text": "think it sets itself apart in its",
+      "offset": 44.32,
+      "duration": 2.8
+    },
+    {
+      "text": "ability to really understand the",
+      "offset": 45.76,
+      "duration": 3.119
+    },
+    {
+      "text": "codebase of whatever project I use it",
+      "offset": 47.12,
+      "duration": 4
+    },
+    {
+      "text": "on. And in my own personal experience, I",
+      "offset": 48.879,
+      "duration": 3.601
+    },
+    {
+      "text": "found the code it generates to be more",
+      "offset": 51.12,
+      "duration": 3.52
+    },
+    {
+      "text": "tailored and appropriate on a project by",
+      "offset": 52.48,
+      "duration": 4.8
+    },
+    {
+      "text": "project basis. So, in this series, we&amp;#39;ll",
+      "offset": 54.64,
+      "duration": 4.88
+    },
+    {
+      "text": "be diving into how to set up Claude Code",
+      "offset": 57.28,
+      "duration": 4.079
+    },
+    {
+      "text": "on your computer, how to provide it",
+      "offset": 59.52,
+      "duration": 3.6
+    },
+    {
+      "text": "context and learn about your codebase,",
+      "offset": 61.359,
+      "duration": 3.44
+    },
+    {
+      "text": "have it generate code for us in a",
+      "offset": 63.12,
+      "duration": 3.52
+    },
+    {
+      "text": "targeted and specific way, and we&amp;#39;ll",
+      "offset": 64.799,
+      "duration": 3.761
+    },
+    {
+      "text": "also set it to work on our GitHub repo",
+      "offset": 66.64,
+      "duration": 4.08
+    },
+    {
+      "text": "to work autonomously on simple issues",
+      "offset": 68.56,
+      "duration": 4.08
+    },
+    {
+      "text": "and books. On top of that, we&amp;#39;ll be",
+      "offset": 70.72,
+      "duration": 3.92
+    },
+    {
+      "text": "looking at MCP servers to provide",
+      "offset": 72.64,
+      "duration": 4.24
+    },
+    {
+      "text": "additional tools to Claude code, custom",
+      "offset": 74.64,
+      "duration": 4
+    },
+    {
+      "text": "commands for common tasks, and we&amp;#39;ll",
+      "offset": 76.88,
+      "duration": 3.599
+    },
+    {
+      "text": "even try spinning up a sub agent to work",
+      "offset": 78.64,
+      "duration": 4.159
+    },
+    {
+      "text": "alongside Claude. And just to clarify,",
+      "offset": 80.479,
+      "duration": 4.481
+    },
+    {
+      "text": "this will not be a VI coding course",
+      "offset": 82.799,
+      "duration": 4.32
+    },
+    {
+      "text": "where we just let the AI loose to code",
+      "offset": 84.96,
+      "duration": 4.4
+    },
+    {
+      "text": "everything for us. In my opinion, that&amp;#39;s",
+      "offset": 87.119,
+      "duration": 4.32
+    },
+    {
+      "text": "not a productive workflow, and it can",
+      "offset": 89.36,
+      "duration": 3.92
+    },
+    {
+      "text": "lead to more bugs, sloppy code, and",
+      "offset": 91.439,
+      "duration": 3.281
+    },
+    {
+      "text": "technical debt, making the code much",
+      "offset": 93.28,
+      "duration": 3.36
+    },
+    {
+      "text": "harder to maintain in the future. So,",
+      "offset": 94.72,
+      "duration": 3.52
+    },
+    {
+      "text": "we&amp;#39;ll be taking a more hands-on",
+      "offset": 96.64,
+      "duration": 3.439
+    },
+    {
+      "text": "approach, coding alongside Claude on",
+      "offset": 98.24,
+      "duration": 3.44
+    },
+    {
+      "text": "tasks and features, which are more",
+      "offset": 100.079,
+      "duration": 4.08
+    },
+    {
+      "text": "narrow and focused in scope, and also",
+      "offset": 101.68,
+      "duration": 4.88
+    },
+    {
+      "text": "checking the work it does as we go. And",
+      "offset": 104.159,
+      "duration": 4.24
+    },
+    {
+      "text": "I feel this approach generally keeps the",
+      "offset": 106.56,
+      "duration": 4.16
+    },
+    {
+      "text": "code cleaner, less buggy, and I stay",
+      "offset": 108.399,
+      "duration": 3.921
+    },
+    {
+      "text": "fully in the loop and in control,",
+      "offset": 110.72,
+      "duration": 3.2
+    },
+    {
+      "text": "dipping into the code to make manual",
+      "offset": 112.32,
+      "duration": 4.4
+    },
+    {
+      "text": "changes where I need or want to. Anyway,",
+      "offset": 113.92,
+      "duration": 4.64
+    },
+    {
+      "text": "before we do anything, we&amp;#39;ll need to",
+      "offset": 116.72,
+      "duration": 3.999
+    },
+    {
+      "text": "install Cloud Code and sign up for a",
+      "offset": 118.56,
+      "duration": 5.159
+    },
+    {
+      "text": "plan.",
+      "offset": 120.719,
+      "duration": 3
+    },
+    {
+      "text": "[Music]",
+      "offset": 124.62,
+      "duration": 3.699
+    },
+    {
+      "text": "Okay, then. So, I&amp;#39;m on the Cloud Code",
+      "offset": 126.56,
+      "duration": 3.759
+    },
+    {
+      "text": "homepage, and if you scroll down a",
+      "offset": 128.319,
+      "duration": 3.361
+    },
+    {
+      "text": "little bit, you&amp;#39;re eventually going to",
+      "offset": 130.319,
+      "duration": 3.201
+    },
+    {
+      "text": "see an npm command we can run to install",
+      "offset": 131.68,
+      "duration": 3.84
+    },
+    {
+      "text": "it on our computer. Now, it used to be",
+      "offset": 133.52,
+      "duration": 3.28
+    },
+    {
+      "text": "that on Windows you would have to",
+      "offset": 135.52,
+      "duration": 3.439
+    },
+    {
+      "text": "install it via WSL, but now you don&amp;#39;t",
+      "offset": 136.8,
+      "duration": 3.68
+    },
+    {
+      "text": "have to, and you can just run this",
+      "offset": 138.959,
+      "duration": 2.881
+    },
+    {
+      "text": "command directly in your Windows",
+      "offset": 140.48,
+      "duration": 3.759
+    },
+    {
+      "text": "terminal, so copy that for later. You&amp;#39;ll",
+      "offset": 141.84,
+      "duration": 4.32
+    },
+    {
+      "text": "also need to sign up for an account and",
+      "offset": 144.239,
+      "duration": 3.681
+    },
+    {
+      "text": "choose a pricing plan, which you can do",
+      "offset": 146.16,
+      "duration": 4.079
+    },
+    {
+      "text": "right here on the pricing page. So, you",
+      "offset": 147.92,
+      "duration": 4.72
+    },
+    {
+      "text": "can use Claude Code with a pro plan or a",
+      "offset": 150.239,
+      "duration": 4
+    },
+    {
+      "text": "max plan. The free plan gives you access",
+      "offset": 152.64,
+      "duration": 3.92
+    },
+    {
+      "text": "to the Claude models on the web and the",
+      "offset": 154.239,
+      "duration": 5.041
+    },
+    {
+      "text": "desktop app, but not Claude Code itself,",
+      "offset": 156.56,
+      "duration": 4.399
+    },
+    {
+      "text": "at least not at the time of recording",
+      "offset": 159.28,
+      "duration": 4.56
+    },
+    {
+      "text": "this video. The pro plan is $17 a month",
+      "offset": 160.959,
+      "duration": 4.481
+    },
+    {
+      "text": "and for that you get some fairly decent",
+      "offset": 163.84,
+      "duration": 4
+    },
+    {
+      "text": "usage limits which reset I think every 5",
+      "offset": 165.44,
+      "duration": 4.799
+    },
+    {
+      "text": "hours and you do also get a warning when",
+      "offset": 167.84,
+      "duration": 4.64
+    },
+    {
+      "text": "you&amp;#39;re nearly reaching your limit. You",
+      "offset": 170.239,
+      "duration": 3.921
+    },
+    {
+      "text": "also get access to more models like",
+      "offset": 172.48,
+      "duration": 4.399
+    },
+    {
+      "text": "Sonic 4 and Opus 4.1 but the Opus model",
+      "offset": 174.16,
+      "duration": 4.159
+    },
+    {
+      "text": "does eat through your limits much",
+      "offset": 176.879,
+      "duration": 3.601
+    },
+    {
+      "text": "faster. So I default to Sonic for most",
+      "offset": 178.319,
+      "duration": 4
+    },
+    {
+      "text": "things. The Max plan is way more",
+      "offset": 180.48,
+      "duration": 3.36
+    },
+    {
+      "text": "expensive but it gives you more usage",
+      "offset": 182.319,
+      "duration": 4
+    },
+    {
+      "text": "and access to all the latest features as",
+      "offset": 183.84,
+      "duration": 4.64
+    },
+    {
+      "text": "they ship. So sign up, choose a plan and",
+      "offset": 186.319,
+      "duration": 3.92
+    },
+    {
+      "text": "then crack open your terminal. All right",
+      "offset": 188.48,
+      "duration": 3.6
+    },
+    {
+      "text": "then. So inside a terminal now we want",
+      "offset": 190.239,
+      "duration": 3.521
+    },
+    {
+      "text": "to run that command we just copied npm",
+      "offset": 192.08,
+      "duration": 4
+    },
+    {
+      "text": "install g to install this globally",
+      "offset": 193.76,
+      "duration": 4.559
+    },
+    {
+      "text": "atanthropicai/claude",
+      "offset": 196.08,
+      "duration": 5.68
+    },
+    {
+      "text": "code. So press enter to install this.",
+      "offset": 198.319,
+      "duration": 4.801
+    },
+    {
+      "text": "Okay. And then the next thing you want",
+      "offset": 201.76,
+      "duration": 3.04
+    },
+    {
+      "text": "to do once you&amp;#39;ve installed that is",
+      "offset": 203.12,
+      "duration": 3.92
+    },
+    {
+      "text": "navigate to a project that you want to",
+      "offset": 204.8,
+      "duration": 4
+    },
+    {
+      "text": "work with claude on. So I&amp;#39;ve already",
+      "offset": 207.04,
+      "duration": 3.44
+    },
+    {
+      "text": "navigated to this one called shinobi.",
+      "offset": 208.8,
+      "duration": 2.719
+    },
+    {
+      "text": "This is what we&amp;#39;re going to be using for",
+      "offset": 210.48,
+      "duration": 3.36
+    },
+    {
+      "text": "this course. And then you can type",
+      "offset": 211.519,
+      "duration": 5.201
+    },
+    {
+      "text": "claude and press enter. And this starts",
+      "offset": 213.84,
+      "duration": 4.8
+    },
+    {
+      "text": "up a claude session inside this project",
+      "offset": 216.72,
+      "duration": 3.84
+    },
+    {
+      "text": "for you. Now, when you first start using",
+      "offset": 218.64,
+      "duration": 3.92
+    },
+    {
+      "text": "Claude, the first time you use it, it&amp;#39;s",
+      "offset": 220.56,
+      "duration": 3.44
+    },
+    {
+      "text": "going to ask you a few questions. It&amp;#39;s",
+      "offset": 222.56,
+      "duration": 3.599
+    },
+    {
+      "text": "going to ask you for a mode. So, I&amp;#39;m",
+      "offset": 224,
+      "duration": 5.2
+    },
+    {
+      "text": "going to go for dark mode. And then it&amp;#39;s",
+      "offset": 226.159,
+      "duration": 5.601
+    },
+    {
+      "text": "going to say you can log in using the",
+      "offset": 229.2,
+      "duration": 5.52
+    },
+    {
+      "text": "console account, which is API usage, or",
+      "offset": 231.76,
+      "duration": 4.72
+    },
+    {
+      "text": "with a subscription. Now, I showed you",
+      "offset": 234.72,
+      "duration": 3.439
+    },
+    {
+      "text": "those plans a moment ago, and I&amp;#39;ve",
+      "offset": 236.48,
+      "duration": 3.679
+    },
+    {
+      "text": "already got a pro subscription. So, I&amp;#39;m",
+      "offset": 238.159,
+      "duration": 4.481
+    },
+    {
+      "text": "going to sign up with this sign in",
+      "offset": 240.159,
+      "duration": 3.681
+    },
+    {
+      "text": "rather, and that&amp;#39;s going to open a",
+      "offset": 242.64,
+      "duration": 2.64
+    },
+    {
+      "text": "browser for you, which I&amp;#39;m going to",
+      "offset": 243.84,
+      "duration": 4.72
+    },
+    {
+      "text": "authorize off screen.",
+      "offset": 245.28,
+      "duration": 4.879
+    },
+    {
+      "text": "And now you can see it says login",
+      "offset": 248.56,
+      "duration": 4.48
+    },
+    {
+      "text": "successful. Press enter to continue. And",
+      "offset": 250.159,
+      "duration": 4.401
+    },
+    {
+      "text": "then it says here Claude can make",
+      "offset": 253.04,
+      "duration": 3.52
+    },
+    {
+      "text": "mistakes. So always review Claude&amp;#39;s",
+      "offset": 254.56,
+      "duration": 4.72
+    },
+    {
+      "text": "responses especially code. And it says",
+      "offset": 256.56,
+      "duration": 4.88
+    },
+    {
+      "text": "due to prompt injection risks only use",
+      "offset": 259.28,
+      "duration": 4.16
+    },
+    {
+      "text": "it with code you trust. All right. So",
+      "offset": 261.44,
+      "duration": 4.64
+    },
+    {
+      "text": "press enter to continue. And then when",
+      "offset": 263.44,
+      "duration": 5.12
+    },
+    {
+      "text": "you first start Claude in a particular",
+      "offset": 266.08,
+      "duration": 4.32
+    },
+    {
+      "text": "project, it&amp;#39;s going to ask you if you",
+      "offset": 268.56,
+      "duration": 4.079
+    },
+    {
+      "text": "trust the files in the folder. Yes, I",
+      "offset": 270.4,
+      "duration": 4.56
+    },
+    {
+      "text": "do. And now we can start chatting with",
+      "offset": 272.639,
+      "duration": 5.12
+    },
+    {
+      "text": "Claude. So just try asking it about your",
+      "offset": 274.96,
+      "duration": 4
+    },
+    {
+      "text": "current project. That&amp;#39;s what I&amp;#39;m going",
+      "offset": 277.759,
+      "duration": 2.88
+    },
+    {
+      "text": "to do. And this is good if you ever",
+      "offset": 278.96,
+      "duration": 3.28
+    },
+    {
+      "text": "start work on a project that you&amp;#39;ve not",
+      "offset": 280.639,
+      "duration": 2.801
+    },
+    {
+      "text": "worked on before. It could be your",
+      "offset": 282.24,
+      "duration": 3.28
+    },
+    {
+      "text": "friends or colleagues. You can just say,",
+      "offset": 283.44,
+      "duration": 7.759
+    },
+    {
+      "text": "can you provide me with a summary of",
+      "offset": 285.52,
+      "duration": 9.44
+    },
+    {
+      "text": "what this project is",
+      "offset": 291.199,
+      "duration": 6.241
+    },
+    {
+      "text": "and press enter. And you can see right",
+      "offset": 294.96,
+      "duration": 4.239
+    },
+    {
+      "text": "now it&amp;#39;s reading different files. It&amp;#39;s",
+      "offset": 297.44,
+      "duration": 4.24
+    },
+    {
+      "text": "looking at the codebase.",
+      "offset": 299.199,
+      "duration": 4.961
+    },
+    {
+      "text": "And now it&amp;#39;s come with a response. So",
+      "offset": 301.68,
+      "duration": 4.239
+    },
+    {
+      "text": "you can see it&amp;#39;s a simple blog",
+      "offset": 304.16,
+      "duration": 3.44
+    },
+    {
+      "text": "application built as a starter project",
+      "offset": 305.919,
+      "duration": 3.601
+    },
+    {
+      "text": "for a claude code crash course which is",
+      "offset": 307.6,
+      "duration": 3.28
+    },
+    {
+      "text": "pretty cool. It&amp;#39;s detected that from my",
+      "offset": 309.52,
+      "duration": 3.6
+    },
+    {
+      "text": "readme file. I think it&amp;#39;s a nextjsbased",
+      "offset": 310.88,
+      "duration": 3.52
+    },
+    {
+      "text": "web application that serves as a",
+      "offset": 313.12,
+      "duration": 2.799
+    },
+    {
+      "text": "practical learning platform for AI",
+      "offset": 314.4,
+      "duration": 3.44
+    },
+    {
+      "text": "assisted development. So there&amp;#39;s a text",
+      "offset": 315.919,
+      "duration": 5.201
+    },
+    {
+      "text": "stack here uh learning focus areas etc.",
+      "offset": 317.84,
+      "duration": 5.12
+    },
+    {
+      "text": "Now, personally, I like to see the code",
+      "offset": 321.12,
+      "duration": 3.6
+    },
+    {
+      "text": "that I&amp;#39;m working on as Claude or any",
+      "offset": 322.96,
+      "duration": 3.6
+    },
+    {
+      "text": "other coding tool makes changes to it",
+      "offset": 324.72,
+      "duration": 3.36
+    },
+    {
+      "text": "because then I can easily check any",
+      "offset": 326.56,
+      "duration": 3.76
+    },
+    {
+      "text": "edited or new code and also go into the",
+      "offset": 328.08,
+      "duration": 3.6
+    },
+    {
+      "text": "weeds myself to work on the code",
+      "offset": 330.32,
+      "duration": 3.52
+    },
+    {
+      "text": "manually when I want to or need to. So,",
+      "offset": 331.68,
+      "duration": 3.6
+    },
+    {
+      "text": "for this series, I&amp;#39;m going to be running",
+      "offset": 333.84,
+      "duration": 3.52
+    },
+    {
+      "text": "Claude Code in the terminal within VS",
+      "offset": 335.28,
+      "duration": 4.8
+    },
+    {
+      "text": "Code. And when we run the Claude command",
+      "offset": 337.36,
+      "duration": 4.72
+    },
+    {
+      "text": "inside here, Claude is automatically",
+      "offset": 340.08,
+      "duration": 3.679
+    },
+    {
+      "text": "going to install the Claude Code",
+      "offset": 342.08,
+      "duration": 4.16
+    },
+    {
+      "text": "extension for VS Code. And that allows",
+      "offset": 343.759,
+      "duration": 4.72
+    },
+    {
+      "text": "it to integrate more seamlessly within",
+      "offset": 346.24,
+      "duration": 4.08
+    },
+    {
+      "text": "the editor by adding a few extra",
+      "offset": 348.479,
+      "duration": 4.081
+    },
+    {
+      "text": "features like diff viewing, adding text",
+      "offset": 350.32,
+      "duration": 4.48
+    },
+    {
+      "text": "selection as context, um some keyboard",
+      "offset": 352.56,
+      "duration": 4.88
+    },
+    {
+      "text": "shortcuts, and also active tab awareness",
+      "offset": 354.8,
+      "duration": 4.959
+    },
+    {
+      "text": "so that Claude can see exactly what file",
+      "offset": 357.44,
+      "duration": 4.96
+    },
+    {
+      "text": "we&amp;#39;re working on. Now, if the extension",
+      "offset": 359.759,
+      "duration": 4.321
+    },
+    {
+      "text": "doesn&amp;#39;t automatically get installed,",
+      "offset": 362.4,
+      "duration": 3.44
+    },
+    {
+      "text": "then you can manually install it by",
+      "offset": 364.08,
+      "duration": 3.36
+    },
+    {
+      "text": "coming to the extensions tab and",
+      "offset": 365.84,
+      "duration": 5.199
+    },
+    {
+      "text": "searching for Claude Code. Anyway, I&amp;#39;ve",
+      "offset": 367.44,
+      "duration": 6.08
+    },
+    {
+      "text": "got that same Shinobi project open in VS",
+      "offset": 371.039,
+      "duration": 4.081
+    },
+    {
+      "text": "Code, which is the project I&amp;#39;m going to",
+      "offset": 373.52,
+      "duration": 3.28
+    },
+    {
+      "text": "be working on for the duration of this",
+      "offset": 375.12,
+      "duration": 3.359
+    },
+    {
+      "text": "course. And the first thing I&amp;#39;m going to",
+      "offset": 376.8,
+      "duration": 4.16
+    },
+    {
+      "text": "do is run the project by opening the new",
+      "offset": 378.479,
+      "duration": 5.121
+    },
+    {
+      "text": "terminal over here and then typing npm",
+      "offset": 380.96,
+      "duration": 5.04
+    },
+    {
+      "text": "rundev. That&amp;#39;s going to spin up a local",
+      "offset": 383.6,
+      "duration": 4
+    },
+    {
+      "text": "dev server. So, we can preview this",
+      "offset": 386,
+      "duration": 4.4
+    },
+    {
+      "text": "thing in a browser using localhost port",
+      "offset": 387.6,
+      "duration": 5.28
+    },
+    {
+      "text": "3000. So, then on the homepage, we&amp;#39;ve",
+      "offset": 390.4,
+      "duration": 4.079
+    },
+    {
+      "text": "got two buttons right here. One to go to",
+      "offset": 392.88,
+      "duration": 3.52
+    },
+    {
+      "text": "the blog and one to go to the preview",
+      "offset": 394.479,
+      "duration": 5.121
+    },
+    {
+      "text": "page for new UI components. So, if we go",
+      "offset": 396.4,
+      "duration": 5.2
+    },
+    {
+      "text": "to the preview page, first of all, you",
+      "offset": 399.6,
+      "duration": 3.52
+    },
+    {
+      "text": "can see that I&amp;#39;ve already added a few",
+      "offset": 401.6,
+      "duration": 3.12
+    },
+    {
+      "text": "different things to this page like",
+      "offset": 403.12,
+      "duration": 3.359
+    },
+    {
+      "text": "headings, regular text, button",
+      "offset": 404.72,
+      "duration": 3.84
+    },
+    {
+      "text": "components, etc. And during this course,",
+      "offset": 406.479,
+      "duration": 3.601
+    },
+    {
+      "text": "I&amp;#39;m going to get Claude Code to make",
+      "offset": 408.56,
+      "duration": 3.84
+    },
+    {
+      "text": "some more reusable UI components for me",
+      "offset": 410.08,
+      "duration": 4.239
+    },
+    {
+      "text": "and then add them to this page so that",
+      "offset": 412.4,
+      "duration": 3.84
+    },
+    {
+      "text": "we can preview them before we use them",
+      "offset": 414.319,
+      "duration": 4.241
+    },
+    {
+      "text": "in the actual project. Now, if we go",
+      "offset": 416.24,
+      "duration": 4.72
+    },
+    {
+      "text": "back and then go to the blog section, we",
+      "offset": 418.56,
+      "duration": 4.479
+    },
+    {
+      "text": "can see a really simple blog design",
+      "offset": 420.96,
+      "duration": 4.32
+    },
+    {
+      "text": "where we list out a bunch of blogs and",
+      "offset": 423.039,
+      "duration": 3.6
+    },
+    {
+      "text": "they&amp;#39;re all coming from High Graph,",
+      "offset": 425.28,
+      "duration": 3.759
+    },
+    {
+      "text": "which is a headless CMS, and also a",
+      "offset": 426.639,
+      "duration": 4.161
+    },
+    {
+      "text": "sidebar over here with some dummy data",
+      "offset": 429.039,
+      "duration": 4.241
+    },
+    {
+      "text": "inside it. There&amp;#39;s also a light and dark",
+      "offset": 430.8,
+      "duration": 4.399
+    },
+    {
+      "text": "mode, which we can toggle with this",
+      "offset": 433.28,
+      "duration": 4.24
+    },
+    {
+      "text": "little icon in the header. So, this is",
+      "offset": 435.199,
+      "duration": 3.921
+    },
+    {
+      "text": "the project we&amp;#39;re going to be working on",
+      "offset": 437.52,
+      "duration": 3.519
+    },
+    {
+      "text": "with Claude Code, but you can use",
+      "offset": 439.12,
+      "duration": 3.44
+    },
+    {
+      "text": "whatever project that you want. It",
+      "offset": 441.039,
+      "duration": 2.961
+    },
+    {
+      "text": "doesn&amp;#39;t really matter. What I would say",
+      "offset": 442.56,
+      "duration": 3.6
+    },
+    {
+      "text": "is to begin with, make sure it&amp;#39;s a",
+      "offset": 444,
+      "duration": 4.16
+    },
+    {
+      "text": "throwaway project in case things go",
+      "offset": 446.16,
+      "duration": 4.159
+    },
+    {
+      "text": "horribly wrong or at least use version",
+      "offset": 448.16,
+      "duration": 3.599
+    },
+    {
+      "text": "control so you can get rid of any",
+      "offset": 450.319,
+      "duration": 4.481
+    },
+    {
+      "text": "unwanted changes. All right, so before",
+      "offset": 451.759,
+      "duration": 5.121
+    },
+    {
+      "text": "we move on and start doing any real work",
+      "offset": 454.8,
+      "duration": 4
+    },
+    {
+      "text": "with Claude Code, I just want to set up",
+      "offset": 456.88,
+      "duration": 4.64
+    },
+    {
+      "text": "a few things. First, I&amp;#39;m going to use a",
+      "offset": 458.8,
+      "duration": 4.799
+    },
+    {
+      "text": "special command Claude Code gives to us,",
+      "offset": 461.52,
+      "duration": 4.959
+    },
+    {
+      "text": "which is forward slash terminal setup.",
+      "offset": 463.599,
+      "duration": 4.961
+    },
+    {
+      "text": "And when we run this command, it&amp;#39;s going",
+      "offset": 466.479,
+      "duration": 4
+    },
+    {
+      "text": "to install the shift plus enter",
+      "offset": 468.56,
+      "duration": 4.16
+    },
+    {
+      "text": "keybinding for new lines when we&amp;#39;re",
+      "offset": 470.479,
+      "duration": 3.84
+    },
+    {
+      "text": "chatting with Claude code. So if you",
+      "offset": 472.72,
+      "duration": 3.12
+    },
+    {
+      "text": "wanted to start a new line in the chat",
+      "offset": 474.319,
+      "duration": 3.841
+    },
+    {
+      "text": "window, you&amp;#39;d press shift and enter.",
+      "offset": 475.84,
+      "duration": 4.079
+    },
+    {
+      "text": "Next, to make sure I don&amp;#39;t end up",
+      "offset": 478.16,
+      "duration": 3.36
+    },
+    {
+      "text": "wrecking this starter project, I&amp;#39;m going",
+      "offset": 479.919,
+      "duration": 3.921
+    },
+    {
+      "text": "to ask Claude to switch to a new branch",
+      "offset": 481.52,
+      "duration": 5.44
+    },
+    {
+      "text": "called Claude edits. And Claude can do",
+      "offset": 483.84,
+      "duration": 4.88
+    },
+    {
+      "text": "this, by the way. It has knowledge about",
+      "offset": 486.96,
+      "duration": 3.919
+    },
+    {
+      "text": "your local git repository and it can run",
+      "offset": 488.72,
+      "duration": 4.4
+    },
+    {
+      "text": "bash commands to do things like stage",
+      "offset": 490.879,
+      "duration": 4.081
+    },
+    {
+      "text": "and commit changes, switch branches,",
+      "offset": 493.12,
+      "duration": 3.44
+    },
+    {
+      "text": "merge branches, and even resolve",
+      "offset": 494.96,
+      "duration": 3.76
+    },
+    {
+      "text": "conflicts. And you can also ask it about",
+      "offset": 496.56,
+      "duration": 4.56
+    },
+    {
+      "text": "commits or branches or changes made",
+      "offset": 498.72,
+      "duration": 3.919
+    },
+    {
+      "text": "between commits. And it&amp;#39;s going to be",
+      "offset": 501.12,
+      "duration": 3.199
+    },
+    {
+      "text": "able to look that up for you. Anyway,",
+      "offset": 502.639,
+      "duration": 3.201
+    },
+    {
+      "text": "when we tell it to do any of these",
+      "offset": 504.319,
+      "duration": 3.201
+    },
+    {
+      "text": "things, it&amp;#39;s going to show us the bash",
+      "offset": 505.84,
+      "duration": 3.919
+    },
+    {
+      "text": "command it wants to run and ask us for",
+      "offset": 507.52,
+      "duration": 3.92
+    },
+    {
+      "text": "permission to run it. We&amp;#39;ll say yes for",
+      "offset": 509.759,
+      "duration": 3.76
+    },
+    {
+      "text": "now to let it run that command and then",
+      "offset": 511.44,
+      "duration": 4.159
+    },
+    {
+      "text": "we&amp;#39;ll end up on that new branch so that",
+      "offset": 513.519,
+      "duration": 4.32
+    },
+    {
+      "text": "we can start making some edits. So now",
+      "offset": 515.599,
+      "duration": 4.721
+    },
+    {
+      "text": "we&amp;#39;ve got cla uh claude code installed,",
+      "offset": 517.839,
+      "duration": 4.64
+    },
+    {
+      "text": "configured, and ready to go inside VS",
+      "offset": 520.32,
+      "duration": 3.92
+    },
+    {
+      "text": "Code. In the next lesson, we&amp;#39;re going to",
+      "offset": 522.479,
+      "duration": 3.441
+    },
+    {
+      "text": "start making some actual code edits, and",
+      "offset": 524.24,
+      "duration": 3.76
+    },
+    {
+      "text": "we&amp;#39;ll also talk about adding memory to",
+      "offset": 525.92,
+      "duration": 5.359
+    },
+    {
+      "text": "Claude using a claude.md file. And by",
+      "offset": 528,
+      "duration": 5.44
+    },
+    {
+      "text": "the way, if you want early access to the",
+      "offset": 531.279,
+      "duration": 3.921
+    },
+    {
+      "text": "entire course, you can get it now on the",
+      "offset": 533.44,
+      "duration": 4
+    },
+    {
+      "text": "net.dev site. So I will leave this link",
+      "offset": 535.2,
+      "duration": 4
+    },
+    {
+      "text": "down below the video. You can buy the",
+      "offset": 537.44,
+      "duration": 4.24
+    },
+    {
+      "text": "course for $3 or if you want you can",
+      "offset": 539.2,
+      "duration": 4.56
+    },
+    {
+      "text": "sign up for a Net Ninja Pro subscription",
+      "offset": 541.68,
+      "duration": 4.32
+    },
+    {
+      "text": "which is just $9 a month and for that",
+      "offset": 543.76,
+      "duration": 4.16
+    },
+    {
+      "text": "you get access to all of my courses. You",
+      "offset": 546,
+      "duration": 4.16
+    },
+    {
+      "text": "get early access to every course as well",
+      "offset": 547.92,
+      "duration": 4.32
+    },
+    {
+      "text": "plus access to my premium masterclass",
+      "offset": 550.16,
+      "duration": 4.56
+    },
+    {
+      "text": "courses too. So the first month is half",
+      "offset": 552.24,
+      "duration": 4.159
+    },
+    {
+      "text": "price when you use this promo code down",
+      "offset": 554.72,
+      "duration": 3.44
+    },
+    {
+      "text": "here and I will leave this link down",
+      "offset": 556.399,
+      "duration": 3.201
+    },
+    {
+      "text": "below the video so you can go ahead and",
+      "offset": 558.16,
+      "duration": 2.96
+    },
+    {
+      "text": "sign up. Otherwise my friends, I&amp;#39;m going",
+      "offset": 559.6,
+      "duration": 5.32
+    },
+    {
+      "text": "to see you in the next lesson.",
+      "offset": 561.12,
+      "duration": 3.8
+    },
+    {
+      "text": "Heat. Hey, Heat.",
+      "offset": 565.12,
+      "duration": 3
+    },
+    {
+      "text": "Heat. Heat.",
+      "offset": 586.959,
+      "duration": 3
+    },
+    {
+      "text": "Nat.",
+      "offset": 609.92,
+      "duration": 2.16
+    }
+  ],
+  "fullText": "All right then gang. In this course, we&amp;#39;re going to be diving into claude code which is an AI powered agentic coding tool created by Enthropic which you can use to analyze, plan, write and edit code within your projects. Similar to other agentic coding tools like copilot or cursor or windsurf. But whereas those other tools typically come with a user interface embedded within code editors themselves, claude code lives directly in the terminal and we interact with it through the terminal. And that means it can integrate with your existing development workflow a little more seamlessly without forcing you to switch your IDE. On top of that, you can use cloud code within GitHub workflows to automate code reviews on pull requests to provide feedback as well as have it work independently on open issues in your repository. I also think it sets itself apart in its ability to really understand the codebase of whatever project I use it on. And in my own personal experience, I found the code it generates to be more tailored and appropriate on a project by project basis. So, in this series, we&amp;#39;ll be diving into how to set up Claude Code on your computer, how to provide it context and learn about your codebase, have it generate code for us in a targeted and specific way, and we&amp;#39;ll also set it to work on our GitHub repo to work autonomously on simple issues and books. On top of that, we&amp;#39;ll be looking at MCP servers to provide additional tools to Claude code, custom commands for common tasks, and we&amp;#39;ll even try spinning up a sub agent to work alongside Claude. And just to clarify, this will not be a VI coding course where we just let the AI loose to code everything for us. In my opinion, that&amp;#39;s not a productive workflow, and it can lead to more bugs, sloppy code, and technical debt, making the code much harder to maintain in the future. So, we&amp;#39;ll be taking a more hands-on approach, coding alongside Claude on tasks and features, which are more narrow and focused in scope, and also checking the work it does as we go. And I feel this approach generally keeps the code cleaner, less buggy, and I stay fully in the loop and in control, dipping into the code to make manual changes where I need or want to. Anyway, before we do anything, we&amp;#39;ll need to install Cloud Code and sign up for a plan. [Music] Okay, then. So, I&amp;#39;m on the Cloud Code homepage, and if you scroll down a little bit, you&amp;#39;re eventually going to see an npm command we can run to install it on our computer. Now, it used to be that on Windows you would have to install it via WSL, but now you don&amp;#39;t have to, and you can just run this command directly in your Windows terminal, so copy that for later. You&amp;#39;ll also need to sign up for an account and choose a pricing plan, which you can do right here on the pricing page. So, you can use Claude Code with a pro plan or a max plan. The free plan gives you access to the Claude models on the web and the desktop app, but not Claude Code itself, at least not at the time of recording this video. The pro plan is $17 a month and for that you get some fairly decent usage limits which reset I think every 5 hours and you do also get a warning when you&amp;#39;re nearly reaching your limit. You also get access to more models like Sonic 4 and Opus 4.1 but the Opus model does eat through your limits much faster. So I default to Sonic for most things. The Max plan is way more expensive but it gives you more usage and access to all the latest features as they ship. So sign up, choose a plan and then crack open your terminal. All right then. So inside a terminal now we want to run that command we just copied npm install g to install this globally atanthropicai/claude code. So press enter to install this. Okay. And then the next thing you want to do once you&amp;#39;ve installed that is navigate to a project that you want to work with claude on. So I&amp;#39;ve already navigated to this one called shinobi. This is what we&amp;#39;re going to be using for this course. And then you can type claude and press enter. And this starts up a claude session inside this project for you. Now, when you first start using Claude, the first time you use it, it&amp;#39;s going to ask you a few questions. It&amp;#39;s going to ask you for a mode. So, I&amp;#39;m going to go for dark mode. And then it&amp;#39;s going to say you can log in using the console account, which is API usage, or with a subscription. Now, I showed you those plans a moment ago, and I&amp;#39;ve already got a pro subscription. So, I&amp;#39;m going to sign up with this sign in rather, and that&amp;#39;s going to open a browser for you, which I&amp;#39;m going to authorize off screen. And now you can see it says login successful. Press enter to continue. And then it says here Claude can make mistakes. So always review Claude&amp;#39;s responses especially code. And it says due to prompt injection risks only use it with code you trust. All right. So press enter to continue. And then when you first start Claude in a particular project, it&amp;#39;s going to ask you if you trust the files in the folder. Yes, I do. And now we can start chatting with Claude. So just try asking it about your current project. That&amp;#39;s what I&amp;#39;m going to do. And this is good if you ever start work on a project that you&amp;#39;ve not worked on before. It could be your friends or colleagues. You can just say, can you provide me with a summary of what this project is and press enter. And you can see right now it&amp;#39;s reading different files. It&amp;#39;s looking at the codebase. And now it&amp;#39;s come with a response. So you can see it&amp;#39;s a simple blog application built as a starter project for a claude code crash course which is pretty cool. It&amp;#39;s detected that from my readme file. I think it&amp;#39;s a nextjsbased web application that serves as a practical learning platform for AI assisted development. So there&amp;#39;s a text stack here uh learning focus areas etc. Now, personally, I like to see the code that I&amp;#39;m working on as Claude or any other coding tool makes changes to it because then I can easily check any edited or new code and also go into the weeds myself to work on the code manually when I want to or need to. So, for this series, I&amp;#39;m going to be running Claude Code in the terminal within VS Code. And when we run the Claude command inside here, Claude is automatically going to install the Claude Code extension for VS Code. And that allows it to integrate more seamlessly within the editor by adding a few extra features like diff viewing, adding text selection as context, um some keyboard shortcuts, and also active tab awareness so that Claude can see exactly what file we&amp;#39;re working on. Now, if the extension doesn&amp;#39;t automatically get installed, then you can manually install it by coming to the extensions tab and searching for Claude Code. Anyway, I&amp;#39;ve got that same Shinobi project open in VS Code, which is the project I&amp;#39;m going to be working on for the duration of this course. And the first thing I&amp;#39;m going to do is run the project by opening the new terminal over here and then typing npm rundev. That&amp;#39;s going to spin up a local dev server. So, we can preview this thing in a browser using localhost port 3000. So, then on the homepage, we&amp;#39;ve got two buttons right here. One to go to the blog and one to go to the preview page for new UI components. So, if we go to the preview page, first of all, you can see that I&amp;#39;ve already added a few different things to this page like headings, regular text, button components, etc. And during this course, I&amp;#39;m going to get Claude Code to make some more reusable UI components for me and then add them to this page so that we can preview them before we use them in the actual project. Now, if we go back and then go to the blog section, we can see a really simple blog design where we list out a bunch of blogs and they&amp;#39;re all coming from High Graph, which is a headless CMS, and also a sidebar over here with some dummy data inside it. There&amp;#39;s also a light and dark mode, which we can toggle with this little icon in the header. So, this is the project we&amp;#39;re going to be working on with Claude Code, but you can use whatever project that you want. It doesn&amp;#39;t really matter. What I would say is to begin with, make sure it&amp;#39;s a throwaway project in case things go horribly wrong or at least use version control so you can get rid of any unwanted changes. All right, so before we move on and start doing any real work with Claude Code, I just want to set up a few things. First, I&amp;#39;m going to use a special command Claude Code gives to us, which is forward slash terminal setup. And when we run this command, it&amp;#39;s going to install the shift plus enter keybinding for new lines when we&amp;#39;re chatting with Claude code. So if you wanted to start a new line in the chat window, you&amp;#39;d press shift and enter. Next, to make sure I don&amp;#39;t end up wrecking this starter project, I&amp;#39;m going to ask Claude to switch to a new branch called Claude edits. And Claude can do this, by the way. It has knowledge about your local git repository and it can run bash commands to do things like stage and commit changes, switch branches, merge branches, and even resolve conflicts. And you can also ask it about commits or branches or changes made between commits. And it&amp;#39;s going to be able to look that up for you. Anyway, when we tell it to do any of these things, it&amp;#39;s going to show us the bash command it wants to run and ask us for permission to run it. We&amp;#39;ll say yes for now to let it run that command and then we&amp;#39;ll end up on that new branch so that we can start making some edits. So now we&amp;#39;ve got cla uh claude code installed, configured, and ready to go inside VS Code. In the next lesson, we&amp;#39;re going to start making some actual code edits, and we&amp;#39;ll also talk about adding memory to Claude using a claude.md file. And by the way, if you want early access to the entire course, you can get it now on the net.dev site. So I will leave this link down below the video. You can buy the course for $3 or if you want you can sign up for a Net Ninja Pro subscription which is just $9 a month and for that you get access to all of my courses. You get early access to every course as well plus access to my premium masterclass courses too. So the first month is half price when you use this promo code down here and I will leave this link down below the video so you can go ahead and sign up. Otherwise my friends, I&amp;#39;m going to see you in the next lesson. Heat. Hey, Heat. Heat. Heat. Nat."
+}

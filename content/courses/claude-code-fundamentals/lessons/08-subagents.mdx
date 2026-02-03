@@ -1,0 +1,234 @@
+---
+title: Subagents
+description: Create specialized agents for isolated workflows and task delegation.
+duration: 30m
+module: Power Features
+order: 8
+---
+
+## What Are Subagents?
+
+Subagents are specialized Claude instances that handle specific tasks. Each subagent has:
+
+- **Its own context window** - Isolated from the main session
+- **Custom system prompt** - Specialized expertise
+- **Restricted tools** - Only what it needs
+- **Model selection** - Choose capability level
+
+Think of subagents as team members with specific roles. The main Claude Code session acts as a senior developer delegating to specialists.
+
+## Why Use Subagents?
+
+### Specialized Expertise
+Each subagent can be fine-tuned for a specific task through detailed prompts.
+
+### Context Isolation
+Subagent work doesn't pollute your main session's context.
+
+### Parallel Workflows
+Multiple subagents can work on different aspects simultaneously.
+
+### Tool Restriction
+Limit what a subagent can do for safety (e.g., reviewer can't edit files).
+
+## Creating Subagents
+
+Open the agents menu:
+
+```
+/agents
+```
+
+Select "Create new agent" and choose:
+1. **Scope** - Project or personal
+2. **Generation** - Have Claude create or manual
+3. **Description** - What this agent does
+
+## Example: UX Reviewer Agent
+
+Create a subagent that reviews UI components:
+
+```
+/agents → Create new agent → Project scope
+```
+
+Description:
+```
+Expert UI/UX engineer who reviews React components in a browser
+using Playwright. Takes screenshots and provides feedback on
+visual design, user experience, and accessibility.
+```
+
+Claude generates a markdown file in `.claude/agents/`:
+
+```markdown
+---
+name: ux-reviewer
+description: Reviews UI/UX of React components
+model: sonnet
+color: purple
+allowed-tools:
+  - Read
+  - Glob
+  - mcp__playwright__*
+---
+
+# UX Reviewer Agent
+
+You are an expert UI/UX engineer specializing in React applications.
+
+## Workflow
+
+1. Navigate to the component preview
+2. Take screenshots at different viewport sizes
+3. Analyze visual design, spacing, and hierarchy
+4. Check accessibility (contrast, focus states, ARIA)
+5. Provide actionable feedback
+
+## Review Criteria
+
+### Visual Design
+- Consistent spacing and alignment
+- Typography hierarchy
+- Color contrast ratios
+- Visual balance
+
+### User Experience
+- Clear call-to-actions
+- Intuitive interactions
+- Loading and error states
+- Responsive behavior
+
+### Accessibility
+- Keyboard navigation
+- Screen reader compatibility
+- Focus indicators
+- ARIA labels
+```
+
+## Configuring Agent Tools
+
+Restrict tools in the frontmatter:
+
+```markdown
+---
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+---
+```
+
+This agent can only read code—it cannot edit files or run commands. Perfect for review workflows.
+
+### Common Tool Configurations
+
+| Use Case | Tools |
+|----------|-------|
+| Code reviewer | Read, Glob, Grep |
+| Test runner | Read, Bash (test commands only) |
+| Documentation writer | Read, Write, Glob |
+| Full developer | All tools |
+
+## Invoking Subagents
+
+Claude Code automatically delegates to subagents when appropriate. You can also invoke them explicitly:
+
+```
+Ask the ux-reviewer agent to review the new Button component
+```
+
+Or through custom commands:
+
+`.claude/commands/ui-component.md`:
+```markdown
+Create a new React component called $1.
+
+After creating the component:
+1. Start the dev server
+2. Invoke the ux-reviewer agent to review it
+3. Implement the feedback
+4. Request another review if needed
+```
+
+## Agent Communication
+
+Subagents report back to the main session:
+
+1. Main session delegates task
+2. Subagent works in isolated context
+3. Subagent returns summary/feedback
+4. Main session continues with that information
+
+The main session receives a condensed summary, not the full subagent context.
+
+## Example: Test Writer Agent
+
+```markdown
+---
+name: test-writer
+description: Writes comprehensive tests
+model: sonnet
+allowed-tools:
+  - Read
+  - Write
+  - Glob
+  - Bash
+---
+
+# Test Writer Agent
+
+You write comprehensive tests for JavaScript/TypeScript code.
+
+## Testing Philosophy
+
+- Test behavior, not implementation
+- One assertion per test when possible
+- Descriptive test names
+- Arrange-Act-Assert pattern
+
+## Coverage Goals
+
+- Happy path scenarios
+- Edge cases
+- Error conditions
+- Integration points
+
+## Commands
+
+After writing tests, run:
+```bash
+pnpm test
+```
+
+Ensure all tests pass before completing.
+```
+
+## Best Practices
+
+### Keep Agents Focused
+One agent, one responsibility. Don't create a "do everything" agent.
+
+### Restrict Tools Appropriately
+Give agents only the tools they need. A reviewer shouldn't edit; a writer shouldn't run arbitrary commands.
+
+### Use Descriptive Names
+Agent names should indicate their purpose: `test-writer`, `security-auditor`, `ux-reviewer`.
+
+### Version Control Agents
+Store project agents in `.claude/agents/` and commit them. Team-wide consistency.
+
+## Practice Exercise
+
+1. Create a code reviewer agent via `/agents`
+2. Restrict it to read-only tools
+3. Ask it to review a file in your project
+4. Note how it provides feedback without editing
+
+## Key Takeaways
+
+- Subagents are specialized Claude instances
+- Each has isolated context and restricted tools
+- Delegate specific tasks for better results
+- Configure via `.claude/agents/` markdown files
+- Main session receives summaries from subagents

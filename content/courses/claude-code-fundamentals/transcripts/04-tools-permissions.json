@@ -1,0 +1,705 @@
+{
+  "videoId": "TU0ZcDFq0e0",
+  "title": "Tools & Permissions",
+  "duration": "4:55",
+  "module": "Core Concepts",
+  "extractedAt": "2026-01-23T04:12:33.443Z",
+  "segments": [
+    {
+      "text": "Okay then gang, in this lesson we&amp;#39;re",
+      "offset": 1.36,
+      "duration": 3.439
+    },
+    {
+      "text": "going to talk about the tools available",
+      "offset": 3.12,
+      "duration": 4.4
+    },
+    {
+      "text": "to Claude code out of the box and also",
+      "offset": 4.799,
+      "duration": 4.88
+    },
+    {
+      "text": "how we can give project Y permissions to",
+      "offset": 7.52,
+      "duration": 5.52
+    },
+    {
+      "text": "Claude to use certain tools. So whenever",
+      "offset": 9.679,
+      "duration": 5.521
+    },
+    {
+      "text": "we ask Claude code to do something, it",
+      "offset": 13.04,
+      "duration": 3.84
+    },
+    {
+      "text": "generally uses some kind of built-in",
+      "offset": 15.2,
+      "duration": 3.52
+    },
+    {
+      "text": "tool to perform an action. For example,",
+      "offset": 16.88,
+      "duration": 3.68
+    },
+    {
+      "text": "to read a file, it would use a read",
+      "offset": 18.72,
+      "duration": 4.719
+    },
+    {
+      "text": "tool. To edit a single file, it uses the",
+      "offset": 20.56,
+      "duration": 4.799
+    },
+    {
+      "text": "edit tool. To run a bash command, it",
+      "offset": 23.439,
+      "duration": 4.721
+    },
+    {
+      "text": "uses the bash tool. And we don&amp;#39;t need to",
+      "offset": 25.359,
+      "duration": 4.481
+    },
+    {
+      "text": "reference these tools when we send our",
+      "offset": 28.16,
+      "duration": 4.079
+    },
+    {
+      "text": "prompts or messages. Claude Code knows",
+      "offset": 29.84,
+      "duration": 4.32
+    },
+    {
+      "text": "when it needs to use certain tools based",
+      "offset": 32.239,
+      "duration": 4.241
+    },
+    {
+      "text": "on your instructions. Now, you might",
+      "offset": 34.16,
+      "duration": 4.399
+    },
+    {
+      "text": "have noticed that when I&amp;#39;ve asked Claude",
+      "offset": 36.48,
+      "duration": 4
+    },
+    {
+      "text": "to do some of these things in past",
+      "offset": 38.559,
+      "duration": 4.241
+    },
+    {
+      "text": "lessons, like edit a file, it asks me",
+      "offset": 40.48,
+      "duration": 3.919
+    },
+    {
+      "text": "for permission to do that thing before",
+      "offset": 42.8,
+      "duration": 3.599
+    },
+    {
+      "text": "it actually does it. And we can either",
+      "offset": 44.399,
+      "duration": 4.401
+    },
+    {
+      "text": "say yes or no, depending on whether we",
+      "offset": 46.399,
+      "duration": 4.881
+    },
+    {
+      "text": "want to grant that permission or not. On",
+      "offset": 48.8,
+      "duration": 4.56
+    },
+    {
+      "text": "the anthropic docs, it lists all of",
+      "offset": 51.28,
+      "duration": 4.08
+    },
+    {
+      "text": "these built-in tools available to Claude",
+      "offset": 53.36,
+      "duration": 3.679
+    },
+    {
+      "text": "Code, and it outlines what each one",
+      "offset": 55.36,
+      "duration": 3.92
+    },
+    {
+      "text": "does. It also shows you whether each of",
+      "offset": 57.039,
+      "duration": 4.16
+    },
+    {
+      "text": "these tools requires permission before",
+      "offset": 59.28,
+      "duration": 4.24
+    },
+    {
+      "text": "it gets used. For example, the bash and",
+      "offset": 61.199,
+      "duration": 4.161
+    },
+    {
+      "text": "the edit tools, they do require",
+      "offset": 63.52,
+      "duration": 4.32
+    },
+    {
+      "text": "permission, but read doesn&amp;#39;t. So, if I",
+      "offset": 65.36,
+      "duration": 4.64
+    },
+    {
+      "text": "ask Claude Code to look at a file, it&amp;#39;s",
+      "offset": 67.84,
+      "duration": 3.84
+    },
+    {
+      "text": "not going to prompt me to give it",
+      "offset": 70,
+      "duration": 3.6
+    },
+    {
+      "text": "access, but if I ask it to change a",
+      "offset": 71.68,
+      "duration": 4.08
+    },
+    {
+      "text": "file, then it will do. There&amp;#39;s a tool",
+      "offset": 73.6,
+      "duration": 3.6
+    },
+    {
+      "text": "down here, by the way, called to-do,",
+      "offset": 75.76,
+      "duration": 2.96
+    },
+    {
+      "text": "right? and it uses that tool to make",
+      "offset": 77.2,
+      "duration": 3.36
+    },
+    {
+      "text": "these little checklists of things it",
+      "offset": 78.72,
+      "duration": 4.079
+    },
+    {
+      "text": "needs to do when you give it a task to",
+      "offset": 80.56,
+      "duration": 3.76
+    },
+    {
+      "text": "kind of keep itself on track. It&amp;#39;s",
+      "offset": 82.799,
+      "duration": 3.041
+    },
+    {
+      "text": "pretty nice and you&amp;#39;re going to see them",
+      "offset": 84.32,
+      "duration": 2.88
+    },
+    {
+      "text": "quite often as you&amp;#39;re working with",
+      "offset": 85.84,
+      "duration": 4.16
+    },
+    {
+      "text": "Claude Code. Now, again, you don&amp;#39;t need",
+      "offset": 87.2,
+      "duration": 4.48
+    },
+    {
+      "text": "to remember the names of all of these",
+      "offset": 90,
+      "duration": 3.36
+    },
+    {
+      "text": "tools and what they do because Claude",
+      "offset": 91.68,
+      "duration": 3.68
+    },
+    {
+      "text": "Code is designed so it knows what tool",
+      "offset": 93.36,
+      "duration": 4.64
+    },
+    {
+      "text": "to use and when automatically, but it is",
+      "offset": 95.36,
+      "duration": 4.16
+    },
+    {
+      "text": "good to know the kinds of things that",
+      "offset": 98,
+      "duration": 3.439
+    },
+    {
+      "text": "you can do out of the box. So, I will",
+      "offset": 99.52,
+      "duration": 4.32
+    },
+    {
+      "text": "leave this link down below the video.",
+      "offset": 101.439,
+      "duration": 3.921
+    },
+    {
+      "text": "All right, then. So, let&amp;#39;s try doing",
+      "offset": 103.84,
+      "duration": 3.52
+    },
+    {
+      "text": "something that requires permission, like",
+      "offset": 105.36,
+      "duration": 4.56
+    },
+    {
+      "text": "editing a file. I&amp;#39;m going to ask Claude",
+      "offset": 107.36,
+      "duration": 4.32
+    },
+    {
+      "text": "code to add another theme variable to",
+      "offset": 109.92,
+      "duration": 3.6
+    },
+    {
+      "text": "the CSS file called highlight, which",
+      "offset": 111.68,
+      "duration": 3.52
+    },
+    {
+      "text": "needs to be a pastel yellow color. I&amp;#39;ve",
+      "offset": 113.52,
+      "duration": 4.08
+    },
+    {
+      "text": "also referenced the global CSS file",
+      "offset": 115.2,
+      "duration": 5.12
+    },
+    {
+      "text": "right here as well for context. And when",
+      "offset": 117.6,
+      "duration": 4.64
+    },
+    {
+      "text": "we send this off, as soon as Claude Code",
+      "offset": 120.32,
+      "duration": 3.28
+    },
+    {
+      "text": "figures out that it needs to edit a",
+      "offset": 122.24,
+      "duration": 2.879
+    },
+    {
+      "text": "file, it&amp;#39;s going to ask our permission",
+      "offset": 123.6,
+      "duration": 3.76
+    },
+    {
+      "text": "to do it. Okay, so now it&amp;#39;s edited the",
+      "offset": 125.119,
+      "duration": 3.84
+    },
+    {
+      "text": "file, or rather it wants to edit the",
+      "offset": 127.36,
+      "duration": 3.599
+    },
+    {
+      "text": "file, it&amp;#39;s asking us right here, do you",
+      "offset": 128.959,
+      "duration": 4.241
+    },
+    {
+      "text": "want to make this edit to global.css?",
+      "offset": 130.959,
+      "duration": 3.761
+    },
+    {
+      "text": "So, we have three options. We can select",
+      "offset": 133.2,
+      "duration": 4.16
+    },
+    {
+      "text": "yes at the top, no at the bottom, and",
+      "offset": 134.72,
+      "duration": 4.32
+    },
+    {
+      "text": "you can give further instruction if you",
+      "offset": 137.36,
+      "duration": 4.08
+    },
+    {
+      "text": "want to, or this middle option, yes, and",
+      "offset": 139.04,
+      "duration": 3.919
+    },
+    {
+      "text": "don&amp;#39;t ask me again this session. So,",
+      "offset": 141.44,
+      "duration": 3.519
+    },
+    {
+      "text": "we&amp;#39;ll go through that in a second, but",
+      "offset": 142.959,
+      "duration": 3.761
+    },
+    {
+      "text": "for now, I&amp;#39;m just going to select yes to",
+      "offset": 144.959,
+      "duration": 5.041
+    },
+    {
+      "text": "give it permission to make this edit.",
+      "offset": 146.72,
+      "duration": 5.04
+    },
+    {
+      "text": "And because it&amp;#39;s making multiple edits",
+      "offset": 150,
+      "duration": 3.76
+    },
+    {
+      "text": "to the file, it&amp;#39;s asking me to make",
+      "offset": 151.76,
+      "duration": 4.16
+    },
+    {
+      "text": "further changes. So, it changed one",
+      "offset": 153.76,
+      "duration": 3.6
+    },
+    {
+      "text": "line, then it&amp;#39;s going to somewhere else",
+      "offset": 155.92,
+      "duration": 3.28
+    },
+    {
+      "text": "in the file, and it&amp;#39;s making another",
+      "offset": 157.36,
+      "duration": 5.519
+    },
+    {
+      "text": "edit. So, again, I&amp;#39;m going to press yes.",
+      "offset": 159.2,
+      "duration": 5.6
+    },
+    {
+      "text": "And it looks like it wants to update a",
+      "offset": 162.879,
+      "duration": 3.841
+    },
+    {
+      "text": "third time. So again, we&amp;#39;re going to uh",
+      "offset": 164.8,
+      "duration": 5.12
+    },
+    {
+      "text": "press yes. And now it&amp;#39;s all done. So for",
+      "offset": 166.72,
+      "duration": 4.96
+    },
+    {
+      "text": "a simple set of edits there to just a",
+      "offset": 169.92,
+      "duration": 3.599
+    },
+    {
+      "text": "single file, we had to grant permission",
+      "offset": 171.68,
+      "duration": 4.48
+    },
+    {
+      "text": "three times. Right now, let&amp;#39;s try doing",
+      "offset": 173.519,
+      "duration": 4.8
+    },
+    {
+      "text": "a commit using the bash tool. So I&amp;#39;m",
+      "offset": 176.16,
+      "duration": 4.32
+    },
+    {
+      "text": "going to ask clause code this time. Can",
+      "offset": 178.319,
+      "duration": 6.081
+    },
+    {
+      "text": "you make a commit? Like so. And this is",
+      "offset": 180.48,
+      "duration": 5.44
+    },
+    {
+      "text": "going to do a few things. It&amp;#39;s going to",
+      "offset": 184.4,
+      "duration": 4.32
+    },
+    {
+      "text": "add the files to the staging area, then",
+      "offset": 185.92,
+      "duration": 4.64
+    },
+    {
+      "text": "make the commit with a commit message.",
+      "offset": 188.72,
+      "duration": 3.599
+    },
+    {
+      "text": "So you can see right here it wants to",
+      "offset": 190.56,
+      "duration": 7.16
+    },
+    {
+      "text": "use bash. It&amp;#39;s looking for any changes",
+      "offset": 192.319,
+      "duration": 5.401
+    },
+    {
+      "text": "and then eventually it wants to use this",
+      "offset": 198.319,
+      "duration": 4.721
+    },
+    {
+      "text": "command get add. Now this time when",
+      "offset": 200.56,
+      "duration": 4.48
+    },
+    {
+      "text": "claude code asks for permission I&amp;#39;m",
+      "offset": 203.04,
+      "duration": 3.44
+    },
+    {
+      "text": "going to choose this second option which",
+      "offset": 205.04,
+      "duration": 3.6
+    },
+    {
+      "text": "is yes and don&amp;#39;t ask me again for git",
+      "offset": 206.48,
+      "duration": 4.16
+    },
+    {
+      "text": "add commands. Now if I choose this",
+      "offset": 208.64,
+      "duration": 3.599
+    },
+    {
+      "text": "option then it&amp;#39;s going to carry on and",
+      "offset": 210.64,
+      "duration": 3.84
+    },
+    {
+      "text": "do this git command and it&amp;#39;s also going",
+      "offset": 212.239,
+      "duration": 3.521
+    },
+    {
+      "text": "to create a new file called",
+      "offset": 214.48,
+      "duration": 3.119
+    },
+    {
+      "text": "settings.local.json",
+      "offset": 215.76,
+      "duration": 3.839
+    },
+    {
+      "text": "inside a do.claude claude folder in the",
+      "offset": 217.599,
+      "duration": 4.081
+    },
+    {
+      "text": "project. And inside that file, there&amp;#39;s",
+      "offset": 219.599,
+      "duration": 4.321
+    },
+    {
+      "text": "going to be a permissions object with a",
+      "offset": 221.68,
+      "duration": 4.639
+    },
+    {
+      "text": "property inside it called allow. And",
+      "offset": 223.92,
+      "duration": 4.16
+    },
+    {
+      "text": "that allow property should be an array",
+      "offset": 226.319,
+      "duration": 3.521
+    },
+    {
+      "text": "of allowed commands for the project.",
+      "offset": 228.08,
+      "duration": 4
+    },
+    {
+      "text": "Meaning, if Claude Code tried to run",
+      "offset": 229.84,
+      "duration": 4.479
+    },
+    {
+      "text": "this bash command again in the project,",
+      "offset": 232.08,
+      "duration": 4.159
+    },
+    {
+      "text": "it wouldn&amp;#39;t need to ask for permission",
+      "offset": 234.319,
+      "duration": 4.321
+    },
+    {
+      "text": "because we&amp;#39;ve allowed it here. So, as",
+      "offset": 236.239,
+      "duration": 4.56
+    },
+    {
+      "text": "Claude Code asks you for permission to",
+      "offset": 238.64,
+      "duration": 3.92
+    },
+    {
+      "text": "do different things, you can select that",
+      "offset": 240.799,
+      "duration": 4.08
+    },
+    {
+      "text": "second option to add the command to the",
+      "offset": 242.56,
+      "duration": 4.8
+    },
+    {
+      "text": "allowed list inside the settings file.",
+      "offset": 244.879,
+      "duration": 4.401
+    },
+    {
+      "text": "You can also manually add commands in",
+      "offset": 247.36,
+      "duration": 3.84
+    },
+    {
+      "text": "there yourself as well. And this would",
+      "offset": 249.28,
+      "duration": 3.92
+    },
+    {
+      "text": "just be for your workflow, by the way.",
+      "offset": 251.2,
+      "duration": 3.599
+    },
+    {
+      "text": "You wouldn&amp;#39;t commit this file and push",
+      "offset": 253.2,
+      "duration": 3.92
+    },
+    {
+      "text": "it up. Something else you can do is",
+      "offset": 254.799,
+      "duration": 4.96
+    },
+    {
+      "text": "press Alt and M on Windows. It might be",
+      "offset": 257.12,
+      "duration": 4.799
+    },
+    {
+      "text": "control and M on a Mac. And that&amp;#39;s going",
+      "offset": 259.759,
+      "duration": 5.041
+    },
+    {
+      "text": "to turn on this accept edits feature.",
+      "offset": 261.919,
+      "duration": 5.041
+    },
+    {
+      "text": "And now when you ask Claude Code to make",
+      "offset": 264.8,
+      "duration": 3.839
+    },
+    {
+      "text": "changes, it&amp;#39;s not going to ask for",
+      "offset": 266.96,
+      "duration": 3.84
+    },
+    {
+      "text": "permission to do that, to edit your",
+      "offset": 268.639,
+      "duration": 4.721
+    },
+    {
+      "text": "files for this chat session. If you",
+      "offset": 270.8,
+      "duration": 4.56
+    },
+    {
+      "text": "start a new session, it will ask you",
+      "offset": 273.36,
+      "duration": 4.399
+    },
+    {
+      "text": "again until you turn this feature on.",
+      "offset": 275.36,
+      "duration": 4.32
+    },
+    {
+      "text": "You can turn it off again by hitting Alt",
+      "offset": 277.759,
+      "duration": 4.961
+    },
+    {
+      "text": "+ M twice. So then that&amp;#39;s a quick",
+      "offset": 279.68,
+      "duration": 4.799
+    },
+    {
+      "text": "breakdown of tools, permissions for",
+      "offset": 282.72,
+      "duration": 3.36
+    },
+    {
+      "text": "those tools, and how we can edit those",
+      "offset": 284.479,
+      "duration": 3.521
+    },
+    {
+      "text": "permissions for the project inside the",
+      "offset": 286.08,
+      "duration": 3.6
+    },
+    {
+      "text": "settings file. Next up, we&amp;#39;re going to",
+      "offset": 288,
+      "duration": 4
+    },
+    {
+      "text": "look at how Claude Code can plan and",
+      "offset": 289.68,
+      "duration": 6.64
+    },
+    {
+      "text": "think for more complex tasks.",
+      "offset": 292,
+      "duration": 4.32
+    }
+  ],
+  "fullText": "Okay then gang, in this lesson we&amp;#39;re going to talk about the tools available to Claude code out of the box and also how we can give project Y permissions to Claude to use certain tools. So whenever we ask Claude code to do something, it generally uses some kind of built-in tool to perform an action. For example, to read a file, it would use a read tool. To edit a single file, it uses the edit tool. To run a bash command, it uses the bash tool. And we don&amp;#39;t need to reference these tools when we send our prompts or messages. Claude Code knows when it needs to use certain tools based on your instructions. Now, you might have noticed that when I&amp;#39;ve asked Claude to do some of these things in past lessons, like edit a file, it asks me for permission to do that thing before it actually does it. And we can either say yes or no, depending on whether we want to grant that permission or not. On the anthropic docs, it lists all of these built-in tools available to Claude Code, and it outlines what each one does. It also shows you whether each of these tools requires permission before it gets used. For example, the bash and the edit tools, they do require permission, but read doesn&amp;#39;t. So, if I ask Claude Code to look at a file, it&amp;#39;s not going to prompt me to give it access, but if I ask it to change a file, then it will do. There&amp;#39;s a tool down here, by the way, called to-do, right? and it uses that tool to make these little checklists of things it needs to do when you give it a task to kind of keep itself on track. It&amp;#39;s pretty nice and you&amp;#39;re going to see them quite often as you&amp;#39;re working with Claude Code. Now, again, you don&amp;#39;t need to remember the names of all of these tools and what they do because Claude Code is designed so it knows what tool to use and when automatically, but it is good to know the kinds of things that you can do out of the box. So, I will leave this link down below the video. All right, then. So, let&amp;#39;s try doing something that requires permission, like editing a file. I&amp;#39;m going to ask Claude code to add another theme variable to the CSS file called highlight, which needs to be a pastel yellow color. I&amp;#39;ve also referenced the global CSS file right here as well for context. And when we send this off, as soon as Claude Code figures out that it needs to edit a file, it&amp;#39;s going to ask our permission to do it. Okay, so now it&amp;#39;s edited the file, or rather it wants to edit the file, it&amp;#39;s asking us right here, do you want to make this edit to global.css? So, we have three options. We can select yes at the top, no at the bottom, and you can give further instruction if you want to, or this middle option, yes, and don&amp;#39;t ask me again this session. So, we&amp;#39;ll go through that in a second, but for now, I&amp;#39;m just going to select yes to give it permission to make this edit. And because it&amp;#39;s making multiple edits to the file, it&amp;#39;s asking me to make further changes. So, it changed one line, then it&amp;#39;s going to somewhere else in the file, and it&amp;#39;s making another edit. So, again, I&amp;#39;m going to press yes. And it looks like it wants to update a third time. So again, we&amp;#39;re going to uh press yes. And now it&amp;#39;s all done. So for a simple set of edits there to just a single file, we had to grant permission three times. Right now, let&amp;#39;s try doing a commit using the bash tool. So I&amp;#39;m going to ask clause code this time. Can you make a commit? Like so. And this is going to do a few things. It&amp;#39;s going to add the files to the staging area, then make the commit with a commit message. So you can see right here it wants to use bash. It&amp;#39;s looking for any changes and then eventually it wants to use this command get add. Now this time when claude code asks for permission I&amp;#39;m going to choose this second option which is yes and don&amp;#39;t ask me again for git add commands. Now if I choose this option then it&amp;#39;s going to carry on and do this git command and it&amp;#39;s also going to create a new file called settings.local.json inside a do.claude claude folder in the project. And inside that file, there&amp;#39;s going to be a permissions object with a property inside it called allow. And that allow property should be an array of allowed commands for the project. Meaning, if Claude Code tried to run this bash command again in the project, it wouldn&amp;#39;t need to ask for permission because we&amp;#39;ve allowed it here. So, as Claude Code asks you for permission to do different things, you can select that second option to add the command to the allowed list inside the settings file. You can also manually add commands in there yourself as well. And this would just be for your workflow, by the way. You wouldn&amp;#39;t commit this file and push it up. Something else you can do is press Alt and M on Windows. It might be control and M on a Mac. And that&amp;#39;s going to turn on this accept edits feature. And now when you ask Claude Code to make changes, it&amp;#39;s not going to ask for permission to do that, to edit your files for this chat session. If you start a new session, it will ask you again until you turn this feature on. You can turn it off again by hitting Alt + M twice. So then that&amp;#39;s a quick breakdown of tools, permissions for those tools, and how we can edit those permissions for the project inside the settings file. Next up, we&amp;#39;re going to look at how Claude Code can plan and think for more complex tasks."
+}

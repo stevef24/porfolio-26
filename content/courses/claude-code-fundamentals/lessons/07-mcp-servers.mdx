@@ -1,0 +1,231 @@
+---
+title: MCP Servers
+description: Extend Claude Code's capabilities with Model Context Protocol servers.
+duration: 30m
+module: Core Features
+order: 7
+---
+
+## What is MCP?
+
+Model Context Protocol (MCP) is Anthropic's standard for extending AI capabilities. MCP servers provide Claude with:
+
+- **Tools** - New actions Claude can perform
+- **Resources** - Data Claude can access
+- **Prompts** - Specialized capabilities
+
+Think of MCP servers as plugins that give Claude new superpowers.
+
+## Managing MCP Servers
+
+Access the MCP menu:
+
+```
+/mcp
+```
+
+From here you can:
+- View installed servers
+- Add new servers
+- Configure existing servers
+- Remove servers
+
+## Server Scopes
+
+MCP servers have three scope levels:
+
+### Project Scope
+- Stored in `.claude/settings.json`
+- Available only in this project
+- Checked into version control
+- Best for project-specific tools
+
+### Local Scope (Default)
+- Stored in `~/.claude/settings.local.json`
+- Available across all projects
+- Not checked into version control
+- Best for personal tools
+
+### Global Scope
+- Stored in `~/.claude/settings.json`
+- Available everywhere
+- Can be overridden by project settings
+- Best for universal tools
+
+## Essential MCP Servers
+
+### Context7 - Documentation
+
+Get up-to-date library documentation:
+
+```bash
+# Install via /mcp menu
+npx @anthropic-ai/context7-server
+```
+
+Usage:
+```
+Using context7, show me how to use the new Next.js 15
+App Router cache invalidation
+```
+
+Context7 fetches current documentation, solving the training cutoff problem.
+
+### Playwright - Browser Automation
+
+Control a browser from Claude Code:
+
+```bash
+npx @anthropic-ai/playwright-server
+```
+
+Usage:
+```
+Use Playwright to open my app at localhost:3000 and take
+a screenshot of the homepage
+```
+
+Useful for:
+- Visual regression testing
+- Scraping for research
+- UI/UX review workflows
+
+### Filesystem (Extended)
+
+Advanced file operations beyond built-in tools:
+
+```bash
+npx @anthropic-ai/filesystem-server
+```
+
+## Installing MCP Servers
+
+### Via /mcp Menu
+
+1. Run `/mcp`
+2. Select "Add server"
+3. Enter the package name
+4. Choose scope
+
+### Manual Installation
+
+Edit your settings file:
+
+**Local scope** (`~/.claude/settings.local.json`):
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/context7-server"]
+    }
+  }
+}
+```
+
+**Project scope** (`.claude/settings.json`):
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/playwright-server"],
+      "env": {
+        "BROWSER": "chromium"
+      }
+    }
+  }
+}
+```
+
+## Windows Configuration
+
+On Windows, prefix npx commands with `cmd /c`:
+
+```json
+{
+  "mcpServers": {
+    "context7": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@anthropic-ai/context7-server"]
+    }
+  }
+}
+```
+
+## MCP Server Environment
+
+Pass environment variables to servers:
+
+```json
+{
+  "mcpServers": {
+    "database": {
+      "command": "npx",
+      "args": ["-y", "@company/db-server"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    }
+  }
+}
+```
+
+Environment variables from your shell are available via `${VAR_NAME}`.
+
+## Troubleshooting MCP Servers
+
+### Server Not Starting
+- Check the command is correct
+- Verify npx can access the package
+- Look for errors in Claude Code output
+
+### Server Not Responding
+- Restart Claude Code
+- Check server logs
+- Verify network connectivity
+
+### Tools Not Appearing
+- Run `/mcp` to refresh
+- Restart the session
+- Check server configuration
+
+## Building Custom MCP Servers
+
+For advanced users, you can build custom MCP servers:
+
+```typescript
+import { Server } from "@modelcontextprotocol/sdk/server";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio";
+
+const server = new Server({
+  name: "my-server",
+  version: "1.0.0"
+}, {
+  capabilities: {
+    tools: {}
+  }
+});
+
+// Define tools...
+
+const transport = new StdioServerTransport();
+await server.connect(transport);
+```
+
+This is covered in advanced MCP courses.
+
+## Practice Exercise
+
+1. Run `/mcp` to see current servers
+2. Install the context7 server
+3. Ask Claude about a library using context7
+4. Compare the response to asking without context7
+
+## Key Takeaways
+
+- MCP servers extend Claude's capabilities
+- Three scopes: project, local, global
+- Context7 provides current documentation
+- Playwright enables browser automation
+- Configure via `/mcp` or settings files

@@ -1,0 +1,1710 @@
+{
+  "videoId": "i_OHQH4-M2Y",
+  "title": "CLAUDE.md Files & /init",
+  "duration": "12:18",
+  "module": "Getting Started",
+  "extractedAt": "2026-01-23T04:12:29.179Z",
+  "segments": [
+    {
+      "text": "Okay then. So now we&amp;#39;ve got Claude code",
+      "offset": 2.399,
+      "duration": 4.721
+    },
+    {
+      "text": "set up and running inside this project.",
+      "offset": 4.799,
+      "duration": 4.001
+    },
+    {
+      "text": "I would like to start using it to make",
+      "offset": 7.12,
+      "duration": 3.439
+    },
+    {
+      "text": "some changes to the code and working on",
+      "offset": 8.8,
+      "duration": 3.839
+    },
+    {
+      "text": "new components. But before we do that,",
+      "offset": 10.559,
+      "duration": 4.08
+    },
+    {
+      "text": "it&amp;#39;s always a good idea when you&amp;#39;re",
+      "offset": 12.639,
+      "duration": 4.961
+    },
+    {
+      "text": "starting to use the forward/init command",
+      "offset": 14.639,
+      "duration": 5.921
+    },
+    {
+      "text": "to initialize a claude.md file inside",
+      "offset": 17.6,
+      "duration": 5.2
+    },
+    {
+      "text": "the project root. And when we do this,",
+      "offset": 20.56,
+      "duration": 4.4
+    },
+    {
+      "text": "claude scans the entire codebase. It",
+      "offset": 22.8,
+      "duration": 4
+    },
+    {
+      "text": "looks at the folder structure, how we",
+      "offset": 24.96,
+      "duration": 3.52
+    },
+    {
+      "text": "start the application, any state",
+      "offset": 26.8,
+      "duration": 3.76
+    },
+    {
+      "text": "management we use, etc. the whole Shazam",
+      "offset": 28.48,
+      "duration": 3.759
+    },
+    {
+      "text": "so that it gets a good feel for the",
+      "offset": 30.56,
+      "duration": 3.28
+    },
+    {
+      "text": "project, where everything goes and how",
+      "offset": 32.239,
+      "duration": 3.041
+    },
+    {
+      "text": "it should code new features in the",
+      "offset": 33.84,
+      "duration": 3.92
+    },
+    {
+      "text": "future. Then it summarizes all of that",
+      "offset": 35.28,
+      "duration": 4.48
+    },
+    {
+      "text": "and it dumps the information into a",
+      "offset": 37.76,
+      "duration": 4.88
+    },
+    {
+      "text": "claude.md file in a structured human",
+      "offset": 39.76,
+      "duration": 5.68
+    },
+    {
+      "text": "readable format. Then whenever we have",
+      "offset": 42.64,
+      "duration": 4.96
+    },
+    {
+      "text": "an active session with claude code to",
+      "offset": 45.44,
+      "duration": 4.72
+    },
+    {
+      "text": "either ask about our project code or to",
+      "offset": 47.6,
+      "duration": 4.799
+    },
+    {
+      "text": "make changes to the code, it uses that",
+      "offset": 50.16,
+      "duration": 5.68
+    },
+    {
+      "text": "claude.md file as context and guidance.",
+      "offset": 52.399,
+      "duration": 6.081
+    },
+    {
+      "text": "It&amp;#39;s almost like a mini documentation of",
+      "offset": 55.84,
+      "duration": 4.879
+    },
+    {
+      "text": "your code for claw to use whenever it&amp;#39;s",
+      "offset": 58.48,
+      "duration": 3.599
+    },
+    {
+      "text": "trying to figure out the best way to",
+      "offset": 60.719,
+      "duration": 3.76
+    },
+    {
+      "text": "implement something or to give feedback.",
+      "offset": 62.079,
+      "duration": 4.241
+    },
+    {
+      "text": "So then I&amp;#39;m going to press enter now to",
+      "offset": 64.479,
+      "duration": 3.521
+    },
+    {
+      "text": "run this command and see what it comes",
+      "offset": 66.32,
+      "duration": 3.36
+    },
+    {
+      "text": "up with.",
+      "offset": 68,
+      "duration": 3.6
+    },
+    {
+      "text": "And you can see as it&amp;#39;s doing this, it&amp;#39;s",
+      "offset": 69.68,
+      "duration": 4.16
+    },
+    {
+      "text": "created a little to-do list for itself.",
+      "offset": 71.6,
+      "duration": 4.559
+    },
+    {
+      "text": "It&amp;#39;s going to explore the repository,",
+      "offset": 73.84,
+      "duration": 5.44
+    },
+    {
+      "text": "analyze the package.json and the source",
+      "offset": 76.159,
+      "duration": 4.801
+    },
+    {
+      "text": "code. It&amp;#39;s going to check for exe",
+      "offset": 79.28,
+      "duration": 3.44
+    },
+    {
+      "text": "existing documentation files. And then",
+      "offset": 80.96,
+      "duration": 2.799
+    },
+    {
+      "text": "finally, it&amp;#39;s going to create this",
+      "offset": 82.72,
+      "duration": 3.439
+    },
+    {
+      "text": "claw.md file at the bottom. And you can",
+      "offset": 83.759,
+      "duration": 4.241
+    },
+    {
+      "text": "see that it&amp;#39;s kind of checking things",
+      "offset": 86.159,
+      "duration": 3.28
+    },
+    {
+      "text": "off as it does it. So, it&amp;#39;s really good",
+      "offset": 88,
+      "duration": 3.2
+    },
+    {
+      "text": "to see the progress of what it&amp;#39;s doing",
+      "offset": 89.439,
+      "duration": 3.281
+    },
+    {
+      "text": "in between all that. It&amp;#39;s reading the",
+      "offset": 91.2,
+      "duration": 3.599
+    },
+    {
+      "text": "files. It&amp;#39;s searching for things. So,",
+      "offset": 92.72,
+      "duration": 4.32
+    },
+    {
+      "text": "yeah, it&amp;#39;s doing a real extensive kind",
+      "offset": 94.799,
+      "duration": 5.32
+    },
+    {
+      "text": "of task.",
+      "offset": 97.04,
+      "duration": 3.079
+    },
+    {
+      "text": "All right. Then, so now once it&amp;#39;s done",
+      "offset": 103.04,
+      "duration": 3.759
+    },
+    {
+      "text": "all that, you can see it&amp;#39;s created this",
+      "offset": 104.799,
+      "duration": 4.32
+    },
+    {
+      "text": "plan. And if we scroll right to the",
+      "offset": 106.799,
+      "duration": 4.161
+    },
+    {
+      "text": "bottom, it&amp;#39;s asking us, do you want to",
+      "offset": 109.119,
+      "duration": 4
+    },
+    {
+      "text": "create this claw.md file? And I&amp;#39;m going",
+      "offset": 110.96,
+      "duration": 4.56
+    },
+    {
+      "text": "to select yes. So then it goes ahead to",
+      "offset": 113.119,
+      "duration": 4.561
+    },
+    {
+      "text": "create that file, which we can see in",
+      "offset": 115.52,
+      "duration": 4.639
+    },
+    {
+      "text": "the root of the project directory now.",
+      "offset": 117.68,
+      "duration": 5.039
+    },
+    {
+      "text": "So let&amp;#39;s open that up over here and see",
+      "offset": 120.159,
+      "duration": 4.721
+    },
+    {
+      "text": "what it looks like. So you can see this",
+      "offset": 122.719,
+      "duration": 4.481
+    },
+    {
+      "text": "file provides guidance to claude code",
+      "offset": 124.88,
+      "duration": 3.999
+    },
+    {
+      "text": "when working with code in this",
+      "offset": 127.2,
+      "duration": 3.52
+    },
+    {
+      "text": "repository. So it&amp;#39;s got some different",
+      "offset": 128.879,
+      "duration": 3.44
+    },
+    {
+      "text": "development commands that it&amp;#39;s found",
+      "offset": 130.72,
+      "duration": 4.08
+    },
+    {
+      "text": "from the package.json thing right here.",
+      "offset": 132.319,
+      "duration": 5.041
+    },
+    {
+      "text": "It&amp;#39;s got an architecture overview. So it",
+      "offset": 134.8,
+      "duration": 4.88
+    },
+    {
+      "text": "says what it is briefly. It&amp;#39;s a Nex.js15",
+      "offset": 137.36,
+      "duration": 4.56
+    },
+    {
+      "text": "blog application. You can see the",
+      "offset": 139.68,
+      "duration": 3.6
+    },
+    {
+      "text": "different things we&amp;#39;re using inside it.",
+      "offset": 141.92,
+      "duration": 4.88
+    },
+    {
+      "text": "So React 19, Tailwind, V4, uh, Vest,",
+      "offset": 143.28,
+      "duration": 5.44
+    },
+    {
+      "text": "etc. We&amp;#39;ve got a project structure,",
+      "offset": 146.8,
+      "duration": 3.6
+    },
+    {
+      "text": "which is quite nice. So it knows that",
+      "offset": 148.72,
+      "duration": 3.44
+    },
+    {
+      "text": "when it&amp;#39;s creating new files, hopefully",
+      "offset": 150.4,
+      "duration": 4.24
+    },
+    {
+      "text": "where to put those files. Uh, we&amp;#39;ve got",
+      "offset": 152.16,
+      "duration": 5.6
+    },
+    {
+      "text": "some data architecture right here. So it",
+      "offset": 154.64,
+      "duration": 6.16
+    },
+    {
+      "text": "knows that we&amp;#39;re using Higgraph for the",
+      "offset": 157.76,
+      "duration": 5.839
+    },
+    {
+      "text": "content. And down here we&amp;#39;ve got",
+      "offset": 160.8,
+      "duration": 5.76
+    },
+    {
+      "text": "information about the styling. Um, we&amp;#39;ve",
+      "offset": 163.599,
+      "duration": 5.041
+    },
+    {
+      "text": "got a testing setup right here and some",
+      "offset": 166.56,
+      "duration": 4
+    },
+    {
+      "text": "additional development notes as well.",
+      "offset": 168.64,
+      "duration": 3.52
+    },
+    {
+      "text": "So, this is quite comprehensive. It",
+      "offset": 170.56,
+      "duration": 5.039
+    },
+    {
+      "text": "gives Cloud Code now a good guide as to",
+      "offset": 172.16,
+      "duration": 5.359
+    },
+    {
+      "text": "what we&amp;#39;re doing. And whenever we make",
+      "offset": 175.599,
+      "duration": 4.561
+    },
+    {
+      "text": "changes, it can use this guide. Now,",
+      "offset": 177.519,
+      "duration": 4.321
+    },
+    {
+      "text": "since I&amp;#39;d already started this project",
+      "offset": 180.16,
+      "duration": 3.68
+    },
+    {
+      "text": "before Claude Code got involved, it was",
+      "offset": 181.84,
+      "duration": 4.56
+    },
+    {
+      "text": "able to scan my existing codebase and",
+      "offset": 183.84,
+      "duration": 4.08
+    },
+    {
+      "text": "pick up on a lot of things. So, it could",
+      "offset": 186.4,
+      "duration": 3.52
+    },
+    {
+      "text": "make a detailed Claude file based on the",
+      "offset": 187.92,
+      "duration": 3.92
+    },
+    {
+      "text": "code I&amp;#39;ve got. But if you&amp;#39;re starting",
+      "offset": 189.92,
+      "duration": 3.76
+    },
+    {
+      "text": "with a brand new project with virtually",
+      "offset": 191.84,
+      "duration": 3.6
+    },
+    {
+      "text": "no setup files or code, then it&amp;#39;s going",
+      "offset": 193.68,
+      "duration": 3.52
+    },
+    {
+      "text": "to have much less to work with. And the",
+      "offset": 195.44,
+      "duration": 4.079
+    },
+    {
+      "text": "claw.md file is probably not going to",
+      "offset": 197.2,
+      "duration": 4.319
+    },
+    {
+      "text": "have much in it. But in that case, you",
+      "offset": 199.519,
+      "duration": 3.921
+    },
+    {
+      "text": "can manually go into the file and edit",
+      "offset": 201.519,
+      "duration": 3.921
+    },
+    {
+      "text": "it yourself to outline any highlevel",
+      "offset": 203.44,
+      "duration": 3.36
+    },
+    {
+      "text": "project structures you&amp;#39;re going to put",
+      "offset": 205.44,
+      "duration": 3.12
+    },
+    {
+      "text": "in place, any tools, packages, or",
+      "offset": 206.8,
+      "duration": 3.12
+    },
+    {
+      "text": "frameworks you&amp;#39;re going to be using,",
+      "offset": 208.56,
+      "duration": 3.2
+    },
+    {
+      "text": "your code style preferences, and just",
+      "offset": 209.92,
+      "duration": 3.44
+    },
+    {
+      "text": "basically an overall summary of the",
+      "offset": 211.76,
+      "duration": 3.44
+    },
+    {
+      "text": "application. And you can just update it",
+      "offset": 213.36,
+      "duration": 3.76
+    },
+    {
+      "text": "as you go then. And that last bit is",
+      "offset": 215.2,
+      "duration": 3.36
+    },
+    {
+      "text": "important whether you&amp;#39;re starting with a",
+      "offset": 217.12,
+      "duration": 3.36
+    },
+    {
+      "text": "new project or an existing one because",
+      "offset": 218.56,
+      "duration": 3.92
+    },
+    {
+      "text": "you should keep this file updated if you",
+      "offset": 220.48,
+      "duration": 4
+    },
+    {
+      "text": "change your file structure, any packages",
+      "offset": 222.48,
+      "duration": 4.16
+    },
+    {
+      "text": "you use, or anything else outlined",
+      "offset": 224.48,
+      "duration": 4.24
+    },
+    {
+      "text": "inside this file. If you don&amp;#39;t, then",
+      "offset": 226.64,
+      "duration": 4.08
+    },
+    {
+      "text": "claude code might not automatically pick",
+      "offset": 228.72,
+      "duration": 3.84
+    },
+    {
+      "text": "up on those changes, and it could go off",
+      "offset": 230.72,
+      "duration": 3.84
+    },
+    {
+      "text": "in a completely different direction when",
+      "offset": 232.56,
+      "duration": 5.039
+    },
+    {
+      "text": "you ask it to do something. Anyway, this",
+      "offset": 234.56,
+      "duration": 5.52
+    },
+    {
+      "text": "Claude MD file now gets added to the",
+      "offset": 237.599,
+      "duration": 4.881
+    },
+    {
+      "text": "session context automatically so that",
+      "offset": 240.08,
+      "duration": 4.4
+    },
+    {
+      "text": "Claude can refer to it when it makes",
+      "offset": 242.48,
+      "duration": 4.64
+    },
+    {
+      "text": "changes. And you&amp;#39;ll find that keeping an",
+      "offset": 244.48,
+      "duration": 4.88
+    },
+    {
+      "text": "up-to-date Claude file like this leads",
+      "offset": 247.12,
+      "duration": 5.039
+    },
+    {
+      "text": "to much better code generations. So then",
+      "offset": 249.36,
+      "duration": 4.959
+    },
+    {
+      "text": "now that we have this file, let&amp;#39;s ask",
+      "offset": 252.159,
+      "duration": 3.841
+    },
+    {
+      "text": "Claude code to do something and see if",
+      "offset": 254.319,
+      "duration": 4.241
+    },
+    {
+      "text": "it sticks to the guidance. So what I",
+      "offset": 256,
+      "duration": 4.56
+    },
+    {
+      "text": "would like Claude Co to do for us is",
+      "offset": 258.56,
+      "duration": 4.24
+    },
+    {
+      "text": "make a new hook which is going to store",
+      "offset": 260.56,
+      "duration": 4.4
+    },
+    {
+      "text": "the user&amp;#39;s theme preference based on",
+      "offset": 262.8,
+      "duration": 3.52
+    },
+    {
+      "text": "whatever theme they have when they",
+      "offset": 264.96,
+      "duration": 2.959
+    },
+    {
+      "text": "toggle that little icon in the top right",
+      "offset": 266.32,
+      "duration": 4.56
+    },
+    {
+      "text": "hand corner. Now I noticed that inside",
+      "offset": 267.919,
+      "duration": 5.28
+    },
+    {
+      "text": "the clawed file over here, we don&amp;#39;t",
+      "offset": 270.88,
+      "duration": 4.16
+    },
+    {
+      "text": "reference a hooks folder. So this would",
+      "offset": 273.199,
+      "duration": 3.601
+    },
+    {
+      "text": "be a good opportunity to just update",
+      "offset": 275.04,
+      "duration": 3.68
+    },
+    {
+      "text": "this file so that Claude code knows",
+      "offset": 276.8,
+      "duration": 3.52
+    },
+    {
+      "text": "where to create hooks. So I&amp;#39;m going to",
+      "offset": 278.72,
+      "duration": 4.08
+    },
+    {
+      "text": "save this inside the project structure",
+      "offset": 280.32,
+      "duration": 4.56
+    },
+    {
+      "text": "bit right here where it says all hooks",
+      "offset": 282.8,
+      "duration": 3.679
+    },
+    {
+      "text": "reusable hooks go inside this hooks",
+      "offset": 284.88,
+      "duration": 4
+    },
+    {
+      "text": "folder. So now if I ask Claude code to",
+      "offset": 286.479,
+      "duration": 4
+    },
+    {
+      "text": "make a hook hopefully it&amp;#39;s going to",
+      "offset": 288.88,
+      "duration": 3.759
+    },
+    {
+      "text": "place inside that folder. All right",
+      "offset": 290.479,
+      "duration": 3.601
+    },
+    {
+      "text": "then. So you can see we don&amp;#39;t actually",
+      "offset": 292.639,
+      "duration": 3.12
+    },
+    {
+      "text": "have a hooks folder at the moment but",
+      "offset": 294.08,
+      "duration": 3.119
+    },
+    {
+      "text": "hopefully Claude Code will create that",
+      "offset": 295.759,
+      "duration": 2.88
+    },
+    {
+      "text": "as well. I&amp;#39;m going to open up the",
+      "offset": 297.199,
+      "duration": 3.601
+    },
+    {
+      "text": "terminal and then I&amp;#39;m going to ask it to",
+      "offset": 298.639,
+      "duration": 4.161
+    },
+    {
+      "text": "create this new hook. I will say can you",
+      "offset": 300.8,
+      "duration": 7.44
+    },
+    {
+      "text": "create a hook to store the users&amp;#39;s theme",
+      "offset": 302.8,
+      "duration": 7.76
+    },
+    {
+      "text": "preference in",
+      "offset": 308.24,
+      "duration": 7.6
+    },
+    {
+      "text": "when they toggle the theme on the site",
+      "offset": 310.56,
+      "duration": 10.24
+    },
+    {
+      "text": "and I will say store the value in local",
+      "offset": 315.84,
+      "duration": 9.199
+    },
+    {
+      "text": "storage for next time and then I&amp;#39;m also",
+      "offset": 320.8,
+      "duration": 8.239
+    },
+    {
+      "text": "going to say don&amp;#39;t use the hook anywhere",
+      "offset": 325.039,
+      "duration": 7.6
+    },
+    {
+      "text": "yet because claw code has this habit of",
+      "offset": 329.039,
+      "duration": 5.681
+    },
+    {
+      "text": "if it creates a new feature, hook,",
+      "offset": 332.639,
+      "duration": 3.681
+    },
+    {
+      "text": "component, whatever it might be, it",
+      "offset": 334.72,
+      "duration": 3.12
+    },
+    {
+      "text": "wants to use that hook somewhere in your",
+      "offset": 336.32,
+      "duration": 4.08
+    },
+    {
+      "text": "project. So, a lot of the time I add",
+      "offset": 337.84,
+      "duration": 4.24
+    },
+    {
+      "text": "this at the end to make sure it doesn&amp;#39;t",
+      "offset": 340.4,
+      "duration": 3.44
+    },
+    {
+      "text": "do that. So, I&amp;#39;m going to press enter.",
+      "offset": 342.08,
+      "duration": 3.28
+    },
+    {
+      "text": "The only thing I&amp;#39;m really concerned with",
+      "offset": 343.84,
+      "duration": 3.68
+    },
+    {
+      "text": "at the moment is to test whether claude",
+      "offset": 345.36,
+      "duration": 4.72
+    },
+    {
+      "text": "code looks at that claw.md file and",
+      "offset": 347.52,
+      "duration": 7.16
+    },
+    {
+      "text": "creates the hook in the correct folder.",
+      "offset": 350.08,
+      "duration": 4.6
+    },
+    {
+      "text": "Okay, so it looks like it&amp;#39;s come up with",
+      "offset": 355.039,
+      "duration": 3.201
+    },
+    {
+      "text": "some code. And if we take a look at this",
+      "offset": 356.8,
+      "duration": 3.04
+    },
+    {
+      "text": "over here, you can see it wants to place",
+      "offset": 358.24,
+      "duration": 3.679
+    },
+    {
+      "text": "it inside the hooks folder. All right.",
+      "offset": 359.84,
+      "duration": 4.72
+    },
+    {
+      "text": "So, if we open this up a little bit,",
+      "offset": 361.919,
+      "duration": 4
+    },
+    {
+      "text": "this is the hook it&amp;#39;s created right",
+      "offset": 364.56,
+      "duration": 2.639
+    },
+    {
+      "text": "here. And again, I&amp;#39;m not going to",
+      "offset": 365.919,
+      "duration": 2.72
+    },
+    {
+      "text": "examine the code too much. I would",
+      "offset": 367.199,
+      "duration": 3.28
+    },
+    {
+      "text": "normally, if this was something I was",
+      "offset": 368.639,
+      "duration": 3.601
+    },
+    {
+      "text": "working on, I would definitely examine",
+      "offset": 370.479,
+      "duration": 3.521
+    },
+    {
+      "text": "the code, but for now, I&amp;#39;m just going to",
+      "offset": 372.24,
+      "duration": 4.239
+    },
+    {
+      "text": "say yes. I&amp;#39;m going to accept that",
+      "offset": 374,
+      "duration": 4.88
+    },
+    {
+      "text": "change. And you can see it&amp;#39;s created the",
+      "offset": 376.479,
+      "duration": 4.801
+    },
+    {
+      "text": "hooks folder and it&amp;#39;s created the use",
+      "offset": 378.88,
+      "duration": 5.36
+    },
+    {
+      "text": "theme file within the folder. Awesome.",
+      "offset": 381.28,
+      "duration": 4.88
+    },
+    {
+      "text": "You can also add a memory to the claw.",
+      "offset": 384.24,
+      "duration": 4
+    },
+    {
+      "text": "MD file directly from the chat session",
+      "offset": 386.16,
+      "duration": 4.479
+    },
+    {
+      "text": "by using a hash symbol. For example, I",
+      "offset": 388.24,
+      "duration": 4.959
+    },
+    {
+      "text": "could add a hash then say something like",
+      "offset": 390.639,
+      "duration": 6
+    },
+    {
+      "text": "when making new page components, always",
+      "offset": 393.199,
+      "duration": 7.521
+    },
+    {
+      "text": "add a link to that page in the header.",
+      "offset": 396.639,
+      "duration": 6
+    },
+    {
+      "text": "And you can see down here as I type that",
+      "offset": 400.72,
+      "duration": 3.52
+    },
+    {
+      "text": "it&amp;#39;s telling us it&amp;#39;s going to memorize",
+      "offset": 402.639,
+      "duration": 2.961
+    },
+    {
+      "text": "what we&amp;#39;re telling it because we added",
+      "offset": 404.24,
+      "duration": 3.44
+    },
+    {
+      "text": "that hash. And the long and short of",
+      "offset": 405.6,
+      "duration": 3.76
+    },
+    {
+      "text": "that is that it&amp;#39;s going to place this",
+      "offset": 407.68,
+      "duration": 4.4
+    },
+    {
+      "text": "instruction inside the claw.md file for",
+      "offset": 409.36,
+      "duration": 4.959
+    },
+    {
+      "text": "future reference. So that now whenever",
+      "offset": 412.08,
+      "duration": 4.32
+    },
+    {
+      "text": "it creates a page component, it should",
+      "offset": 414.319,
+      "duration": 3.921
+    },
+    {
+      "text": "hopefully create a header link for it",
+      "offset": 416.4,
+      "duration": 4.16
+    },
+    {
+      "text": "too. Now when we hit enter, we&amp;#39;re going",
+      "offset": 418.24,
+      "duration": 4.64
+    },
+    {
+      "text": "to see a few options. We can save it to",
+      "offset": 420.56,
+      "duration": 4.639
+    },
+    {
+      "text": "project memory which is into the",
+      "offset": 422.88,
+      "duration": 4.879
+    },
+    {
+      "text": "claude.md file we just created for this",
+      "offset": 425.199,
+      "duration": 4.641
+    },
+    {
+      "text": "project. You could save it to local",
+      "offset": 427.759,
+      "duration": 4.481
+    },
+    {
+      "text": "project memory in the same root folder",
+      "offset": 429.84,
+      "duration": 4.32
+    },
+    {
+      "text": "but with the local part added to the",
+      "offset": 432.24,
+      "duration": 4.079
+    },
+    {
+      "text": "file name. And you can also save it to",
+      "offset": 434.16,
+      "duration": 4.319
+    },
+    {
+      "text": "global memory which is to a global",
+      "offset": 436.319,
+      "duration": 3.921
+    },
+    {
+      "text": "claude file stored in the root claude",
+      "offset": 438.479,
+      "duration": 3.601
+    },
+    {
+      "text": "folder on your computer which the",
+      "offset": 440.24,
+      "duration": 4.56
+    },
+    {
+      "text": "installation added for us. So project",
+      "offset": 442.08,
+      "duration": 4.8
+    },
+    {
+      "text": "memory is what gets set up when we run",
+      "offset": 444.8,
+      "duration": 4.08
+    },
+    {
+      "text": "the forward/init command to create this",
+      "offset": 446.88,
+      "duration": 4.64
+    },
+    {
+      "text": "claw.nd file in the root of the project.",
+      "offset": 448.88,
+      "duration": 4.319
+    },
+    {
+      "text": "And this file is meant to be tracked by",
+      "offset": 451.52,
+      "duration": 3.36
+    },
+    {
+      "text": "version control and pushed to your",
+      "offset": 453.199,
+      "duration": 3.28
+    },
+    {
+      "text": "remote repository so that any other",
+      "offset": 454.88,
+      "duration": 3.52
+    },
+    {
+      "text": "developers working on the project have",
+      "offset": 456.479,
+      "duration": 3.761
+    },
+    {
+      "text": "the same clawed file with the same",
+      "offset": 458.4,
+      "duration": 3.44
+    },
+    {
+      "text": "guidance for clawed code for this",
+      "offset": 460.24,
+      "duration": 4.079
+    },
+    {
+      "text": "project. And that means any memories or",
+      "offset": 461.84,
+      "duration": 4.079
+    },
+    {
+      "text": "information in this file should be",
+      "offset": 464.319,
+      "duration": 3.361
+    },
+    {
+      "text": "specific to the project. For example,",
+      "offset": 465.919,
+      "duration": 3.601
+    },
+    {
+      "text": "folder structure, naming conventions,",
+      "offset": 467.68,
+      "duration": 4.959
+    },
+    {
+      "text": "tests, frameworks, etc. The local",
+      "offset": 469.52,
+      "duration": 5.119
+    },
+    {
+      "text": "project memory is a file meant for your",
+      "offset": 472.639,
+      "duration": 3.441
+    },
+    {
+      "text": "own personal guidance and preferences",
+      "offset": 474.639,
+      "duration": 2.881
+    },
+    {
+      "text": "when it comes to working with claude",
+      "offset": 476.08,
+      "duration": 3.44
+    },
+    {
+      "text": "code. So, for example, outlining any",
+      "offset": 477.52,
+      "duration": 3.6
+    },
+    {
+      "text": "kind of personal tooling you might use",
+      "offset": 479.52,
+      "duration": 3.2
+    },
+    {
+      "text": "that isn&amp;#39;t necessarily something other",
+      "offset": 481.12,
+      "duration": 3.6
+    },
+    {
+      "text": "developers working on the same project",
+      "offset": 482.72,
+      "duration": 3.84
+    },
+    {
+      "text": "would use. And this file wouldn&amp;#39;t be",
+      "offset": 484.72,
+      "duration": 3.759
+    },
+    {
+      "text": "pushed to the remote repository and it",
+      "offset": 486.56,
+      "duration": 3.6
+    },
+    {
+      "text": "would just be local to you inside this",
+      "offset": 488.479,
+      "duration": 3.84
+    },
+    {
+      "text": "project. And finally, user memory is",
+      "offset": 490.16,
+      "duration": 4.319
+    },
+    {
+      "text": "your personal guidance to Claude when it",
+      "offset": 492.319,
+      "duration": 6.16
+    },
+    {
+      "text": "comes to all projects you work on. So",
+      "offset": 494.479,
+      "duration": 6.641
+    },
+    {
+      "text": "any tools you use globally across many",
+      "offset": 498.479,
+      "duration": 5.201
+    },
+    {
+      "text": "projects or any personal code style",
+      "offset": 501.12,
+      "duration": 4.96
+    },
+    {
+      "text": "preferences that you have would go in",
+      "offset": 503.68,
+      "duration": 4
+    },
+    {
+      "text": "that file. And again, this would just be",
+      "offset": 506.08,
+      "duration": 3.44
+    },
+    {
+      "text": "for you on your computer, but it would",
+      "offset": 507.68,
+      "duration": 4.32
+    },
+    {
+      "text": "be for every project that Claude Code",
+      "offset": 509.52,
+      "duration": 4.319
+    },
+    {
+      "text": "runs in. For now, we&amp;#39;re just going to",
+      "offset": 512,
+      "duration": 3.76
+    },
+    {
+      "text": "add this to the project memory, meaning",
+      "offset": 513.839,
+      "duration": 4.161
+    },
+    {
+      "text": "it should get added to the claude.md",
+      "offset": 515.76,
+      "duration": 4.639
+    },
+    {
+      "text": "file that we already have. So, if I",
+      "offset": 518,
+      "duration": 4.88
+    },
+    {
+      "text": "close this off and open this file up, we",
+      "offset": 520.399,
+      "duration": 4.081
+    },
+    {
+      "text": "should be able to see at the bottom that",
+      "offset": 522.88,
+      "duration": 3.36
+    },
+    {
+      "text": "new memory has been added. And you can",
+      "offset": 524.48,
+      "duration": 3.28
+    },
+    {
+      "text": "see right here, when making new page",
+      "offset": 526.24,
+      "duration": 3.52
+    },
+    {
+      "text": "components, always add a link to that",
+      "offset": 527.76,
+      "duration": 4.4
+    },
+    {
+      "text": "page in the header. Awesome. All right.",
+      "offset": 529.76,
+      "duration": 4.4
+    },
+    {
+      "text": "So, now we&amp;#39;re going to test this out.",
+      "offset": 532.16,
+      "duration": 4.64
+    },
+    {
+      "text": "So, I&amp;#39;m going to open code backup, and",
+      "offset": 534.16,
+      "duration": 4.32
+    },
+    {
+      "text": "I&amp;#39;m going to paste in a prompt, which",
+      "offset": 536.8,
+      "duration": 4
+    },
+    {
+      "text": "says, can you add a new about page with",
+      "offset": 538.48,
+      "duration": 4.56
+    },
+    {
+      "text": "only an H2 title and a single line of",
+      "offset": 540.8,
+      "duration": 4.56
+    },
+    {
+      "text": "Lauram as contact uh content rather? So,",
+      "offset": 543.04,
+      "duration": 3.919
+    },
+    {
+      "text": "press enter. Hopefully, it&amp;#39;s going to",
+      "offset": 545.36,
+      "duration": 3.44
+    },
+    {
+      "text": "read that instruction in the claw. MD",
+      "offset": 546.959,
+      "duration": 4.081
+    },
+    {
+      "text": "file as well and create a link for us.",
+      "offset": 548.8,
+      "duration": 4.24
+    },
+    {
+      "text": "And you can see in its to-dos, it says",
+      "offset": 551.04,
+      "duration": 4.4
+    },
+    {
+      "text": "right here, add about page link to the",
+      "offset": 553.04,
+      "duration": 4
+    },
+    {
+      "text": "header navigation. So, it knows about",
+      "offset": 555.44,
+      "duration": 3.36
+    },
+    {
+      "text": "that. All right. So, I&amp;#39;m just going to",
+      "offset": 557.04,
+      "duration": 3.44
+    },
+    {
+      "text": "accept these changes. Again, normally",
+      "offset": 558.8,
+      "duration": 3.12
+    },
+    {
+      "text": "you should check this, but for the sake",
+      "offset": 560.48,
+      "duration": 2.72
+    },
+    {
+      "text": "of this tutorial, I&amp;#39;m just going to",
+      "offset": 561.92,
+      "duration": 3.76
+    },
+    {
+      "text": "accept this. And again, it&amp;#39;s asking for",
+      "offset": 563.2,
+      "duration": 5.04
+    },
+    {
+      "text": "permission to edit the file, the layout",
+      "offset": 565.68,
+      "duration": 4.56
+    },
+    {
+      "text": "file this time to add a new link. Again,",
+      "offset": 568.24,
+      "duration": 4.64
+    },
+    {
+      "text": "I&amp;#39;m going to press yes. You can do this.",
+      "offset": 570.24,
+      "duration": 4.48
+    },
+    {
+      "text": "And then another change to the layout",
+      "offset": 572.88,
+      "duration": 4.24
+    },
+    {
+      "text": "file, which I&amp;#39;m going to accept as well.",
+      "offset": 574.72,
+      "duration": 4.88
+    },
+    {
+      "text": "Okay. And now it&amp;#39;s done. So if I close",
+      "offset": 577.12,
+      "duration": 5.36
+    },
+    {
+      "text": "this off, open up app and then we can",
+      "offset": 579.6,
+      "duration": 5.44
+    },
+    {
+      "text": "see this about page and inside there we",
+      "offset": 582.48,
+      "duration": 5.039
+    },
+    {
+      "text": "have an H2 title and just a single line",
+      "offset": 585.04,
+      "duration": 5.6
+    },
+    {
+      "text": "of Lauram Ipsum. Awesome. And then if we",
+      "offset": 587.519,
+      "duration": 5.841
+    },
+    {
+      "text": "go to the layout page which it&amp;#39;s edited.",
+      "offset": 590.64,
+      "duration": 5.92
+    },
+    {
+      "text": "Hopefully it&amp;#39;s added a link right here.",
+      "offset": 593.36,
+      "duration": 5.36
+    },
+    {
+      "text": "So it&amp;#39;s added it to this nav. So it says",
+      "offset": 596.56,
+      "duration": 4
+    },
+    {
+      "text": "about right here. Now let&amp;#39;s try this out",
+      "offset": 598.72,
+      "duration": 4.239
+    },
+    {
+      "text": "in a browser. Okay. So yes, it has done",
+      "offset": 600.56,
+      "duration": 3.92
+    },
+    {
+      "text": "that. You can see the about link here.",
+      "offset": 602.959,
+      "duration": 3.121
+    },
+    {
+      "text": "And if we click on that, we go to the",
+      "offset": 604.48,
+      "duration": 3.68
+    },
+    {
+      "text": "about page. Now you can see also",
+      "offset": 606.08,
+      "duration": 4
+    },
+    {
+      "text": "retrospectively it&amp;#39;s added these other",
+      "offset": 608.16,
+      "duration": 3.76
+    },
+    {
+      "text": "two links which I didn&amp;#39;t ask it to do.",
+      "offset": 610.08,
+      "duration": 3.04
+    },
+    {
+      "text": "And this is one of the things I&amp;#39;ve",
+      "offset": 611.92,
+      "duration": 2.64
+    },
+    {
+      "text": "noticed about clawed code. Sometimes",
+      "offset": 613.12,
+      "duration": 3.52
+    },
+    {
+      "text": "like I mentioned before it sometimes",
+      "offset": 614.56,
+      "duration": 4.16
+    },
+    {
+      "text": "likes to do things beyond the scope of",
+      "offset": 616.64,
+      "duration": 4.319
+    },
+    {
+      "text": "what you&amp;#39;ve asked it to do. So it is",
+      "offset": 618.72,
+      "duration": 5.04
+    },
+    {
+      "text": "important to maybe tell claw code look",
+      "offset": 620.959,
+      "duration": 4.801
+    },
+    {
+      "text": "don&amp;#39;t do this just do this. And that",
+      "offset": 623.76,
+      "duration": 3.6
+    },
+    {
+      "text": "could be something you add to your",
+      "offset": 625.76,
+      "duration": 4.639
+    },
+    {
+      "text": "claude.md file. Now just really quickly",
+      "offset": 627.36,
+      "duration": 4.96
+    },
+    {
+      "text": "I do want to mention that on the Claude",
+      "offset": 630.399,
+      "duration": 4.481
+    },
+    {
+      "text": "code docs they say that the local memory",
+      "offset": 632.32,
+      "duration": 4.8
+    },
+    {
+      "text": "is being deprecated in favor of",
+      "offset": 634.88,
+      "duration": 4.24
+    },
+    {
+      "text": "importing unttracked files within the",
+      "offset": 637.12,
+      "duration": 4.08
+    },
+    {
+      "text": "project level memory to provide that",
+      "offset": 639.12,
+      "duration": 4.64
+    },
+    {
+      "text": "personal context to Claude. And I&amp;#39;ll",
+      "offset": 641.2,
+      "duration": 4.4
+    },
+    {
+      "text": "show you how to import and reference",
+      "offset": 643.76,
+      "duration": 4.319
+    },
+    {
+      "text": "files later in the course. But at the",
+      "offset": 645.6,
+      "duration": 4.72
+    },
+    {
+      "text": "time of recording this video the local",
+      "offset": 648.079,
+      "duration": 4.401
+    },
+    {
+      "text": "option still shows in the terminal when",
+      "offset": 650.32,
+      "duration": 4.639
+    },
+    {
+      "text": "you use the memory hashtag shortcut to",
+      "offset": 652.48,
+      "duration": 4.88
+    },
+    {
+      "text": "add new memories. Another way you can",
+      "offset": 654.959,
+      "duration": 4.401
+    },
+    {
+      "text": "access your memory files is by using the",
+      "offset": 657.36,
+      "duration": 3.52
+    },
+    {
+      "text": "memory command which is just forward",
+      "offset": 659.36,
+      "duration": 4.24
+    },
+    {
+      "text": "slashmemory. And by the way, if it isn&amp;#39;t",
+      "offset": 660.88,
+      "duration": 4.24
+    },
+    {
+      "text": "already obvious, when I say memory",
+      "offset": 663.6,
+      "duration": 3.12
+    },
+    {
+      "text": "files, I&amp;#39;m just talking about the",
+      "offset": 665.12,
+      "duration": 4
+    },
+    {
+      "text": "claw.md files, whether they&amp;#39;re project",
+      "offset": 666.72,
+      "duration": 4.96
+    },
+    {
+      "text": "local or global. But anyway, when you",
+      "offset": 669.12,
+      "duration": 4.8
+    },
+    {
+      "text": "use this memory command, claude code&amp;#39;s",
+      "offset": 671.68,
+      "duration": 4.24
+    },
+    {
+      "text": "going to ask you which memory file you",
+      "offset": 673.92,
+      "duration": 3.919
+    },
+    {
+      "text": "want to open and edit. So you can select",
+      "offset": 675.92,
+      "duration": 3.68
+    },
+    {
+      "text": "any of these and press enter to open",
+      "offset": 677.839,
+      "duration": 3.841
+    },
+    {
+      "text": "that file up. For example, if I select",
+      "offset": 679.6,
+      "duration": 3.679
+    },
+    {
+      "text": "the project memory, it&amp;#39;s going to open",
+      "offset": 681.68,
+      "duration": 4.08
+    },
+    {
+      "text": "up the claw.md file right here in VS",
+      "offset": 683.279,
+      "duration": 4.24
+    },
+    {
+      "text": "Code so that I can edit it directly",
+      "offset": 685.76,
+      "duration": 4.4
+    },
+    {
+      "text": "myself. So then just to summarize, it&amp;#39;s",
+      "offset": 687.519,
+      "duration": 4.081
+    },
+    {
+      "text": "always good practice to use the",
+      "offset": 690.16,
+      "duration": 3.679
+    },
+    {
+      "text": "forward/init command when you bring",
+      "offset": 691.6,
+      "duration": 4.56
+    },
+    {
+      "text": "claud code into a project because it",
+      "offset": 693.839,
+      "duration": 3.68
+    },
+    {
+      "text": "gives Claude the chance to learn about",
+      "offset": 696.16,
+      "duration": 3.2
+    },
+    {
+      "text": "the codebase and outline any structural",
+      "offset": 697.519,
+      "duration": 4
+    },
+    {
+      "text": "patterns, frameworks, libraries, naming",
+      "offset": 699.36,
+      "duration": 5.039
+    },
+    {
+      "text": "conventions, etc. in a claude file. That",
+      "offset": 701.519,
+      "duration": 5.201
+    },
+    {
+      "text": "file is then used by Claude as context",
+      "offset": 704.399,
+      "duration": 4.081
+    },
+    {
+      "text": "automatically when it makes decisions",
+      "offset": 706.72,
+      "duration": 3.92
+    },
+    {
+      "text": "about your project in the future and it",
+      "offset": 708.48,
+      "duration": 4.16
+    },
+    {
+      "text": "can be added to your remote repository",
+      "offset": 710.64,
+      "duration": 3.92
+    },
+    {
+      "text": "so that other developers working on the",
+      "offset": 712.64,
+      "duration": 3.6
+    },
+    {
+      "text": "project have access to it as well for",
+      "offset": 714.56,
+      "duration": 4.959
+    },
+    {
+      "text": "their own workflow using clawed code.",
+      "offset": 716.24,
+      "duration": 5.36
+    },
+    {
+      "text": "Finally, it&amp;#39;s not something you should",
+      "offset": 719.519,
+      "duration": 3.841
+    },
+    {
+      "text": "just create and then forget about, but",
+      "offset": 721.6,
+      "duration": 4
+    },
+    {
+      "text": "rather keep on top of edit and update",
+      "offset": 723.36,
+      "duration": 4.56
+    },
+    {
+      "text": "when things change within your project.",
+      "offset": 725.6,
+      "duration": 4.4
+    },
+    {
+      "text": "That way, you&amp;#39;re always keeping Claude",
+      "offset": 727.92,
+      "duration": 4.159
+    },
+    {
+      "text": "in the loop, and you&amp;#39;ll find its work to",
+      "offset": 730,
+      "duration": 4
+    },
+    {
+      "text": "be much more in line with your project&amp;#39;s",
+      "offset": 732.079,
+      "duration": 6.401
+    },
+    {
+      "text": "existing current code and structure.",
+      "offset": 734,
+      "duration": 4.48
+    }
+  ],
+  "fullText": "Okay then. So now we&amp;#39;ve got Claude code set up and running inside this project. I would like to start using it to make some changes to the code and working on new components. But before we do that, it&amp;#39;s always a good idea when you&amp;#39;re starting to use the forward/init command to initialize a claude.md file inside the project root. And when we do this, claude scans the entire codebase. It looks at the folder structure, how we start the application, any state management we use, etc. the whole Shazam so that it gets a good feel for the project, where everything goes and how it should code new features in the future. Then it summarizes all of that and it dumps the information into a claude.md file in a structured human readable format. Then whenever we have an active session with claude code to either ask about our project code or to make changes to the code, it uses that claude.md file as context and guidance. It&amp;#39;s almost like a mini documentation of your code for claw to use whenever it&amp;#39;s trying to figure out the best way to implement something or to give feedback. So then I&amp;#39;m going to press enter now to run this command and see what it comes up with. And you can see as it&amp;#39;s doing this, it&amp;#39;s created a little to-do list for itself. It&amp;#39;s going to explore the repository, analyze the package.json and the source code. It&amp;#39;s going to check for exe existing documentation files. And then finally, it&amp;#39;s going to create this claw.md file at the bottom. And you can see that it&amp;#39;s kind of checking things off as it does it. So, it&amp;#39;s really good to see the progress of what it&amp;#39;s doing in between all that. It&amp;#39;s reading the files. It&amp;#39;s searching for things. So, yeah, it&amp;#39;s doing a real extensive kind of task. All right. Then, so now once it&amp;#39;s done all that, you can see it&amp;#39;s created this plan. And if we scroll right to the bottom, it&amp;#39;s asking us, do you want to create this claw.md file? And I&amp;#39;m going to select yes. So then it goes ahead to create that file, which we can see in the root of the project directory now. So let&amp;#39;s open that up over here and see what it looks like. So you can see this file provides guidance to claude code when working with code in this repository. So it&amp;#39;s got some different development commands that it&amp;#39;s found from the package.json thing right here. It&amp;#39;s got an architecture overview. So it says what it is briefly. It&amp;#39;s a Nex.js15 blog application. You can see the different things we&amp;#39;re using inside it. So React 19, Tailwind, V4, uh, Vest, etc. We&amp;#39;ve got a project structure, which is quite nice. So it knows that when it&amp;#39;s creating new files, hopefully where to put those files. Uh, we&amp;#39;ve got some data architecture right here. So it knows that we&amp;#39;re using Higgraph for the content. And down here we&amp;#39;ve got information about the styling. Um, we&amp;#39;ve got a testing setup right here and some additional development notes as well. So, this is quite comprehensive. It gives Cloud Code now a good guide as to what we&amp;#39;re doing. And whenever we make changes, it can use this guide. Now, since I&amp;#39;d already started this project before Claude Code got involved, it was able to scan my existing codebase and pick up on a lot of things. So, it could make a detailed Claude file based on the code I&amp;#39;ve got. But if you&amp;#39;re starting with a brand new project with virtually no setup files or code, then it&amp;#39;s going to have much less to work with. And the claw.md file is probably not going to have much in it. But in that case, you can manually go into the file and edit it yourself to outline any highlevel project structures you&amp;#39;re going to put in place, any tools, packages, or frameworks you&amp;#39;re going to be using, your code style preferences, and just basically an overall summary of the application. And you can just update it as you go then. And that last bit is important whether you&amp;#39;re starting with a new project or an existing one because you should keep this file updated if you change your file structure, any packages you use, or anything else outlined inside this file. If you don&amp;#39;t, then claude code might not automatically pick up on those changes, and it could go off in a completely different direction when you ask it to do something. Anyway, this Claude MD file now gets added to the session context automatically so that Claude can refer to it when it makes changes. And you&amp;#39;ll find that keeping an up-to-date Claude file like this leads to much better code generations. So then now that we have this file, let&amp;#39;s ask Claude code to do something and see if it sticks to the guidance. So what I would like Claude Co to do for us is make a new hook which is going to store the user&amp;#39;s theme preference based on whatever theme they have when they toggle that little icon in the top right hand corner. Now I noticed that inside the clawed file over here, we don&amp;#39;t reference a hooks folder. So this would be a good opportunity to just update this file so that Claude code knows where to create hooks. So I&amp;#39;m going to save this inside the project structure bit right here where it says all hooks reusable hooks go inside this hooks folder. So now if I ask Claude code to make a hook hopefully it&amp;#39;s going to place inside that folder. All right then. So you can see we don&amp;#39;t actually have a hooks folder at the moment but hopefully Claude Code will create that as well. I&amp;#39;m going to open up the terminal and then I&amp;#39;m going to ask it to create this new hook. I will say can you create a hook to store the users&amp;#39;s theme preference in when they toggle the theme on the site and I will say store the value in local storage for next time and then I&amp;#39;m also going to say don&amp;#39;t use the hook anywhere yet because claw code has this habit of if it creates a new feature, hook, component, whatever it might be, it wants to use that hook somewhere in your project. So, a lot of the time I add this at the end to make sure it doesn&amp;#39;t do that. So, I&amp;#39;m going to press enter. The only thing I&amp;#39;m really concerned with at the moment is to test whether claude code looks at that claw.md file and creates the hook in the correct folder. Okay, so it looks like it&amp;#39;s come up with some code. And if we take a look at this over here, you can see it wants to place it inside the hooks folder. All right. So, if we open this up a little bit, this is the hook it&amp;#39;s created right here. And again, I&amp;#39;m not going to examine the code too much. I would normally, if this was something I was working on, I would definitely examine the code, but for now, I&amp;#39;m just going to say yes. I&amp;#39;m going to accept that change. And you can see it&amp;#39;s created the hooks folder and it&amp;#39;s created the use theme file within the folder. Awesome. You can also add a memory to the claw. MD file directly from the chat session by using a hash symbol. For example, I could add a hash then say something like when making new page components, always add a link to that page in the header. And you can see down here as I type that it&amp;#39;s telling us it&amp;#39;s going to memorize what we&amp;#39;re telling it because we added that hash. And the long and short of that is that it&amp;#39;s going to place this instruction inside the claw.md file for future reference. So that now whenever it creates a page component, it should hopefully create a header link for it too. Now when we hit enter, we&amp;#39;re going to see a few options. We can save it to project memory which is into the claude.md file we just created for this project. You could save it to local project memory in the same root folder but with the local part added to the file name. And you can also save it to global memory which is to a global claude file stored in the root claude folder on your computer which the installation added for us. So project memory is what gets set up when we run the forward/init command to create this claw.nd file in the root of the project. And this file is meant to be tracked by version control and pushed to your remote repository so that any other developers working on the project have the same clawed file with the same guidance for clawed code for this project. And that means any memories or information in this file should be specific to the project. For example, folder structure, naming conventions, tests, frameworks, etc. The local project memory is a file meant for your own personal guidance and preferences when it comes to working with claude code. So, for example, outlining any kind of personal tooling you might use that isn&amp;#39;t necessarily something other developers working on the same project would use. And this file wouldn&amp;#39;t be pushed to the remote repository and it would just be local to you inside this project. And finally, user memory is your personal guidance to Claude when it comes to all projects you work on. So any tools you use globally across many projects or any personal code style preferences that you have would go in that file. And again, this would just be for you on your computer, but it would be for every project that Claude Code runs in. For now, we&amp;#39;re just going to add this to the project memory, meaning it should get added to the claude.md file that we already have. So, if I close this off and open this file up, we should be able to see at the bottom that new memory has been added. And you can see right here, when making new page components, always add a link to that page in the header. Awesome. All right. So, now we&amp;#39;re going to test this out. So, I&amp;#39;m going to open code backup, and I&amp;#39;m going to paste in a prompt, which says, can you add a new about page with only an H2 title and a single line of Lauram as contact uh content rather? So, press enter. Hopefully, it&amp;#39;s going to read that instruction in the claw. MD file as well and create a link for us. And you can see in its to-dos, it says right here, add about page link to the header navigation. So, it knows about that. All right. So, I&amp;#39;m just going to accept these changes. Again, normally you should check this, but for the sake of this tutorial, I&amp;#39;m just going to accept this. And again, it&amp;#39;s asking for permission to edit the file, the layout file this time to add a new link. Again, I&amp;#39;m going to press yes. You can do this. And then another change to the layout file, which I&amp;#39;m going to accept as well. Okay. And now it&amp;#39;s done. So if I close this off, open up app and then we can see this about page and inside there we have an H2 title and just a single line of Lauram Ipsum. Awesome. And then if we go to the layout page which it&amp;#39;s edited. Hopefully it&amp;#39;s added a link right here. So it&amp;#39;s added it to this nav. So it says about right here. Now let&amp;#39;s try this out in a browser. Okay. So yes, it has done that. You can see the about link here. And if we click on that, we go to the about page. Now you can see also retrospectively it&amp;#39;s added these other two links which I didn&amp;#39;t ask it to do. And this is one of the things I&amp;#39;ve noticed about clawed code. Sometimes like I mentioned before it sometimes likes to do things beyond the scope of what you&amp;#39;ve asked it to do. So it is important to maybe tell claw code look don&amp;#39;t do this just do this. And that could be something you add to your claude.md file. Now just really quickly I do want to mention that on the Claude code docs they say that the local memory is being deprecated in favor of importing unttracked files within the project level memory to provide that personal context to Claude. And I&amp;#39;ll show you how to import and reference files later in the course. But at the time of recording this video the local option still shows in the terminal when you use the memory hashtag shortcut to add new memories. Another way you can access your memory files is by using the memory command which is just forward slashmemory. And by the way, if it isn&amp;#39;t already obvious, when I say memory files, I&amp;#39;m just talking about the claw.md files, whether they&amp;#39;re project local or global. But anyway, when you use this memory command, claude code&amp;#39;s going to ask you which memory file you want to open and edit. So you can select any of these and press enter to open that file up. For example, if I select the project memory, it&amp;#39;s going to open up the claw.md file right here in VS Code so that I can edit it directly myself. So then just to summarize, it&amp;#39;s always good practice to use the forward/init command when you bring claud code into a project because it gives Claude the chance to learn about the codebase and outline any structural patterns, frameworks, libraries, naming conventions, etc. in a claude file. That file is then used by Claude as context automatically when it makes decisions about your project in the future and it can be added to your remote repository so that other developers working on the project have access to it as well for their own workflow using clawed code. Finally, it&amp;#39;s not something you should just create and then forget about, but rather keep on top of edit and update when things change within your project. That way, you&amp;#39;re always keeping Claude in the loop, and you&amp;#39;ll find its work to be much more in line with your project&amp;#39;s existing current code and structure."
+}
