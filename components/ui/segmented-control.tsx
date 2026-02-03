@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { cn } from "@/lib/utils";
 import { segmentedIndicatorSpring } from "@/lib/motion-variants";
+import { cn } from "@/lib/utils";
 
 interface SegmentedControlOption {
 	value: string;
@@ -28,7 +28,7 @@ export function SegmentedControl({
 	onChange,
 	className,
 	size = "md",
-}: SegmentedControlProps) {
+}: SegmentedControlProps): JSX.Element {
 	const prefersReducedMotion = useReducedMotion();
 
 	return (

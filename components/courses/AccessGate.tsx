@@ -1,21 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { motion, useReducedMotion } from "motion/react";
-import { LockIcon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { useState, type ReactNode } from "react";
+import { ArrowRight01Icon, LockIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { motion, useReducedMotion } from "motion/react";
+import Link from "next/link";
+import { AuthModal } from "@/components/auth/AuthModal";
 import { useAccess, type AccessLevel } from "@/hooks/useAccess";
 import { useAuth } from "@/hooks/useAuth";
-import { AuthModal } from "@/components/auth/AuthModal";
+import { cn } from "@/lib/utils";
 
 interface AccessGateProps {
   accessLevel: AccessLevel;
   lessonTitle: string;
   courseName?: string;
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 /**
@@ -31,7 +31,7 @@ export function AccessGate({
   courseName,
   className,
   children,
-}: AccessGateProps) {
+}: AccessGateProps): JSX.Element {
   const prefersReducedMotion = useReducedMotion();
   const { hasAccess, reason } = useAccess({ accessLevel });
   const { isAuthenticated, isLoading: authLoading } = useAuth();

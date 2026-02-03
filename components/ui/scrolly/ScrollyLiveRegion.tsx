@@ -7,7 +7,7 @@
  * without interrupting the user's current action.
  */
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useScrollyContext } from "./ScrollyContext";
 import type { ScrollyCodeStep } from "@/lib/scrolly/types";
 
@@ -27,13 +27,13 @@ interface ScrollyLiveRegionProps {
  */
 export function ScrollyLiveRegion({ steps }: ScrollyLiveRegionProps) {
 	const { activeIndex, totalSteps } = useScrollyContext();
-	const prevIndexRef = useRef(activeIndex);
+	const [previousIndex, setPreviousIndex] = useState(activeIndex);
 
 	// Only announce when index actually changes (not on initial render)
-	const shouldAnnounce = prevIndexRef.current !== activeIndex;
+	const shouldAnnounce = previousIndex !== activeIndex;
 
 	useEffect(() => {
-		prevIndexRef.current = activeIndex;
+		setPreviousIndex(activeIndex);
 	}, [activeIndex]);
 
 	const currentStep = steps[activeIndex];

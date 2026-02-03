@@ -16,7 +16,7 @@ export function isSupabaseConfigured(): boolean {
  * Use this in Server Components, Route Handlers, and Server Actions.
  * Returns null if Supabase is not configured.
  */
-export async function createClient() {
+export async function createClient(): Promise<ReturnType<typeof createServerClient> | null> {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -51,7 +51,7 @@ export async function createClient() {
  * Use for server-side operations that need elevated privileges.
  * NEVER expose this to the client.
  */
-export async function createAdminClient() {
+export async function createAdminClient(): Promise<ReturnType<typeof createServerClient>> {
   const cookieStore = await cookies();
 
   return createServerClient(

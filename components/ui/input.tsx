@@ -15,15 +15,15 @@ function Input({
         "flex w-full min-w-0",
         "h-10", // 40px height (slightly smaller than buttons)
         "px-3 py-2",
-        "rounded-xs", // 2px radius per Oatmeal
+        "rounded-[6px]",
         "bg-transparent",
-        "border border-input", // border.strong
+        "border border-[rgba(0,0,0,0.12)] dark:border-[rgba(255,255,255,0.12)]",
         "text-base text-foreground", // 16px
         "placeholder:text-muted-foreground/60",
         // Focus state
         "focus-visible:outline-none",
-        "focus-visible:border-primary",
-        "focus-visible:ring-2 focus-visible:ring-primary/20",
+        "focus:border-[rgba(0,0,0,0.3)] dark:focus:border-[rgba(255,255,255,0.3)]",
+        "focus-visible:ring-0",
         // Disabled
         "disabled:cursor-not-allowed disabled:opacity-50",
         // File input

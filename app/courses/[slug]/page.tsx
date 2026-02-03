@@ -1,13 +1,29 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { courses } from "@/lib/source";
-import { CourseLayout } from "@/components/courses/CourseLayout";
+import { CourseShell } from "@/components/courses/CourseShell";
 import { CourseProgressHeader } from "@/components/courses/CourseProgressHeader";
-import { Breadcrumbs } from "@/components/courses/Breadcrumbs";
 import customComponents from "@/lib/custom-components";
 import type { AccessLevel } from "@/hooks/useAccess";
 
+type CoursePage = ReturnType<typeof courses.getPages>[number];
+
+interface CourseLesson {
+  slug: string;
+  title: string;
+  module: string;
+  order: number;
+  url: string;
+  access: AccessLevel;
+}
+
+interface CourseData {
+  overviewPage: CoursePage | undefined;
+  lessonPages: CourseLesson[];
+}
+
 // Get course overview and all lessons for a course
-function getCourseData(slug: string) {
+function getCourseData(slug: string): CourseData {
   const pages = courses.getPages();
 
   // Find the course overview (index.mdx)
@@ -43,7 +59,7 @@ function getCourseData(slug: string) {
 
 export default async function CourseOverviewPage(props: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<JSX.Element> {
   const params = await props.params;
   const { overviewPage, lessonPages } = getCourseData(params.slug);
 
@@ -52,35 +68,23 @@ export default async function CourseOverviewPage(props: {
   }
 
   const firstLesson = lessonPages[0];
+  const courseName = (overviewPage.data.title as string) || params.slug;
 
   const Mdx = overviewPage.data.body;
-  const tocItems = overviewPage.data.toc.map((item) => ({
-    title: typeof item.title === "string" ? item.title : String(item.title ?? ""),
-    url: item.url,
-    depth: item.depth,
-  }));
 
   return (
-    <CourseLayout
+    <CourseShell
       courseSlug={params.slug}
+      courseName={courseName}
       lessons={lessonPages}
-      tocItems={tocItems}
     >
-      <article className="py-16 lg:py-24">
-        {/* Breadcrumbs */}
-        <Breadcrumbs
-          items={[
-            { label: "Courses", href: "/courses" },
-            { label: overviewPage.data.title || params.slug },
-          ]}
-          className="mb-10"
-        />
-
+      <article className="py-8 lg:py-6">
         {/* Header */}
-        <header className="mb-12">
-          <h1 className="text-swiss-hero mb-4">{overviewPage.data.title}</h1>
+        <header className="mb-8">
+          <p className="text-[15px] text-foreground/50 mb-3">Course Overview</p>
+          <h1 className="text-[15px] text-foreground font-medium mb-3">{overviewPage.data.title}</h1>
           {overviewPage.data.description && (
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-prose mb-8">
+            <p className="text-[15px] text-foreground/60 leading-relaxed max-w-xl mb-6">
               {overviewPage.data.description}
             </p>
           )}
@@ -107,7 +111,7 @@ export default async function CourseOverviewPage(props: {
           <Mdx components={customComponents} />
         </div>
       </article>
-    </CourseLayout>
+    </CourseShell>
   );
 }
 
@@ -124,7 +128,7 @@ export function generateStaticParams(): { slug: string }[] {
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const params = await props.params;
   const { overviewPage } = getCourseData(params.slug);
 

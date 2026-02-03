@@ -9,12 +9,18 @@
  * Includes canvas controls (fullscreen, copy, refresh) with ItsHover animated icons.
  */
 
-import { useMemo, useState, useCallback, memo } from "react";
+import { useMemo, useState, useCallback, memo, useEffect } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { ShikiMagicMovePrecompiled } from "shiki-magic-move/react";
+import { ShikiMagicMoveRenderer } from "shiki-magic-move/react";
+import { syncTokenKeys, toKeyedTokens } from "shiki-magic-move/core";
+import type {
+	KeyedTokensInfo,
+	MagicMoveDifferOptions,
+	MagicMoveRenderOptions,
+} from "shiki-magic-move/types";
 import { cn } from "@/lib/utils";
 import { useScrollyContext } from "./ScrollyContext";
-import { extractTokensForPrecompiled, type CompilationResult } from "@/lib/scrolly/utils";
+import { type CompilationResult } from "@/lib/scrolly/utils";
 import { deriveFilename, SCROLLY_DEFAULTS } from "@/lib/scrolly/types";
 import { springGentle } from "@/lib/motion-variants";
 import { StageControls } from "./StageControls";
@@ -32,6 +38,73 @@ interface ScrollyStageProps {
 	showCopyLink?: boolean;
 	/** Additional CSS classes */
 	className?: string;
+}
+
+type MagicMoveOptions = MagicMoveRenderOptions & MagicMoveDifferOptions;
+
+const EMPTY_TOKENS = toKeyedTokens("", []);
+
+const dedupeTokenKeys = (tokensInfo: KeyedTokensInfo): KeyedTokensInfo => {
+	const seen = new Map<string, number>();
+	let hasDuplicates = false;
+
+	const dedupedTokens = tokensInfo.tokens.map((token) => {
+		const count = seen.get(token.key) ?? 0;
+		seen.set(token.key, count + 1);
+
+		if (count === 0) return token;
+
+		hasDuplicates = true;
+		return { ...token, key: `${token.key}-${count}` };
+	});
+
+	return hasDuplicates ? { ...tokensInfo, tokens: dedupedTokens } : tokensInfo;
+};
+
+function ScrollyMagicMovePrecompiled({
+	steps,
+	step = 0,
+	animate = true,
+	options,
+	onStart,
+	onEnd,
+}: {
+	steps: KeyedTokensInfo[];
+	step?: number;
+	animate?: boolean;
+	options?: MagicMoveOptions;
+	onStart?: () => void;
+	onEnd?: () => void;
+}) {
+	const [previousTokens, setPreviousTokens] =
+		useState<KeyedTokensInfo>(EMPTY_TOKENS);
+
+	const currentTokens = useMemo(() => {
+		return steps[Math.min(step, steps.length - 1)];
+	}, [steps, step]);
+
+	useEffect(() => {
+		setPreviousTokens(currentTokens);
+	}, [currentTokens]);
+
+	const result = useMemo(() => {
+		const synced = syncTokenKeys(previousTokens, currentTokens, options);
+		return {
+			from: dedupeTokenKeys(synced.from),
+			to: dedupeTokenKeys(synced.to),
+		};
+	}, [previousTokens, currentTokens, options]);
+
+	return (
+		<ShikiMagicMoveRenderer
+			tokens={result.to}
+			previous={result.from}
+			options={options}
+			animate={animate}
+			onStart={onStart}
+			onEnd={onEnd}
+		/>
+	);
 }
 
 /**
@@ -61,9 +134,9 @@ export function ScrollyStage({
 	// Get current step metadata
 	const currentStep = steps[activeIndex];
 
-	// Extract tokens for Magic Move (dual-theme - CSS handles theme switching)
+	// Get tokens for Magic Move renderer (dual-theme, CSS handles switching)
 	const magicMoveSteps = useMemo(() => {
-		return extractTokensForPrecompiled(compiledSteps.steps);
+		return compiledSteps.steps.map((step) => step.tokens);
 	}, [compiledSteps]);
 
 	// Derive filename from step or lang
@@ -114,6 +187,8 @@ export function ScrollyStage({
 		return currentStep?.focusLines || [];
 	}, [currentStep]);
 
+	const { scrollyId } = useScrollyContext();
+
 	// Check if compilation has errors
 	const hasErrors = compiledSteps.errors.length > 0;
 
@@ -136,16 +211,16 @@ export function ScrollyStage({
 		);
 	}
 
-	const { scrollyId } = useScrollyContext();
-
 	return (
 		<>
 		<motion.div
 			id={`${scrollyId}-stage`}
 			className={cn(
+				// h-full: parent (fixed drawer) handles h-screen
 				"relative h-full w-full flex flex-col",
-				"rounded-md border border-border bg-card",
-				"overflow-hidden",
+				// OpenAI design: large radius, muted background
+				"rounded-3xl overflow-hidden",
+				"bg-muted",
 				className
 			)}
 			role="region"
@@ -156,18 +231,22 @@ export function ScrollyStage({
 			animate={{ opacity: 1, scale: 1 }}
 			transition={prefersReducedMotion ? { duration: 0 } : springGentle}
 		>
-			{/* Header bar with filename and canvas controls */}
-			<div
-				className={cn(
-					"flex items-center justify-between px-3 py-2",
-					"border-b border-border bg-muted/30",
-					"transition-opacity duration-200",
-					isAnimating && "opacity-70"
-				)}
-			>
-				<div className="flex items-center gap-2">
+			{/* Floating toolbar - Devouring Details style */}
+			{showControls && (
+				<div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+					{/* Filename badge (left of controls) */}
 					{filename && (
-						<span className="text-swiss-label text-muted-foreground">
+						<span
+							className={cn(
+								"text-swiss-label px-2.5 py-1",
+								"rounded-full",
+								// OpenAI design: inverted colors for contrast on stage background
+								"bg-foreground/90 text-background/80",
+								"backdrop-blur-sm",
+								"transition-opacity duration-200",
+								isAnimating && "opacity-60"
+							)}
+						>
 							{filename}
 						</span>
 					)}
@@ -176,8 +255,6 @@ export function ScrollyStage({
 							Copied!
 						</span>
 					)}
-				</div>
-				{showControls && (
 					<StageControls
 						viewMode="rendered"
 						isFullscreen={isFullscreen}
@@ -189,19 +266,21 @@ export function ScrollyStage({
 						onCopyLink={handleCopyLink}
 						onCopyCode={handleCopyCode}
 					/>
-				)}
-			</div>
+				</div>
+			)}
 
 			{/* Code container with Magic Move - scrollable area */}
 			<div
 				className={cn(
-					"scrolly-stage-code flex-1 overflow-x-auto overflow-y-auto p-4",
+					"scrolly-stage-code flex-1 overflow-x-auto overflow-y-auto",
+					// Compact padding
+					"px-5 py-6",
 					"font-mono text-sm leading-relaxed",
 					focusLines.length > 0 && "has-focus-lines"
 				)}
 				data-focus-lines={focusLines.join(",")}
 			>
-				<ShikiMagicMovePrecompiled
+				<ScrollyMagicMovePrecompiled
 					steps={magicMoveSteps}
 					step={activeIndex}
 					animate={!prefersReducedMotion}
@@ -229,26 +308,28 @@ export function ScrollyStage({
 
 		{/* Fullscreen modal portal */}
 		<StageFullscreen isOpen={isFullscreen} onClose={handleToggleFullscreen}>
-			<div className="flex flex-col h-full">
-				{/* Fullscreen header */}
-				<div
-					className={cn(
-						"flex items-center justify-between px-4 py-3",
-						"border-b border-border bg-muted/30"
+			<div className="relative flex flex-col h-full">
+				{/* Floating toolbar - same position as in normal view */}
+				<div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+					{filename && (
+						<span
+							className={cn(
+								"text-swiss-label px-2.5 py-1",
+								"rounded-full",
+								// OpenAI design: inverted colors for contrast on stage background
+								"bg-foreground/90 text-background/80",
+								"transition-opacity duration-200",
+								isAnimating && "opacity-60"
+							)}
+						>
+							{filename}
+						</span>
 					)}
-				>
-					<div className="flex items-center gap-2">
-						{filename && (
-							<span className="text-swiss-label text-muted-foreground">
-								{filename}
-							</span>
-						)}
-						{copied && (
-							<span className="text-swiss-caption text-primary animate-in fade-in">
-								Copied!
-							</span>
-						)}
-					</div>
+					{copied && (
+						<span className="text-swiss-caption text-primary animate-in fade-in">
+							Copied!
+						</span>
+					)}
 					<StageControls
 						viewMode="rendered"
 						isFullscreen={true}
@@ -265,13 +346,14 @@ export function ScrollyStage({
 				{/* Fullscreen code container */}
 				<div
 					className={cn(
-						"scrolly-stage-code flex-1 overflow-auto p-6",
+						"scrolly-stage-code flex-1 overflow-auto",
+						"px-8 py-12",
 						"font-mono text-base leading-relaxed",
 						focusLines.length > 0 && "has-focus-lines"
 					)}
 					data-focus-lines={focusLines.join(",")}
 				>
-					<ShikiMagicMovePrecompiled
+					<ScrollyMagicMovePrecompiled
 						steps={magicMoveSteps}
 						step={activeIndex}
 						animate={!prefersReducedMotion}
@@ -315,24 +397,19 @@ const FOCUS_LINE_SPRING = "350ms linear(0, 0.3566, 0.7963, 1.0045, 1.0459, 1.028
  * Generate focus line CSS styles.
  * Memoized via useMemo in the component to avoid recalculating on every render.
  *
- * Uses lime green accent for highlighting (matches site theme).
+ * Uses monochrome foreground accent for highlighting.
  */
 function generateFocusLineStyles(focusLines: number[], isAnimating: boolean): string {
 	const highlightStyles = focusLines
 		.map(
 			(line) => `
 		.scrolly-stage-code.has-focus-lines .shiki-magic-move-line:nth-child(${line}) {
-			background: oklch(0.95 0.15 125 / 30%); /* Lime green tint */
+			background: var(--canvas-focus-bg);
 			margin-left: -1rem;
 			margin-right: -1rem;
 			padding-left: calc(1rem - 2px);
 			padding-right: 1rem;
-			border-left: 2px solid oklch(0.65 0.2 125); /* Lime green indicator */
-		}
-		/* Dark mode override */
-		.dark .scrolly-stage-code.has-focus-lines .shiki-magic-move-line:nth-child(${line}) {
-			background: oklch(0.3 0.1 125 / 30%);
-			border-left-color: oklch(0.75 0.2 125);
+			border-left: 2px solid var(--canvas-focus-border);
 		}
 	`
 		)
@@ -357,7 +434,7 @@ function generateFocusLineStyles(focusLines: number[], isAnimating: boolean): st
 			            margin ${FOCUS_LINE_SPRING};
 		}
 
-		/* Highlight specific lines - warm peachy (Devouring Details style) */
+		/* Highlight specific lines - uses global canvas CSS variables */
 		${highlightStyles}
 
 		/* Dim non-focused lines when focus lines exist */

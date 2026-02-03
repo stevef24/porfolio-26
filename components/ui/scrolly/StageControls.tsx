@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { motion, useReducedMotion } from "motion/react";
-import { springSmooth, springSnappy } from "@/lib/motion-variants";
+import { springSmooth } from "@/lib/motion-variants";
 import ExpandIcon from "@/components/ui/expand-icon";
 import RefreshIcon from "@/components/ui/refresh-icon";
 import CodeIcon from "@/components/ui/code-icon";
@@ -11,67 +11,46 @@ import CopyIcon from "@/components/ui/copy-icon";
 import LayoutBottombarCollapseIcon from "@/components/ui/layout-bottombar-collapse-icon";
 
 interface StageControlsProps {
+	/** Current view mode */
 	viewMode: "rendered" | "source";
+	/** Whether stage is in fullscreen */
 	isFullscreen: boolean;
+	/** Show source code toggle button */
 	showSourceToggle?: boolean;
+	/** Show refresh button */
 	showRefresh?: boolean;
+	/** Show copy link button */
 	showLink?: boolean;
+	/** Show copy code button */
 	showCopy?: boolean;
+	/** Callback when view mode toggles */
 	onToggleView?: () => void;
+	/** Callback when refresh is clicked */
 	onRefresh?: () => void;
+	/** Callback when fullscreen toggles */
 	onToggleFullscreen?: () => void;
+	/** Callback when link is copied */
 	onCopyLink?: () => void;
+	/** Callback when code is copied */
 	onCopyCode?: () => void;
+	/** Additional CSS classes */
 	className?: string;
 }
 
-interface ControlButtonProps {
-	onClick: () => void;
-	isActive?: boolean;
-	title: string;
-	ariaLabel: string;
-	ariaPressed?: boolean;
-	children: React.ReactNode;
-}
-
-/** Minimal icon button for floating pill toolbar. */
-function StageControlButton({
-	onClick,
-	isActive = false,
-	title,
-	ariaLabel,
-	ariaPressed,
-	children,
-}: ControlButtonProps) {
-	const prefersReducedMotion = useReducedMotion();
-	const hoverTap = prefersReducedMotion ? {} : { scale: 1.05 };
-	const tapScale = prefersReducedMotion ? {} : { scale: 0.95 };
-
-	return (
-		<motion.button
-			type="button"
-			onClick={onClick}
-			className={cn(
-				"relative w-9 h-9 flex items-center justify-center",
-				"cursor-pointer rounded-full",
-				"text-foreground/50 hover:text-foreground hover:bg-foreground/8",
-				isActive && "text-foreground bg-foreground/8",
-				"transition-colors duration-150",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
-			)}
-			title={title}
-			aria-label={ariaLabel}
-			aria-pressed={ariaPressed}
-			whileHover={hoverTap}
-			whileTap={tapScale}
-			transition={prefersReducedMotion ? { duration: 0 } : springSnappy}
-		>
-			{children}
-		</motion.button>
-	);
-}
-
-/** Floating pill toolbar for ScrollyStage canvas. */
+/**
+ * Control bar for ScrollyStage canvas.
+ * Provides fullscreen toggle, refresh, source view, and copy actions.
+ *
+ * @example
+ * ```tsx
+ * <StageControls
+ *   viewMode="rendered"
+ *   isFullscreen={false}
+ *   onToggleFullscreen={() => setFullscreen(!fullscreen)}
+ *   onToggleView={() => setViewMode(v => v === "rendered" ? "source" : "rendered")}
+ * />
+ * ```
+ */
 export function StageControls({
 	viewMode,
 	isFullscreen,
@@ -88,6 +67,21 @@ export function StageControls({
 }: StageControlsProps) {
 	const prefersReducedMotion = useReducedMotion();
 
+	// OpenAI design: circular buttons with opacity-based backgrounds
+	// Works in both light and dark mode via CSS variables
+	const buttonClass = cn(
+		"w-7 h-7 flex items-center justify-center",
+		"rounded-full cursor-pointer",
+		// Light mode: dark background on cream stage | Dark mode: light background on dark stage
+		"bg-foreground/80 text-background/70",
+		"hover:text-background hover:bg-foreground/90",
+		"transition-all duration-150",
+		"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+	);
+
+	const activeButtonClass = cn(buttonClass, "text-background bg-foreground/90");
+
+	// Check if any buttons are visible
 	const hasButtons =
 		onToggleFullscreen ||
 		(showRefresh && onRefresh) ||
@@ -100,58 +94,91 @@ export function StageControls({
 	return (
 		<motion.div
 			className={cn(
-				"flex items-center gap-0.5 px-1.5 py-1 rounded-full",
-				"bg-background/95 dark:bg-card/90",
-				"shadow-sm shadow-black/5 dark:shadow-black/20 backdrop-blur-md",
-				"border border-border/40",
+				// OpenAI design: floating pill toolbar with opacity-based backgrounds
+				"flex items-center gap-1 p-1",
+				// Light mode: dark container | Dark mode: light container
+				"bg-foreground/90 rounded-2xl",
+				// Shadow only in light mode
+				"shadow-[0_2px_8px_rgba(0,0,0,0.15)] dark:shadow-none",
 				className
 			)}
-			initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
-			animate={{ opacity: 1, scale: 1 }}
+			initial={prefersReducedMotion ? false : { opacity: 0, y: -4 }}
+			animate={{ opacity: 1, y: 0 }}
 			transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
 			role="toolbar"
 			aria-label="Stage controls"
 		>
+			{/* Fullscreen Toggle */}
 			{onToggleFullscreen && (
-				<StageControlButton
+				<button
+					type="button"
 					onClick={onToggleFullscreen}
-					isActive={isFullscreen}
+					className={isFullscreen ? activeButtonClass : buttonClass}
 					title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
-					ariaLabel={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-					ariaPressed={isFullscreen}
+					aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+					aria-pressed={isFullscreen}
 				>
-					{isFullscreen ? <LayoutBottombarCollapseIcon size={16} /> : <ExpandIcon size={16} />}
-				</StageControlButton>
+					{isFullscreen ? (
+						<LayoutBottombarCollapseIcon size={16} />
+					) : (
+						<ExpandIcon size={16} />
+					)}
+				</button>
 			)}
 
+			{/* Refresh */}
 			{showRefresh && onRefresh && (
-				<StageControlButton onClick={onRefresh} title="Refresh preview" ariaLabel="Refresh preview">
+				<button
+					type="button"
+					onClick={onRefresh}
+					className={buttonClass}
+					title="Refresh preview"
+					aria-label="Refresh preview"
+				>
 					<RefreshIcon size={16} />
-				</StageControlButton>
+				</button>
 			)}
 
+			{/* Copy Link */}
 			{showLink && onCopyLink && (
-				<StageControlButton onClick={onCopyLink} title="Copy link to step" ariaLabel="Copy link to step">
+				<button
+					type="button"
+					onClick={onCopyLink}
+					className={buttonClass}
+					title="Copy link to step"
+					aria-label="Copy link to step"
+				>
 					<LinkIcon size={16} />
-				</StageControlButton>
+				</button>
 			)}
 
+			{/* Copy Code */}
 			{showCopy && onCopyCode && (
-				<StageControlButton onClick={onCopyCode} title="Copy code" ariaLabel="Copy code to clipboard">
+				<button
+					type="button"
+					onClick={onCopyCode}
+					className={buttonClass}
+					title="Copy code"
+					aria-label="Copy code to clipboard"
+				>
 					<CopyIcon size={16} />
-				</StageControlButton>
+				</button>
 			)}
 
+			{/* View Source Toggle */}
 			{showSourceToggle && onToggleView && (
-				<StageControlButton
+				<button
+					type="button"
 					onClick={onToggleView}
-					isActive={viewMode === "source"}
+					className={viewMode === "source" ? activeButtonClass : buttonClass}
 					title={viewMode === "source" ? "Show preview" : "Show source code"}
-					ariaLabel={viewMode === "source" ? "Show preview" : "Show source code"}
-					ariaPressed={viewMode === "source"}
+					aria-label={
+						viewMode === "source" ? "Show preview" : "Show source code"
+					}
+					aria-pressed={viewMode === "source"}
 				>
 					<CodeIcon size={16} />
-				</StageControlButton>
+				</button>
 			)}
 		</motion.div>
 	);

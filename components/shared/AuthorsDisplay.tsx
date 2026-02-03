@@ -10,7 +10,10 @@ interface AuthorDisplayProps {
 	className?: string;
 }
 
-export function AuthorDisplay({ author, className }: AuthorDisplayProps) {
+export function AuthorDisplay({
+	author,
+	className,
+}: AuthorDisplayProps): JSX.Element {
 	const initials = author.name
 		.split(" ")
 		.map((word) => word[0])

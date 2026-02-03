@@ -1,8 +1,14 @@
 "use client";
 
+import {
+  CheckmarkCircle02Icon,
+  Home01Icon,
+  LockIcon,
+  PlayCircle02Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 import {
   Sidebar,
   SidebarContent,
@@ -16,15 +22,9 @@ import {
   SidebarProvider,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import {
-  CheckmarkCircle02Icon,
-  PlayCircle02Icon,
-  Home01Icon,
-  LockIcon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { useCourseProgress } from "@/hooks/useProgress";
 import type { AccessLevel } from "@/hooks/useAccess";
+import { useCourseProgress } from "@/hooks/useProgress";
+import { cn } from "@/lib/utils";
 
 export interface Lesson {
   slug: string;
@@ -44,6 +44,11 @@ interface ModuleSidebarProps {
   courseSlug: string;
   lessons: Lesson[];
   className?: string;
+}
+
+interface ModuleSidebarContentProps {
+  courseSlug: string;
+  lessons: Lesson[];
 }
 
 function groupLessonsByModule(lessons: Lesson[]): ModuleGroup[] {
@@ -71,10 +76,7 @@ function groupLessonsByModule(lessons: Lesson[]): ModuleGroup[] {
 function ModuleSidebarContent({
   courseSlug,
   lessons,
-}: {
-  courseSlug: string;
-  lessons: Lesson[];
-}) {
+}: ModuleSidebarContentProps): JSX.Element {
   const pathname = usePathname();
   const modules = groupLessonsByModule(lessons);
   const { isLessonCompleted, completedLessonsCount } =
@@ -103,7 +105,7 @@ function ModuleSidebarContent({
         {/* Progress indicator */}
         {lessons.length > 0 && (
           <div className="px-3 pb-3">
-            <div className="flex items-center justify-between text-base text-muted-foreground mb-1.5">
+            <div className="flex items-center justify-between text-[15px] text-foreground/50 mb-1.5">
               <span>{completedLessonsCount} / {lessons.length} completed</span>
               <span>{progressPercentage}%</span>
             </div>
@@ -127,6 +129,39 @@ function ModuleSidebarContent({
                   const isActive = pathname === lesson.url;
                   const isCompleted = isLessonCompleted(lesson.slug);
                   const isLocked = lesson.access === "paid";
+                  let statusIcon: JSX.Element;
+
+                  if (isLocked) {
+                    statusIcon = (
+                      <HugeiconsIcon
+                        icon={LockIcon}
+                        size={16}
+                        className="text-foreground/40"
+                      />
+                    );
+                  } else if (isCompleted) {
+                    statusIcon = (
+                      <HugeiconsIcon
+                        icon={CheckmarkCircle02Icon}
+                        size={16}
+                        className="text-primary"
+                      />
+                    );
+                  } else if (isActive) {
+                    statusIcon = (
+                      <HugeiconsIcon
+                        icon={PlayCircle02Icon}
+                        size={16}
+                        className="text-primary"
+                      />
+                    );
+                  } else {
+                    statusIcon = (
+                      <span className="w-6 h-6 flex items-center justify-center text-[15px] text-foreground/50">
+                        {index + 1}
+                      </span>
+                    );
+                  }
 
                   return (
                     <SidebarMenuItem key={lesson.slug}>
@@ -147,30 +182,8 @@ function ModuleSidebarContent({
                           )}
                         >
                           {/* Progress/status icon */}
-                          {isLocked ? (
-                            <HugeiconsIcon
-                              icon={LockIcon}
-                              size={16}
-                              className="text-muted-foreground"
-                            />
-                          ) : isCompleted ? (
-                            <HugeiconsIcon
-                              icon={CheckmarkCircle02Icon}
-                              size={16}
-                              className="text-primary"
-                            />
-                          ) : isActive ? (
-                            <HugeiconsIcon
-                              icon={PlayCircle02Icon}
-                              size={16}
-                              className="text-primary"
-                            />
-                          ) : (
-                            <span className="w-6 h-6 flex items-center justify-center text-base text-muted-foreground">
-                              {index + 1}
-                            </span>
-                          )}
-                          <span className={cn(isLocked && "text-muted-foreground")}>
+                          {statusIcon}
+                          <span className={cn("text-[15px]", isLocked && "text-foreground/40")}>
                             {lesson.title}
                           </span>
                         </Link>
@@ -194,7 +207,7 @@ export function ModuleSidebar({
   courseSlug,
   lessons,
   className,
-}: ModuleSidebarProps) {
+}: ModuleSidebarProps): JSX.Element {
   return (
     <SidebarProvider defaultOpen={false}>
       <Sidebar collapsible="icon" className={className}>

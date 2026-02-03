@@ -15,9 +15,9 @@
  * ```
  */
 
-import { type ReactNode } from "react";
-import { ReadingZoneProvider } from "./ReadingZoneProvider";
+import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { ReadingZoneProvider } from "./ReadingZoneProvider";
 
 interface ReadingProseWrapperProps {
 	children: ReactNode;
@@ -43,7 +43,7 @@ export function ReadingProseWrapper({
 	enabled = true,
 	className,
 	rootMargin,
-}: ReadingProseWrapperProps) {
+}: ReadingProseWrapperProps): JSX.Element {
 	return (
 		<ReadingZoneProvider enabled={enabled} rootMargin={rootMargin}>
 			<div className={cn("prose prose-neutral dark:prose-invert max-w-none", className)}>

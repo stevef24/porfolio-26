@@ -1,13 +1,15 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion, useSpring } from "motion/react";
-import { useEffect, useState, useRef } from "react";
 
 interface ScrollingDotProps {
 	sections: string[];
 }
 
-export function ScrollingDot({ sections }: ScrollingDotProps) {
+export function ScrollingDot({
+	sections,
+}: ScrollingDotProps): JSX.Element | null {
 	// Start at index 1 (About section) since hero doesn't have a section-title
 	const [activeIndex, setActiveIndex] = useState(1);
 	const [isMounted, setIsMounted] = useState(false);

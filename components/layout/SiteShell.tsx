@@ -1,14 +1,12 @@
-"use client";
-
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 import { Header } from "@/components/layout/Header";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import SiteShellWithSidebar from "@/components/layout/SiteShellWithSidebar";
 
 interface SiteShellProps {
-	children: React.ReactNode;
-	sidebar?: React.ReactNode;
-	toc?: React.ReactNode;
+	children: ReactNode;
+	sidebar?: ReactNode;
+	toc?: ReactNode;
 	className?: string;
 	contentClassName?: string;
 }
@@ -27,65 +25,63 @@ export function SiteShell({
 	toc,
 	className,
 	contentClassName,
-}: SiteShellProps) {
+}: SiteShellProps): JSX.Element {
 	const hasSidebar = Boolean(sidebar);
 	const hasToc = Boolean(toc);
 
-	// Determine max-width based on layout type
-	const layoutWidth = React.useMemo(() => {
-		if (hasSidebar) {
-			// Sidebar layouts use full available width
-			return "max-w-none";
-		}
-		if (hasToc) {
-			// Blog posts with TOC
-			return "max-w-[calc(var(--content-width)+var(--toc-width)+var(--content-gap))]";
-		}
-		// Simple content pages
-		return "max-w-[var(--content-width)]";
-	}, [hasSidebar, hasToc]);
+	const layoutWidth = hasSidebar
+		? "max-w-none"
+		: hasToc
+			? "max-w-[calc(var(--content-width)+var(--toc-width)+var(--content-gap))]"
+			: "max-w-[var(--content-width)]";
+
+	if (hasSidebar) {
+		return (
+			<SiteShellWithSidebar
+				sidebar={sidebar}
+				toc={toc}
+				className={className}
+				contentClassName={contentClassName}
+			>
+				{children}
+			</SiteShellWithSidebar>
+		);
+	}
 
 	return (
-		<SidebarProvider defaultOpen={false}>
-			{sidebar}
-			<SidebarInset className={cn("min-h-svh flex flex-col bg-transparent", className)}>
-				<Header />
+		<div className={cn("min-h-svh flex flex-col bg-transparent", className)}>
+			<a
+				href="#main-content"
+				className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:shadow"
+			>
+				Skip to content
+			</a>
+			<Header />
 
-				{/* Main content area */}
-				<main
-					className={cn(
-						"flex-1",
-						// Top padding to account for fixed navbar
-						"pt-20",
-						contentClassName
-					)}
-				>
-					{hasToc ? (
-						<div className={cn("mx-auto w-full px-4 lg:px-6", layoutWidth)}>
-							<div
-								className={cn(
-									"grid",
-									// Responsive gap
-									"gap-8 lg:gap-[var(--content-gap)]",
-									// Grid columns only on large screens
-									"lg:grid-cols-[minmax(0,var(--content-width))_var(--toc-width)]"
-								)}
-							>
-								{/* Content column */}
-								<div className="min-w-0">{children}</div>
-
-								{/* TOC column - hidden on mobile */}
-								<aside className="hidden lg:block">{toc}</aside>
-							</div>
+			<main
+				id="main-content"
+				className={cn("flex-1 pb-24 md:pb-28", contentClassName)}
+			>
+				{hasToc ? (
+					<div className={cn("mx-auto w-full px-4 lg:px-6", layoutWidth)}>
+						<div
+							className={cn(
+								"grid",
+								"gap-8 lg:gap-[var(--content-gap)]",
+								"lg:grid-cols-[minmax(0,var(--content-width))_var(--toc-width)]"
+							)}
+						>
+							<div className="min-w-0">{children}</div>
+							<aside className="hidden lg:block">{toc}</aside>
 						</div>
-					) : (
-						<div className={cn("mx-auto w-full px-4 lg:px-6", layoutWidth)}>
-							{children}
-						</div>
-					)}
-				</main>
-			</SidebarInset>
-		</SidebarProvider>
+					</div>
+				) : (
+					<div className={cn("mx-auto w-full px-4 lg:px-6", layoutWidth)}>
+						{children}
+					</div>
+				)}
+			</main>
+		</div>
 	);
 }
 

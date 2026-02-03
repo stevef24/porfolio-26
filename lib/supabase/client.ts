@@ -15,7 +15,7 @@ export function isSupabaseConfigured(): boolean {
  * Use this in Client Components ("use client").
  * Returns null if Supabase is not configured.
  */
-export function createClient() {
+export function createClient(): ReturnType<typeof createBrowserClient> | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 

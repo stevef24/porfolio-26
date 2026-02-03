@@ -77,46 +77,46 @@ button,
 
 :root {
   /* ═══════════════════════════════════════════════════════
-     OPENAI DESIGN SYSTEM - LIGHT MODE
+     SF DESIGN SYSTEM - LIGHT MODE
      Opacity-based monochrome with cream surfaces
      ═══════════════════════════════════════════════════════ */
 
-  /* OpenAI Core Color Tokens */
-  --oai-bg-page: #ffffff;
-  --oai-bg-surface: #faf9f5;
-  --oai-bg-subtle: rgba(0, 0, 0, 0.04);
-  --oai-bg-muted: rgba(0, 0, 0, 0.08);
-  --oai-bg-emphasis: rgba(0, 0, 0, 0.12);
-  --oai-text-primary: #000000;
-  --oai-text-secondary: rgba(0, 0, 0, 0.6);
-  --oai-text-tertiary: rgba(0, 0, 0, 0.44);
-  --oai-border-default: rgba(0, 0, 0, 0.12);
-  --oai-border-subtle: rgba(0, 0, 0, 0.08);
+  /* SF Core Color Tokens */
+  --sf-bg-page: #ffffff;
+  --sf-bg-surface: #faf9f5;
+  --sf-bg-subtle: rgba(0, 0, 0, 0.04);
+  --sf-bg-muted: rgba(0, 0, 0, 0.08);
+  --sf-bg-emphasis: rgba(0, 0, 0, 0.12);
+  --sf-text-primary: #000000;
+  --sf-text-secondary: rgba(0, 0, 0, 0.6);
+  --sf-text-tertiary: rgba(0, 0, 0, 0.44);
+  --sf-border-default: rgba(0, 0, 0, 0.12);
+  --sf-border-subtle: rgba(0, 0, 0, 0.08);
 
-  /* OpenAI Spacing Scale (4px increments) */
-  --oai-space-1: 4px;
-  --oai-space-2: 8px;
-  --oai-space-3: 12px;
-  --oai-space-4: 16px;
-  --oai-space-6: 24px;
-  --oai-space-8: 32px;
-  --oai-space-12: 48px;
-  --oai-space-16: 64px;
-  --oai-space-20: 80px;
+  /* SF Spacing Scale (4px increments) */
+  --sf-space-1: 4px;
+  --sf-space-2: 8px;
+  --sf-space-3: 12px;
+  --sf-space-4: 16px;
+  --sf-space-6: 24px;
+  --sf-space-8: 32px;
+  --sf-space-12: 48px;
+  --sf-space-16: 64px;
+  --sf-space-20: 80px;
 
-  /* OpenAI Radius Scale */
-  --oai-radius-sm: 4px;
-  --oai-radius-md: 6px;
-  --oai-radius-lg: 8px;
-  --oai-radius-xl: 12px;
-  --oai-radius-pill: 9999px;
+  /* SF Radius Scale */
+  --sf-radius-sm: 4px;
+  --sf-radius-md: 6px;
+  --sf-radius-lg: 8px;
+  --sf-radius-xl: 12px;
+  --sf-radius-pill: 9999px;
 
-  /* OpenAI Shadow System - Light Mode */
-  --oai-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --oai-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --oai-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  /* SF Shadow System - Light Mode */
+  --sf-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --sf-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --sf-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 
-  /* Background Scale - OpenAI pure white */
+  /* Background Scale - SF pure white */
   --background: #ffffff;           /* bg.page - pure white */
   --background-rgb: 255, 255, 255; /* RGB values for gradient overlays */
   --foreground: rgba(0, 0, 0, 0.95); /* text.primary - near black */
@@ -146,7 +146,7 @@ button,
   --accent-foreground: rgba(0, 0, 0, 0.95);
 
   /* Destructive - Errors */
-  --destructive: #dc2626;          /* OpenAI red */
+  --destructive: #dc2626;          /* SF red */
 
   /* Borders - Opacity based */
   --border: rgba(0, 0, 0, 0.12);   /* border.default */
@@ -161,7 +161,7 @@ button,
   --chart-5: rgba(0, 0, 0, 0.85);
 
   /* ═══════════════════════════════════════════════════════
-     OPENAI SHADOWS - LIGHT MODE
+     SF SHADOWS - LIGHT MODE
      ═══════════════════════════════════════════════════════ */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
@@ -199,15 +199,15 @@ button,
   /* ═══════════════════════════════════════════════════════
      CANVAS CODE STAGE COLORS - "Terminal Elegance"
      ═══════════════════════════════════════════════════════ */
-  --canvas-bg: #f8f7f4;              /* Warm parchment */
-  --canvas-header-bg: #f1efe9;       /* Slightly darker header */
+  --canvas-bg: #ffffff;              /* Pure white */
+  --canvas-header-bg: #fafafa;       /* Subtle gray header */
   --canvas-border: rgba(0, 0, 0, 0.08);
   --canvas-border-subtle: rgba(0, 0, 0, 0.04);
-  --canvas-toolbar-bg: rgba(241, 239, 233, 0.95);
-  --canvas-toolbar-icon: #7a7a72;
+  --canvas-toolbar-bg: rgba(250, 250, 250, 0.95);
+  --canvas-toolbar-icon: #737373;
   --canvas-toolbar-icon-hover: #1a1a1a;
-  --canvas-gutter: #e8e6df;          /* Line number gutter */
-  --canvas-gutter-text: #a0a098;
+  --canvas-gutter: #f5f5f5;          /* Line number gutter */
+  --canvas-gutter-text: #a3a3a3;
   --canvas-focus-bg: rgba(0, 0, 0, 0.06);
   --canvas-focus-border: rgba(0, 0, 0, 0.95);
   --canvas-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -227,27 +227,27 @@ button,
 
 .dark {
   /* ═══════════════════════════════════════════════════════
-     OPENAI DESIGN SYSTEM - DARK MODE
+     SF DESIGN SYSTEM - DARK MODE
      Opacity-based monochrome, NO shadows
      ═══════════════════════════════════════════════════════ */
   color-scheme: dark;
 
-  /* OpenAI Core Color Tokens - Dark */
-  --oai-bg-page: #0d0d0d;
-  --oai-bg-surface: #1a1a1a;
-  --oai-bg-subtle: rgba(255, 255, 255, 0.04);
-  --oai-bg-muted: rgba(255, 255, 255, 0.08);
-  --oai-bg-emphasis: rgba(255, 255, 255, 0.12);
-  --oai-text-primary: rgba(255, 255, 255, 0.95);
-  --oai-text-secondary: rgba(255, 255, 255, 0.6);
-  --oai-text-tertiary: rgba(255, 255, 255, 0.44);
-  --oai-border-default: rgba(255, 255, 255, 0.12);
-  --oai-border-subtle: rgba(255, 255, 255, 0.08);
+  /* SF Core Color Tokens - Dark */
+  --sf-bg-page: #0d0d0d;
+  --sf-bg-surface: #1a1a1a;
+  --sf-bg-subtle: rgba(255, 255, 255, 0.04);
+  --sf-bg-muted: rgba(255, 255, 255, 0.08);
+  --sf-bg-emphasis: rgba(255, 255, 255, 0.12);
+  --sf-text-primary: rgba(255, 255, 255, 0.95);
+  --sf-text-secondary: rgba(255, 255, 255, 0.6);
+  --sf-text-tertiary: rgba(255, 255, 255, 0.44);
+  --sf-border-default: rgba(255, 255, 255, 0.12);
+  --sf-border-subtle: rgba(255, 255, 255, 0.08);
 
-  /* OpenAI Shadow System - Dark Mode (all shadows disabled) */
-  --oai-shadow-sm: none;
-  --oai-shadow-md: none;
-  --oai-shadow-lg: none;
+  /* SF Shadow System - Dark Mode (all shadows disabled) */
+  --sf-shadow-sm: none;
+  --sf-shadow-md: none;
+  --sf-shadow-lg: none;
 
   /* Background Scale */
   --background: #0d0d0d;           /* bg.page - true black */
@@ -279,7 +279,7 @@ button,
   --accent-foreground: rgba(255, 255, 255, 0.95);
 
   /* Destructive */
-  --destructive: #ef4444;          /* OpenAI red dark */
+  --destructive: #ef4444;          /* SF red dark */
 
   /* Borders - Opacity based */
   --border: rgba(255, 255, 255, 0.12);
@@ -294,7 +294,7 @@ button,
   --chart-5: rgba(255, 255, 255, 0.85);
 
   /* ═══════════════════════════════════════════════════════
-     OPENAI SHADOWS - DARK MODE (ALL DISABLED)
+     SF SHADOWS - DARK MODE (ALL DISABLED)
      ═══════════════════════════════════════════════════════ */
   --shadow-sm: none;
   --shadow-md: none;
@@ -303,18 +303,18 @@ button,
   /* ═══════════════════════════════════════════════════════
      CANVAS CODE STAGE COLORS - DARK "Terminal Elegance"
      ═══════════════════════════════════════════════════════ */
-  --canvas-bg: #18181a;              /* Deep charcoal with subtle warmth */
-  --canvas-header-bg: #1f1f22;       /* Elevated header */
+  --canvas-bg: #111111;              /* Near black, matches app bg */
+  --canvas-header-bg: #161616;       /* Slightly elevated */
   --canvas-border: rgba(255, 255, 255, 0.08);
   --canvas-border-subtle: rgba(255, 255, 255, 0.04);
-  --canvas-toolbar-bg: rgba(31, 31, 34, 0.95);
-  --canvas-toolbar-icon: #6a6a70;
-  --canvas-toolbar-icon-hover: #f8f6ef;
-  --canvas-gutter: #1f1f22;          /* Line number gutter */
-  --canvas-gutter-text: #4a4a50;
-  --canvas-focus-bg: rgba(255, 255, 255, 0.08);
+  --canvas-toolbar-bg: rgba(22, 22, 22, 0.95);
+  --canvas-toolbar-icon: #525252;
+  --canvas-toolbar-icon-hover: #fafafa;
+  --canvas-gutter: #161616;          /* Line number gutter */
+  --canvas-gutter-text: #404040;
+  --canvas-focus-bg: rgba(255, 255, 255, 0.06);
   --canvas-focus-border: rgba(255, 255, 255, 0.95);
-  --canvas-shadow: 0 4px 32px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2);
+  --canvas-shadow: none;
 
   /* ═══════════════════════════════════════════════════════
      SIDEBAR COLORS - DARK
@@ -322,7 +322,7 @@ button,
   --sidebar: #1a1a17;
   --sidebar-foreground: #f8f6ef;
   --sidebar-primary: rgba(255, 255, 255, 0.95);
-  --sidebar-primary-foreground: #0e0e0c;
+  --sidebar-primary-foreground: #0d0d0d;
   --sidebar-accent: #1e1e1b;
   --sidebar-accent-foreground: #f8f6ef;
   --sidebar-border: #2a2a26;
@@ -337,19 +337,6 @@ button,
     @apply text-foreground bg-background;
     /* Prevent elastic scroll revealing blank layers */
     overscroll-behavior-y: none;
-  }
-
-  /* Inline links - underline for accessibility (WCAG: links distinguishable by more than color)
-     Excludes navigation, buttons, and explicitly styled components */
-  a:not([class*="button"]):not([class*="nav"]):not([class*="link-"]):not([role="button"]):not([data-slot]) {
-    text-decoration: underline;
-    text-decoration-color: color-mix(in oklch, currentColor 30%, transparent);
-    text-underline-offset: 2px;
-    transition: text-decoration-color 200ms ease;
-  }
-
-  a:not([class*="button"]):not([class*="nav"]):not([class*="link-"]):not([role="button"]):not([data-slot]):hover {
-    text-decoration-color: currentColor;
   }
 
   /* Focus-visible for all interactive elements */
@@ -389,7 +376,7 @@ button,
 }
 
 .dark body {
-  background-color: #0e0e0c; /* Oatmeal bg.base dark */
+  background-color: #0d0d0d; /* Match --background exactly */
 }
 
 /* Force all layout components to be transparent to reveal unified background */
@@ -573,7 +560,7 @@ samp,
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   OPENAI TYPOGRAPHY CLASSES
+   SF TYPOGRAPHY CLASSES
    Sans-serif only, weights 400-600, tight line heights
    ═══════════════════════════════════════════════════════════════════ */
 
@@ -644,7 +631,7 @@ samp,
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
   font-weight: 500;
-  color: var(--oai-text-tertiary);
+  color: var(--sf-text-tertiary);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -761,30 +748,46 @@ samp,
   color: var(--muted-foreground);
 }
 
-/* Prose Code */
-.prose code {
+/* Prose Code - inline only (not inside pre blocks) */
+.prose code:not(pre code) {
   font-family: var(--font-mono), monospace;
   font-size: 0.875em;
   background-color: rgba(0, 0, 0, 0.04);
   padding: 0.125em 0.375em;
-  border-radius: 6px;
+  border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.dark .prose code {
-  background-color: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.06);
+.dark .prose code:not(pre code) {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
+/* Code blocks - pre and code inside pre */
 .prose pre {
   font-family: var(--font-mono), monospace;
   font-size: 0.875rem;
-  line-height: 1.65;
+  line-height: 1.7;
   background: transparent;
   border: none;
   border-radius: 0;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
+  margin: 1.5rem 0;
   overflow-x: auto;
+}
+
+.prose pre code {
+  font-family: inherit;
+  font-size: inherit;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.prose pre code span {
+  background: transparent !important;
+  border: none !important;
 }
 
 .dark .prose pre {
@@ -899,6 +902,35 @@ article [role="tabpanel"][hidden] {
 [data-rehype-pretty-code-figure] {
   margin: 1.5rem 0;
   position: relative;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove any wrapper styling from fumadocs */
+.prose figure,
+.prose [data-rehype-pretty-code-figure],
+article figure,
+article [data-rehype-pretty-code-figure],
+[data-codeblock],
+[data-codeblock] > div,
+figure[data-rehype-pretty-code-figure] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Fumadocs codeblock overrides */
+.nd-codeblock,
+[class*="nd-codeblock"],
+[class*="codeblock"] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 [data-rehype-pretty-code-figure] pre {
@@ -906,7 +938,7 @@ article [role="tabpanel"][hidden] {
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  padding: 1rem 0;
+  padding: 1.25rem 0;
   overflow-x: auto;
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.875rem;
@@ -921,10 +953,24 @@ article [role="tabpanel"][hidden] {
 
 [data-rehype-pretty-code-figure] pre code span {
   background: transparent !important;
+  border: none !important;
 }
 
 [data-rehype-pretty-code-figure] [data-line] {
   background: transparent !important;
+  border: none !important;
+  display: block;
+  padding: 0 1.5rem;
+}
+
+/* Remove any line-specific borders or backgrounds */
+[data-rehype-pretty-code-figure] pre code [data-line],
+[data-rehype-pretty-code-figure] pre [data-line],
+.prose pre [data-line],
+.prose pre code [data-line] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /* Code title/filename */
@@ -932,7 +978,7 @@ article [role="tabpanel"][hidden] {
   background: transparent;
   border: none;
   border-radius: 0;
-  padding: 0 0 0.5rem 0;
+  padding: 0 1.5rem 0.5rem 1.5rem;
   font-size: 0.75rem;
   font-weight: 400;
   color: var(--foreground);
@@ -1161,7 +1207,7 @@ article [role="tabpanel"][hidden] {
 
 /* Stage column background - uses CSS variables */
 .scrolly-stage-bg {
-  background-color: var(--muted); /* OpenAI bg.subtle */
+  background-color: var(--muted); /* SF bg.subtle */
 }
 
 /* Code area background - uses CSS variables for theme consistency */
@@ -1216,20 +1262,15 @@ article [role="tabpanel"][hidden] {
   min-width: 2rem;
 }
 
-/* Monochrome focus line highlighting */
+/* Monochrome focus line highlighting - uses canvas CSS variables */
 .scrolly-stage-code .scrolly-focus-line {
-  background: rgba(0, 0, 0, 0.06);
-  border-left: 2px solid var(--foreground);
+  background: var(--canvas-focus-bg);
+  border-left: 2px solid var(--canvas-focus-border);
   margin-left: -1rem;
   padding-left: calc(1rem - 2px);
   margin-right: -1rem;
   padding-right: 1rem;
   transition: background-color 200ms ease, opacity 200ms ease;
-}
-
-.dark .scrolly-stage-code .scrolly-focus-line {
-  background: rgba(255, 255, 255, 0.08);
-  border-left-color: var(--foreground);
 }
 
 /* Dim non-focused lines */
@@ -1626,6 +1667,9 @@ article [role="tabpanel"][hidden] {
     font-weight 120ms ease-out;
   /* Space for arrow indicator on left */
   padding-left: 1.25rem;
+  /* Generous vertical padding for readability between steps */
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 /* When canvas is active, dim inactive steps */
@@ -1686,19 +1730,14 @@ article [role="tabpanel"][hidden] {
   color: var(--shiki-dark) !important;
 }
 
-/* Focus line highlighting for code-content */
+/* Focus line highlighting for code-content - uses canvas CSS variables */
 .code-content .line[data-focus="true"] {
-  background: rgba(0, 0, 0, 0.06);
+  background: var(--canvas-focus-bg);
   margin-left: -1.25rem;
   margin-right: -1.25rem;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
-  border-left: 2px solid var(--foreground);
-}
-
-.dark .code-content .line[data-focus="true"] {
-  background: rgba(255, 255, 255, 0.08);
-  border-left-color: var(--foreground);
+  border-left: 2px solid var(--canvas-focus-border);
 }
 
 /* =============================================
@@ -1715,70 +1754,55 @@ article [role="tabpanel"][hidden] {
 }
 
 /* =============================================
-   V2 Preview Callout - Construction Marker Design
-   Swiss technical aesthetic with corner marker
+   V2 Preview Callout - Minimal Swiss Design
+   Clean, understated callout that matches app aesthetic
    ============================================= */
 
 .v2-preview-callout {
   position: relative;
-  border: 1px dashed var(--border);
-  border-radius: 2px;
-  padding: 20px 24px;
+  border-left: 2px solid var(--border);
+  padding: 0 0 0 1.5rem;
   background: transparent;
   margin: 2.5rem 0;
-
-  /* Accent color - monochrome */
-  --v2-accent: var(--foreground);
-  --v2-accent-light: var(--muted-foreground);
 }
 
-/* Corner marker - top-left L-shape */
+/* Corner marker - subtle top accent */
 .v2-preview-corner {
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  width: 12px;
-  height: 12px;
-  border-left: 2px solid var(--v2-accent);
-  border-top: 2px solid var(--v2-accent);
+  display: none; /* Removed for cleaner look */
 }
 
 /* Header with inline badge */
 .v2-preview-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 0.75rem;
 }
 
-/* Inline badge - no animation */
+/* Inline badge - minimal pill style */
 .v2-preview-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  background: rgba(0, 0, 0, 0.06);
-  border-radius: 2px;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  padding: 3px 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 10px;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--v2-accent);
-}
-
-.dark .v2-preview-badge {
-  background: rgba(255, 255, 255, 0.06);
+  letter-spacing: 0.03em;
+  color: var(--muted-foreground);
 }
 
 /* Title */
 .v2-preview-title {
-  font-family: var(--font-display), serif;
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 1.3;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
   color: var(--foreground);
-  margin: 0;
+  margin: 0 0 0.5rem 0;
 }
 
 /* Body content */
@@ -1789,37 +1813,44 @@ article [role="tabpanel"][hidden] {
 }
 
 .v2-preview-body > p {
-  margin-bottom: 0.875rem;
+  margin-bottom: 0.75rem;
 }
 
 .v2-preview-body > p:last-child {
   margin-bottom: 0;
 }
 
-/* Code blocks inside V2 callout */
+/* Code blocks inside V2 callout - clean with proper spacing */
 .v2-preview-callout pre {
-  background: rgba(0, 0, 0, 0.04) !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  border-radius: 4px !important;
-  margin: 1rem 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 1.25rem 0 !important;
+  padding: 1rem 0 !important;
 }
 
-.v2-preview-callout code {
+.v2-preview-callout pre code {
   font-size: 0.8125rem;
+  line-height: 1.7;
 }
 
-/* =============================================
-   V2 Preview Callout - Dark Mode
-   ============================================= */
-
-.dark .v2-preview-callout {
-  --v2-accent: var(--foreground);
-  --v2-accent-light: var(--muted-foreground);
+.v2-preview-callout [data-line] {
+  padding: 0 !important;
 }
 
-.dark .v2-preview-callout pre {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border-color: rgba(255, 255, 255, 0.08) !important;
+/* Copy button inside callout - minimal */
+.v2-preview-callout [data-rehype-pretty-code-figure] button[aria-label="Copy"] {
+  opacity: 0.25;
+  top: 0;
+  right: 0;
+}
+
+.v2-preview-callout [data-rehype-pretty-code-figure]:hover button[aria-label="Copy"] {
+  opacity: 0.5;
+}
+
+.v2-preview-callout [data-rehype-pretty-code-figure] button[aria-label="Copy"]:hover {
+  opacity: 1;
 }
 
 /* =============================================

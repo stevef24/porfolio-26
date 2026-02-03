@@ -17,7 +17,7 @@ export function FocusModeToggle({
 	disabled = false,
 	className,
 	label = "Focus mode",
-}: FocusModeToggleProps) {
+}: FocusModeToggleProps): JSX.Element {
 	return (
 		<Button
 			type="button"

@@ -1,15 +1,15 @@
 "use client";
 
-import { lazy, Suspense, useEffect, useRef, useState, useCallback } from "react";
-import { cn } from "@/lib/utils";
-import { motion, useReducedMotion } from "motion/react";
 import {
   PlayIcon,
   Alert02Icon,
   RefreshIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { useLessonProgress, useResumePosition } from "@/hooks/useProgress";
+import { cn } from "@/lib/utils";
 
 const MuxPlayer = lazy(() => import("@mux/mux-player-react"));
 
@@ -24,7 +24,7 @@ interface VideoPlayerProps {
 
 type PlayerState = "loading" | "ready" | "playing" | "paused" | "error";
 
-function VideoPlaceholder({ title }: { title?: string }) {
+function VideoPlaceholder({ title }: { title?: string }): JSX.Element {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-muted">
       <div className="w-16 h-16 bg-primary/10 flex items-center justify-center mb-4">
@@ -41,7 +41,7 @@ function VideoPlaceholder({ title }: { title?: string }) {
   );
 }
 
-function VideoSkeleton() {
+function VideoSkeleton(): JSX.Element {
   return (
     <div className="absolute inset-0 bg-muted">
       <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -57,7 +57,7 @@ function VideoSkeleton() {
   );
 }
 
-function VideoError({ onRetry }: { onRetry: () => void }) {
+function VideoError({ onRetry }: { onRetry: () => void }): JSX.Element {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-muted">
       <div className="w-16 h-16 bg-destructive/10 flex items-center justify-center mb-4">
@@ -89,12 +89,12 @@ function ResumeOverlay({
   position: number;
   onResume: () => void;
   onStartOver: () => void;
-}) {
-  const formatTime = (seconds: number) => {
+}): JSX.Element {
+  function formatTime(seconds: number): string {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
+  }
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/90 backdrop-blur-sm z-10">
@@ -120,7 +120,7 @@ function ResumeOverlay({
   );
 }
 
-function KeyboardShortcutsHint() {
+function KeyboardShortcutsHint(): JSX.Element {
   return (
     <div className="absolute bottom-4 left-4 right-4 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
       <div className="flex gap-4 px-3 py-2 bg-background/80 backdrop-blur-sm text-base text-muted-foreground">
@@ -141,7 +141,7 @@ export function VideoPlayer({
   courseSlug,
   lessonSlug,
   onComplete,
-}: VideoPlayerProps) {
+}: VideoPlayerProps): JSX.Element {
   const prefersReducedMotion = useReducedMotion();
   const playerRef = useRef<HTMLElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -167,7 +167,7 @@ export function VideoPlayer({
   }, [resumePosition, playbackId]);
 
   // Handle resume action
-  const handleResume = useCallback(() => {
+  const handleResume = useCallback(function handleResume(): void {
     setShowResume(false);
     if (playerRef.current && resumePosition > 0) {
       // @ts-expect-error - MuxPlayer has currentTime property
@@ -178,7 +178,7 @@ export function VideoPlayer({
   }, [resumePosition]);
 
   // Handle start over action
-  const handleStartOver = useCallback(() => {
+  const handleStartOver = useCallback(function handleStartOver(): void {
     setShowResume(false);
     clearResumePosition();
     if (playerRef.current) {
@@ -190,7 +190,7 @@ export function VideoPlayer({
   }, [clearResumePosition]);
 
   // Handle time update for progress tracking
-  const handleTimeUpdate = useCallback(() => {
+  const handleTimeUpdate = useCallback(function handleTimeUpdate(): void {
     if (!playerRef.current || !courseSlug || !lessonSlug) return;
 
     // @ts-expect-error - MuxPlayer has these properties
@@ -204,7 +204,7 @@ export function VideoPlayer({
   }, [courseSlug, lessonSlug, updateVideoProgress]);
 
   // Handle video ended
-  const handleEnded = useCallback(() => {
+  const handleEnded = useCallback(function handleEnded(): void {
     if (courseSlug && lessonSlug) {
       markCompleted();
     }
@@ -272,7 +272,7 @@ export function VideoPlayer({
   }, []);
 
   // Handle retry
-  const handleRetry = useCallback(() => {
+  const handleRetry = useCallback(function handleRetry(): void {
     setPlayerState("loading");
     setRetryKey((prev) => prev + 1);
   }, []);

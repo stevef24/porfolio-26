@@ -19,13 +19,14 @@ interface UserMenuProps {
   className?: string;
 }
 
-export function UserMenu({ className }: UserMenuProps) {
+export function UserMenu({ className }: UserMenuProps): JSX.Element | null {
   const { user, signOut, isLoading } = useAuth();
   const router = useRouter();
 
-  const handleSignOut = useCallback(async () => {
-    await signOut();
-    router.refresh();
+  const handleSignOut = useCallback(function handleSignOut(): Promise<void> {
+    return signOut().then(() => {
+      router.refresh();
+    });
   }, [signOut, router]);
 
   if (isLoading) {
@@ -92,7 +93,7 @@ export function UserMenu({ className }: UserMenuProps) {
 }
 
 // Simple inline icons
-function DashboardIcon({ className }: { className?: string }) {
+function DashboardIcon({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={className}
@@ -111,7 +112,7 @@ function DashboardIcon({ className }: { className?: string }) {
   );
 }
 
-function LogOutIcon({ className }: { className?: string }) {
+function LogOutIcon({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={className}

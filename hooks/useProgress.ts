@@ -253,6 +253,12 @@ export function useCourseProgress(courseSlug: string) {
     setCourseProgress(null);
   }, [courseSlug]);
 
+  // Manually refresh progress from localStorage (for same-tab updates)
+  const refreshProgress = useCallback(() => {
+    const store = getProgressStore();
+    setCourseProgress(store.courses[courseSlug] || null);
+  }, [courseSlug]);
+
   return {
     courseProgress,
     isLessonCompleted,
@@ -261,6 +267,7 @@ export function useCourseProgress(courseSlug: string) {
     completedLessonsCount,
     lessonsProgress,
     resetCourseProgress,
+    refreshProgress,
   };
 }
 

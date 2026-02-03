@@ -14,7 +14,6 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { motion } from "motion/react";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StepList from "./step-list";
@@ -33,7 +32,7 @@ interface Flows {
 	react19: Step[];
 }
 
-const CompilerComparison = () => {
+export default function CompilerComparison(): JSX.Element {
 	const [currentStep, setCurrentStep] = React.useState<number>(1);
 	const [activeFlow, setActiveFlow] = React.useState<"traditional" | "react19">(
 		"traditional"
@@ -202,6 +201,4 @@ const CompilerComparison = () => {
 			</Card>
 		</motion.div>
 	);
-};
-
-export default CompilerComparison;
+}

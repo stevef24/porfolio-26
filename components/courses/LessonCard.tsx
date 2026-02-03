@@ -75,36 +75,41 @@ export function LessonCard({
   return (
     <Link
       href={href}
-      className={cn("group block py-6 cursor-pointer", className)}
+      className={cn(
+        "group block py-6 -mx-4 px-4",
+        "rounded-[6px]",
+        "hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-[rgba(255,255,255,0.04)]",
+        "transition-colors duration-150",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+        className
+      )}
     >
-      <article className="flex gap-5">
+      <article className="flex gap-4">
         {/* Pattern thumbnail - Swiss minimal, no rounded corners */}
-        <div className="flex-shrink-0 w-24 h-24 bg-muted overflow-hidden">
+        <div className="flex-shrink-0 w-16 h-16 bg-muted overflow-hidden">
           <CoursePattern seed={seed} />
         </div>
 
-        <div className="flex-1 min-w-0 flex flex-col justify-between">
-          <div className="space-y-1.5">
-            {/* Module tag */}
-            {module && (
-              <span className="text-swiss-label text-primary">{module}</span>
-            )}
-            <h3 className="text-swiss-title text-foreground group-hover:text-primary transition-colors duration-150 line-clamp-1">
-              {title}
-            </h3>
-            <p className="text-base text-muted-foreground leading-relaxed line-clamp-2">
-              {description}
-            </p>
-          </div>
+        <div className="flex-1 min-w-0">
+          {/* Module tag */}
+          {module && (
+            <span className="text-[15px] text-foreground/50 uppercase tracking-wide">{module}</span>
+          )}
+          <h3 className="text-[15px] text-foreground font-medium group-hover:text-foreground/70 transition-colors duration-150 line-clamp-1">
+            {title}
+          </h3>
+          <p className="text-[15px] text-foreground/50 line-clamp-2 mt-1">
+            {description}
+          </p>
 
-          {/* Swiss minimal footer */}
-          <div className="flex items-center justify-between pt-2">
+          {/* Footer with lesson count */}
+          <div className="flex items-center gap-3 mt-2">
             {lessonCount !== undefined && (
-              <span className="text-swiss-label text-muted-foreground">
+              <span className="text-[15px] text-foreground/40">
                 {lessonCount} {lessonCount === 1 ? "lesson" : "lessons"}
               </span>
             )}
-            <span className="text-swiss-label group-hover:text-primary transition-colors duration-150 inline-flex items-center gap-1 ml-auto">
+            <span className="text-[15px] text-foreground/40 group-hover:text-foreground/70 transition-colors duration-150 inline-flex items-center gap-1">
               Start
               <HugeiconsIcon
                 icon={ArrowUpRight01Icon}

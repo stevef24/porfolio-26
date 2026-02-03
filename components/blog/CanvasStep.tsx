@@ -3,9 +3,11 @@
 /**
  * CanvasStep - Scroll-triggered step wrapper for CanvasZone.
  * Registers with CanvasZoneContext for active step tracking.
+ * Features a minimal left-side arrow indicator that springs into place.
  */
 
 import { useRef, useEffect, type ReactNode } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { useCanvasZoneContext } from "./CanvasZoneContext";
 
@@ -15,8 +17,13 @@ interface CanvasStepProps {
 	className?: string;
 }
 
-export function CanvasStep({ index, children, className }: CanvasStepProps) {
+export function CanvasStep({
+	index,
+	children,
+	className,
+}: CanvasStepProps): JSX.Element {
 	const ref = useRef<HTMLDivElement>(null);
+	const prefersReducedMotion = useReducedMotion();
 	const {
 		activeStepIndex,
 		setActiveStepIndex,
@@ -31,6 +38,14 @@ export function CanvasStep({ index, children, className }: CanvasStepProps) {
 
 	const isActive = activeStepIndex === index;
 	const mobileCanvasContent = renderCanvasContent(index);
+
+	// Spring config for snappy arrow animation
+	const arrowSpring = {
+		type: "spring" as const,
+		stiffness: 400,
+		damping: 25,
+		mass: 0.8,
+	};
 
 	useEffect(() => {
 		const element = ref.current;
@@ -80,8 +95,9 @@ export function CanvasStep({ index, children, className }: CanvasStepProps) {
 			ref={ref}
 			id={`${zoneId}-canvas-step-${index}`}
 			data-canvas-step-index={index}
+			data-canvas-step-active={isActive}
 			className={cn(
-				"relative cursor-pointer rounded-lg",
+				"canvas-step relative cursor-pointer rounded-lg",
 				"focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				className
 			)}
@@ -92,6 +108,22 @@ export function CanvasStep({ index, children, className }: CanvasStepProps) {
 			onClick={handleClick}
 			onKeyDown={handleKeyDown}
 		>
+			{/* Arrow indicator - springs into place when active, aligned with first line */}
+			<AnimatePresence>
+				{isActive && (
+					<motion.span
+						initial={prefersReducedMotion ? false : { x: -12, opacity: 0, scale: 0.8 }}
+						animate={{ x: 0, opacity: 1, scale: 1 }}
+						exit={prefersReducedMotion ? undefined : { x: -8, opacity: 0, scale: 0.8 }}
+						transition={prefersReducedMotion ? { duration: 0 } : arrowSpring}
+						className="absolute left-0 top-[2.15rem] text-muted-foreground select-none text-lg"
+						aria-hidden="true"
+					>
+						›
+					</motion.span>
+				)}
+			</AnimatePresence>
+
 			{children}
 
 			{mobileCanvasContent && (

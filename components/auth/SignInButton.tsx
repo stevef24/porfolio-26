@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { AuthModal } from "./AuthModal";
 import { cn } from "@/lib/utils";
+import { AuthModal } from "./AuthModal";
 
 interface SignInButtonProps {
   className?: string;
@@ -15,7 +15,7 @@ export function SignInButton({
   className,
   variant = "outline",
   size = "sm",
-}: SignInButtonProps) {
+}: SignInButtonProps): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (

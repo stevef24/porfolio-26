@@ -3,18 +3,17 @@ import { LessonCard } from "@/components/courses/LessonCard";
 import BlurFade from "@/components/shared/BlurFade";
 import SiteShell from "@/components/layout/SiteShell";
 
+interface CourseOverview {
+  slug: string;
+  title: string;
+  description: string;
+  lessonCount: number;
+}
+
 // Group lessons by course (first segment of the path)
-function getCourseOverviews() {
+function getCourseOverviews(): CourseOverview[] {
   const pages = courses.getPages();
-  const courseMap = new Map<
-    string,
-    {
-      slug: string;
-      title: string;
-      description: string;
-      lessonCount: number;
-    }
-  >();
+  const courseMap = new Map<string, CourseOverview>();
 
   pages.forEach((page) => {
     const pathParts = page.slugs;
@@ -48,26 +47,39 @@ function getCourseOverviews() {
   return Array.from(courseMap.values());
 }
 
-export default function CoursesPage() {
+export default function CoursesPage(): JSX.Element {
   const courseOverviews = getCourseOverviews();
 
   return (
     <SiteShell>
-      <main className="py-16 lg:py-24">
-        <BlurFade delay={0.05}>
-          <h1 className="text-swiss-subheading mb-2">Courses</h1>
-        </BlurFade>
+      <main className="py-8 lg:py-6">
+        {/* Header section */}
+        <header className="mb-8">
+          <BlurFade delay={0.05}>
+            <p className="text-[15px] text-foreground/50 mb-3">Courses</p>
+          </BlurFade>
 
-        <BlurFade delay={0.1}>
-          <p className="text-lg text-muted-foreground mb-12 max-w-prose">
-            Deep-dive tutorials on modern web development, from fundamentals to
-            advanced patterns.
-          </p>
-        </BlurFade>
+          <BlurFade delay={0.1}>
+            <h1 className="text-[15px] text-foreground font-medium mb-3">Learn by Building</h1>
+          </BlurFade>
 
-        <div className="divide-y divide-border">
+          <BlurFade delay={0.15}>
+            <p className="text-[15px] text-foreground/60 leading-relaxed max-w-xl">
+              Deep-dive tutorials on modern web development, from fundamentals
+              to advanced patterns.
+            </p>
+          </BlurFade>
+        </header>
+
+        {/* Course list */}
+        <section>
+          <BlurFade delay={0.18}>
+            <h2 className="text-[15px] text-foreground/50 mb-4">
+              Available Courses
+            </h2>
+          </BlurFade>
           {courseOverviews.map((course, index) => (
-            <BlurFade key={course.slug} delay={0.15 + index * 0.05}>
+            <BlurFade key={course.slug} delay={0.2 + index * 0.05}>
               <LessonCard
                 title={course.title}
                 description={course.description}
@@ -76,15 +88,15 @@ export default function CoursesPage() {
               />
             </BlurFade>
           ))}
-        </div>
 
-        {courseOverviews.length === 0 && (
-          <BlurFade delay={0.15}>
-            <p className="text-muted-foreground text-center py-12">
-              No courses available yet. Check back soon.
-            </p>
-          </BlurFade>
-        )}
+          {courseOverviews.length === 0 && (
+            <BlurFade delay={0.2}>
+              <p className="text-[15px] text-foreground/60 leading-relaxed text-center py-16">
+                No courses available yet. Check back soon.
+              </p>
+            </BlurFade>
+          )}
+        </section>
       </main>
     </SiteShell>
   );

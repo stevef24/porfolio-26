@@ -79,7 +79,19 @@ interface CanvasZoneProviderProps {
 	children: ReactNode;
 }
 
-const CANVAS_STEP_ROOT_MARGIN = "-40% 0px -40% 0px";
+const CANVAS_STEP_ROOT_MARGIN = "-30% 0px -30% 0px";
+
+/**
+ * Multiple thresholds ensure callbacks fire during fast scroll.
+ * Single threshold (0) only fires when visibility state CHANGES.
+ * During fast scroll, steps pass through entirely between callback batches.
+ */
+const STEP_THRESHOLDS = [0, 0.1, 0.25, 0.5, 0.75, 1.0];
+
+/** Velocity threshold (px/frame) above which we use position-based resolution
+ *  Lower value = more responsive during fast scroll (was 100, now 50)
+ */
+const FAST_SCROLL_VELOCITY = 50;
 
 /**
  * Provider component for canvas zone step tracking.
@@ -98,7 +110,7 @@ export function CanvasZoneProvider({
 	initialIndex = 0,
 	canvasContent,
 	children,
-}: CanvasZoneProviderProps) {
+}: CanvasZoneProviderProps): JSX.Element {
 	const [activeStepIndex, setActiveStepIndexState] = useState(initialIndex);
 	const zoneId = useId();
 	const stepElementsRef = useRef<Map<number, HTMLElement>>(new Map());
@@ -106,8 +118,11 @@ export function CanvasZoneProvider({
 	const stepEntryRef = useRef<Map<number, IntersectionObserverEntry>>(new Map());
 	const observerRef = useRef<IntersectionObserver | null>(null);
 
+	// Sequential visit tracking - marks steps that have been scrolled past
+	const visitedStepsRef = useRef<Set<number>>(new Set());
+
 	const setActiveStepIndex = useCallback(
-		(index: number) => {
+		function setActiveStepIndex(index: number): void {
 			// Clamp to valid range
 			const clampedIndex = Math.max(0, Math.min(index, totalSteps - 1));
 			setActiveStepIndexState(clampedIndex);
@@ -115,19 +130,56 @@ export function CanvasZoneProvider({
 		[totalSteps]
 	);
 
-	const goToNextStep = useCallback(() => {
+	const goToNextStep = useCallback(function goToNextStep(): void {
 		setActiveStepIndexState((prev) =>
 			prev < totalSteps - 1 ? prev + 1 : 0
 		);
 	}, [totalSteps]);
 
-	const goToPrevStep = useCallback(() => {
+	const goToPrevStep = useCallback(function goToPrevStep(): void {
 		setActiveStepIndexState((prev) =>
 			prev > 0 ? prev - 1 : totalSteps - 1
 		);
 	}, [totalSteps]);
 
-	const resolveActiveStep = useCallback(() => {
+	/**
+	 * Position-based step resolution using getBoundingClientRect().
+	 * This is the fallback during fast scroll when IntersectionObserver
+	 * may not fire callbacks fast enough.
+	 */
+	const resolveActiveStepByPosition = useCallback(function resolveActiveStepByPosition(): void {
+		const readingLine = window.innerHeight * 0.35;
+		let activeStep: number | null = null;
+		let closestDistance = Infinity;
+
+		// Check all registered steps by their current position
+		for (const [index, element] of stepElementsRef.current) {
+			const rect = element.getBoundingClientRect();
+
+			// Mark step as visited if its top has scrolled past reading line
+			if (rect.top < readingLine) {
+				visitedStepsRef.current.add(index);
+			}
+
+			// Find step whose top is closest to (but not far below) reading line
+			// Active step = highest visited step still in viewport
+			const distance = Math.abs(rect.top - readingLine);
+
+			// Prefer steps at or above reading line (negative = above)
+			const adjustment = rect.top > readingLine ? distance * 1.5 : distance;
+
+			if (adjustment < closestDistance && rect.bottom > 0 && rect.top < window.innerHeight) {
+				closestDistance = adjustment;
+				activeStep = index;
+			}
+		}
+
+		if (activeStep !== null) {
+			setActiveStepIndex(activeStep);
+		}
+	}, [setActiveStepIndex]);
+
+	const resolveActiveStep = useCallback(function resolveActiveStep(): void {
 		if (intersectingRef.current.size === 0) return;
 
 		if (intersectingRef.current.size === 1) {
@@ -136,15 +188,18 @@ export function CanvasZoneProvider({
 			return;
 		}
 
-		const viewportCenter = window.innerHeight / 2;
+		// Use reading position (35% from top) instead of center.
+		// This matches where eyes naturally track when scrolling.
+		const readingLine = window.innerHeight * 0.35;
 		let closest: { index: number; distance: number } | null = null;
 
 		for (const index of intersectingRef.current) {
 			const entry = stepEntryRef.current.get(index);
 			if (!entry) continue;
 			const rect = entry.boundingClientRect;
-			const center = rect.top + rect.height / 2;
-			const distance = Math.abs(center - viewportCenter);
+			// Measure from TOP of element to reading line
+			// This activates the step when its heading reaches reading position
+			const distance = Math.abs(rect.top - readingLine);
 			if (!closest || distance < closest.distance) {
 				closest = { index, distance };
 			}
@@ -176,7 +231,7 @@ export function CanvasZoneProvider({
 			},
 			{
 				rootMargin: CANVAS_STEP_ROOT_MARGIN,
-				threshold: 0,
+				threshold: STEP_THRESHOLDS,
 			}
 		);
 
@@ -192,7 +247,60 @@ export function CanvasZoneProvider({
 		};
 	}, [resolveActiveStep]);
 
-	const registerStep = useCallback((index: number, element: HTMLElement) => {
+	/**
+	 * Scroll velocity detection with RAF throttling.
+	 * During fast scroll (>100px/frame), IntersectionObserver may miss steps.
+	 * This uses position-based resolution as a fallback.
+	 */
+	useEffect(() => {
+		let lastScrollY = window.scrollY;
+		let lastTime = performance.now();
+		let rafId: number | null = null;
+
+		const handleScroll = () => {
+			// Cancel any pending RAF
+			if (rafId !== null) {
+				cancelAnimationFrame(rafId);
+			}
+
+			// Schedule position check on next frame
+			rafId = requestAnimationFrame(() => {
+				const currentY = window.scrollY;
+				const currentTime = performance.now();
+				const deltaY = Math.abs(currentY - lastScrollY);
+				const deltaTime = currentTime - lastTime;
+
+				// Calculate velocity (px per 16.67ms frame)
+				const velocity = deltaTime > 0 ? (deltaY / deltaTime) * 16.67 : 0;
+
+				// Store for next comparison
+				lastScrollY = currentY;
+				lastTime = currentTime;
+
+				// During fast scroll, use position-based resolution
+				if (velocity > FAST_SCROLL_VELOCITY) {
+					resolveActiveStepByPosition();
+				}
+
+				rafId = null;
+			});
+		};
+
+		// Passive listener for better scroll performance
+		window.addEventListener("scroll", handleScroll, { passive: true });
+
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+			if (rafId !== null) {
+				cancelAnimationFrame(rafId);
+			}
+		};
+	}, [resolveActiveStepByPosition]);
+
+	const registerStep = useCallback(function registerStep(
+		index: number,
+		element: HTMLElement
+	): void {
 		stepElementsRef.current.set(index, element);
 		element.setAttribute("data-canvas-step-index", String(index));
 
@@ -201,7 +309,7 @@ export function CanvasZoneProvider({
 		}
 	}, []);
 
-	const unregisterStep = useCallback((index: number) => {
+	const unregisterStep = useCallback(function unregisterStep(index: number): void {
 		const element = stepElementsRef.current.get(index);
 		if (element && observerRef.current) {
 			observerRef.current.unobserve(element);
@@ -213,7 +321,7 @@ export function CanvasZoneProvider({
 
 	// Render canvas content for a given step index
 	const renderCanvasContent = useCallback(
-		(stepIndex: number): ReactNode => {
+		function renderCanvasContent(stepIndex: number): ReactNode {
 			if (!canvasContent) return null;
 			if (typeof canvasContent === "function") {
 				return canvasContent(stepIndex);

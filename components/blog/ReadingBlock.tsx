@@ -63,7 +63,7 @@ export function ReadingBlock({
 	activeOpacity = 1,
 	inactiveOpacity = 0.4,
 	style,
-}: ReadingBlockProps) {
+}: ReadingBlockProps): JSX.Element {
 	const generatedId = useId();
 	const blockId = providedId ?? generatedId;
 	const ref = useRef<HTMLDivElement>(null);
@@ -89,11 +89,10 @@ export function ReadingBlock({
 	// Calculate opacity
 	// If no context (outside provider), always full opacity
 	// If reduced motion preferred, always full opacity
-	const opacity = !context || prefersReducedMotion
-		? activeOpacity
-		: isActive
-			? activeOpacity
-			: inactiveOpacity;
+	let opacity = activeOpacity;
+	if (context && !prefersReducedMotion && !isActive) {
+		opacity = inactiveOpacity;
+	}
 
 	// Use the appropriate HTML element
 	const Component = as;
@@ -123,7 +122,7 @@ export function ReadingParagraph({
 	children,
 	className,
 	...props
-}: Omit<ReadingBlockProps, "as">) {
+}: Omit<ReadingBlockProps, "as">): JSX.Element {
 	return (
 		<ReadingBlock as="p" className={className} {...props}>
 			{children}
@@ -141,7 +140,7 @@ export function ReadingBlockMotion({
 	className,
 	activeOpacity = 1,
 	inactiveOpacity = 0.4,
-}: ReadingBlockProps) {
+}: ReadingBlockProps): JSX.Element {
 	const generatedId = useId();
 	const blockId = providedId ?? generatedId;
 	const ref = useRef<HTMLDivElement>(null);
@@ -156,7 +155,10 @@ export function ReadingBlockMotion({
 	}, [context, blockId]);
 
 	const isActive = context ? context.activeBlockId === blockId : true;
-	const opacity = !context || prefersReducedMotion ? activeOpacity : isActive ? activeOpacity : inactiveOpacity;
+	let opacity = activeOpacity;
+	if (context && !prefersReducedMotion && !isActive) {
+		opacity = inactiveOpacity;
+	}
 
 	return (
 		<motion.div

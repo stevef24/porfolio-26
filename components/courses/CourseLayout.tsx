@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { CheckmarkCircle02Icon, Home01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { cn } from "@/lib/utils";
 import {
 	Sidebar,
 	SidebarContent,
@@ -16,10 +18,7 @@ import {
 	SidebarMenuItem,
 	SidebarRail,
 } from "@/components/ui/sidebar";
-import { StickyTOCSidebar } from "@/components/ui/blog/StickyTOCSidebar";
 import { SegmentedControl } from "@/components/ui/segmented-control";
-import { CheckmarkCircle02Icon, Home01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import SiteShell from "@/components/layout/SiteShell";
 import {
 	sidebarContainer,
@@ -58,7 +57,7 @@ interface CourseLayoutProps {
 	courseSlug: string;
 	lessons: Lesson[];
 	tocItems?: TOCItem[];
-	children: React.ReactNode;
+	children: ReactNode;
 	className?: string;
 }
 
@@ -112,7 +111,7 @@ function CourseSidebar({
 }: {
 	courseSlug: string;
 	lessons: Lesson[];
-}) {
+}): JSX.Element {
 	const pathname = usePathname();
 	const prefersReducedMotion = useReducedMotion();
 	const [activeView, setActiveView] = useState<string>("fundamentals");
@@ -167,7 +166,7 @@ function CourseSidebar({
 						exit="hidden"
 						variants={viewToggleContent}
 					>
-						{modules.map((module, moduleIndex) => (
+						{modules.map((module) => (
 							<SidebarGroup key={module.name}>
 								{/* Enhanced Module Header - Two line format */}
 								<div className="px-3 py-2">
@@ -242,19 +241,12 @@ function CourseSidebar({
 export function CourseLayout({
 	courseSlug,
 	lessons,
-	tocItems,
 	children,
 	className,
-}: CourseLayoutProps) {
-	const toc =
-		tocItems && tocItems.length > 0 ? (
-			<StickyTOCSidebar items={tocItems} />
-		) : null;
-
+}: Omit<CourseLayoutProps, "tocItems">): JSX.Element {
 	return (
 		<SiteShell
 			sidebar={<CourseSidebar courseSlug={courseSlug} lessons={lessons} />}
-			toc={toc}
 			className={cn("relative", className)}
 		>
 			<div className="min-w-0">{children}</div>

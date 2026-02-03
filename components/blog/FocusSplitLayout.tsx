@@ -22,7 +22,7 @@ export function FocusSplitLayout({
 	panelWidth = 420,
 	className,
 	panelClassName,
-}: FocusSplitLayoutProps) {
+}: FocusSplitLayoutProps): JSX.Element {
 	const prefersReducedMotion = useReducedMotion();
 	const isSplit = mode === "split";
 	const clampedWidth = Math.min(Math.max(panelWidth, 360), 520);

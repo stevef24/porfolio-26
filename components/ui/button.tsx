@@ -23,17 +23,24 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Primary: Solid fill with inverted contrast
+        // Default: Subtle opacity-based background
         default: [
-          "bg-foreground text-background",
-          "hover:bg-primary hover:text-primary-foreground",
-          "rounded-full", // Pill shape
+          "bg-[rgba(0,0,0,0.04)] hover:bg-[rgba(0,0,0,0.08)]",
+          "dark:bg-[rgba(255,255,255,0.04)] dark:hover:bg-[rgba(255,255,255,0.08)]",
+          "text-foreground",
+          "rounded-full",
         ],
-        // Secondary: Outline style
+        // CTA: Solid fill with inverted contrast
+        cta: [
+          "bg-foreground text-background",
+          "hover:opacity-90",
+          "rounded-full",
+        ],
+        // Outline: Border with transparent background
         outline: [
-          "bg-transparent text-foreground",
-          "border border-input",
-          "hover:bg-muted hover:border-primary hover:text-primary",
+          "border border-border bg-transparent",
+          "hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-[rgba(255,255,255,0.04)]",
+          "text-foreground",
           "rounded-full",
         ],
         // Secondary solid
@@ -44,14 +51,15 @@ const buttonVariants = cva(
         ],
         // Ghost: No background
         ghost: [
-          "bg-transparent text-foreground",
-          "hover:bg-muted",
+          "hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-[rgba(255,255,255,0.04)]",
+          "text-foreground",
           "rounded-full",
         ],
         // Destructive
         destructive: [
-          "bg-destructive/10 text-destructive",
-          "hover:bg-destructive/20",
+          "bg-red-500/10 text-red-600",
+          "hover:bg-red-500/20",
+          "dark:text-red-400",
           "rounded-full",
         ],
         // Link style

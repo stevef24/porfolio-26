@@ -73,7 +73,10 @@ interface ProjectedDragProps {
 // Main Component
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function ProjectedDrag({ className, showDebug = true }: ProjectedDragProps) {
+export function ProjectedDrag({
+	className,
+	showDebug = true,
+}: ProjectedDragProps): JSX.Element {
 	const constraintsRef = useRef<HTMLDivElement>(null);
 	const prefersReducedMotion = useReducedMotion();
 

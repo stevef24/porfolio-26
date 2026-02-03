@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 function Tabs({
   className,
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.Root>) {
+}: React.ComponentProps<typeof TabsPrimitive.Root>): JSX.Element {
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
@@ -21,16 +21,13 @@ function Tabs({
 function TabsList({
   className,
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.List>) {
+}: React.ComponentProps<typeof TabsPrimitive.List>): JSX.Element {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
       className={cn(
         "inline-flex items-center justify-center",
-        "h-10 p-1",
-        // Oatmeal styling
-        "bg-muted",
-        "rounded-lg", // 8px
+        "gap-1",
         className
       )}
       {...props}
@@ -41,23 +38,23 @@ function TabsList({
 function TabsTrigger({
   className,
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+}: React.ComponentProps<typeof TabsPrimitive.Trigger>): JSX.Element {
   return (
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "inline-flex items-center justify-center",
-        "px-4 py-1.5",
+        "relative inline-flex items-center justify-center",
+        "px-1 pb-2",
         "text-sm font-medium",
-        // Oatmeal styling
-        "rounded-md", // 8px for items
         "text-muted-foreground",
         "whitespace-nowrap",
-        "transition-all duration-200",
-        // Active state
-        "data-[state=active]:bg-card",
+        "transition-colors duration-200",
+        // Underline indicator
+        "after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5",
+        "after:bg-transparent after:transition-colors after:duration-200",
+        // Active state - underline indicator
         "data-[state=active]:text-foreground",
-        "data-[state=active]:shadow-sm",
+        "data-[state=active]:after:bg-foreground",
         // Hover
         "hover:text-foreground",
         // Focus
@@ -74,7 +71,7 @@ function TabsTrigger({
 function TabsContent({
   className,
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.Content>) {
+}: React.ComponentProps<typeof TabsPrimitive.Content>): JSX.Element {
   return (
     <TabsPrimitive.Content
       data-slot="tabs-content"

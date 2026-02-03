@@ -44,7 +44,8 @@ export function EmailCaptureForm({
   const [status, setStatus] = React.useState<EmailCaptureStatus>("idle");
   const [message, setMessage] = React.useState("");
   const [honeypot, setHoneypot] = React.useState("");
-  const inputId = React.useId();
+  // Use stable ID based on source prop to avoid hydration mismatch
+  const inputId = `email-capture-${source.replace(/[^a-z0-9]/gi, "-")}`;
 
   const isLocked = status === "loading" || status === "success" || status === "exists";
   const statusMessage = getStatusMessage(status, message);
@@ -97,15 +98,12 @@ export function EmailCaptureForm({
 
   return (
     <section
-      className={cn(
-        "not-prose my-8 border border-primary/30 bg-primary/5 p-8 rounded-xl",
-        className
-      )}
+      className={cn("not-prose", className)}
     >
-      <div className="flex flex-col gap-5">
-        <div className="space-y-2">
-          <h3 className="text-2xl font-medium text-foreground">{title}</h3>
-          <p className="text-base text-muted-foreground leading-relaxed">{description}</p>
+      <div className="flex flex-col gap-4">
+        <div className="space-y-1">
+          <h3 className="text-foreground text-[15px]">{title}</h3>
+          <p className="text-foreground/50 text-[15px] leading-relaxed">{description}</p>
         </div>
 
         <form
@@ -119,12 +117,14 @@ export function EmailCaptureForm({
             id={inputId}
             name="email"
             type="email"
+            inputMode="email"
             autoComplete="email"
-            placeholder="you@example.com..."
+            placeholder="you@example.com"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             disabled={isLocked}
-            className="h-11 flex-1"
+            spellCheck={false}
+            className="h-9 flex-1 text-[15px]"
           />
           <input
             type="text"
@@ -137,19 +137,22 @@ export function EmailCaptureForm({
           />
           <Button
             type="submit"
+            variant="cta"
             disabled={isLocked}
-            className="h-11 px-8 cursor-pointer"
+            className="h-9 px-6 cursor-pointer text-[15px]"
           >
-            {status === "loading" ? "Subscribing..." : buttonLabel}
+            {status === "loading" ? "Subscribing…" : buttonLabel}
           </Button>
         </form>
 
-        <div
-          className="min-h-[1.5rem] text-base text-muted-foreground"
-          aria-live="polite"
-        >
-          {statusMessage}
-        </div>
+        {statusMessage && (
+          <p
+            className="text-foreground/50 text-[15px]"
+            aria-live="polite"
+          >
+            {statusMessage}
+          </p>
+        )}
       </div>
     </section>
   );

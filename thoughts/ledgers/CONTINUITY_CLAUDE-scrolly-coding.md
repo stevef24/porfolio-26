@@ -1,5 +1,5 @@
 # Session: scrolly-coding
-Updated: 2026-01-10T04:25:11.087Z
+Updated: 2026-01-11T13:47:32.305Z
 
 ## Goal
 Implement ScrollyCoding component system for interactive code walkthroughs. Done when:
@@ -45,7 +45,11 @@ Implement ScrollyCoding component system for interactive code walkthroughs. Done
   - [x] Enhancement Phase 8: Reading Highlight (paragraph focus effect)
   - [x] Enhancement Phase 9: UI/UX Polish Pass (frontend-design skill review)
   - [x] Shiki Dual Theme Fix: Instant theme switching via CSS variables
-- Now: Implementation complete
+- Done (Canvas Magic Move):
+  - [x] Phase 1: Token compilation infrastructure (`compileCodeStepsToTokens`)
+  - [x] Phase 2: MagicMoveCode standalone component
+  - [x] Phase 3: Integrate Magic Move into CanvasCodeStage
+- Now: User testing Magic Move in browser
 - Remaining: None
 
 ## Open Questions
@@ -1125,3 +1129,54 @@ CSS handles the theme switch instantly via `.dark` class selector:
 ### Build Verification
 - `pnpm build` passes
 - All 22 static pages generated
+
+---
+
+## Canvas Magic Move Phase 3 Completion Notes
+
+### What Was Built
+Integrated MagicMoveCode into CanvasCodeStage for animated code transitions:
+
+1. **CanvasCodeStage enhancements**
+   - New `compiledTokens?: TokenCompilationResult` prop
+   - Conditional rendering: tokens → MagicMoveCode, fallback → HTML
+   - Focus line CSS injection (same pattern as ScrollyStage)
+   - Animation state tracking (`isAnimating`) to disable focus during transitions
+
+2. **Multi-file tab handling (Option B)**
+   - Tab switches are instant (no animation)
+   - Animation only within same file as step changes
+   - Per-file token extraction: `tokenSteps` computed from active file across all steps
+
+3. **Server-side compilation**
+   - `AgentCodeWalkthroughServer` now compiles both HTML and tokens
+   - New `enableMagicMove?: boolean` prop (default: true)
+   - Parallel compilation for performance
+
+4. **Client integration**
+   - `AgentCodeWalkthrough` passes `compiledTokens` to CanvasCodeStage
+   - Fullscreen mode also uses MagicMoveCode when tokens available
+
+### Files Modified
+| File | Changes |
+|------|---------|
+| `components/blog/CanvasCodeStage.tsx` | Token types, MagicMoveCode integration, focus CSS |
+| `components/blog/AgentCodeWalkthrough.tsx` | Added `compiledTokens` prop |
+| `components/blog/AgentCodeWalkthroughServer.tsx` | Token compilation alongside HTML |
+
+### Key Architecture
+```
+Server (AgentCodeWalkthroughServer)
+  ├── compileCodeSteps() → HTML (fallback)
+  └── compileCodeStepsToTokens() → Tokens (Magic Move)
+          ↓
+Client (AgentCodeWalkthrough)
+          ↓
+CanvasCodeStage
+  ├── hasTokens? → MagicMoveCode
+  └── else → dangerouslySetInnerHTML
+```
+
+### Build Verification
+- `pnpm build` passes
+- All 20 static pages generated

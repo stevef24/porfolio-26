@@ -11,13 +11,19 @@ interface BlogPost {
 
 interface BlogPostsListProps {
   posts: BlogPost[];
+  baseDelay?: number;
+  stagger?: number;
 }
 
-export function BlogPostsList({ posts }: BlogPostsListProps) {
+export function BlogPostsList({
+  posts,
+  baseDelay = 0.25,
+  stagger = 0.05,
+}: BlogPostsListProps): JSX.Element {
   return (
-    <div className="divide-y divide-border">
+    <div>
       {posts.map((post, index) => (
-        <BlurFade key={post.url} delay={0.05 + index * 0.05}>
+        <BlurFade key={post.url} delay={baseDelay + index * stagger}>
           <MidCard
             title={post.title}
             description={post.description}

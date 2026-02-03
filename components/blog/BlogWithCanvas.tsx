@@ -12,18 +12,22 @@
  */
 
 import {
-	useState,
-	useEffect,
 	createContext,
-	useContext,
-	ReactNode,
 	useCallback,
+	useContext,
+	useEffect,
 	useMemo,
 	useRef,
+	useState,
+	type ReactNode,
 } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { transitionCanvasSlide } from "@/lib/motion-variants";
+import {
+	transitionCanvasSlide,
+	springCanvasStretch,
+	canvasContentReveal,
+} from "@/lib/motion-variants";
 
 // ============================================================================
 // Context
@@ -46,18 +50,18 @@ interface CanvasLayoutContextValue {
 	registerZone: (
 		id: string,
 		element: HTMLElement,
-		config: { content: ReactNode; deactivateDelay?: number }
+		config: CanvasZoneConfig
 	) => () => void;
 	/** Update a registered CanvasZone's config without re-registering */
 	updateZoneConfig: (
 		id: string,
-		config: { content: ReactNode; deactivateDelay?: number }
+		config: CanvasZoneConfig
 	) => void;
 	/** Register a sentinel element that should close the canvas */
 	registerSentinel: (
 		id: string,
 		element: HTMLElement,
-		kind: "gap" | "end"
+		kind: CanvasSentinelKind
 	) => () => void;
 }
 
@@ -65,11 +69,18 @@ const CanvasLayoutContext = createContext<CanvasLayoutContextValue | null>(
 	null
 );
 
+type CanvasSentinelKind = "gap" | "end";
+
+interface CanvasZoneConfig {
+	content: ReactNode;
+	deactivateDelay?: number;
+}
+
 /**
  * Hook to access canvas layout state from child components.
  * Must be used within a BlogWithCanvas provider.
  */
-export function useCanvasLayout() {
+export function useCanvasLayout(): CanvasLayoutContextValue {
 	const ctx = useContext(CanvasLayoutContext);
 	if (!ctx) {
 		throw new Error("useCanvasLayout must be used within BlogWithCanvas");
@@ -92,6 +103,13 @@ interface BlogWithCanvasProps {
 	deactivateDelay?: number;
 }
 
+const FRAME_TIME_MS = 16.67;
+const FAST_SCROLL_VELOCITY_PX_PER_FRAME = 80;
+const SCROLL_IDLE_TIMEOUT_MS = 150;
+const READING_LINE_RATIO = 0.35;
+const BOTTOM_MARGIN_RATIO = 0.65;
+const UP_SCROLL_CLOSE_OFFSET_PX = 50;
+
 /**
  * Main layout component for blog posts with canvas support.
  *
@@ -102,17 +120,16 @@ interface BlogWithCanvasProps {
 export function BlogWithCanvas({
 	children,
 	className,
-	// Narrow band at center of viewport - triggers when element reaches middle
-	// -45% from top and bottom = observe only middle 10% of viewport
-	activationRootMargin = "-45% 0px -45% 0px",
+	// Wider band at center of viewport - triggers earlier for snappier response
+	// -35% from top and bottom = observe middle 30% of viewport
+	activationRootMargin = "-35% 0px -35% 0px",
 	// Low threshold - just needs to enter the center band
 	minIntersectionRatio = 0.01,
-	deactivateDelay = 150,
-}: BlogWithCanvasProps) {
+	deactivateDelay = 100,
+}: BlogWithCanvasProps): JSX.Element {
 	const [hasActiveZone, setHasActiveZone] = useState(false);
 	const [activeZoneId, setActiveZoneId] = useState<string | null>(null);
 	const [canvasContent, setCanvasContent] = useState<ReactNode | null>(null);
-	const [isDesktop, setIsDesktop] = useState(false);
 	const [isHydrated, setIsHydrated] = useState(false);
 	const prefersReducedMotion = useReducedMotion();
 
@@ -121,9 +138,8 @@ export function BlogWithCanvas({
 	const canvasContentRef = useRef(canvasContent);
 	const scrollDirectionRef = useRef<"up" | "down">("down");
 	const observerRef = useRef<IntersectionObserver | null>(null);
-	const zoneConfigRef = useRef(
-		new Map<string, { content: ReactNode; deactivateDelay?: number }>()
-	);
+	const zoneConfigRef = useRef(new Map<string, CanvasZoneConfig>());
+	const zoneElementsRef = useRef(new Map<string, Element>());
 	const zoneEntryRef = useRef(new Map<string, IntersectionObserverEntry>());
 	const sentinelEntryRef = useRef(new Map<string, IntersectionObserverEntry>());
 	const endSentinelIdsRef = useRef(new Set<string>());
@@ -139,17 +155,9 @@ export function BlogWithCanvas({
 	const transitionTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const pendingResolveRef = useRef(false);
 	const resolveActiveZoneRef = useRef<(() => void) | null>(null);
-
-	// Track desktop breakpoint (md: 768px) for margin animation
-	// On mobile, content stays full width since canvas is shown inline
-	useEffect(() => {
-		const mediaQuery = window.matchMedia("(min-width: 768px)");
-		setIsDesktop(mediaQuery.matches);
-
-		const handleChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-		mediaQuery.addEventListener("change", handleChange);
-		return () => mediaQuery.removeEventListener("change", handleChange);
-	}, []);
+	const checkPositionBasedClosureRef = useRef<(() => boolean) | null>(null);
+	const scheduleCloseRef = useRef<(() => void) | null>(null);
+	const scrollIdleTimerRef = useRef<NodeJS.Timeout | null>(null);
 
 	// Delay observer setup to prevent false triggers on page load/refresh
 	useEffect(() => {
@@ -157,31 +165,97 @@ export function BlogWithCanvas({
 		return () => clearTimeout(timer);
 	}, []);
 
-	// Track scroll direction for deterministic zone resolution
+	// Track scroll direction with velocity-aware fallback resolution
+	// During fast scroll, IntersectionObserver may not fire fast enough
 	useEffect(() => {
 		let lastY = window.scrollY;
+		let lastTime = performance.now();
+		let rafId: number | null = null;
+
 		const handleScroll = () => {
-			const nextY = window.scrollY;
-			scrollDirectionRef.current = nextY >= lastY ? "down" : "up";
-			lastY = nextY;
+			// Cancel pending RAF
+			if (rafId !== null) {
+				cancelAnimationFrame(rafId);
+			}
+
+			// Clear existing idle timer - will be reset after processing
+			if (scrollIdleTimerRef.current) {
+				clearTimeout(scrollIdleTimerRef.current);
+				scrollIdleTimerRef.current = null;
+			}
+
+			rafId = requestAnimationFrame(() => {
+				const currentY = window.scrollY;
+				const currentTime = performance.now();
+				const deltaY = currentY - lastY;
+				const deltaTime = currentTime - lastTime;
+
+				// Update direction
+				scrollDirectionRef.current = deltaY >= 0 ? "down" : "up";
+
+				// Calculate velocity (px per 16.67ms frame)
+				const velocity = deltaTime > 0 ? (Math.abs(deltaY) / deltaTime) * FRAME_TIME_MS : 0;
+
+				lastY = currentY;
+				lastTime = currentTime;
+
+				// During fast scroll (above threshold), trigger immediate resolution
+				// This ensures canvas opens/closes responsively during fast scrolling
+				if (velocity > FAST_SCROLL_VELOCITY_PX_PER_FRAME) {
+					resolveActiveZoneRef.current?.();
+
+					// Position-based closure during fast scroll down
+					// Handles case where IntersectionObserver misses the sentinel
+					if (scrollDirectionRef.current === "down" && hasActiveZoneRef.current) {
+						if (checkPositionBasedClosureRef.current?.()) {
+							scheduleCloseRef.current?.();
+						}
+					}
+				}
+
+				if (hasActiveZoneRef.current) {
+					// Set idle timer to verify canvas state when scrolling stops
+					// This catches any missed observer events during rapid scrolling
+					scrollIdleTimerRef.current = setTimeout(() => {
+						if (hasActiveZoneRef.current && checkPositionBasedClosureRef.current?.()) {
+							scheduleCloseRef.current?.();
+						}
+					}, SCROLL_IDLE_TIMEOUT_MS);
+				}
+
+				rafId = null;
+			});
 		};
+
 		window.addEventListener("scroll", handleScroll, { passive: true });
-		return () => window.removeEventListener("scroll", handleScroll);
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+			if (rafId !== null) {
+				cancelAnimationFrame(rafId);
+			}
+			if (scrollIdleTimerRef.current) {
+				clearTimeout(scrollIdleTimerRef.current);
+				scrollIdleTimerRef.current = null;
+			}
+		};
 	}, []);
 
+	// Sync refs with state - direct assignment during render is safe for refs
+	// (avoids unnecessary useEffect overhead per React best practices)
+	hasActiveZoneRef.current = hasActiveZone;
+	activeZoneIdRef.current = activeZoneId;
+	canvasContentRef.current = canvasContent;
+
+	// Expose canvas active state globally for components outside the context tree
+	// (e.g., SectionIndicator at page level needs to shift with the blog column)
 	useEffect(() => {
-		hasActiveZoneRef.current = hasActiveZone;
+		document.documentElement.dataset.canvasActive = hasActiveZone ? "true" : "false";
+		return () => {
+			delete document.documentElement.dataset.canvasActive;
+		};
 	}, [hasActiveZone]);
 
-	useEffect(() => {
-		activeZoneIdRef.current = activeZoneId;
-	}, [activeZoneId]);
-
-	useEffect(() => {
-		canvasContentRef.current = canvasContent;
-	}, [canvasContent]);
-
-	// Memoize setters to prevent unnecessary re-renders
+	// Stable setter references for context consumers
 	const handleSetHasActiveZone = useCallback((active: boolean) => {
 		setHasActiveZone(active);
 	}, []);
@@ -203,37 +277,37 @@ export function BlogWithCanvas({
 		return [0, effectiveMinRatio];
 	}, [effectiveMinRatio]);
 
-	const clearCloseTimer = useCallback(() => {
+	const clearCloseTimer = useCallback(function clearCloseTimer(): void {
 		if (closeTimerRef.current) {
 			clearTimeout(closeTimerRef.current);
 			closeTimerRef.current = null;
 		}
 	}, []);
 
-	const getDeactivateDelay = useCallback(() => {
+	const getDeactivateDelay = useCallback(function getDeactivateDelay(): number {
 		const activeId = activeZoneIdRef.current;
 		const config = activeId ? zoneConfigRef.current.get(activeId) : null;
 		return config?.deactivateDelay ?? deactivateDelay;
 	}, [deactivateDelay]);
 
 	// Start transition lock to prevent observer feedback loops during animation
-	const startTransitionLock = useCallback(() => {
+	const startTransitionLock = useCallback(function startTransitionLock(): void {
 		isTransitioningRef.current = true;
 		pendingResolveRef.current = false;
 		if (transitionTimerRef.current) {
 			clearTimeout(transitionTimerRef.current);
 		}
-		// Release lock after animation completes (400ms spring + buffer)
+		// Release lock after animation completes (100ms for snappier feel)
 		transitionTimerRef.current = setTimeout(() => {
 			isTransitioningRef.current = false;
 			if (pendingResolveRef.current) {
 				pendingResolveRef.current = false;
 				resolveActiveZoneRef.current?.();
 			}
-		}, 500);
+		}, 100);
 	}, []);
 
-	const closeCanvas = useCallback(() => {
+	const closeCanvas = useCallback(function closeCanvas(): void {
 		if (!hasActiveZoneRef.current) return;
 		startTransitionLock();
 		handleSetHasActiveZone(false);
@@ -241,7 +315,7 @@ export function BlogWithCanvas({
 		handleSetCanvasContent(null);
 	}, [handleSetActiveZoneId, handleSetCanvasContent, handleSetHasActiveZone, startTransitionLock]);
 
-	const scheduleClose = useCallback(() => {
+	const scheduleClose = useCallback(function scheduleClose(): void {
 		if (!hasActiveZoneRef.current) return;
 		if (closeTimerRef.current) return;
 		const delay = getDeactivateDelay();
@@ -250,6 +324,38 @@ export function BlogWithCanvas({
 			closeCanvas();
 		}, delay);
 	}, [closeCanvas, getDeactivateDelay]);
+
+	// Position-based closure check: returns true if no zones intersect the reading band
+	// This works independently of IntersectionObserver for fast-scroll scenarios
+	const checkPositionBasedClosure = useCallback(function checkPositionBasedClosure(): boolean {
+		const readingLine = window.innerHeight * READING_LINE_RATIO;
+		const bottomMargin = window.innerHeight * BOTTOM_MARGIN_RATIO;
+		const activeZoneId = activeZoneIdRef.current;
+
+		if (activeZoneId) {
+			const activeElement = zoneElementsRef.current.get(activeZoneId);
+			if (activeElement) {
+				const rect = activeElement.getBoundingClientRect();
+				if (rect.bottom > readingLine && rect.top < bottomMargin) {
+					return false; // Active zone still visible
+				}
+			}
+		}
+
+		for (const [id, element] of zoneElementsRef.current) {
+			if (id === activeZoneId) continue;
+			const rect = element.getBoundingClientRect();
+			// Zone is visible if bottom is below reading line AND top is above exit zone
+			if (rect.bottom > readingLine && rect.top < bottomMargin) {
+				return false; // Zone still visible
+			}
+		}
+		return true; // No zones intersect the reading band
+	}, []);
+
+	// Sync refs for use in scroll handler - direct assignment is safe for refs
+	checkPositionBasedClosureRef.current = checkPositionBasedClosure;
+	scheduleCloseRef.current = scheduleClose;
 
 	// Select best zone candidate based on intersection ratio and scroll direction
 	function selectBestCandidate(
@@ -277,7 +383,7 @@ export function BlogWithCanvas({
 	}
 
 	const activateZone = useCallback(
-		(zoneId: string) => {
+		function activateZone(zoneId: string): void {
 			clearCloseTimer();
 			const content = zoneConfigRef.current.get(zoneId)?.content ?? null;
 			const wasInactive = !hasActiveZoneRef.current;
@@ -303,7 +409,7 @@ export function BlogWithCanvas({
 		]
 	);
 
-	const resolveActiveZone = useCallback(() => {
+	const resolveActiveZone = useCallback(function resolveActiveZone(): void {
 		// Collect zones meeting activation threshold (checked before transition lock
 		// so scroll-up can re-activate zones even during closing animation)
 		const candidates: Array<{ id: string; entry: IntersectionObserverEntry }> = [];
@@ -326,9 +432,10 @@ export function BlogWithCanvas({
 		}
 
 		// Close if any sentinel (end or gap) is visible in the center band
-		const allSentinelIds = Array.from(endSentinelIdsRef.current).concat(
-			Array.from(gapSentinelIdsRef.current)
-		);
+		const allSentinelIds = [
+			...endSentinelIdsRef.current,
+			...gapSentinelIdsRef.current,
+		];
 		const anySentinelVisible = allSentinelIds.some(
 			(id) => sentinelEntryRef.current.get(id)?.isIntersecting
 		);
@@ -337,21 +444,42 @@ export function BlogWithCanvas({
 			return;
 		}
 
-		// Asymmetric hysteresis: scrolling down through zone content keeps canvas open,
-		// scrolling up past the zone's entry point closes it
+		// Position-based closure: if scrolling UP and the active zone's top
+		// has scrolled BELOW the reading line (35% from top), close the canvas.
+		// This handles the case where there's no sentinel above the zone.
+		// Use fresh getBoundingClientRect() for accurate position during fast scroll.
+		if (scrollDirectionRef.current === "up" && hasActiveZoneRef.current && activeZoneIdRef.current) {
+			const zoneElement = zoneElementsRef.current.get(activeZoneIdRef.current) ?? null;
+
+			if (zoneElement) {
+				const rect = zoneElement.getBoundingClientRect();
+				const readingLine = window.innerHeight * READING_LINE_RATIO;
+				// Zone top is below reading line = user scrolled past it going up
+				if (rect.top > readingLine + UP_SCROLL_CLOSE_OFFSET_PX) {
+					scheduleClose();
+					return;
+				}
+			}
+		}
+
+		// Asymmetric hysteresis: scrolling down through zone content keeps canvas open
+		// UNLESS position-based check indicates no zones intersect the reading band
 		if (scrollDirectionRef.current === "down" && hasActiveZoneRef.current) {
-			return;
+			// Allow closing if position check indicates no zones intersect the reading band
+			if (!checkPositionBasedClosure()) {
+				return; // Keep open - still in zone content
+			}
+			// Fall through to scheduleClose()
 		}
 
 		scheduleClose();
-	}, [activateZone, clearCloseTimer, effectiveMinRatio, scheduleClose]);
+	}, [activateZone, clearCloseTimer, checkPositionBasedClosure, effectiveMinRatio, scheduleClose]);
 
-	useEffect(() => {
-		resolveActiveZoneRef.current = resolveActiveZone;
-	}, [resolveActiveZone]);
+	// Sync ref for scroll handler access - direct assignment is safe for refs
+	resolveActiveZoneRef.current = resolveActiveZone;
 
 	const enqueueEntries = useCallback(
-		(entries: IntersectionObserverEntry[]) => {
+		function enqueueEntries(entries: IntersectionObserverEntry[]): void {
 			pendingEntriesRef.current.push(...entries);
 			if (rafIdRef.current !== null) return;
 			rafIdRef.current = window.requestAnimationFrame(() => {
@@ -376,12 +504,13 @@ export function BlogWithCanvas({
 	);
 
 	const registerZone = useCallback(
-		(
+		function registerZone(
 			id: string,
 			element: HTMLElement,
-			config: { content: ReactNode; deactivateDelay?: number }
-		) => {
+			config: CanvasZoneConfig
+		): () => void {
 			zoneConfigRef.current.set(id, config);
+			zoneElementsRef.current.set(id, element);
 			elementMetaRef.current.set(element, { id, kind: "zone" });
 
 			if (observerRef.current) {
@@ -394,6 +523,7 @@ export function BlogWithCanvas({
 				}
 				elementMetaRef.current.delete(element);
 				zoneConfigRef.current.delete(id);
+				zoneElementsRef.current.delete(id);
 				zoneEntryRef.current.delete(id);
 			};
 		},
@@ -401,10 +531,7 @@ export function BlogWithCanvas({
 	);
 
 	const updateZoneConfig = useCallback(
-		(
-			id: string,
-			config: { content: ReactNode; deactivateDelay?: number }
-		) => {
+		function updateZoneConfig(id: string, config: CanvasZoneConfig): void {
 			zoneConfigRef.current.set(id, config);
 			if (activeZoneIdRef.current === id) {
 				handleSetCanvasContent(config.content ?? null);
@@ -414,7 +541,11 @@ export function BlogWithCanvas({
 	);
 
 	const registerSentinel = useCallback(
-		(id: string, element: HTMLElement, kind: "gap" | "end") => {
+		function registerSentinel(
+			id: string,
+			element: HTMLElement,
+			kind: CanvasSentinelKind
+		): () => void {
 			elementMetaRef.current.set(element, { id, kind });
 			if (kind === "end") {
 				endSentinelIdsRef.current.add(id);
@@ -476,6 +607,10 @@ export function BlogWithCanvas({
 				clearTimeout(transitionTimerRef.current);
 				transitionTimerRef.current = null;
 			}
+			if (scrollIdleTimerRef.current) {
+				clearTimeout(scrollIdleTimerRef.current);
+				scrollIdleTimerRef.current = null;
+			}
 		};
 	}, [clearCloseTimer]);
 
@@ -496,23 +631,33 @@ export function BlogWithCanvas({
 				registerSentinel,
 			}}
 		>
+			{/*
+			 * Full-bleed container: breaks out of parent constraints
+			 * Uses 100vw width with negative margin to escape container
+			 * This allows marginRight animation to work relative to viewport
+			 */}
 			<div
-				className={cn("relative min-h-screen", className)}
+				className={cn(
+					"relative min-h-screen",
+					// Break out of parent container to full viewport width
+					"w-screen -ml-[calc((100vw-100%)/2)]",
+					className
+				)}
 				data-canvas-layout
 				data-active={hasActiveZone}
 			>
-				{/* Blog Column - animates margin when canvas active */}
+				{/* Blog Column - slides left when canvas is active */}
 				<motion.div
 					className="relative"
+					data-blog-column
 					animate={{
-						// Desktop: shift left when canvas active
-						// Mobile: stay full width (canvas shown inline via CanvasZone)
-						marginRight: hasActiveZone && isDesktop ? "50vw" : "0vw",
+						// Shift content left by half the canvas width when active
+						x: hasActiveZone ? "-25vw" : 0,
 					}}
-					transition={transition}
-					style={{ willChange: "margin" }}
+					transition={prefersReducedMotion ? { duration: 0 } : transition}
+					style={{ willChange: hasActiveZone ? "transform" : "auto" }}
 				>
-					{/* Content lock - max width for readability */}
+					{/* Content lock - max width for readability, centered */}
 					<div className="max-w-[var(--blog-content-width,680px)] mx-auto px-4 md:px-6">
 						{children}
 						<div
@@ -524,38 +669,45 @@ export function BlogWithCanvas({
 					</div>
 				</motion.div>
 
-				{/* Canvas Column - fixed position overlay that slides in */}
-				<AnimatePresence mode="wait">
+				{/* Canvas Column - fixed overlay that stretches from right edge */}
+				<AnimatePresence mode="sync">
 					{hasActiveZone && (
 						<motion.div
 							className={cn(
 								// Fixed positioning - stays in viewport while scrolling
 								"fixed top-0 right-0 h-screen",
-								// Half width on desktop
-								"w-1/2",
+								// NO fixed width - animated from 0 to 50vw
 								// Hidden on mobile
 								"hidden md:flex",
 								// Visual styling
 								"p-4 items-center justify-center",
-								// High z-index to stay above content
-								"z-40"
+								// High z-index to overlay content
+								"z-40",
+								// Clip content during width expansion
+								"overflow-hidden"
 							)}
 							data-canvas-column
-							// Slide in from right
-							initial={{ x: "100%" }}
-							animate={{ x: "0%" }}
-							exit={{ x: "100%" }}
-							transition={transition}
-							style={{ willChange: "transform" }}
+							// Width stretch instead of x slide
+							initial={{ width: 0 }}
+							animate={{ width: "50vw" }}
+							exit={{ width: 0 }}
+							transition={prefersReducedMotion ? { duration: 0 } : springCanvasStretch}
+							style={{ willChange: "width" }}
 						>
-							{/* Canvas content area - no background, let child handle styling */}
-							<div className="w-full h-full">
+							{/* Content wrapper with delayed fade-in after container expands */}
+							<motion.div
+								className="w-full h-full"
+								initial={prefersReducedMotion ? {} : { opacity: 0, scale: 0.98 }}
+								animate={{ opacity: 1, scale: 1 }}
+								exit={prefersReducedMotion ? {} : { opacity: 0, scale: 0.98 }}
+								transition={prefersReducedMotion ? { duration: 0 } : canvasContentReveal}
+							>
 								{canvasContent || (
 									<div className="w-full h-full flex items-center justify-center text-muted-foreground font-mono text-sm bg-muted rounded-2xl">
 										Canvas Active
 									</div>
 								)}
-							</div>
+							</motion.div>
 						</motion.div>
 					)}
 				</AnimatePresence>
@@ -572,7 +724,7 @@ export function BlogWithCanvas({
  * Temporary toggle button for testing layout animation.
  * Remove after Phase 2 when CanvasZone handles activation.
  */
-export function CanvasToggleButton() {
+export function CanvasToggleButton(): JSX.Element {
 	const { hasActiveZone, setHasActiveZone } = useCanvasLayout();
 
 	return (

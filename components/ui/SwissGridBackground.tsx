@@ -1,59 +1,43 @@
-"use client";
+import { cn } from "@/lib/utils";
 
-import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
+interface SwissGridBackgroundProps {
+  /** Show subtle dot pattern (default: false) */
+  showDots?: boolean;
+  /** Additional className for customization */
+  className?: string;
+}
 
 /**
- * OatmealBackground - Clean, smooth background
+ * SwissGridBackground - Minimal background component
  *
- * Design Philosophy:
- * - No canvas noise or grain
- * - Warm cream (light) / deep charcoal (dark)
- * - Optional subtle depth gradient
- * - Respects prefers-reduced-motion
+ * Design Philosophy (OpenAI-inspired):
+ * - Clean, plain backgrounds
+ * - Uses CSS variables for theme-aware colors
+ * - Optional subtle dot pattern for texture
+ * - No complex gradients or noise
  */
-export function SwissGridBackground() {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return null;
-  }
-
-  const isDark = resolvedTheme === "dark";
-
+export function SwissGridBackground({
+  showDots = false,
+  className,
+}: SwissGridBackgroundProps): JSX.Element {
   return (
     <div
-      className="fixed inset-0 -z-10 overflow-hidden select-none pointer-events-none"
+      className={cn(
+        "fixed inset-0 -z-10 select-none pointer-events-none",
+        "bg-background",
+        className
+      )}
       aria-hidden="true"
-      style={{
-        backgroundColor: isDark ? "#0e0e0c" : "#f8f6ef",
-      }}
     >
-      {/* Subtle depth gradient - adds dimension without noise */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: isDark
-            ? "linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.15) 100%)"
-            : "linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.02) 100%)",
-        }}
-      />
-
-      {/* Optional: Very subtle radial vignette for focus */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: isDark
-            ? "radial-gradient(ellipse 80% 60% at 50% 40%, transparent 0%, rgba(0, 0, 0, 0.2) 100%)"
-            : "radial-gradient(ellipse 80% 60% at 50% 40%, transparent 0%, rgba(0, 0, 0, 0.03) 100%)",
-        }}
-      />
+      {showDots && (
+        <div
+          className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08]"
+          style={{
+            backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+            backgroundSize: "24px 24px",
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -1,16 +1,35 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { courses } from "@/lib/source";
-import { CourseLayout } from "@/components/courses/CourseLayout";
+import { CourseShell } from "@/components/courses/CourseShell";
 import { VideoPlayer } from "@/components/courses/VideoPlayer";
 import { LessonResources, type Resource } from "@/components/courses/LessonResources";
 import { AccessGate } from "@/components/courses/AccessGate";
 import { LessonNavigation } from "@/components/courses/LessonNavigation";
-import { Breadcrumbs } from "@/components/courses/Breadcrumbs";
 import customComponents from "@/lib/custom-components";
 import type { AccessLevel } from "@/hooks/useAccess";
 
+type CoursePage = ReturnType<typeof courses.getPages>[number];
+
+interface LessonLink {
+  slug: string;
+  title: string;
+  module: string;
+  order: number;
+  url: string;
+  access: AccessLevel;
+}
+
+interface LessonData {
+  lessonPage: CoursePage | undefined;
+  coursePage: CoursePage | undefined;
+  allLessons: LessonLink[];
+  prevLesson: LessonLink | null;
+  nextLesson: LessonLink | null;
+}
+
 // Get lesson and all lessons for a course
-function getLessonData(courseSlug: string, lessonSlug: string) {
+function getLessonData(courseSlug: string, lessonSlug: string): LessonData {
   const pages = courses.getPages();
 
   // Find the specific lesson
@@ -60,7 +79,7 @@ function getLessonData(courseSlug: string, lessonSlug: string) {
 
 export default async function LessonPage(props: {
   params: Promise<{ slug: string; lesson: string }>;
-}) {
+}): Promise<JSX.Element> {
   const params = await props.params;
   const { lessonPage, coursePage, allLessons, prevLesson, nextLesson } =
     getLessonData(params.slug, params.lesson);
@@ -77,49 +96,36 @@ export default async function LessonPage(props: {
     module?: string;
     access?: string;
     resources?: Resource[];
+    toc?: Array<{ title: string; url: string; depth: number }>;
   };
 
   const courseData = coursePage?.data as {
     title?: string;
   };
 
-  const tocItems = lessonPage.data.toc.map((item) => ({
-    title:
-      typeof item.title === "string" ? item.title : String(item.title ?? ""),
-    url: item.url,
-    depth: item.depth,
-  }));
-
   const accessLevel = (lessonData.access || "public") as AccessLevel;
 
+  // Extract TOC items for right sidebar
+  const tocItems = lessonData.toc || [];
+
   return (
-    <CourseLayout
+    <CourseShell
       courseSlug={params.slug}
+      courseName={courseData?.title || params.slug}
       lessons={allLessons}
       tocItems={tocItems}
     >
-      <article className="py-8 lg:py-16">
-        {/* Breadcrumbs */}
-        <Breadcrumbs
-          items={[
-            { label: "Courses", href: "/courses" },
-            {
-              label: courseData?.title || params.slug,
-              href: `/courses/${params.slug}`,
-            },
-            { label: lessonData.title || params.lesson },
-          ]}
-          className="mb-6"
-        />
-
-        {/* Video Player with progress tracking */}
-        <VideoPlayer
-          playbackId={lessonData.playbackId}
-          title={lessonData.title}
-          courseSlug={params.slug}
-          lessonSlug={params.lesson}
-          className="mb-8"
-        />
+      <article className="py-8 lg:py-12">
+        {/* Video Player - constrained width */}
+        <div className="max-w-4xl">
+          <VideoPlayer
+            playbackId={lessonData.playbackId}
+            title={lessonData.title}
+            courseSlug={params.slug}
+            lessonSlug={params.lesson}
+            className="mb-8"
+          />
+        </div>
 
         {/* Access-gated content */}
         <AccessGate
@@ -130,13 +136,13 @@ export default async function LessonPage(props: {
           {/* Lesson Header */}
           <header className="mb-8">
             {lessonData.module && (
-              <span className="text-swiss-label text-primary mb-2 block">
+              <p className="text-[15px] text-foreground/50 mb-3">
                 {lessonData.module}
-              </span>
+              </p>
             )}
-            <h1 className="text-swiss-hero mb-4">{lessonData.title}</h1>
+            <h1 className="text-[15px] text-foreground font-medium mb-3">{lessonData.title}</h1>
             {lessonData.description && (
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-[15px] text-foreground/60 leading-relaxed max-w-xl">
                 {lessonData.description}
               </p>
             )}
@@ -145,7 +151,7 @@ export default async function LessonPage(props: {
           {/* Divider */}
           <div className="h-px bg-border mb-8" />
 
-          {/* Content */}
+          {/* Content - prose handles its own max-width */}
           <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-medium prose-headings:tracking-tight prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-code:text-primary prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:before:content-none prose-code:after:content-none prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground">
             <Mdx components={customComponents} />
           </div>
@@ -161,10 +167,11 @@ export default async function LessonPage(props: {
           prevLesson={prevLesson}
           nextLesson={nextLesson}
           courseSlug={params.slug}
+          lessonSlug={params.lesson}
           className="mt-12"
         />
       </article>
-    </CourseLayout>
+    </CourseShell>
   );
 }
 
@@ -186,7 +193,7 @@ export function generateStaticParams(): { slug: string; lesson: string }[] {
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string; lesson: string }>;
-}) {
+}): Promise<Metadata> {
   const params = await props.params;
   const { lessonPage } = getLessonData(params.slug, params.lesson);
 

@@ -22,7 +22,7 @@ export function GradualBlur({
   height = "180px",
   className,
   fadeThreshold = 0.75,
-}: GradualBlurProps) {
+}: GradualBlurProps): JSX.Element {
   const [opacity, setOpacity] = useState(1);
   const prefersReducedMotion = useReducedMotion();
 

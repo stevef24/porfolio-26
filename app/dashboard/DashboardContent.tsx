@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -34,14 +34,14 @@ export function DashboardContent({
   courses,
   progress,
   userEmail,
-}: DashboardContentProps) {
+}: DashboardContentProps): JSX.Element {
   const prefersReducedMotion = useReducedMotion();
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
 
   // Sync localStorage progress on mount
   useEffect(() => {
-    const syncLocalProgress = async () => {
+    function syncLocalProgress(): void {
       const localProgress = getLocalStorageProgressForSync();
 
       // Check if there's any local progress to sync
@@ -51,34 +51,37 @@ export function DashboardContent({
       setIsSyncing(true);
       setSyncMessage("Syncing your progress...");
 
-      try {
-        const response = await fetch("/api/progress/sync", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ courses: localProgress }),
-        });
+      void fetch("/api/progress/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ courses: localProgress }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.ok) {
+            clearLocalStorageProgress();
+            if (result.synced > 0) {
+              const lessonLabel = result.synced === 1 ? "lesson" : "lessons";
+              setSyncMessage(
+                `Synced ${result.synced} ${lessonLabel} from this device`
+              );
+              return;
+            }
+            setSyncMessage(null);
+            return;
+          }
 
-        const result = await response.json();
-
-        if (result.ok) {
-          // Clear localStorage after successful sync
-          clearLocalStorageProgress();
-          setSyncMessage(
-            result.synced > 0
-              ? `Synced ${result.synced} lesson${result.synced > 1 ? "s" : ""} from this device`
-              : null
-          );
-        } else {
           setSyncMessage("Failed to sync progress");
-        }
-      } catch {
-        setSyncMessage("Failed to sync progress");
-      } finally {
-        setIsSyncing(false);
-        // Clear message after 3 seconds
-        setTimeout(() => setSyncMessage(null), 3000);
-      }
-    };
+        })
+        .catch(() => {
+          setSyncMessage("Failed to sync progress");
+        })
+        .finally(() => {
+          setIsSyncing(false);
+          // Clear message after 3 seconds
+          window.setTimeout(() => setSyncMessage(null), 3000);
+        });
+    }
 
     syncLocalProgress();
   }, []);
@@ -93,10 +96,10 @@ export function DashboardContent({
           transition={{ duration: 0.4 }}
           className="mb-12"
         >
-          <p className="text-swiss-label text-muted-foreground mb-2">
+          <p className="text-caption text-muted-foreground mb-2">
             Dashboard
           </p>
-          <h1 className="text-swiss-hero mb-4">Your Learning Progress</h1>
+          <h1 className="text-display-lg mb-4">Your Learning Progress</h1>
           <p className="text-muted-foreground text-base">
             Signed in as{" "}
             <span className="text-foreground font-medium">{userEmail}</span>
@@ -152,7 +155,7 @@ export function DashboardContent({
                 >
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div className="flex-1">
-                      <h2 className="text-swiss-subheading mb-1 group-hover:text-primary transition-colors">
+                      <h2 className="text-meta mb-1 group-hover:text-primary transition-colors">
                         {course.title}
                       </h2>
                       {course.description && (
@@ -220,7 +223,7 @@ export function DashboardContent({
   );
 }
 
-function SyncIcon({ className }: { className?: string }) {
+function SyncIcon({ className }: { className?: string }): JSX.Element {
   return (
     <svg
       className={className}

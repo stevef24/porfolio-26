@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 const badgeVariants = cva(
   [
     "inline-flex items-center justify-center",
-    "rounded-full", // Pill shape per Oatmeal
+    "rounded-[4px]", // 4px radius
     "px-3 py-0.5",
     "text-sm font-medium", // 14px
     "whitespace-nowrap",
@@ -23,10 +23,10 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: [
-          "bg-primary text-primary-foreground",
+          "bg-[rgba(0,0,0,0.08)] dark:bg-[rgba(255,255,255,0.08)] text-foreground",
         ],
         secondary: [
-          "bg-secondary text-secondary-foreground",
+          "bg-[rgba(0,0,0,0.04)] dark:bg-[rgba(255,255,255,0.04)] text-secondary-foreground",
           "border-border",
         ],
         outline: [
@@ -34,11 +34,11 @@ const badgeVariants = cva(
           "border-border",
         ],
         destructive: [
-          "bg-destructive/10 text-destructive",
+          "bg-[rgba(220,38,38,0.1)] text-destructive",
         ],
         // Muted/ghost style
         ghost: [
-          "bg-muted text-muted-foreground",
+          "bg-[rgba(0,0,0,0.04)] dark:bg-[rgba(255,255,255,0.04)] text-muted-foreground",
         ],
       },
     },
@@ -54,7 +54,7 @@ function Badge({
   asChild = false,
   ...props
 }: React.ComponentProps<"span"> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
+  VariantProps<typeof badgeVariants> & { asChild?: boolean }): JSX.Element {
   const Comp = asChild ? Slot.Root : "span"
 
   return (

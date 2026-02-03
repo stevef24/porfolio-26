@@ -25,7 +25,7 @@
  * ```
  */
 
-import { ReactNode, useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface RenderCanvasProps {
@@ -45,7 +45,7 @@ export function RenderCanvas({
   steps,
   activeStep,
   className,
-}: RenderCanvasProps) {
+}: RenderCanvasProps): JSX.Element {
   // Clamp activeStep to valid range
   const clampedStep = useMemo(() => {
     if (steps.length === 0) return 0;
@@ -56,12 +56,7 @@ export function RenderCanvas({
   const currentContent = steps[clampedStep] ?? null;
 
   return (
-    <div
-      className={cn(
-        "relative w-full h-full min-h-0",
-        className
-      )}
-    >
+    <div className={cn("relative w-full h-full min-h-0", className)}>
       {currentContent}
     </div>
   );

@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { FocusSplitLayout } from "@/components/blog/FocusSplitLayout";
 import { FocusModeToggle } from "@/components/blog/FocusModeToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -19,7 +18,7 @@ export function FocusSplitView({
 	right,
 	panelWidth = 420,
 	className,
-}: FocusSplitViewProps) {
+}: FocusSplitViewProps): JSX.Element {
 	const isMobile = useIsMobile();
 	const [mode, setMode] = useState<"split" | "read">("split");
 

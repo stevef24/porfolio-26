@@ -13,16 +13,17 @@ import {
 	type SandpackTheme,
 } from "@codesandbox/sandpack-react";
 import { githubLight, sandpackDark } from "@codesandbox/sandpack-themes";
-import { motion, useReducedMotion } from "motion/react";
-import { useTheme } from "next-themes";
-import { cn } from "@/lib/utils";
-import { HugeiconsIcon } from "@hugeicons/react";
 import {
 	Refresh01Icon,
 	ArrowExpandDiagonal01Icon,
 	HashtagIcon,
 	RotateLeft01Icon,
 } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { motion, useReducedMotion } from "motion/react";
+import { useTheme } from "next-themes";
+import type { Plugin } from "prettier";
+import { cn } from "@/lib/utils";
 
 // ==========================================
 // TYPES
@@ -53,7 +54,7 @@ const NEXT_TS_FILES: SandpackFiles = {
 
 import type { AppProps } from "next/app";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps): JSX.Element {
   return <Component {...pageProps} />;
 }
 `,
@@ -61,7 +62,7 @@ export default function App({ Component, pageProps }: AppProps) {
   data: string;
 };
 
-export default function Home({ data }: HomeProps) {
+export default function Home({ data }: HomeProps): JSX.Element {
   return (
     <main>
       <h1>Hello {data}</h1>
@@ -69,7 +70,7 @@ export default function Home({ data }: HomeProps) {
   );
 }
 
-export function getServerSideProps() {
+export function getServerSideProps(): { props: { data: string } } {
   return {
     props: { data: "world" },
   };
@@ -108,18 +109,18 @@ const NEXT_TS_SETUP = {
 // UTILITY FUNCTIONS
 // ==========================================
 
-const resolveTemplate = (
+function resolveTemplate(
 	template?: PlaygroundTemplate
-): SandpackPredefinedTemplate => {
+): SandpackPredefinedTemplate {
 	if (!template) return DEFAULT_TEMPLATE;
 	if (template === "nextjs-ts") return "nextjs";
 	return template;
-};
+}
 
-const createSwissTheme = (
+function createSwissTheme(
 	baseTheme: SandpackTheme,
 	mode: "light" | "dark"
-): SandpackTheme => {
+): SandpackTheme {
 	if (mode === "dark") {
 		return {
 			...baseTheme,
@@ -193,9 +194,9 @@ const createSwissTheme = (
 			lineHeight: "24px",
 		},
 	};
-};
+}
 
-const resolvePrettierParser = (filePath: string) => {
+function resolvePrettierParser(filePath: string): string | null {
 	const extension = filePath.split(".").pop()?.toLowerCase();
 	if (!extension) return null;
 
@@ -206,11 +207,10 @@ const resolvePrettierParser = (filePath: string) => {
 	if (extension === "json") return "json";
 
 	return null;
-};
+}
 
-const loadPrettierPlugins = async (parser: string) => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const plugins: Array<any> = [];
+async function loadPrettierPlugins(parser: string): Promise<Plugin[]> {
+	const plugins: Plugin[] = [];
 	if (parser === "babel" || parser === "json") {
 		const [{ default: babel }, { default: estree }] = await Promise.all([
 			import("prettier/plugins/babel"),
@@ -238,7 +238,7 @@ const loadPrettierPlugins = async (parser: string) => {
 	}
 
 	return plugins;
-};
+}
 
 // ==========================================
 // PLAYGROUND HEADER COMPONENT
@@ -262,7 +262,7 @@ function PlaygroundHeader({
 	onRefresh,
 	onToggleFullscreen,
 	isFullscreen,
-}: PlaygroundHeaderProps) {
+}: PlaygroundHeaderProps): JSX.Element {
 	return (
 		<div className="flex items-center justify-between px-3 py-2 border-b border-border bg-muted/30">
 			{/* Title */}
@@ -344,35 +344,42 @@ function PlaygroundHeader({
 // FORMAT ON SAVE COMPONENT
 // ==========================================
 
-const FormatOnSave = ({
+function FormatOnSave({
 	containerRef,
 }: {
 	containerRef: React.RefObject<HTMLDivElement | null>;
-}) => {
+}): JSX.Element | null {
 	const { sandpack } = useSandpack();
 
-	const formatActiveFile = React.useCallback(async () => {
+	const formatActiveFile = React.useCallback(function formatActiveFile(): Promise<void> {
 		const activeFile = sandpack.activeFile;
 		const file = sandpack.files[activeFile];
 		const code = typeof file?.code === "string" ? file.code : "";
 		const parser = resolvePrettierParser(activeFile);
-		if (!parser || !code) return;
+		if (!parser || !code) return Promise.resolve();
 
-		try {
-			const prettier = (await import("prettier/standalone")).default;
-			const plugins = await loadPrettierPlugins(parser);
-			const formatted = await prettier.format(code, {
-				parser,
-				plugins,
-				semi: true,
-				singleQuote: true,
-				trailingComma: "es5",
-				printWidth: 80,
+		return import("prettier/standalone")
+			.then((prettierModule) => {
+				const prettier = prettierModule.default;
+				return loadPrettierPlugins(parser).then((plugins) => ({
+					prettier,
+					plugins,
+				}));
+			})
+			.then(async ({ prettier, plugins }) => {
+				const formatted = await prettier.format(code, {
+					parser,
+					plugins,
+					semi: true,
+					singleQuote: true,
+					trailingComma: "es5",
+					printWidth: 80,
+				});
+				sandpack.updateFile(activeFile, formatted, true);
+			})
+			.catch((error) => {
+				console.error("Code formatting failed:", error);
 			});
-			sandpack.updateFile(activeFile, formatted, true);
-		} catch (error) {
-			console.error("Code formatting failed:", error);
-		}
 	}, [sandpack]);
 
 	React.useEffect(() => {
@@ -393,7 +400,7 @@ const FormatOnSave = ({
 	}, [containerRef, formatActiveFile]);
 
 	return null;
-};
+}
 
 // ==========================================
 // PLAYGROUND INNER COMPONENT
@@ -409,7 +416,7 @@ function PlaygroundInner({
 	showTabs: boolean;
 	showHeader: boolean;
 	title: string;
-}) {
+}): JSX.Element {
 	const { sandpack } = useSandpack();
 	const { refresh } = useSandpackNavigation();
 	const prefersReducedMotion = useReducedMotion();
@@ -421,33 +428,41 @@ function PlaygroundInner({
 	const [isFullscreen, setIsFullscreen] = React.useState(false);
 
 	// Action handlers
-	const handleReset = React.useCallback(() => {
+	const handleReset = React.useCallback(function handleReset(): void {
 		sandpack.resetAllFiles();
 	}, [sandpack]);
 
-	const handleRefresh = React.useCallback(() => {
+	const handleRefresh = React.useCallback(function handleRefresh(): void {
 		refresh();
 	}, [refresh]);
 
-	const handleToggleLineNumbers = React.useCallback(() => {
+	const handleToggleLineNumbers = React.useCallback(
+		function handleToggleLineNumbers(): void {
 		setShowLineNumbers((prev) => !prev);
-	}, []);
+		},
+		[]
+	);
 
-	const handleToggleFullscreen = React.useCallback(async () => {
-		if (!containerRef.current) return;
+	const handleToggleFullscreen = React.useCallback(
+		function handleToggleFullscreen(): Promise<void> {
+			const container = containerRef.current;
+			if (!container) return Promise.resolve();
 
-		try {
-			if (!document.fullscreenElement) {
-				await containerRef.current.requestFullscreen();
-				setIsFullscreen(true);
-			} else {
-				await document.exitFullscreen();
-				setIsFullscreen(false);
-			}
-		} catch (error) {
-			console.error("Fullscreen error:", error);
-		}
-	}, []);
+			const shouldEnter = !document.fullscreenElement;
+			const togglePromise = shouldEnter
+				? container.requestFullscreen()
+				: document.exitFullscreen();
+
+			return togglePromise
+				.then(() => {
+					setIsFullscreen(shouldEnter);
+				})
+				.catch((error) => {
+					console.error("Fullscreen error:", error);
+				});
+		},
+		[]
+	);
 
 	// Listen for fullscreen changes (e.g., Esc key)
 	React.useEffect(() => {
@@ -463,7 +478,7 @@ function PlaygroundInner({
 
 	// Resize logic
 	const startResizing = React.useCallback(
-		(event: React.PointerEvent<HTMLButtonElement>) => {
+		function startResizing(event: React.PointerEvent<HTMLButtonElement>): void {
 			if (!showPreview || !containerRef.current) return;
 
 			event.preventDefault();
@@ -582,7 +597,7 @@ function PlaygroundInner({
 // MAIN COMPONENT
 // ==========================================
 
-const CodePlaygroundClient = ({
+export default function CodePlaygroundClient({
 	template,
 	files,
 	showPreview = true,
@@ -590,7 +605,7 @@ const CodePlaygroundClient = ({
 	showHeader = true,
 	title = "Code Playground",
 	className,
-}: CodePlaygroundProps) => {
+}: CodePlaygroundProps): JSX.Element {
 	const { resolvedTheme } = useTheme();
 	const prefersReducedMotion = useReducedMotion();
 
@@ -636,6 +651,4 @@ const CodePlaygroundClient = ({
 			</SandpackProvider>
 		</motion.div>
 	);
-};
-
-export default CodePlaygroundClient;
+}

@@ -1,7 +1,6 @@
 "use client";
 
-import * as React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -16,7 +15,7 @@ interface LinkMetadata {
 
 interface LinkPreviewProps {
   href: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }
 
@@ -25,7 +24,11 @@ interface LinkPreviewProps {
  * Fetches Open Graph metadata for rich previews
  * Uses Portal to avoid hydration errors when inside <p> tags
  */
-export function LinkPreview({ href, children, className }: LinkPreviewProps) {
+export function LinkPreview({
+  href,
+  children,
+  className,
+}: LinkPreviewProps): JSX.Element {
   const [isHovered, setIsHovered] = useState(false);
   const [metadata, setMetadata] = useState<LinkMetadata | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +39,8 @@ export function LinkPreview({ href, children, className }: LinkPreviewProps) {
   const [hasMounted, setHasMounted] = useState(false);
   const triggerRef = useRef<HTMLAnchorElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const isHttpLink = href.startsWith("http");
+  const hoverOffset = position === "top" ? 8 : -8;
 
   // Check if it's an external link (client-side only)
   useEffect(() => {
@@ -67,21 +72,26 @@ export function LinkPreview({ href, children, className }: LinkPreviewProps) {
   useEffect(() => {
     if (!isHovered || metadata || isLoading || error || !isExternal) return;
 
-    const fetchMetadata = async () => {
+    function fetchMetadata(): void {
       setIsLoading(true);
-      try {
-        const response = await fetch(
-          `/api/link-preview?url=${encodeURIComponent(href)}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch");
-        const data = await response.json();
-        setMetadata(data);
-      } catch {
-        setError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+
+      void fetch(`/api/link-preview?url=${encodeURIComponent(href)}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setMetadata(data);
+        })
+        .catch(() => {
+          setError(true);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
 
     const timeout = setTimeout(fetchMetadata, 300);
     return () => clearTimeout(timeout);
@@ -90,7 +100,15 @@ export function LinkPreview({ href, children, className }: LinkPreviewProps) {
   // Don't show preview for internal links or hash links
   if (!hasMounted || !isExternal || href.startsWith("#")) {
     return (
-      <a href={href} className={className} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noopener noreferrer" : undefined}>
+      <a
+        href={href}
+        className={cn(
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm",
+          className
+        )}
+        target={isHttpLink ? "_blank" : undefined}
+        rel={isHttpLink ? "noopener noreferrer" : undefined}
+      >
         {children}
       </a>
     );
@@ -109,25 +127,23 @@ export function LinkPreview({ href, children, className }: LinkPreviewProps) {
             transform: "translateX(-50%)",
           }}
           initial={
-            prefersReducedMotion
-              ? { opacity: 0 }
-              : { opacity: 0, y: position === "top" ? 8 : -8 }
+            prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: hoverOffset }
           }
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: position === "top" ? 8 : -8 }}
+          exit={{ opacity: 0, y: hoverOffset }}
           transition={
             prefersReducedMotion
               ? { duration: 0 }
               : { type: "spring", stiffness: 400, damping: 25 }
           }
         >
-          <div className="overflow-hidden rounded-none border border-border bg-card/95 backdrop-blur-sm shadow-lg">
+          <div className="overflow-hidden rounded-xl border border-border/50 bg-card/95 backdrop-blur-xl shadow-xl shadow-black/10 dark:shadow-black/30">
             {isLoading ? (
               <div className="p-4">
-                <div className="animate-pulse space-y-2">
-                  <div className="h-4 w-3/4 rounded-none bg-muted" />
-                  <div className="h-3 w-full rounded-none bg-muted" />
-                  <div className="h-3 w-2/3 rounded-none bg-muted" />
+                <div className="animate-pulse space-y-3">
+                  <div className="h-4 w-3/4 rounded bg-muted" />
+                  <div className="h-3 w-full rounded bg-muted" />
+                  <div className="h-3 w-2/3 rounded bg-muted" />
                 </div>
               </div>
             ) : error ? (
@@ -139,38 +155,42 @@ export function LinkPreview({ href, children, className }: LinkPreviewProps) {
             ) : metadata ? (
               <>
                 {metadata.image && (
-                  <div className="relative h-36 w-full overflow-hidden bg-muted">
+                  <div className="relative h-32 w-full overflow-hidden bg-muted">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={metadata.image}
                       alt=""
-                      className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                      width={640}
+                      height={320}
+                      className="h-full w-full object-cover"
                       loading="lazy"
                     />
                   </div>
                 )}
-                <div className="p-4 space-y-2">
+                <div className="p-3.5 space-y-2">
                   <div className="flex items-center gap-2">
                     {metadata.favicon && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={metadata.favicon}
                         alt=""
-                        className="h-4 w-4 rounded-none"
+                        width={16}
+                        height={16}
+                        className="h-4 w-4 rounded"
                         loading="lazy"
                       />
                     )}
-                    <span className="text-xs text-muted-foreground truncate">
+                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground truncate">
                       {metadata.siteName || new URL(href).hostname}
                     </span>
                   </div>
                   {metadata.title && (
-                    <h4 className="text-sm font-medium text-foreground leading-tight line-clamp-2">
+                    <h4 className="text-sm font-medium text-foreground leading-snug line-clamp-2">
                       {metadata.title}
                     </h4>
                   )}
                   {metadata.description && (
-                    <p className="text-xs text-muted-foreground line-clamp-2">
+                    <p className="text-xs text-muted-foreground/80 leading-relaxed line-clamp-2">
                       {metadata.description}
                     </p>
                   )}
@@ -196,7 +216,10 @@ export function LinkPreview({ href, children, className }: LinkPreviewProps) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={cn("inline", className)}
+        className={cn(
+          "inline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm",
+          className
+        )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onFocus={() => setIsHovered(true)}

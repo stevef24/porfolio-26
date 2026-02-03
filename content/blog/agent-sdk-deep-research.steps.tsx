@@ -1,18 +1,17 @@
 /**
- * Deep Research Agent - ScrollyCoding Steps
+ * Deep Research Agent - Code Steps for CanvasCodeStage
  *
  * Progressive code walkthrough for building a research agent with the Claude Agent SDK.
- * Import these steps in the MDX file and pass to the Scrolly component.
+ * Uses Shiki Magic Move for animated token transitions between steps.
  */
 
-import type { ScrollyCodeStep } from "@/lib/scrolly/types";
+import type { CodeStep } from "@/components/blog/CanvasCodeStage";
 
-export const deepResearchSteps: ScrollyCodeStep[] = [
-	{
-		id: "hello-agent",
-		title: "Your first agent query",
-		body: "Start with the basics. The SDK's query() function returns an async generator that streams messages as Claude works. Each message tells you what Claude is thinking, which tools it's using, and when it's done.",
-		code: `import { query } from "@anthropic-ai/claude-agent-sdk"
+export const deepResearchSteps: CodeStep[] = [
+  {
+    id: "hello-agent",
+    title: "Your first agent query",
+    code: `import { query } from "@anthropic-ai/claude-agent-sdk"
 
 async function main() {
   for await (const message of query({
@@ -31,15 +30,13 @@ async function main() {
     }
   }
 }`,
-		lang: "ts",
-		file: "agent.ts",
-		focusLines: [3, 4, 5, 6, 7, 8, 9, 10, 11],
-	},
-	{
-		id: "agent-config",
-		title: "Configuring agent behavior",
-		body: "The options object controls everything about how your agent runs. Permission modes determine what the agent can do without asking, and maxTurns prevents runaway loops. For research tasks, we want read-only access with automatic approval.",
-		code: `import { query } from "@anthropic-ai/claude-agent-sdk"
+    lang: "ts",
+    file: "agent.ts",
+  },
+  {
+    id: "agent-config",
+    title: "Configuring agent behavior",
+    code: `import { query } from "@anthropic-ai/claude-agent-sdk"
 
 async function research(topic: string) {
   for await (const message of query({
@@ -59,15 +56,13 @@ async function research(topic: string) {
     handleMessage(message)
   }
 }`,
-		lang: "ts",
-		file: "agent.ts",
-		focusLines: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-	},
-	{
-		id: "custom-tools",
-		title: "Adding custom tools with MCP",
-		body: "The SDK uses Model Context Protocol (MCP) for custom tools - the same protocol that powers Claude Code's extensibility. Define tools with the @tool decorator and createSdkMcpServer to package them. Each tool declares its inputs with Zod schemas, giving you runtime validation and TypeScript inference. This citation formatter shows the pattern: clear name, description Claude can understand, typed parameters, and a content response.",
-		code: `import { query, tool, createSdkMcpServer } from "@anthropic-ai/claude-agent-sdk"
+    lang: "ts",
+    file: "agent.ts",
+  },
+  {
+    id: "custom-tools",
+    title: "Adding custom tools with MCP",
+    code: `import { query, tool, createSdkMcpServer } from "@anthropic-ai/claude-agent-sdk"
 import { z } from "zod"
 
 const researchTools = createSdkMcpServer({
@@ -96,15 +91,13 @@ const researchTools = createSdkMcpServer({
     )
   ]
 })`,
-		lang: "ts",
-		file: "tools.ts",
-		focusLines: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26],
-	},
-	{
-		id: "structured-output",
-		title: "Getting structured reports",
-		body: "For programmatic use, you need structured data, not prose. The SDK supports JSON Schema output format. Define your report schema and Claude will return data that matches it exactly.",
-		code: `const reportSchema = {
+    lang: "ts",
+    file: "tools.ts",
+  },
+  {
+    id: "structured-output",
+    title: "Getting structured reports",
+    code: `const reportSchema = {
   type: "object",
   properties: {
     topic: { type: "string" },
@@ -134,15 +127,13 @@ options: {
     schema: reportSchema
   }
 }`,
-		lang: "ts",
-		file: "schema.ts",
-		focusLines: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
-	},
-	{
-		id: "subagent-searcher",
-		title: "Creating specialized subagents",
-		body: "Complex research benefits from specialization. Define subagents with focused prompts and limited tools. This source-finder subagent only searches - it doesn't analyze or synthesize. Separation of concerns makes each piece more reliable.",
-		code: `import { query, AgentDefinition } from "@anthropic-ai/claude-agent-sdk"
+    lang: "ts",
+    file: "schema.ts",
+  },
+  {
+    id: "subagent-searcher",
+    title: "Creating specialized subagents",
+    code: `import { query, AgentDefinition } from "@anthropic-ai/claude-agent-sdk"
 
 const sourceFinder: AgentDefinition = {
   description: "Find diverse, authoritative sources on a topic",
@@ -164,15 +155,13 @@ options: {
   },
   allowedTools: ["Task", "Read", "WebFetch"]  // Task enables subagents
 }`,
-		lang: "ts",
-		file: "subagents.ts",
-		focusLines: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-	},
-	{
-		id: "multi-agent",
-		title: "Orchestrating multiple specialists",
-		body: "The real power comes from combining specialists. The orchestrator delegates to source-finder, content-analyst, and fact-checker. Each works independently, and the orchestrator synthesizes their outputs into a coherent report.",
-		code: `import { query, AgentDefinition } from "@anthropic-ai/claude-agent-sdk"
+    lang: "ts",
+    file: "subagents.ts",
+  },
+  {
+    id: "multi-agent",
+    title: "Orchestrating multiple specialists",
+    code: `import { query, AgentDefinition } from "@anthropic-ai/claude-agent-sdk"
 
 const agents: Record<string, AgentDefinition> = {
   "source-finder": {
@@ -204,15 +193,13 @@ for await (const message of query({
     4. Synthesize into a final report\`,
   options: { agents, model: "opus", allowedTools: ["Task"] }
 })) { /* ... */ }`,
-		lang: "ts",
-		file: "orchestrator.ts",
-		focusLines: [24, 25, 26, 27, 28, 29, 30, 31],
-	},
-	{
-		id: "streaming",
-		title: "Real-time progress tracking",
-		body: "Research can take minutes. Without feedback, users wonder if it's working or stuck. The message stream solves this - every tool call, every subagent task, every cost update flows through in real-time. The three message types (system, assistant, result) give you everything needed to build progress UIs: session info on init, tool names as they run, and final cost when done.",
-		code: `import { query } from "@anthropic-ai/claude-agent-sdk"
+    lang: "ts",
+    file: "orchestrator.ts",
+  },
+  {
+    id: "streaming",
+    title: "Real-time progress tracking",
+    code: `import { query } from "@anthropic-ai/claude-agent-sdk"
 
 async function researchWithProgress(topic: string) {
   console.log(\`\\n🔍 Researching: \${topic}\\n\`)
@@ -245,15 +232,13 @@ async function researchWithProgress(topic: string) {
     }
   }
 }`,
-		lang: "ts",
-		file: "progress.ts",
-		focusLines: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
-	},
-	{
-		id: "production",
-		title: "Production-ready research agent",
-		body: "The final agent brings everything together. Type-safe interfaces (ResearchReport) ensure your downstream code knows exactly what to expect. The query options combine all our patterns: subagents for specialization, bypassPermissions for automation, maxTurns for cost control, and JSON schema for structured output. When the result message arrives with subtype 'success', you get typed data ready for your application.",
-		code: `import { query, AgentDefinition } from "@anthropic-ai/claude-agent-sdk"
+    lang: "ts",
+    file: "progress.ts",
+  },
+  {
+    id: "production",
+    title: "Production-ready research agent",
+    code: `import { query, AgentDefinition } from "@anthropic-ai/claude-agent-sdk"
 
 interface ResearchReport {
   topic: string
@@ -294,8 +279,7 @@ async function deepResearch(topic: string): Promise<ResearchReport | null> {
 // Usage
 const report = await deepResearch("AI agent architectures 2026")
 console.log(report?.keyFindings)`,
-		lang: "ts",
-		file: "deep-research.ts",
-		focusLines: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-	},
+    lang: "ts",
+    file: "deep-research.ts",
+  },
 ];

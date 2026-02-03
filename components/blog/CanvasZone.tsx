@@ -33,7 +33,7 @@
  * ```
  */
 
-import { useEffect, useRef, useId, useState, useCallback, ReactNode } from "react";
+import { useEffect, useId, useMemo, useRef, type ReactNode } from "react";
 import { useCanvasLayout } from "./BlogWithCanvas";
 import { CanvasZoneProvider, useCanvasZoneContextOptional } from "./CanvasZoneContext";
 import { cn } from "@/lib/utils";
@@ -158,41 +158,25 @@ function SteppedZoneContent({
   canvasContent,
   deactivateDelay,
   updateZoneConfig,
-}: SteppedZoneContentProps) {
+}: SteppedZoneContentProps): JSX.Element {
   const context = useCanvasZoneContextOptional();
   const activeStepIndex = context?.activeStepIndex ?? 0;
 
   // Track previous step to avoid unnecessary updates
-  const prevStepRef = useRef(activeStepIndex);
+  const prevStepRef = useRef<number | null>(null);
 
   // Update zone config ONLY when step index changes (not on every render)
   // This prevents infinite loops from render prop creating new ReactNode each time
   useEffect(() => {
-    if (prevStepRef.current !== activeStepIndex) {
-      prevStepRef.current = activeStepIndex;
-      // Resolve content inside effect to avoid dependency on ReactNode
-      const content = typeof canvasContent === "function"
-        ? canvasContent(activeStepIndex)
-        : canvasContent;
-      updateZoneConfig(zoneId, {
-        content,
-        deactivateDelay,
-      });
-    }
-  }, [updateZoneConfig, zoneId, activeStepIndex, canvasContent, deactivateDelay]);
-
-  // Also update on initial mount
-  useEffect(() => {
-    const content = typeof canvasContent === "function"
-      ? canvasContent(activeStepIndex)
-      : canvasContent;
+    if (prevStepRef.current === activeStepIndex) return;
+    prevStepRef.current = activeStepIndex;
+    // Resolve content inside effect to avoid dependency on ReactNode
+    const content = resolveCanvasContent(canvasContent, activeStepIndex);
     updateZoneConfig(zoneId, {
       content,
       deactivateDelay,
     });
-    // Only run on mount - activeStepIndex effect handles updates
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [updateZoneConfig, zoneId, activeStepIndex, canvasContent, deactivateDelay]);
 
   return (
     <div
@@ -205,7 +189,6 @@ function SteppedZoneContent({
       data-zone-step={activeStepIndex}
       className={cn(
         "relative",
-        isActive && "md:border-l-2 md:border-primary/30 md:pl-4 md:-ml-4",
         className
       )}
     >
@@ -219,7 +202,7 @@ function SteppedZoneContent({
 // Component
 // ============================================================================
 
-export function CanvasZone(props: CanvasZoneProps) {
+export function CanvasZone(props: CanvasZoneProps): JSX.Element {
   const {
     id: providedId,
     type = "code",
@@ -246,9 +229,10 @@ export function CanvasZone(props: CanvasZoneProps) {
   const isActive = activeZoneId === zoneId;
 
   // For static mode, resolve content once (always use index 0)
-  const staticResolvedContent = mode === "static"
-    ? resolveCanvasContent(canvasContent, 0)
-    : null;
+  const staticResolvedContent = useMemo(() => {
+    if (mode !== "static") return null;
+    return resolveCanvasContent(canvasContent, 0);
+  }, [canvasContent, mode]);
 
   // Find the trigger element if selector provided
   useEffect(() => {
@@ -264,9 +248,8 @@ export function CanvasZone(props: CanvasZoneProps) {
     canvasContentRef.current = canvasContent;
   }, [canvasContent]);
 
-  // Register zone on mount (static mode only - stepped mode registers in inner component)
+  // Register zone on mount
   useEffect(() => {
-    if (mode !== "static") return;
     const zoneElement = zoneRef.current;
     if (!zoneElement) return;
 
@@ -280,31 +263,13 @@ export function CanvasZone(props: CanvasZoneProps) {
       content: initialContent,
       deactivateDelay,
     });
-  }, [registerZone, zoneId, mode, deactivateDelay, triggerSelector]);
+  }, [registerZone, zoneId, deactivateDelay, triggerSelector]);
 
   // Update zone config when content changes (static mode only)
   useEffect(() => {
     if (mode !== "static") return;
     updateZoneConfig(zoneId, { content: staticResolvedContent, deactivateDelay });
   }, [updateZoneConfig, zoneId, mode, staticResolvedContent, deactivateDelay]);
-
-  // Register zone on mount for stepped mode (initial registration)
-  useEffect(() => {
-    if (mode !== "stepped") return;
-    const zoneElement = zoneRef.current;
-    if (!zoneElement) return;
-
-    // Use trigger element if found, otherwise use zone element
-    const observeElement = (triggerSelector && triggerElementRef.current)
-      ? triggerElementRef.current as HTMLElement
-      : zoneElement;
-
-    const initialContent = resolveCanvasContent(canvasContentRef.current, 0);
-    return registerZone(zoneId, observeElement, {
-      content: initialContent,
-      deactivateDelay,
-    });
-  }, [registerZone, zoneId, mode, deactivateDelay, triggerSelector]);
 
   // ============================================================================
   // Render: Stepped mode (with CanvasZoneProvider wrapper)
@@ -341,7 +306,6 @@ export function CanvasZone(props: CanvasZoneProps) {
       data-zone-active={isActive}
       className={cn(
         "relative",
-        isActive && "md:border-l-2 md:border-primary/30 md:pl-4 md:-ml-4",
         className
       )}
     >
@@ -361,7 +325,11 @@ export function CanvasZone(props: CanvasZoneProps) {
   );
 }
 
-export function CanvasGap({ id, className, children }: CanvasGapProps) {
+export function CanvasGap({
+  id,
+  className,
+  children,
+}: CanvasGapProps): JSX.Element {
   const generatedId = useId();
   const gapId = id ?? generatedId;
   const gapRef = useRef<HTMLDivElement>(null);
@@ -385,7 +353,7 @@ export function CanvasGap({ id, className, children }: CanvasGapProps) {
   );
 }
 
-export function CanvasEnd({ id, className }: CanvasEndProps) {
+export function CanvasEnd({ id, className }: CanvasEndProps): JSX.Element {
   const generatedId = useId();
   const endId = id ?? generatedId;
   const endRef = useRef<HTMLDivElement>(null);

@@ -1,5 +1,6 @@
 import * as React from "react";
 import type { ComponentPropsWithoutRef, ReactElement } from "react";
+import type { MDXComponents } from "mdx/types";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
@@ -21,11 +22,13 @@ import type { CodePlaygroundProps } from "@/components/courses/CodePlaygroundCli
 import { EmailCaptureForm } from "@/components/shared/EmailCaptureForm";
 import { LinkPreview } from "@/components/ui/blog/LinkPreview";
 import { YouTubeEmbed } from "@/components/youtube-embed";
-import { Scrolly } from "@/components/ui/scrolly";
-import { CanvasZone } from "@/components/blog/CanvasZone";
+import { BlogWithCanvas } from "@/components/blog/BlogWithCanvas";
+import { CanvasZone, CanvasGap, CanvasEnd } from "@/components/blog/CanvasZone";
 import { CanvasStep } from "@/components/blog/CanvasStep";
-import { AgentArchitectureDiagram } from "@/components/demos/AgentArchitectureDiagram";
-import { AgentArchitectureDemo } from "@/components/demos/AgentArchitectureDemo";
+import { CanvasCodeStage } from "@/components/blog/CanvasCodeStage";
+import { AgentCodeWalkthroughServer } from "@/components/blog/AgentCodeWalkthroughServer";
+import { Scrolly } from "@/components/ui/scrolly/ScrollyServer";
+import { V2PreviewCallout } from "@/components/ui/blog/V2PreviewCallout";
 import { cn } from "@/lib/utils";
 
 // Swiss-style minimal heading component without link icons
@@ -39,7 +42,7 @@ function SwissHeading<TTag extends HeadingTag>({
 	as: Tag,
 	className,
 	...props
-}: SwissHeadingProps<TTag>) {
+}: SwissHeadingProps<TTag>): JSX.Element {
 	const Component = Tag as React.ElementType;
 	return (
 		<Component
@@ -110,9 +113,9 @@ function parseMetaValue(value: string | undefined): {
 	return { hasPlayground, ...options };
 }
 
-const resolveLanguage = (
+function resolveLanguage(
 	codeElement: ReactElement<CodeBlockChildProps>
-) => {
+): string | undefined {
 	const dataLanguage = codeElement.props["data-language"];
 	if (typeof dataLanguage === "string" && dataLanguage.length > 0) {
 		return dataLanguage;
@@ -121,18 +124,18 @@ const resolveLanguage = (
 	const className = codeElement.props.className ?? "";
 	const match = className.match(/language-([\w-]+)/i);
 	return match?.[1];
-};
+}
 
-const resolveTemplateFromLanguage = (language?: string) => {
+function resolveTemplateFromLanguage(language?: string): string {
 	if (!language) return "react";
 	const normalized = language.toLowerCase();
 	if (normalized === "tsx" || normalized === "ts") return "react-ts";
 	if (normalized === "jsx" || normalized === "js") return "react";
 	if (normalized === "html" || normalized === "css") return "vanilla";
 	return "react";
-};
+}
 
-const resolveDefaultFile = (template: string, language?: string) => {
+function resolveDefaultFile(template: string, language?: string): string {
 	if (template === "nextjs" || template === "nextjs-ts") {
 		return language && language.startsWith("ts")
 			? "/pages/index.tsx"
@@ -147,17 +150,17 @@ const resolveDefaultFile = (template: string, language?: string) => {
 		return "/index.js";
 	}
 	return "/App.js";
-};
+}
 
-const resolveCodeString = (code: React.ReactNode) => {
+function resolveCodeString(code: React.ReactNode): string {
 	if (typeof code === "string") return code.trimEnd();
 	if (Array.isArray(code)) {
 		return code.map((item) => (typeof item === "string" ? item : "")).join("").trimEnd();
 	}
 	return "";
-};
+}
 
-const PlaygroundPre = (props: ComponentPropsWithoutRef<"pre">) => {
+function PlaygroundPre(props: ComponentPropsWithoutRef<"pre">): JSX.Element {
 	const child = Array.isArray(props.children)
 		? props.children[0]
 		: props.children;
@@ -194,7 +197,47 @@ const PlaygroundPre = (props: ComponentPropsWithoutRef<"pre">) => {
 			className="my-6"
 		/>
 	);
-};
+}
+
+function Heading1(props: ComponentPropsWithoutRef<"h1">): JSX.Element {
+	return <SwissHeading as="h1" {...props} />;
+}
+
+function Heading2(props: ComponentPropsWithoutRef<"h2">): JSX.Element {
+	return <SwissHeading as="h2" {...props} />;
+}
+
+function Heading3(props: ComponentPropsWithoutRef<"h3">): JSX.Element {
+	return <SwissHeading as="h3" {...props} />;
+}
+
+function Heading4(props: ComponentPropsWithoutRef<"h4">): JSX.Element {
+	return <SwissHeading as="h4" {...props} />;
+}
+
+function Heading5(props: ComponentPropsWithoutRef<"h5">): JSX.Element {
+	return <SwissHeading as="h5" {...props} />;
+}
+
+function Heading6(props: ComponentPropsWithoutRef<"h6">): JSX.Element {
+	return <SwissHeading as="h6" {...props} />;
+}
+
+function AnchorLink(props: ComponentPropsWithoutRef<"a">): JSX.Element {
+	const { href, children, ...rest } = props;
+	if (href && href.startsWith("http")) {
+		return (
+			<LinkPreview href={href} {...rest}>
+				{children}
+			</LinkPreview>
+		);
+	}
+	return (
+		<a href={href} {...rest}>
+			{children}
+		</a>
+	);
+}
 
 const customComponents = {
 	...defaultMdxComponents,
@@ -218,24 +261,12 @@ const customComponents = {
 	pre: PlaygroundPre,
 	blockquote: AnimatedBlockquote,
 	// Swiss minimal headings - no link icons, clean typography
-	h1: (props: ComponentPropsWithoutRef<"h1">) => (
-		<SwissHeading as="h1" {...props} />
-	),
-	h2: (props: ComponentPropsWithoutRef<"h2">) => (
-		<SwissHeading as="h2" {...props} />
-	),
-	h3: (props: ComponentPropsWithoutRef<"h3">) => (
-		<SwissHeading as="h3" {...props} />
-	),
-	h4: (props: ComponentPropsWithoutRef<"h4">) => (
-		<SwissHeading as="h4" {...props} />
-	),
-	h5: (props: ComponentPropsWithoutRef<"h5">) => (
-		<SwissHeading as="h5" {...props} />
-	),
-	h6: (props: ComponentPropsWithoutRef<"h6">) => (
-		<SwissHeading as="h6" {...props} />
-	),
+	h1: Heading1,
+	h2: Heading2,
+	h3: Heading3,
+	h4: Heading4,
+	h5: Heading5,
+	h6: Heading6,
 	CompilerComparison,
 	FlowDiagram,
 	StepCode,
@@ -243,26 +274,22 @@ const customComponents = {
 	EmailCapture: EmailCaptureForm,
 	// YouTube embed with privacy-enhanced mode
 	YouTubeEmbed,
-	// Scrolly coding for interactive code walkthroughs
-	Scrolly,
 	// Canvas Zone for interactive demos with stepped mode
+	BlogWithCanvas,
 	CanvasZone,
+	CanvasGap,
+	CanvasEnd,
 	CanvasStep,
-	// Agent architecture diagram for SDK tutorial
-	AgentArchitectureDiagram,
-	AgentArchitectureDemo,
+	CanvasCodeStage,
+	AgentCodeWalkthrough: AgentCodeWalkthroughServer,
+	// Legacy Scrolly for older blog posts
+	Scrolly,
 	// Link with preview on hover for external links
-	a: (props: ComponentPropsWithoutRef<"a">) => {
-		const { href, children, ...rest } = props;
-		if (href && href.startsWith("http")) {
-			return (
-				<LinkPreview href={href} {...rest}>
-					{children}
-				</LinkPreview>
-			);
-		}
-		return <a href={href} {...rest}>{children}</a>;
-	},
+	a: AnchorLink,
+	// V2 Preview callout with gradient styling
+	V2PreviewCallout,
 };
 
-export default customComponents;
+// Cast to MDXComponents to satisfy fumadocs MDX component typing
+// The type mismatch is due to ForwardRefExoticComponent vs Component<any>
+export default customComponents as unknown as MDXComponents;

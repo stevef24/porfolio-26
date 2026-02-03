@@ -5,6 +5,10 @@ author: Stav Fernandes
 date: 2026-01-10
 ---
 
+import { deepResearchSteps } from "./agent-sdk-deep-research.steps";
+
+<BlogWithCanvas>
+
 When I first started building AI agents, I spent more time wiring up tool execution loops than actually solving problems. The Claude Agent SDK changed that. It handles the orchestration so you can focus on what your agent should do, not how to make it run.
 
 Deep research is one of the most compelling use cases for AI agents. A single search rarely tells the full story - you need multiple sources, cross-referencing, and synthesis. Doing this manually is tedious. Doing it with a well-designed agent takes seconds and produces better results than most humans could in hours.
@@ -40,21 +44,112 @@ claude  # Follow prompts to authenticate
 
 ## Building the Agent
 
-import { deepResearchSteps } from "./agent-sdk-deep-research.steps";
+<AgentCodeWalkthrough steps={deepResearchSteps}>
 
-<Scrolly steps={deepResearchSteps} />
+<CanvasStep index={0}>
 
-## The Architecture in Action
+### Step 1: Your First Agent Query
 
-When you run this agent, here's what happens under the hood. Scroll through to see each phase of the pipeline:
+Start with the basics. The SDK's `query()` function returns an async generator that streams messages as Claude works. Each message tells you what Claude is thinking, which tools it's using, and when it's done.
 
-<AgentArchitectureDemo />
+The streaming approach means you don't wait for completion - you get real-time updates as the agent works. This is crucial for long-running research tasks where users need feedback.
+
+</CanvasStep>
+
+<CanvasStep index={1}>
+
+### Step 2: Configuring Agent Behavior
+
+The options object controls everything about how your agent runs. Permission modes determine what the agent can do without asking, and `maxTurns` prevents runaway loops.
+
+For research tasks, we want read-only access with automatic approval. The `bypassPermissions` mode lets the agent work autonomously within the allowed tools - perfect for background research jobs.
+
+The system prompt shapes Claude's approach. Be specific about what you want: multiple sources, cross-verification, cited claims.
+
+</CanvasStep>
+
+<CanvasStep index={2}>
+
+### Step 3: Adding Custom Tools with MCP
+
+The SDK uses Model Context Protocol (MCP) for custom tools - the same protocol that powers Claude Code's extensibility.
+
+Define tools with the `@tool` decorator and `createSdkMcpServer` to package them. Each tool declares its inputs with Zod schemas, giving you runtime validation and TypeScript inference.
+
+This citation formatter shows the pattern: clear name, description Claude can understand, typed parameters, and a content response.
+
+</CanvasStep>
+
+<CanvasStep index={3}>
+
+### Step 4: Getting Structured Reports
+
+For programmatic use, you need structured data, not prose. The SDK supports JSON Schema output format.
+
+Define your report schema and Claude will return data that matches it exactly. This is essential for integrating research results into your application - you get typed objects, not strings to parse.
+
+The schema defines the contract between your agent and your code.
+
+</CanvasStep>
+
+<CanvasStep index={4}>
+
+### Step 5: Creating Specialized Subagents
+
+Complex research benefits from specialization. Define subagents with focused prompts and limited tools.
+
+This source-finder subagent only searches - it doesn't analyze or synthesize. Separation of concerns makes each piece more reliable. The faster `sonnet` model handles simpler tasks efficiently.
+
+Register subagents in the query options, and the main agent can invoke them through the `Task` tool.
+
+</CanvasStep>
+
+<CanvasStep index={5}>
+
+### Step 6: Orchestrating Multiple Specialists
+
+The real power comes from combining specialists. The orchestrator delegates to `source-finder`, `content-analyst`, and `fact-checker`.
+
+Each works independently, and the orchestrator synthesizes their outputs into a coherent report. This pattern scales - add more specialists as your research needs grow.
+
+The `Task` tool in `allowedTools` enables the orchestrator to spawn subagents.
+
+</CanvasStep>
+
+<CanvasStep index={6}>
+
+### Step 7: Real-Time Progress Tracking
+
+Research can take minutes. Without feedback, users wonder if it's working or stuck. The message stream solves this.
+
+Every tool call, every subagent task, every cost update flows through in real-time. The three message types (`system`, `assistant`, `result`) give you everything needed to build progress UIs.
+
+Session info on init, tool names as they run, and final cost when done.
+
+</CanvasStep>
+
+<CanvasStep index={7}>
+
+### Step 8: Production-Ready Research Agent
+
+The final agent brings everything together. Type-safe interfaces (`ResearchReport`) ensure your downstream code knows exactly what to expect.
+
+The query options combine all our patterns: subagents for specialization, `bypassPermissions` for automation, `maxTurns` for cost control, and JSON schema for structured output.
+
+When the result message arrives with subtype `success`, you get typed data ready for your application.
+
+</CanvasStep>
+
+</AgentCodeWalkthrough>
+
+<CanvasGap>
 
 ## V2 Preview: What's Changing
 
 The V2 SDK is currently unstable but worth understanding. The patterns you've learned transfer directly - V2 just makes some things more explicit.
 
-<Callout type="info" title="One-Shot Prompts (Step 1)">
+<V2PreviewCallout title="One-Shot Prompts (Step 1)">
+
 V2 introduces `unstable_v2_prompt()` for simple, single-turn interactions:
 
 ```ts
@@ -66,9 +161,11 @@ const result = await unstable_v2_prompt("What is 2+2?", {
 ```
 
 This replaces the `query()` pattern when you don't need streaming or multi-turn conversations.
-</Callout>
 
-<Callout type="info" title="Session Configuration (Step 2)">
+</V2PreviewCallout>
+
+<V2PreviewCallout title="Session Configuration (Step 2)">
+
 Configuration moves to explicit session creation:
 
 ```ts
@@ -82,9 +179,11 @@ const session = unstable_v2_createSession({
 ```
 
 Sessions can be resumed with `unstable_v2_resumeSession(sessionId)`.
-</Callout>
 
-<Callout type="info" title="Streaming Separation (Step 7)">
+</V2PreviewCallout>
+
+<V2PreviewCallout title="Streaming Separation (Step 7)">
+
 V2 separates sending messages from receiving responses:
 
 ```ts
@@ -101,9 +200,14 @@ await using session = unstable_v2_createSession(options)
 ```
 
 The `await using` syntax (TypeScript 5.2+) handles cleanup automatically.
-</Callout>
+
+</V2PreviewCallout>
 
 The migration path is straightforward: replace `query()` with session-based calls, and your tool definitions and subagent patterns work unchanged.
+
+</CanvasGap>
+
+<CanvasEnd />
 
 ## What's Next
 
@@ -123,3 +227,5 @@ The beauty of the SDK is that these additions are incremental. You're not fighti
 - [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
 
 The full source code for this agent is available in the companion repository. Clone it, modify it, break it, and build something that solves your specific research needs.
+
+</BlogWithCanvas>

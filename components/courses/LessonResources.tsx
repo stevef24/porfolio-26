@@ -1,7 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { motion, useReducedMotion } from "motion/react";
 import {
   Github01Icon,
   File01Icon,
@@ -11,6 +9,8 @@ import {
   BookOpen01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { motion, useReducedMotion } from "motion/react";
+import { cn } from "@/lib/utils";
 
 export interface Resource {
   label: string;
@@ -60,7 +60,7 @@ function inferResourceType(url: string, providedType?: string): string {
   return "link";
 }
 
-function ResourceItem({ resource }: { resource: Resource }) {
+function ResourceItem({ resource }: { resource: Resource }): JSX.Element {
   const type = inferResourceType(resource.url, resource.type);
   const Icon = iconMap[type as keyof typeof iconMap] || Link01Icon;
 
@@ -79,23 +79,26 @@ function ResourceItem({ resource }: { resource: Resource }) {
         />
       </div>
       <div className="flex-1 min-w-0">
-        <span className="text-base text-foreground group-hover:text-primary transition-colors block truncate">
+        <span className="text-[15px] text-foreground group-hover:text-primary transition-colors block truncate">
           {resource.label}
         </span>
-        <span className="text-swiss-label text-muted-foreground mt-0.5 block truncate">
+        <span className="text-[15px] text-foreground/50 mt-0.5 block truncate">
           {type.charAt(0).toUpperCase() + type.slice(1)}
         </span>
       </div>
       <HugeiconsIcon
         icon={Link01Icon}
         size={14}
-        className="text-muted-foreground group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100"
+        className="text-foreground/50 group-hover:text-primary transition-colors opacity-0 group-hover:opacity-100"
       />
     </a>
   );
 }
 
-export function LessonResources({ resources, className }: LessonResourcesProps) {
+export function LessonResources({
+  resources,
+  className,
+}: LessonResourcesProps): JSX.Element | null {
   const prefersReducedMotion = useReducedMotion();
 
   if (!resources || resources.length === 0) {
@@ -109,7 +112,7 @@ export function LessonResources({ resources, className }: LessonResourcesProps) 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
     >
-      <h3 className="text-swiss-subheading text-muted-foreground mb-4">
+      <h3 className="text-[15px] text-foreground/50 uppercase tracking-wide mb-4">
         Lesson Resources
       </h3>
 

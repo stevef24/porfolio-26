@@ -1,12 +1,14 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
-export function ThemeToggle() {
+export function ThemeToggle(): JSX.Element {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
+  const nextTheme = isDark ? "light" : "dark";
 
   useEffect(() => {
     setMounted(true);
@@ -14,7 +16,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <Button variant="ghost" size="icon" className="h-10 w-10">
+      <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full">
         <span className="sr-only">Toggle theme</span>
       </Button>
     );
@@ -24,14 +26,14 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className="h-10 w-10"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="h-6 w-6 rounded-full hover:bg-foreground/5"
+      onClick={() => setTheme(nextTheme)}
     >
-      {theme === "dark" ? (
+      {isDark ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
+          width="12"
+          height="12"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -52,8 +54,8 @@ export function ThemeToggle() {
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
+          width="12"
+          height="12"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

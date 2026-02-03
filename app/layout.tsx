@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
-import { Toaster } from "sonner";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { AuthProvider } from "@/components/auth/AuthProvider";
 import { SwissGridBackground } from "@/components/ui/SwissGridBackground";
+import { Agentation } from "agentation";
 import "./globals.css";
 
 // Primary body font - Inter for exceptional readability
@@ -35,6 +34,9 @@ export const metadata: Metadata = {
   title: "Stav Fernandes - Full Stack Developer & Technical Writer",
   description:
     "Frontend developer. Building with AI, teaching what I learn.",
+};
+
+export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f8f6ef" },
     { media: "(prefers-color-scheme: dark)", color: "#0e0e0c" },
@@ -59,11 +61,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>
-            <SwissGridBackground />
-            {children}
-            <Toaster richColors position="bottom-right" />
-          </AuthProvider>
+          <SwissGridBackground />
+          {children}
+          {process.env.NODE_ENV === "development" && <Agentation />}
         </ThemeProvider>
       </body>
     </html>

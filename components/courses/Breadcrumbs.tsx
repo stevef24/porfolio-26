@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface BreadcrumbItem {
   label: string;
@@ -15,7 +15,10 @@ interface BreadcrumbsProps {
   className?: string;
 }
 
-export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
+export function Breadcrumbs({
+  items,
+  className,
+}: BreadcrumbsProps): JSX.Element {
   return (
     <nav
       aria-label="Breadcrumb"

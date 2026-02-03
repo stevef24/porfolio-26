@@ -325,32 +325,37 @@ export const sidebarToggleTransition: Transition = springGentle;
 /**
  * Create a custom stagger delay based on index
  */
-export const createStaggerDelay = (index: number, baseDelay = 0.05) => ({
-	delay: index * baseDelay,
-});
+export function createStaggerDelay(
+	index: number,
+	baseDelay = 0.05
+): { delay: number } {
+	return {
+		delay: index * baseDelay,
+	};
+}
 
 /**
  * Get reduced motion safe transition
  * Returns instant transition when reduced motion is preferred
  */
-export const getReducedMotionTransition = (
+export function getReducedMotionTransition(
 	transition: Transition,
 	prefersReducedMotion: boolean | null
-): Transition => {
+): Transition {
 	if (prefersReducedMotion) {
 		return { duration: 0 };
 	}
 	return transition;
-};
+}
 
 /**
  * Get reduced motion safe variants
  * Returns variants with instant transitions when reduced motion is preferred
  */
-export const getReducedMotionVariants = (
+export function getReducedMotionVariants(
 	variants: Variants,
 	prefersReducedMotion: boolean | null
-): Variants => {
+): Variants {
 	if (!prefersReducedMotion) return variants;
 
 	const reducedVariants: Variants = {};
@@ -365,23 +370,25 @@ export const getReducedMotionVariants = (
 		}
 	}
 	return reducedVariants;
-};
+}
 
 /**
  * Create custom item variants with specific stagger timing
  */
-export const createItemVariants = (staggerDelay = 0.05): Variants => ({
-	hidden: { opacity: 0, x: -8 },
-	visible: (i: number) => ({
-		opacity: 1,
-		x: 0,
-		transition: {
-			delay: i * staggerDelay,
-			duration: 0.2,
-			ease: easeOut,
-		},
-	}),
-});
+export function createItemVariants(staggerDelay = 0.05): Variants {
+	return {
+		hidden: { opacity: 0, x: -8 },
+		visible: (i: number) => ({
+			opacity: 1,
+			x: 0,
+			transition: {
+				delay: i * staggerDelay,
+				duration: 0.2,
+				ease: easeOut,
+			},
+		}),
+	};
+}
 
 // ==========================================
 // SCROLLY DRAWER ANIMATIONS
@@ -413,8 +420,67 @@ export const tocSlideOut: Variants = {
 /** Devouring Details cubic-bezier easing - fast start, subtle overshoot, smooth settle */
 export const easingDevouringDetails = [0.23, 0.88, 0.26, 0.92] as const;
 
-/** Canvas slide transition - 350ms with Devouring Details easing */
+/** Canvas slide transition - spring for synchronized blog/canvas movement
+ * Uses spring physics so both elements settle together naturally.
+ * visualDuration: 0.4s gives enough time for the slide without feeling sluggish
+ * bounce: 0.08 provides subtle overshoot for polish without being bouncy
+ */
 export const transitionCanvasSlide: Transition = {
-	duration: 0.35,
-	ease: easingDevouringDetails,
+	type: "spring",
+	visualDuration: 0.4,
+	bounce: 0.08,
+};
+
+// ==========================================
+// CANVAS STRETCH ANIMATIONS (2026-01-16)
+// ==========================================
+
+/** Canvas width stretch - smooth expansion without bounce overshoot
+ * Used for width: 0 → 50vw animation instead of x slide
+ * visualDuration: 0.35s for snappy but not jarring expansion
+ * bounce: 0.06 provides minimal overshoot (CSS spring: 150ms)
+ */
+export const springCanvasStretch: Transition = {
+	type: "spring",
+	visualDuration: 0.35,
+	bounce: 0.06,
+};
+
+/** Canvas content reveal - no delay for instant step transitions
+ * delay: 0 for immediate content visibility
+ * ease: easeOut for natural deceleration
+ */
+export const canvasContentReveal: Transition = {
+	duration: 0.2,
+	ease: [0.25, 0.46, 0.45, 0.94],
+	delay: 0,
+};
+
+/** TOC ruler-to-text morph - snappy line expansion
+ * Used for layoutId morphing between ruler lines and text
+ * visualDuration: 0.25s for responsive feel
+ * bounce: 0.1 adds subtle overshoot (CSS spring: 250ms)
+ */
+export const springTocMorph: Transition = {
+	type: "spring",
+	visualDuration: 0.25,
+	bounce: 0.1,
+};
+
+// ==========================================
+// OPENAI DESIGN SYSTEM TRANSITIONS
+// CSS transition alternatives for non-Motion contexts
+// ==========================================
+
+/** OpenAI transition presets - CSS easing for consistency */
+export const oaiTransitions = {
+	fast: { duration: 0.15, ease: [0.4, 0, 0.2, 1] as const },
+	normal: { duration: 0.2, ease: [0.4, 0, 0.2, 1] as const },
+	slow: { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const },
+};
+
+/** OpenAI header transition - smooth without bounce */
+export const oaiHeaderTransition: Transition = {
+	duration: 0.2,
+	ease: [0.4, 0, 0.2, 1],
 };

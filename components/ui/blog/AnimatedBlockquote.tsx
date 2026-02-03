@@ -1,22 +1,22 @@
 "use client";
 
+import { useRef, type ReactNode } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
-import { useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface AnimatedBlockquoteProps {
-	children: React.ReactNode;
+	children: ReactNode;
 	className?: string;
 }
 
 /**
- * AnimatedBlockquote - Elegant pull quote with subtle olive accent
- * Oatmeal design: clean lines, minimal decoration, refined entrance
+ * AnimatedBlockquote - Elegant pull quote with subtle primary accent
+ * Clean lines, minimal decoration, refined entrance
  */
 export function AnimatedBlockquote({
 	children,
 	className,
-}: AnimatedBlockquoteProps) {
+}: AnimatedBlockquoteProps): JSX.Element {
 	const ref = useRef<HTMLQuoteElement>(null);
 	const isInView = useInView(ref, { once: true, margin: "-80px" });
 	const shouldReduceMotion = useReducedMotion();

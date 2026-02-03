@@ -11,7 +11,7 @@ const LazyCodePlayground = React.lazy(
 export default function CodePlayground({
   className,
   ...props
-}: CodePlaygroundProps) {
+}: CodePlaygroundProps): JSX.Element {
   return (
     <React.Suspense
       fallback={

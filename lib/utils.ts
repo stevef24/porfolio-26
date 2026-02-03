@@ -1,7 +1,17 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
-export function cn(...inputs: ClassValue[]) {
+interface LenisInstance {
+  scrollTo: (target: Element, options?: { duration?: number }) => void;
+}
+
+function getWindowLenis(): LenisInstance | null {
+  if (typeof window === "undefined") return null;
+  const lenis = (window as Window & { lenis?: LenisInstance }).lenis;
+  return lenis ?? null;
+}
+
+export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs))
 }
 
@@ -9,24 +19,22 @@ export function cn(...inputs: ClassValue[]) {
  * Scroll to an element with a given selector smoothly.
  * Supports Lenis if available on window.
  */
-export function scrollToElement(selector: string) {
+export function scrollToElement(selector: string): void {
   const element = document.querySelector(selector);
   if (!element) return;
 
-  // Check for Lenis instance on window (common pattern)
-  // @ts-ignore
-  if (window.lenis) {
-    // @ts-ignore
-    window.lenis.scrollTo(element, { duration: 1.5 });
-  } else {
-    element.scrollIntoView({ behavior: 'smooth' });
+  const lenis = getWindowLenis();
+  if (lenis) {
+    lenis.scrollTo(element, { duration: 1.5 });
+    return;
   }
+
+  element.scrollIntoView({ behavior: "smooth" });
 }
 
 /**
  * Get the Lenis instance if it exists.
  */
-export function getLenis() {
-  // @ts-ignore
-  return typeof window !== 'undefined' ? window.lenis : null;
+export function getLenis(): LenisInstance | null {
+  return getWindowLenis();
 }

@@ -8,13 +8,13 @@ import { cn } from "@/lib/utils";
 interface VideoCardProps {
 	title: string;
 	description: string;
-	href?: string;
+	href: string;
 	className?: string;
 }
 
 /**
  * VideoCard - Link card with preview popup on hover
- * Oatmeal design: warm backgrounds, olive accents, refined transitions
+ * OpenAI design: opacity-based colors, smooth transitions, 6px radius
  */
 export function VideoCard({
 	title,
@@ -22,62 +22,47 @@ export function VideoCard({
 	href,
 	className,
 }: VideoCardProps): JSX.Element {
-	const content = (
-		<article
-			className={cn(
-				"group py-4 -mx-4 px-4",
-				"rounded-lg",
-				"transition-[background-color,box-shadow] duration-200 ease-out",
-				"hover:bg-muted/40",
-				"cursor-pointer",
-				className
-			)}
-		>
-			<div className="flex items-start justify-between gap-4">
-				<div className="flex-1 min-w-0">
-					<h3
+	return (
+		<LinkPreview href={href} className="block">
+			<article
+				className={cn(
+					"group py-4 -mx-4 px-4",
+					"rounded-[6px]",
+					"hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-[rgba(255,255,255,0.04)]",
+					"transition-colors duration-150",
+					"shadow-none",
+					"cursor-pointer",
+					className
+				)}
+			>
+				<div className="flex items-start justify-between gap-4">
+					<div className="flex-1 min-w-0">
+						<h3 className="text-[15px] text-foreground group-hover:text-foreground/70 transition-colors duration-150 line-clamp-1">
+							{title}
+						</h3>
+						<p className="text-[15px] text-foreground/50 line-clamp-2 mt-1">
+							{description}
+						</p>
+					</div>
+
+					{/* Arrow icon - subtle movement on hover */}
+					<span
 						className={cn(
-							"text-base font-medium",
-							"text-foreground",
-							"group-hover:text-primary",
-							"transition-colors duration-200",
-							"line-clamp-1"
+							"flex-shrink-0 mt-0.5",
+							"text-foreground/30",
+							"group-hover:text-foreground/60",
+							"transition-colors duration-150"
 						)}
 					>
-						{title}
-					</h3>
-					<p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 mt-1">
-						{description}
-					</p>
+						<HugeiconsIcon
+							icon={ArrowUpRight01Icon}
+							size={16}
+							className="transition-transform duration-150 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+							aria-hidden={true}
+						/>
+					</span>
 				</div>
-
-				{/* Arrow icon - subtle movement on hover */}
-				<span
-					className={cn(
-						"flex-shrink-0 mt-0.5",
-						"text-muted-foreground/60",
-						"group-hover:text-primary",
-						"transition-colors duration-200"
-					)}
-				>
-					<HugeiconsIcon
-						icon={ArrowUpRight01Icon}
-						size={16}
-						className="transition-transform duration-200 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-						aria-hidden={true}
-					/>
-				</span>
-			</div>
-		</article>
+			</article>
+		</LinkPreview>
 	);
-
-	if (href) {
-		return (
-			<LinkPreview href={href} className="block">
-				{content}
-			</LinkPreview>
-		);
-	}
-
-	return content;
 }

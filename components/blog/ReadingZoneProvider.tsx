@@ -100,7 +100,7 @@ export function ReadingZoneProvider({
 	children,
 	enabled = true,
 	rootMargin = "-40% 0px -40% 0px",
-}: ReadingZoneProviderProps) {
+}: ReadingZoneProviderProps): JSX.Element {
 	const prefersReducedMotion = useReducedMotion();
 	const [activeBlockId, setActiveBlockId] = useState<string | null>(null);
 
