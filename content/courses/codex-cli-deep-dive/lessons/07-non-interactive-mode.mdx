@@ -1,0 +1,43 @@
+---
+title: Non-Interactive Mode
+description: Use Codex in scripts, CI, and fast one-off tasks.
+duration: 25m
+module: Power Features
+order: 7
+---
+
+## Why Non-Interactive Exists
+
+`codex exec` lets you run Codex like a script: one prompt, one output, no UI. It's perfect for CI, automations, and quick edits.
+
+## A Simple Example
+
+```bash
+codex exec "Summarize the changes in this repo since last week"
+```
+
+## Pipe It Like Any CLI
+
+Because output goes to stdout, you can chain it:
+
+```bash
+codex exec "Generate a concise release summary" > RELEASE_NOTES.md
+```
+
+## Keep It Safe
+
+For automation, pair `codex exec` with a strict approval policy and a safe sandbox:
+
+```bash
+codex exec --ask-for-approval untrusted --sandbox workspace-write "Update the README summary"
+```
+
+<Callout type="info" title="Be explicit">
+Non-interactive runs are strict. Keep prompts narrow and give clear constraints.
+</Callout>
+
+## Key Takeaways
+
+- `codex exec` is ideal for scripts and CI
+- Keep prompts tight and specific
+- Treat output like you would any generated artifact

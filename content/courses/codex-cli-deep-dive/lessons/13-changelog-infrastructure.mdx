@@ -1,0 +1,48 @@
+---
+title: Changelog & Infrastructure
+description: Understand how Codex is built - and how to stay current.
+duration: 30m
+module: Changelog & Infrastructure
+order: 13
+---
+
+## How Codex CLI Is Structured
+
+At a high level, Codex CLI is an open-source Rust app that provides:
+
+- **Interactive CLI** for day-to-day work
+- **Non-interactive runs** via `codex exec`
+- **MCP integration** for external tools
+- **Codex Cloud** for remote tasks
+- **SDKs** for programmatic workflows
+
+The takeaway: most features are layers on top of the same core engine.
+
+## How to Read the Changelog
+
+Scan for changes that affect your workflow:
+
+- Default model changes
+- New permissions or approvals behavior
+- Changes to config precedence
+- New commands or flags
+- Skill/MCP changes
+
+Ignore internal refactors unless they affect behavior.
+
+## What's New (Latest Highlights)
+
+Here are the most user-impacting updates in the recent Codex changelog:
+
+- **Jan 28, 2026** - Web search is enabled by default for local tasks. Cached results are used by default, with live search when full access is enabled. You can change this with `web_search = "cached" | "live" | "disabled"`.
+- **Jan 23, 2026** - Team Config was added to share `config.toml`, `rules/`, and `skills/` across repos and machines, with `requirements.toml` enforcing constraints.
+- **Jan 22, 2026** - Custom prompts were deprecated in favor of skills.
+- **Jan 22, 2026 (CLI 0.89)** - `/permissions` was added alongside `/approvals`, plus a new skill UI.
+
+If you update Codex CLI regularly, this is the section to scan first.
+
+## Key Takeaways
+
+- Most changes affect **defaults**, not your prompts
+- Track the changelog monthly, not daily
+- Prefer skills over custom prompts going forward

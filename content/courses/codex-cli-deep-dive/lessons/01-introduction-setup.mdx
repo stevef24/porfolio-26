@@ -1,0 +1,63 @@
+---
+title: Introduction & Setup
+description: Install Codex CLI and run your first session.
+duration: 20m
+module: Foundations
+order: 1
+---
+
+## What Codex CLI Is
+
+Codex CLI is OpenAI's open-source coding agent that runs in your terminal. It can read files, edit code, and run commands in the folder you choose. It is built in Rust for speed and efficiency.
+
+<Callout type="info" title="Platform support">
+Codex CLI is available on macOS and Linux. Windows support is experimental, and OpenAI recommends using WSL for the best experience.
+</Callout>
+
+<Callout type="info" title="Access">
+Codex CLI is included with ChatGPT Plus, Pro, Business, Edu, and Enterprise plans. API usage is billed separately if you use it.
+</Callout>
+
+## Install & Login
+
+<Steps>
+  <Step>
+    **Install the CLI**
+
+    ```bash
+    npm i -g @openai/codex
+    ```
+  </Step>
+  <Step>
+    **Start a session**
+
+    ```bash
+    codex
+    ```
+  </Step>
+  <Step>
+    **Sign in**
+
+    Authenticate with your ChatGPT account or an API key when prompted.
+  </Step>
+</Steps>
+
+## Your First Prompt
+
+Keep the first prompt tiny. The goal is to test the loop:
+
+```
+List the files in this repo and describe what this project is.
+```
+
+If that works, you're ready to move on.
+
+<Callout type="info" title="One useful shortcut">
+Inside the TUI, `/init` generates an `AGENTS.md` template you can edit later.
+</Callout>
+
+## Key Takeaways
+
+- Install once, then run `codex` inside any repo
+- Start with a small prompt to validate the loop
+- Keep context lean from day one

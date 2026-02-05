@@ -1,0 +1,48 @@
+---
+title: Your First Real Workflow
+description: A reliable loop for getting good Codex results.
+duration: 25m
+module: Foundations
+order: 2
+---
+
+## The 5-Step Loop
+
+Codex works best when you run a tight loop. Think: goal -> plan -> change -> verify -> ship.
+
+<Steps>
+  <Step>
+    **State the goal.** One sentence, one outcome.
+  </Step>
+  <Step>
+    **Add guardrails.** Scope, files, and what not to change.
+  </Step>
+  <Step>
+    **Ask for a plan.** A short outline before edits.
+  </Step>
+  <Step>
+    **Review the diff.** Treat the output like a PR.
+  </Step>
+  <Step>
+    **Verify.** Run the smallest test that proves the change.
+  </Step>
+</Steps>
+
+## Example Prompt
+
+```
+Goal: Add a simple "/health" endpoint.
+Scope: Only edit app/api/health/route.ts.
+Constraints: Do not touch middleware.
+Please outline a plan first.
+```
+
+<Callout type="info" title="Why this works">
+This prompt sets a clear goal, a tight scope, and permission boundaries. That's what makes the output predictable.
+</Callout>
+
+## Key Takeaways
+
+- Great outcomes come from a simple loop
+- Ask for a plan before edits
+- Always verify with a quick check

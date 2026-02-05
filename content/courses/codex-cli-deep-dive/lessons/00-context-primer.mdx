@@ -1,0 +1,74 @@
+---
+title: Context Primer
+description: What context is, what fills it, and how to keep it clean.
+duration: 20m
+module: Context Primer
+order: 0
+---
+
+## Start Here (Yes, Before Codex)
+
+Codex CLI is only as good as the context you give it. Clear context produces clear results. Noisy context produces fuzzy output. This lesson gives you the mental model you'll use in every lesson after this one.
+
+<InlineTOC />
+
+## What Counts as Context
+
+Think of context as the working memory Codex can see during a session. It includes:
+
+- The conversation so far
+- Files you've opened or shared
+- Tool outputs (commands, diffs, logs)
+- Project rules like `AGENTS.md`
+- Any active skills or extra instructions
+
+<Callout type="info" title="Why this matters">
+Every item above shares the same finite budget. When it's full, the system starts dropping or compressing details.
+</Callout>
+
+## The Context Budget
+
+A good mental model is a backpack. You can't bring everything. You choose what matters for the hike you're on.
+
+More context isn't automatically better. Better context is what makes Codex feel smart.
+
+## A Simple Context Workflow
+
+<Steps>
+  <Step>
+    **Start fresh.** New task, new session. Clean context.
+  </Step>
+  <Step>
+    **Add only what you need.** One or two files beats an entire repo.
+  </Step>
+  <Step>
+    **Do the work.** Keep prompts focused on the current task.
+  </Step>
+  <Step>
+    **Clear or compact.** When the task ends, clean up.
+  </Step>
+</Steps>
+
+## Mini Exercise: Trim the Prompt
+
+**Before**
+
+```
+Here is my whole repo. Please review everything and rewrite the architecture.
+```
+
+**After**
+
+```
+Please review these two files for auth bugs:
+- src/auth.ts
+- src/middleware.ts
+```
+
+Notice the difference: the second prompt is specific enough to be solved.
+
+## Key Takeaways
+
+- Context is a finite budget, not an infinite library
+- Clearer context beats more context
+- Start fresh and add only what you need

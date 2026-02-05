@@ -1,0 +1,37 @@
+---
+title: Code Review & GitHub
+description: Turn Codex into a reliable review partner.
+duration: 30m
+module: Power Features
+order: 9
+---
+
+## Why This Matters
+
+Codex can review code like a teammate - but only if you give it clear rules. That's where `AGENTS.md` comes in.
+
+## The Review Loop
+
+1. Add review guidelines in `AGENTS.md`
+2. Trigger review on a PR via the Codex GitHub Action
+3. Keep feedback focused on real risk (P0/P1)
+
+<Callout type="info" title="Keep rules close to code">
+Codex follows instructions based on proximity. Put `AGENTS.md` near the code it governs.
+</Callout>
+
+## What to Put in `AGENTS.md`
+
+- The project's risk boundaries (security, data, auth)
+- What *not* to change
+- Tests that must be run
+
+## GitHub Action (Fastest Automation)
+
+OpenAI ships a Codex GitHub Action that can review PRs automatically. This is the fastest way to add Codex review to a team workflow without running the CLI locally.
+
+## Key Takeaways
+
+- `AGENTS.md` is your review contract
+- Keep review rules short and local
+- Use Codex reviews for focused, high-signal feedback

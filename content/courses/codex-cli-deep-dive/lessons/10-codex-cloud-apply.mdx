@@ -1,0 +1,41 @@
+---
+title: Codex Cloud & Apply
+description: Run tasks in the cloud and apply results locally.
+duration: 25m
+module: Automation & Teams
+order: 10
+---
+
+## When to Use Codex Cloud
+
+Codex Cloud is useful for long-running tasks or when you want to run work without tying up your local session. Use `codex cloud` to browse tasks, then `codex apply` to bring the diff into your repo.
+
+## The Flow
+
+<Steps>
+  <Step>
+    **Run or select a task** in Codex Cloud.
+  </Step>
+  <Step>
+    **Inspect the result** (diff + summary).
+  </Step>
+  <Step>
+    **Apply locally** with `codex apply`.
+  </Step>
+</Steps>
+
+## Apply a Task
+
+```bash
+codex apply <task-id>
+```
+
+<Callout type="info" title="Keep tasks small">
+Cloud tasks are easiest to review when the scope is narrow. Treat them like bite-sized PRs.
+</Callout>
+
+## Key Takeaways
+
+- Cloud is great for long-running tasks
+- Always review the diff before applying
+- Keep tasks tight and reviewable

@@ -1,0 +1,54 @@
+---
+title: Config Basics & Profiles
+description: Keep your Codex setup consistent across projects.
+duration: 25m
+module: Foundations
+order: 3
+---
+
+## Why Config Matters
+
+Config turns Codex from a toy into a tool. It's where you set defaults for models, approvals, and sandboxing so every session starts the same way.
+
+<InlineTOC />
+
+## Where Config Lives
+
+Codex reads configuration from multiple layers:
+
+- **System defaults** (installed with the CLI)
+- **User config**: `~/.codex/config.toml`
+- **Project config**: `.codex/config.toml` (trusted projects only)
+- **CLI flags** and `-c key=value` overrides
+
+Project config is only loaded after you trust the repo in Codex.
+
+## Precedence (Who Wins?)
+
+Highest wins:
+
+1. CLI flags and `-c` overrides (this run only)
+2. Profile settings (if you pass `--profile`)
+3. Project config (`.codex/config.toml`, closest to your current folder wins)
+4. User config (`~/.codex/config.toml`)
+5. System defaults
+
+## Profiles (When You Need Different Defaults)
+
+Profiles let you switch setups without editing files. Example use-cases:
+
+- **Deep work**: slower model, higher reasoning
+- **Daily edits**: fast model, strict approvals
+- **CI**: non-interactive, safe sandbox
+
+Use a profile with:
+
+```bash
+codex --profile deep-work
+```
+
+## Key Takeaways
+
+- Put durable defaults in `~/.codex/config.toml`
+- Use project config for shared team rules
+- CLI flags are for one-off overrides

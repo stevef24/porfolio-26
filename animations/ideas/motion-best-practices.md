@@ -41,6 +41,7 @@ This document targets Motion for React (the motion.dev library, imported from `m
 ## Motion Defaults (Recommended Starting Point)
 
 - Global `MotionConfig` transition: `duration: 0.35`, `ease: "easeInOut"`. [motion.dev](https://motion.dev/docs/react-motion-config), [motion.dev](https://motion.dev/docs/react-transitions)
+- Set `reducedMotion: "user"` so Motion respects OS preferences automatically. [motion.dev](https://motion.dev/docs/react-motion-config)
 - Spring defaults for small UI pieces: `type: "spring"`, `stiffness: 300`, `damping: 30` (adjust per visual). [motion.dev](https://motion.dev/docs/react-transitions)
 - Stagger children: 30-60ms (keep subtle). [motion.dev](https://motion.dev/docs/react-transitions)
 - Use tween for precision (meters, dials), spring for natural UI motion (cards, tokens). [motion.dev](https://motion.dev/docs/react-transitions)

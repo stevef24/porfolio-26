@@ -1,0 +1,52 @@
+---
+title: Approvals, Sandboxing, Rules
+description: Keep automation safe without killing speed.
+duration: 30m
+module: Control & Scope
+order: 4
+---
+
+## Why This Matters
+
+Codex can run commands and edit files. Approvals and sandboxing are how you decide **what's allowed** and **where it's allowed**.
+
+<InlineTOC />
+
+## Approval Modes (The Guardrails)
+
+Codex offers three approval modes in the TUI:
+
+- **Auto** (default): Codex decides when to ask
+- **Read-only**: no file writes, no risky commands
+- **Full access**: no prompts (only for trusted repos)
+
+Use read-only until you're confident in the workflow.
+
+## Sandbox Modes (Where Commands Run)
+
+- **read-only**: no file writes
+- **workspace-write**: write only inside the repo
+- **danger-full-access**: write anywhere (avoid unless you must)
+
+## CLI Flags That Matter
+
+When you run Codex from the CLI, the key flags are:
+
+- `--ask-for-approval` to control approvals
+- `--sandbox` to control where commands can write
+- `--full-auto` to run with workspace-write and fewer prompts
+- `--yolo` to bypass approvals and sandboxing (avoid unless you must)
+
+## Rules Files (Extra Safety)
+
+If you need stricter control, use rules to allow or deny specific commands. This is your last line of defense.
+
+<Callout type="info" title="Practical default">
+Start with strict approvals + workspace-write. Only loosen after you trust the workflow.
+</Callout>
+
+## Key Takeaways
+
+- Approvals control **what** can run
+- Sandbox controls **where** it can run
+- Use rules when you need tighter guarantees

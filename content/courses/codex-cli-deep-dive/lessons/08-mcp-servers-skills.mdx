@@ -1,0 +1,38 @@
+---
+title: MCP Servers & Skills
+description: Extend Codex without bloating context.
+duration: 30m
+module: Power Features
+order: 8
+---
+
+## MCP in One Sentence
+
+MCP (Model Context Protocol) lets Codex connect to external tools - databases, APIs, browsers - when the core CLI is not enough. It supports both local stdio servers and remote servers over HTTP with OAuth.
+
+## The Practical Rule
+
+Enable **only a few** servers per project. Every tool adds context, and too many tools slow things down.
+
+<Callout type="info" title="Use a tool only when needed">
+If a task can be done with a normal CLI command or a skill, prefer that. Save MCP for real external systems.
+</Callout>
+
+## Manage Servers
+
+```bash
+codex mcp add <name> <command>
+codex mcp list
+codex mcp get <name>
+codex mcp remove <name>
+```
+
+## Skills (Lightweight Reuse)
+
+Skills are small, reusable workflows. Use them for repeated patterns that do not require external systems.
+
+## Key Takeaways
+
+- MCP is powerful but expensive in context
+- Keep the tool list small
+- Use skills for repeatable tasks
