@@ -40,3 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .claude/tsc-cache/
+
+# tool outputs
+repomix-output.txt
+.codex/
+
+# draft/temp files
+agents-sdk.md
+new.MD
