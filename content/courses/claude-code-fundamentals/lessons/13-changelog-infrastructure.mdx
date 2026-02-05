@@ -1,0 +1,46 @@
+---
+title: Changelog & Infrastructure
+description: How Claude Code is built, how it changes, and how to stay current.
+duration: 25m
+module: Changelog & Infrastructure
+order: 13
+---
+
+## How Claude Code is Structured
+
+At a high level, Claude Code is:
+
+- **A CLI** that manages sessions, settings, and auth
+- **A tool runtime** that executes Read/Edit/Bash and other actions
+- **An MCP layer** that connects external tools
+- **A model layer** where you choose capability vs. cost
+- **A sandbox** that isolates risky commands
+
+Understanding this structure helps you predict where new features will land.
+
+## How to Read the Changelog
+
+Don't read everything. Scan for items that change your workflow:
+
+- New or changed slash commands
+- Context handling or compaction tweaks
+- MCP or tool-related updates
+- Permission and sandbox changes
+- Model or UI behavior changes
+
+## What's New Lately (Plain English)
+
+Here are recent changes worth knowing about:
+
+- **PDF handling is smarter.** You can now read specific PDF page ranges, and large PDFs won't flood your context.
+- **Debugging got easier.** A `/debug` command was added for session troubleshooting.
+- **Model switching is immediate.** `/model` now applies right away instead of waiting in a queue.
+- **Motion can be reduced.** There's a config option for reduced motion.
+- **Sandbox reliability improved.** Fewer false failures when sandbox mode is enabled.
+- **Tool choice improved.** Claude is steered to use file tools instead of shell equivalents, which keeps sessions cleaner.
+
+## Where to Check Updates
+
+- [Claude Code Changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
+- [Claude Code Quickstart](https://code.claude.com/docs/quickstart)
+- [MCP Documentation](https://docs.claude.com/en/docs/claude-code/mcp)

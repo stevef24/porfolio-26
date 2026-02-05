@@ -1,157 +1,62 @@
 ---
 title: Planning & Thinking Modes
-description: Use planning mode for wide-scope tasks and thinking modes for complex reasoning.
+description: Know when to plan, when to think, and how to keep context clean.
 duration: 20m
 module: Core Features
 order: 5
 ---
 
-## When to Plan vs. Execute
+## Plan vs. Execute
 
-Not all tasks are equal. Simple changes need direct execution; complex features need planning first.
+Small changes can be done directly. Anything touching multiple files deserves a plan.
 
-### Direct Execution
-- Fix a typo
-- Add a console.log
-- Update a single function
+**Direct execution:** fix a typo, adjust a single component, rename a variable.
 
-### Needs Planning
-- Add authentication
-- Refactor multiple files
-- Implement a new feature
-- Anything touching 3+ files
+**Plan first:** new features, refactors, multi-file edits.
 
 ## Planning Mode
 
-Enable planning mode with **Alt+M** (or **Option+M** on Mac). Cycle through:
+Toggle planning mode with **Alt+M** (or **Option+M** on Mac). In planning mode, Claude will:
 
-1. **Normal mode** - Direct execution
-2. **Planning mode** - Creates plan before executing
+1. Propose a step-by-step plan
+2. Wait for your approval
+3. Execute only after confirmation
 
-In planning mode, Claude will:
-1. Analyze the task
-2. Identify affected files
-3. Create a step-by-step plan
-4. Wait for your approval
-5. Execute the plan
+## Plan -> Clear -> Execute
 
-### Example
+Here's the workflow that keeps context sharp:
 
-```
-[Planning Mode Enabled]
+<Steps>
+  <Step>
+    **Plan the task.** Ask for a plan and adjust it.
+  </Step>
+  <Step>
+    **Clear context.** Remove the planning discussion.
+  </Step>
+  <Step>
+    **Execute the plan.** Focus on action, not debate.
+  </Step>
+</Steps>
 
-Add user authentication using NextAuth.js
-```
+## Thinking Keywords
 
-Claude might respond:
+Use these when you want deeper reasoning without a full plan:
 
-```
-## Plan
+- `think`
+- `think hard`
+- `think harder`
+- `ultrathink`
 
-1. Install NextAuth.js and dependencies
-2. Create auth configuration in lib/auth.ts
-3. Add API route at app/api/auth/[...nextauth]/route.ts
-4. Create auth provider wrapper component
-5. Add middleware for protected routes
-6. Update layout to wrap app with provider
+## When Context Feels Noisy
 
-Shall I proceed with this plan?
-```
+If Claude starts repeating itself or ignoring your constraints:
 
-You can then:
-- Approve and execute
-- Modify the plan
-- Ask clarifying questions
-
-## Thinking Modes
-
-For complex reasoning without full planning, use thinking keywords:
-
-### Keyword Levels
-
-| Keyword | Use Case |
-|---------|----------|
-| `think` | Moderate complexity |
-| `think hard` | Complex logic |
-| `think harder` | Multi-step reasoning |
-| `ultrathink` | Maximum reasoning depth |
-
-### Example
-
-```
-Think hard about how to optimize this database query
-```
-
-Claude will spend more "thinking tokens" on analysis before responding.
-
-## Planning vs. Thinking
-
-| Planning Mode | Thinking Mode |
-|---------------|---------------|
-| Creates explicit plan | Deeper analysis |
-| Multi-file changes | Single complex problem |
-| Waits for approval | Direct response |
-| Good for features | Good for debugging |
-
-## Avoiding "Vibe Coding"
-
-A common anti-pattern is asking for too much at once:
-
-### Bad
-```
-Build me a complete e-commerce site with authentication,
-payment processing, inventory management, and admin dashboard
-```
-
-### Good
-```
-[Planning Mode]
-Let's build an e-commerce site. Start with the product
-listing page. Show products from a mock data array.
-```
-
-Break large tasks into smaller, verifiable chunks:
-1. Get one piece working
-2. Verify it works
-3. Move to the next piece
-4. Repeat
-
-## Extended Thinking for Architecture
-
-For architectural decisions, combine planning with thinking:
-
-```
-[Planning Mode]
-
-Think hard about the best way to structure a multi-tenant
-SaaS application with Next.js. Consider:
-- Database isolation strategies
-- Authentication per tenant
-- Subdomain routing
-```
-
-Claude will deeply analyze options before proposing a plan.
-
-## When to Exit Planning Mode
-
-Exit planning mode (Alt+M again) when:
-- Making small, direct changes
-- You already know exactly what to do
-- Following an existing plan
-- Quick fixes and tweaks
-
-## Practice Exercise
-
-1. Enable planning mode with Alt+M
-2. Ask Claude to add a feature (e.g., "Add a dark mode toggle")
-3. Review the generated plan
-4. Modify or approve
-5. Watch Claude execute step by step
+- Clear the session
+- Re-add only the two most relevant files
+- Restate the task in one paragraph
 
 ## Key Takeaways
 
-- Use planning mode (Alt+M) for multi-file changes
-- Use thinking keywords for complex reasoning
-- Break large tasks into smaller chunks
-- Approve plans before execution
-- Exit planning mode for simple changes
+- Plan for anything that touches multiple files
+- Clear context before execution
+- Use thinking keywords for deep reasoning

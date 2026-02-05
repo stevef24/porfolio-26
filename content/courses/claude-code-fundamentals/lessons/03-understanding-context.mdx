@@ -1,131 +1,52 @@
 ---
 title: Understanding Context
-description: Learn how Claude Code manages its context window and strategies for keeping it focused.
+description: Learn how Claude Code holds information and how to keep it sharp.
 duration: 25m
 module: Foundations
 order: 3
 ---
 
-## The Context Window
+## Context is a Budget
 
-Claude Code operates within a context window—a limited amount of information it can hold in memory at once. Everything Claude "knows" during a session lives here:
+Claude Code doesn't remember everything - it remembers what fits. That means every file, command output, and instruction has a cost.
 
-- Your conversation history
-- Files Claude has read
-- Command outputs
-- CLAUDE.md instructions
-- Tool results
+When your budget is tight, you want signal, not noise.
 
-When context fills up, older information gets pushed out, and Claude may lose track of earlier details.
+## What Fills the Window
 
-## Why Context Management Matters
+- Conversation history
+- Files you've added
+- Tool outputs (commands, reads, searches)
+- `CLAUDE.md` instructions
+- Active skills/commands
 
-Poor context management leads to:
-- Claude forgetting earlier instructions
-- Repeated mistakes you've already corrected
-- Slower responses as context bloats
-- Higher API costs
+## Signal vs. Noise
 
-Good context management leads to:
-- Focused, accurate responses
-- Faster iterations
-- Lower costs
-- Better results
+A useful context has one job: make the next response easier to get right. Anything that doesn't help that goal is noise.
 
-## Monitoring Context
+**Analogy:** Imagine a small studio desk. You only have room for the tools you're using right now. Everything else goes in a drawer.
 
-Watch the status bar for context usage. When you see it climbing above 70%, consider:
-- Clearing context with `/clear`
-- Starting a new session
-- Using the `/compact` command
+## Clear vs. Compact
 
-## The `/clear` Command
+**Clear** is a reset. It removes the conversation but keeps `CLAUDE.md`.
 
-`/clear` wipes the conversation history while keeping CLAUDE.md loaded. Use it when:
-- Starting a new feature
-- Context has become bloated
-- Claude seems confused
+**Compact** is a summary. It tries to keep the important details while shrinking the rest.
 
-This is your most important context management tool.
+**Practical rule:**
+- Use **Clear** between tasks
+- Use **Compact** only if you're mid-task and can't restart
 
-## The `/compact` Command
+## Best Practices
 
-`/compact` summarizes the current conversation, reducing its size while preserving key information. Use it when:
-- You want to continue but context is full
-- The current work isn't finished yet
-- You need to preserve some history
+- Plan first, then clear before execution
+- Add files intentionally, one or two at a time
+- Avoid re-adding big folders "just in case"
+- If it feels messy, reset the session
 
-However, `/clear` is generally preferable because compaction can lose nuance.
-
-## Adding Context Intentionally
-
-Use the `@` symbol to add specific files to context:
-
-```
-@src/components/Button.tsx
-```
-
-Claude will read this file and include it in context. Only add files you actually need—every file costs context space.
-
-## Context Best Practices
-
-### Do
-
-- Clear context when switching tasks
-- Keep CLAUDE.md concise
-- Add only necessary files
-- Review what Claude has in context
-
-### Don't
-
-- Let context bloat indefinitely
-- Add entire directories unnecessarily
-- Forget about context during long sessions
-- Expect Claude to remember earlier sessions
-
-## Session Workflow
-
-A productive session typically follows this pattern:
-
-1. **Start fresh** - New session or `/clear`
-2. **Set context** - Add relevant files with `@`
-3. **Work on task** - Focused prompts
-4. **Complete task** - Verify changes
-5. **Clear or exit** - Reset for next task
-
-## The "One Feature, One Session" Rule
-
-A good rule of thumb: one feature or bug fix per session. When you complete a task:
-- Review the changes
-- Commit if satisfied
-- Clear context or start fresh
-
-This keeps Claude focused and prevents context pollution from unrelated work.
-
-## Shift+Enter for Multi-line Input
-
-For complex prompts, use **Shift+Enter** to create multi-line input without sending. This helps you structure detailed requests:
-
-```
-I need to add user authentication:
-- Use NextAuth.js
-- Support Google and GitHub providers
-- Store sessions in the database
-- Add protected routes for /dashboard
-```
-
-## Practice Exercise
-
-1. Start a Claude Code session
-2. Work on a small task
-3. Watch the context meter grow
-4. Clear context with `/clear`
-5. Notice how Claude starts fresh
+Longform community guides (including Everything Claude Code) consistently land on the same point: fewer, sharper inputs beat more context.
 
 ## Key Takeaways
 
-- Context is limited—manage it actively
-- Use `/clear` when switching tasks
-- Add files intentionally with `@`
-- One feature per session is a good baseline
-- Monitor context usage in the status bar
+- Context is limited, and every item competes for space
+- Clear is safer than compact for new work
+- Clean context produces cleaner results

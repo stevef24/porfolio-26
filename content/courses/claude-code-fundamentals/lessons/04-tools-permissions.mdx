@@ -1,152 +1,53 @@
 ---
 title: Tools & Permissions
-description: Master Claude Code's tool system and configure permissions for your workflow.
+description: Understand what Claude Code can do, and how to control it safely.
 duration: 20m
 module: Foundations
 order: 4
 ---
 
-## Understanding Tools
+## Tools = Actions
 
-Tools are the actions Claude Code can take in your environment. Each tool has a specific purpose:
+Claude Code doesn't "type" on your behalf - it uses tools. Each tool is a specific action:
 
-### Read Tools
-- **Read** - View file contents
-- **Glob** - Find files by pattern
-- **Grep** - Search file contents
+- **Read / Glob / Grep**: inspect files
+- **Edit / Write**: modify files
+- **Bash**: run commands
+- **Task**: delegate to a subagent
+- **WebSearch / WebFetch**: get external info
 
-### Write Tools
-- **Edit** - Modify existing files
-- **Write** - Create new files
-- **NotebookEdit** - Edit Jupyter notebooks
+## The Permission Model
 
-### Execution Tools
-- **Bash** - Run terminal commands
-- **Task** - Spawn subagent for complex work
+By default, Claude asks before any action that could change your system. That is a feature, not friction.
 
-### Information Tools
-- **WebFetch** - Retrieve web content
-- **WebSearch** - Search the internet
+If you want to speed things up, you can allow specific commands or enable broader edit permissions.
 
-## Permission Modes
+## The Two Safe Defaults
 
-Claude Code has different permission modes to balance productivity and safety:
-
-### Default Mode
-Claude asks permission for potentially dangerous actions:
-- Running bash commands
-- Writing or editing files
-- Making external requests
-
-This is the safest mode for getting started.
-
-### Trust Project Commands
-Allow specific commands without prompting:
+**1. Allow known commands**
 
 ```
 /permissions
 ```
 
-Then select "Allow command" and enter patterns like:
-- `pnpm test` - Allow running tests
-- `pnpm dev` - Allow starting dev server
-- `git status` - Allow git status checks
+Add a whitelist like:
+- `pnpm dev`
+- `pnpm test`
+- `git status`
 
-### Accept Edits Mode
-Trust Claude to make file edits without asking:
+**2. Keep destructive commands blocked**
 
-```
-/permissions
-```
+Never auto-allow:
+- `rm -rf`
+- `git push --force`
+- database drop commands
 
-Select "Accept all edits" for faster iteration when you're confident in your instructions.
-
-## Configuring Permissions
-
-Access the permissions menu:
-
-```
-/permissions
-```
-
-Options include:
-- **Allow command** - Trust specific commands
-- **Block command** - Prevent specific commands
-- **Accept all edits** - Skip edit confirmations
-- **Reset permissions** - Return to defaults
-
-## Permission Patterns
-
-You can use patterns for flexible permissions:
-
-```
-pnpm *        # Allow all pnpm commands
-npm test *    # Allow all test variations
-git status    # Allow specific command only
-```
-
-## Safety Considerations
-
-### Commands to Never Auto-Allow
-- `rm -rf` - Destructive deletion
-- `git push --force` - Overwrite history
-- Database drop commands
-- Production deployments
-
-### Safe to Auto-Allow
-- Test commands
-- Development servers
-- Linting and formatting
-- Git status/diff
-
-## Tool Allowlists for Subagents
-
-When creating subagents (covered later), you can restrict their tools:
-
-```markdown
----
-name: code-reviewer
-allowed-tools: [Read, Grep, Glob]
----
-```
-
-This subagent can read code but cannot edit or run commands—perfect for review workflows.
-
-## The LSP Tool (v2.1+)
-
-Claude Code can access language server diagnostics:
-
-```
-Check for TypeScript errors in the project
-```
-
-Claude will use the LSP tool to find type errors, missing imports, and other diagnostics without running a build.
-
-## Best Practices
-
-### Start Restrictive
-Begin with default permissions. Add trust as you build confidence.
-
-### Project-Specific Permissions
-Different projects need different permissions. A personal project might allow more; a production codebase should be restrictive.
-
-### Review Permission Requests
-When Claude asks permission, read what it wants to do. This is your chance to catch mistakes.
-
-### Session Permissions
-Some permissions only last for the current session. Others persist in `.claude/settings.json`.
-
-## Practice Exercise
-
-1. Open the permissions menu with `/permissions`
-2. Allow your test command (e.g., `pnpm test`)
-3. Ask Claude to run tests
-4. Notice it runs without asking
+<Callout type="info" title="Sandbox mode">
+You can run bash in a safer sandbox with `/sandbox` when you want extra isolation.
+</Callout>
 
 ## Key Takeaways
 
-- Tools are the actions Claude can perform
-- Permission modes balance safety and speed
-- Start restrictive, add trust gradually
-- Use patterns for flexible permissions
-- Review permission requests before accepting
+- Tools are the real actions Claude performs
+- You control the risk through permissions
+- Start strict, then relax only when you trust the workflow

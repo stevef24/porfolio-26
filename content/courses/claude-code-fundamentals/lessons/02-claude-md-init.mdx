@@ -1,145 +1,69 @@
 ---
 title: CLAUDE.md Configuration
-description: Create project instructions that persist across sessions and guide Claude's behavior.
+description: Create lean, high-signal project instructions that persist across sessions.
 duration: 20m
 module: Foundations
 order: 2
 ---
 
-## Why CLAUDE.md?
+## Why CLAUDE.md Exists
 
-Every time you start a new Claude Code session, Claude starts fresh. It doesn't remember previous conversations or your project's conventions. CLAUDE.md files solve this by providing persistent project context.
+Claude Code starts every session fresh. `CLAUDE.md` is how you teach it your project's DNA - once - so you don't repeat yourself every time.
 
-Think of CLAUDE.md as onboarding documentation for your AI assistant. Just like you'd give a new team member documentation about coding standards, architecture decisions, and project patterns, CLAUDE.md gives Claude the same context.
+The trick is to keep it lean. This file is always loaded, so anything you add competes with the rest of your context budget.
 
-## Creating CLAUDE.md
-
-You can create a CLAUDE.md file manually or use the built-in command:
+## The Fastest Way to Start
 
 ```
 /init
 ```
 
-This command analyzes your project and generates a CLAUDE.md with:
-- Detected tech stack
-- Project structure
-- Common commands
-- Basic conventions
+Claude will scan your repo and draft a starter file. Your job is to trim and clarify.
 
-## CLAUDE.md Structure
-
-A well-structured CLAUDE.md includes:
+## A Minimal, High-Signal Example
 
 ```markdown
 # Project Name
 
-Brief description of what this project does.
+Short description of what this project does.
 
-## Tech Stack
-
-- Framework: Next.js 15
-- Language: TypeScript
-- Styling: Tailwind CSS
-- Database: PostgreSQL with Prisma
-
-## Project Structure
-
-```
-app/           # Next.js App Router pages
-components/    # React components
-lib/           # Utility functions
-prisma/        # Database schema
-```
+## Stack
+- Next.js 16
+- TypeScript
+- Tailwind
 
 ## Commands
-
-```bash
-pnpm dev       # Start development server
-pnpm build     # Production build
-pnpm test      # Run tests
-```
+- pnpm dev
+- pnpm test
+- pnpm build
 
 ## Conventions
-
-- Use TypeScript strict mode
 - Components in PascalCase
 - Utilities in camelCase
-- Always include JSDoc comments for public functions
+- No `any` types
 
-## Important Notes
-
-- Database migrations require review before applying
-- Never commit .env files
-- Run tests before pushing
+## Never Do
+- Don't write to `.env`
+- Don't run destructive commands
 ```
 
-## Location Hierarchy
+## Always-On vs. Dynamic Context
 
-Claude Code looks for CLAUDE.md files in multiple locations:
+Some context is permanent (`CLAUDE.md`). Some should be injected only when needed (specific files or one-off instructions). Overloading `CLAUDE.md` makes every session heavier than it needs to be.
 
-1. **Project root** - `./CLAUDE.md` (highest priority)
-2. **User-level** - `~/.claude/CLAUDE.md` (personal defaults)
-3. **System-level** - Global configuration
+**Rule of thumb:**
+- Put invariants in `CLAUDE.md`
+- Put task details in your prompt or files you add
 
-Project-level instructions override user-level ones, allowing per-project customization.
+## What to Keep Out
 
-## What to Include
-
-### Always Include
-- Tech stack and versions
-- Project structure overview
-- Common commands (dev, build, test)
-- Critical conventions
-- Things Claude should never do
-
-### Consider Including
-- Architecture decisions
-- File naming conventions
-- Testing patterns
-- Error handling approaches
-- Security considerations
-
-### Avoid
-- Obvious information (Claude can detect languages)
-- Excessive detail (keep it scannable)
-- Outdated information (maintain it)
-
-## Advanced: Rules Directory
-
-For larger projects, you can split instructions into `.claude/rules/`:
-
-```
-.claude/
-  rules/
-    testing.md      # Testing conventions
-    security.md     # Security requirements
-    git.md          # Git workflow
-```
-
-Claude loads all rule files automatically, keeping your CLAUDE.md focused on essentials.
-
-## Maintenance
-
-CLAUDE.md should evolve with your project:
-
-- Update when tech stack changes
-- Add patterns you find yourself repeating
-- Remove outdated conventions
-- Keep it concise—Claude has limited context
-
-## Practice Exercise
-
-Create a CLAUDE.md for your current project:
-
-1. Run `/init` to generate a starting point
-2. Review and customize the output
-3. Add any project-specific conventions
-4. Test by asking Claude about your project
+- Long architecture docs
+- Entire API references
+- One-off task details
+- Outdated instructions
 
 ## Key Takeaways
 
-- CLAUDE.md provides persistent project context
-- Use `/init` to generate a starting point
-- Keep instructions concise and actionable
-- Maintain it as your project evolves
-- Split large configurations into `.claude/rules/`
+- `CLAUDE.md` is the smallest set of instructions that should always apply
+- Use `/init`, then delete more than you add
+- Save "task context" for the prompt, not the file

@@ -1,101 +1,57 @@
 ---
 title: Introduction & Setup
-description: Install Claude Code and configure your first project for AI-assisted development.
+description: Install Claude Code and connect it to your first project.
 duration: 15m
 module: Foundations
 order: 1
 ---
 
-## What is Claude Code?
+## Where Claude Code Fits (After Context)
 
-Claude Code is Anthropic's official CLI tool for AI-assisted software development. Unlike chat-based interfaces, Claude Code operates directly in your terminal with full access to your codebase, running commands, reading files, and making edits.
+You already know how context works. Claude Code is simply the tool that lets you apply that context to real codebases: read files, run commands, and make edits - all from your terminal.
 
-Think of Claude Code as a capable junior developer sitting next to you—one who can read your entire codebase instantly, run tests, and make changes across multiple files. But like any assistant, it needs guidance and oversight.
+## Install Claude Code
 
-## Installation
+**Recommended (native installer)**
 
-Install Claude Code globally via npm:
+```bash
+brew install --cask claude-code
+```
+
+**Fallback (npm)**
 
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
 
-Or with pnpm:
-
-```bash
-pnpm add -g @anthropic-ai/claude-code
-```
+<Callout type="info" title="Keep it clean">
+Avoid using `sudo` for npm installs - it often causes permission issues later.
+</Callout>
 
 ## First Run
-
-Navigate to any project directory and start Claude Code:
 
 ```bash
 cd your-project
 claude
 ```
 
-On first run, you'll authenticate with your Anthropic account. Claude Code will then analyze your project structure and be ready to help.
+You'll authenticate once, then Claude Code will scan your project and wait for your first prompt.
 
-## Understanding the Interface
+## Your First Prompt
 
-The Claude Code interface has several key areas:
-
-- **Input prompt** - Where you type commands and questions
-- **Response area** - Claude's thinking and output
-- **Status bar** - Shows model, context usage, and current mode
-- **Tool calls** - Visible when Claude reads files, runs commands, or makes edits
-
-## Key Concepts
-
-### Context Window
-
-Claude Code has a limited context window. Everything Claude "knows" in a session lives here:
-- Your conversation history
-- Files Claude has read
-- Command outputs
-- The CLAUDE.md instructions
-
-Managing this context is crucial for effective usage.
-
-### Tools
-
-Claude Code can use various tools:
-- **Read** - View file contents
-- **Edit** - Modify files
-- **Write** - Create new files
-- **Bash** - Run terminal commands
-- **Glob/Grep** - Search for files and content
-
-### Permissions
-
-By default, Claude asks permission before:
-- Running bash commands
-- Editing or creating files
-- Making any changes to your system
-
-You can adjust these permissions based on your trust level and workflow needs.
-
-## Your First Task
-
-Try asking Claude Code something simple:
+Try something small and specific:
 
 ```
-What files are in this project?
+Show me the main entry point of this app and explain how it starts.
 ```
 
-Claude will use tools to explore your project structure and report back. Watch how it:
-1. Uses the Glob tool to find files
-2. Presents the information clearly
-3. Waits for your next instruction
-
-## Next Steps
-
-In the next lesson, we'll create a CLAUDE.md file to give Claude persistent context about your project's patterns, conventions, and requirements.
+Watch the flow:
+- Claude reads only what it needs
+- It reports back clearly
+- It waits for confirmation before changing anything
 
 ## Key Takeaways
 
-- Claude Code runs in your terminal with direct codebase access
-- Context management is crucial for effective usage
-- Permissions protect you from unintended changes
-- Claude asks before making changes (by default)
+- Claude Code is a terminal-first AI assistant for codebases
+- Native install is the simplest path
+- Start small, stay focused, and build from there

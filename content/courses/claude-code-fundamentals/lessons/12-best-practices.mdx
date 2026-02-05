@@ -1,6 +1,6 @@
 ---
 title: Best Practices & Tips
-description: Essential advice, keyboard shortcuts, and philosophies for effective AI-assisted development.
+description: The shortest list of principles that keeps Claude Code effective.
 duration: 20m
 module: Production Patterns
 order: 12
@@ -8,209 +8,24 @@ order: 12
 
 ## The Three Principles
 
-### 1. Always Review the Code
-
-AI makes mistakes. Always review:
-- Logic correctness
-- Edge case handling
-- Security implications
-- Performance characteristics
-
-Even when code "works," it might not be optimal or safe.
+### 1. Keep Context Lean
+If it doesn't help the next response, remove it.
 
 ### 2. Stay in the Loop
+Claude can assist, but you own the code. Always review.
 
-If you're not reviewing Claude's output, you'll quickly lose understanding of your codebase. This matters when:
-- Debugging issues manually
-- Onboarding team members
-- Making architectural decisions
-- Maintaining long-term
+### 3. Automate the Boring Parts
+Hooks, commands, and subagents should remove friction - not add it.
 
-AI assists; you remain responsible.
+## A Practical Checklist
 
-### 3. Context is Key
+- Start with a fresh session for new tasks
+- Add only the files you truly need
+- Use planning mode for multi-file changes
+- Keep `CLAUDE.md` short and current
+- Restrict tools for subagents
+- Run tests before you trust a change
 
-Be smart about context:
-- Keep it focused and concise
-- Clear between tasks
-- Add files intentionally
-- Monitor usage
+## Final Thought
 
-Poor context leads to poor results.
-
-## Keyboard Shortcuts
-
-### Navigation
-
-| Shortcut | Action |
-|----------|--------|
-| `↑` / `↓` | Cycle through previous prompts |
-| `Esc` | Clear current input |
-| `Esc` `Esc` | Go to previous chat section |
-| `Ctrl+C` | Cancel current operation |
-
-### Input
-
-| Shortcut | Action |
-|----------|--------|
-| `Shift+Enter` | Multi-line input |
-| `!` | Enter bash mode |
-| `@` | Add file to context |
-| `#` | Memorize to CLAUDE.md |
-
-### Modes
-
-| Shortcut | Action |
-|----------|--------|
-| `Alt+M` | Toggle planning mode |
-| `/model` | Switch models |
-| `/clear` | Clear context |
-
-### Quick Reference
-
-Press `?` in the input area to see all available shortcuts.
-
-## Common Workflows
-
-### Bug Fix Workflow
-
-```
-1. /clear (fresh context)
-2. @relevant-file.ts (add context)
-3. Describe the bug
-4. Review the fix
-5. Test manually
-6. Commit if good
-```
-
-### Feature Workflow
-
-```
-1. /clear
-2. Alt+M (planning mode)
-3. Describe the feature
-4. Review and approve plan
-5. Execute step by step
-6. Test each step
-7. Review complete feature
-```
-
-### Review Workflow
-
-```
-1. /clear
-2. Ask code-reviewer agent to review
-3. Receive feedback
-4. Address issues
-5. Request re-review
-```
-
-## What AI Can't Replace
-
-Despite AI capabilities, human judgment remains essential for:
-
-- **Architecture decisions** - Long-term implications
-- **Business logic** - Domain expertise
-- **User experience** - Empathy and intuition
-- **Security** - Threat modeling
-- **Ethics** - Value judgments
-
-Use AI to accelerate, not replace, your thinking.
-
-## The Future of Coding
-
-AI changes how we code, not whether we code. Consider:
-
-### New Opportunities
-- MCP server development
-- AI integration patterns
-- Agent orchestration
-- Prompt engineering
-
-### Enduring Skills
-- Problem decomposition
-- System design
-- Debugging intuition
-- Code review
-
-### Career Advice
-
-Learning to code is arguably more important now because:
-1. AI-generated code needs human oversight
-2. AI integration requires deep understanding
-3. Complex systems need experienced architects
-4. Security and ethics require human judgment
-
-## Anti-Patterns to Avoid
-
-### Vibe Coding
-Asking for too much at once without verification.
-
-**Fix:** Break tasks into verifiable chunks.
-
-### Context Neglect
-Letting context bloat without management.
-
-**Fix:** Clear between tasks, monitor usage.
-
-### Blind Trust
-Accepting all AI output without review.
-
-**Fix:** Always review, test, and verify.
-
-### Over-Reliance
-Using AI for everything, losing your skills.
-
-**Fix:** Balance AI assistance with manual practice.
-
-## Project Setup Checklist
-
-For optimal Claude Code experience:
-
-- [ ] Create CLAUDE.md with project context
-- [ ] Set up `.claude/rules/` for detailed conventions
-- [ ] Configure permissions for common commands
-- [ ] Install relevant MCP servers
-- [ ] Create project-specific agents
-- [ ] Set up hooks for automation
-- [ ] Document workflows in commands
-- [ ] Establish session management practice
-
-## Final Thoughts
-
-Claude Code is a powerful tool that amplifies your capabilities. Used well, it accelerates development while keeping you in control. Used poorly, it creates technical debt and knowledge gaps.
-
-The best practitioners:
-- Treat AI as a capable junior developer
-- Review everything with senior-level scrutiny
-- Maintain deep understanding of their codebase
-- Use AI to handle tedium, not replace thinking
-
-Build your workflow around these principles, and Claude Code will become an invaluable part of your development toolkit.
-
-## Course Completion
-
-Congratulations on completing Claude Code Fundamentals! You now understand:
-
-- Installation and configuration
-- CLAUDE.md and project setup
-- Context management strategies
-- Tools, permissions, and safety
-- Planning and thinking modes
-- Custom slash commands
-- MCP server integration
-- Subagent creation and delegation
-- GitHub integration
-- Hooks and automation
-- Advanced production patterns
-- Best practices and shortcuts
-
-Continue practicing these concepts in your daily work. The more you use Claude Code thoughtfully, the more effective you'll become.
-
-## Resources
-
-- [Claude Code Documentation](https://docs.anthropic.com/claude-code)
-- [MCP Protocol Specification](https://modelcontextprotocol.io)
-- [Anthropic API Reference](https://docs.anthropic.com/api)
-
-Happy coding!
+Claude Code works best when you treat it like a fast junior developer: capable, eager, and in need of clear context and oversight.
