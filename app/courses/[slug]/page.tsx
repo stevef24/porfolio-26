@@ -5,6 +5,7 @@ import { CourseShell } from "@/components/courses/CourseShell";
 import { CourseProgressHeader } from "@/components/courses/CourseProgressHeader";
 import customComponents from "@/lib/custom-components";
 import type { AccessLevel } from "@/hooks/useAccess";
+import { TOCProvider } from "fumadocs-ui/components/layout/toc";
 
 type CoursePage = ReturnType<typeof courses.getPages>[number];
 
@@ -71,6 +72,9 @@ export default async function CourseOverviewPage(props: {
   const courseName = (overviewPage.data.title as string) || params.slug;
 
   const Mdx = overviewPage.data.body;
+  const tocItems =
+    (overviewPage.data as { toc?: Array<{ title: string; url: string; depth: number }> })
+      .toc || [];
 
   return (
     <CourseShell
@@ -107,9 +111,11 @@ export default async function CourseOverviewPage(props: {
         <div className="h-px bg-border mb-12" />
 
         {/* Content */}
-        <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-medium prose-headings:tracking-tight prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-code:text-primary prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:before:content-none prose-code:after:content-none prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground">
-          <Mdx components={customComponents} />
-        </div>
+        <TOCProvider toc={tocItems}>
+          <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-medium prose-headings:tracking-tight prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-code:text-primary prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:before:content-none prose-code:after:content-none prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground">
+            <Mdx components={customComponents} />
+          </div>
+        </TOCProvider>
       </article>
     </CourseShell>
   );

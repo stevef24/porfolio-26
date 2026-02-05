@@ -8,7 +8,7 @@ import { Callout } from "fumadocs-ui/components/callout";
 import { Banner } from "fumadocs-ui/components/banner";
 import { File, Folder, Files } from "fumadocs-ui/components/files";
 import { ImageZoom } from "fumadocs-ui/components/image-zoom";
-import { InlineTOC } from "fumadocs-ui/components/inline-toc";
+import { InlineTOCClient } from "@/components/courses/InlineTOCClient";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { TypeTable } from "fumadocs-ui/components/type-table";
@@ -250,7 +250,7 @@ const customComponents = {
 	Folder,
 	Files,
 	ImageZoom,
-	InlineTOC,
+	InlineTOC: InlineTOCClient,
 	Step,
 	Steps,
 	Tab,
