@@ -6,42 +6,78 @@ module: Power Features
 order: 8
 ---
 
+import { SubagentSplitContext } from "@/components/visuals/SubagentSplitContext"
+
 ## What Subagents Are
 
-Subagents are specialized Claude instances with their **own context** and **their own tool limits**. They do a task, then report back to your main session with a concise summary.
+Subagents are specialized Claude instances with their own context window, prompt, model, and tool rules. They run a focused task, then return a summary to your main session.
 
-## Why They Matter
+<SubagentSplitContext />
 
-- **Context isolation** keeps your main session clean
-- **Specialization** produces better outputs
-- **Safety** improves when tools are restricted
+<InlineTOC />
 
-## Creating a Subagent
+## Subagents vs Agent Teams
 
-Define a subagent in `.claude/agents/` (or use the Agents UI if available). Give it a name, a role, and only the tools it needs.
+Both are useful. The decision is about communication.
 
-## Example: Code Reviewer (Read-Only)
+| Need | Use |
+| :-- | :-- |
+| One focused worker that reports back | Subagent |
+| Multiple workers that need to talk to each other | Agent team |
+| Lower token overhead | Subagent |
+| Cross-role collaboration (research + architecture + critique) | Agent team |
+
+Rule of thumb:
+- Use subagents by default
+- Move to agent teams when peer-to-peer collaboration is required
+
+## Built-In Subagents You Should Know
+
+Claude Code already includes built-ins you will see often:
+
+- `Explore`: fast, read-only codebase exploration
+- `Plan`: read-only research while you're in plan mode
+- `general-purpose`: full capability for complex multi-step execution
+
+This matters because delegation already happens under the hood. Custom subagents should fill gaps, not duplicate these roles.
+
+## Create a Team-Ready Subagent
+
+Use `/agents` for the fastest setup, then tighten scope:
+
+1. Choose scope: project (`.claude/agents/`) for shared team workflows, user (`~/.claude/agents/`) for personal helpers
+2. Write a precise description so Claude delegates correctly
+3. Restrict tools and permission mode aggressively
+4. Set model intentionally (`haiku`, `sonnet`, `opus`, or `inherit`)
+
+Example project subagent:
 
 ```markdown
 ---
-name: code-reviewer
-description: Reviews code for bugs and edge cases
+name: api-reviewer
+description: Reviews API changes for auth, validation, and error handling
+tools: Read, Glob, Grep
 model: sonnet
-allowed-tools:
-  - Read
-  - Glob
-  - Grep
+permissionMode: plan
+skills:
+  - api-conventions
+memory: project
 ---
+
+You are a strict API reviewer.
+Focus on security boundaries, schema consistency, and regression risk.
+Return concise findings with file paths and suggested fixes.
 ```
 
-This agent can't edit or run commands - perfect for reviews.
+## Guardrails That Keep Agents Useful
 
-## Keep Agents Lean
-
-A subagent doesn't need every tool or MCP server. Restricting tools keeps its own context smaller and its output sharper.
+- Keep each subagent narrow in purpose
+- Prefer read-only tools unless edits are required
+- Use `memory: project` when the agent should learn team conventions over time
+- Check project subagents into git so the whole team gets consistent behavior
 
 ## Key Takeaways
 
-- Subagents are isolated by design
-- Limit their tools for focus and safety
-- Treat them like specialists, not generalists
+- Subagents are your default delegation tool for focused tasks
+- Agent teams are better when workers must coordinate directly
+- Tool limits, model choice, and permission mode define subagent quality

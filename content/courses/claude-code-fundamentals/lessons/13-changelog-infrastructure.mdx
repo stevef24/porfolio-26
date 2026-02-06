@@ -6,41 +6,88 @@ module: Changelog & Infrastructure
 order: 13
 ---
 
+import { ClaudeCodeStack } from "@/components/visuals/ClaudeCodeStack"
+import { ChangelogScanChecklist } from "@/components/visuals/ChangelogScanChecklist"
+
 ## How Claude Code is Structured
 
 At a high level, Claude Code is:
 
 - **A CLI** that manages sessions, settings, and auth
 - **A tool runtime** that executes Read/Edit/Bash and other actions
+- **An agent layer** for subagents and agent teams
 - **An MCP layer** that connects external tools
 - **A model layer** where you choose capability vs. cost
 - **A sandbox** that isolates risky commands
 
-Understanding this structure helps you predict where new features will land.
+Understanding this structure helps you predict where updates will land.
 
-## How to Read the Changelog
+<ClaudeCodeStack />
 
-Don't read everything. Scan for items that change your workflow:
+<InlineTOC />
 
-- New or changed slash commands
-- Context handling or compaction tweaks
-- MCP or tool-related updates
-- Permission and sandbox changes
-- Model or UI behavior changes
+## How to Read the Changelog Fast
 
-## What's New Lately (Plain English)
+Don't read line-by-line. Scan for behavior changes:
 
-Here are recent changes worth knowing about:
+- New/changed commands and flags
+- Team and subagent behavior
+- Model defaults and alias behavior
+- Permission/sandbox updates
+- Cost or context handling updates
 
-- **PDF handling is smarter.** You can now read specific PDF page ranges, and large PDFs won't flood your context.
-- **Debugging got easier.** A `/debug` command was added for session troubleshooting.
-- **Model switching is immediate.** `/model` now applies right away instead of waiting in a queue.
-- **Motion can be reduced.** There's a config option for reduced motion.
-- **Sandbox reliability improved.** Fewer false failures when sandbox mode is enabled.
-- **Tool choice improved.** Claude is steered to use file tools instead of shell equivalents, which keeps sessions cleaner.
+<ChangelogScanChecklist />
+
+## Last 10-Hour Snapshot (Feb 5, 2026)
+
+This scan window ended on **February 5, 2026 at 19:20 UTC**.
+
+### Release-level updates
+
+- **2026-02-05T17:47:04Z - `v2.1.32` shipped**
+- **Opus 4.6 became available** in Claude Code
+- **Agent teams (research preview)** landed behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+- **Automatic memory behavior** was added (Claude records and recalls memories while working)
+- **"Summarize from here"** was added to support partial conversation summarization
+
+### Docs-level updates in the same window
+
+- **~17:50Z** updates to `agent-teams`, `sub-agents`, `cli-reference`, and core workflow docs
+- **~18:33Z** updates to `model-config`, `settings`, and `common-workflows`
+- Settings now explicitly document **`teammateMode`** and CLI `--teammate-mode`
+- Cost docs now explicitly call out that agent-team plan runs can use **~7x tokens** vs standard sessions
+
+## What To Change In Your Workflow Today
+
+1. **Update your model strategy**
+Use aliases intentionally:
+- `opus` for complex architecture/reasoning
+- `sonnet` for day-to-day implementation
+- `opusplan` when you want Opus planning and Sonnet execution
+
+2. **Enable agent teams deliberately**
+Only turn them on when collaboration between agents is needed:
+
+```json
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "teammateMode": "in-process"
+}
+```
+
+3. **Treat lead sessions as orchestrators**
+When running teams, keep the lead coordinating and teammates executing.
+
+4. **Cap team size and keep prompts tight**
+Token usage scales per teammate context window, so smaller teams usually win.
 
 ## Where to Check Updates
 
 - [Claude Code Changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
-- [Claude Code Quickstart](https://code.claude.com/docs/quickstart)
-- [MCP Documentation](https://docs.claude.com/en/docs/claude-code/mcp)
+- [Agent Teams](https://code.claude.com/docs/en/agent-teams)
+- [Subagents](https://code.claude.com/docs/en/sub-agents)
+- [Model Configuration](https://code.claude.com/docs/en/model-config)
+- [Claude Code Settings](https://code.claude.com/docs/en/settings)
+- [Costs](https://code.claude.com/docs/en/costs)

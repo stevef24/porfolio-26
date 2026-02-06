@@ -6,6 +6,10 @@ module: Context Primer
 order: 0
 ---
 
+import { ContextCompositionStack } from "@/components/visuals/ContextCompositionStack"
+import { ContextBudgetBucket } from "@/components/visuals/ContextBudgetBucket"
+import { ContextTrimComparison } from "@/components/visuals/ContextTrimComparison"
+
 ## Start Here (Yes, Before Claude Code)
 
 Claude Code is only as good as the context you give it. If the context is sharp, the output is sharp. If the context is noisy, the output gets fuzzy. This lesson teaches the mental model you'll use for every lesson after this one.
@@ -22,6 +26,8 @@ Think of context as the "working memory" Claude can see during a session. It inc
 - Your `CLAUDE.md` instructions
 - Any active skills or command outputs
 
+<ContextCompositionStack />
+
 <Callout type="info" title="Why this matters">
 Every item above shares the same finite budget. When the budget is full, older or less-important details get pushed out.
 </Callout>
@@ -29,6 +35,8 @@ Every item above shares the same finite budget. When the budget is full, older o
 ## The Context Budget
 
 A good mental model is a backpack. You can't take everything - you choose what matters for the hike you're on.
+
+<ContextBudgetBucket />
 
 When your context is too full, Claude starts forgetting details or mixing ideas. The fix isn't more context. It's better context.
 
@@ -69,6 +77,8 @@ Please review for auth bugs and suggest fixes only.
 ```
 
 Notice the difference: the second prompt makes the task possible - and keeps context focused.
+
+<ContextTrimComparison />
 
 ## Key Takeaways
 

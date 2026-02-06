@@ -8,21 +8,31 @@ order: 1
 
 ## Where Claude Code Fits (After Context)
 
-You already know how context works. Claude Code is simply the tool that lets you apply that context to real codebases: read files, run commands, and make edits - all from your terminal.
+You already know how context works. Claude Code is the terminal tool that applies that context to real codebases: read files, run commands, plan changes, and edit safely.
 
 ## Install Claude Code
 
-**Recommended (native installer)**
+**Recommended (native installer, auto-updates)**
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**Alternative package manager (manual updates)**
 
 ```bash
 brew install --cask claude-code
 ```
 
-**Fallback (npm)**
+**Legacy npm path (deprecated)**
 
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
+
+<Callout type="warning" title="NPM installs are deprecated">
+If you're on an older npm install, run `claude install` to migrate to the native install flow.
+</Callout>
 
 <Callout type="info" title="Keep it clean">
 Avoid using `sudo` for npm installs - it often causes permission issues later.
@@ -35,11 +45,17 @@ cd your-project
 claude
 ```
 
-You'll authenticate once, then Claude Code will scan your project and wait for your first prompt.
+Optional quick check:
+
+```bash
+claude doctor
+```
+
+You'll authenticate once, then Claude Code scans your project and waits for your first prompt.
 
 ## Your First Prompt
 
-Try something small and specific:
+Start small and specific:
 
 ```
 Show me the main entry point of this app and explain how it starts.
@@ -48,10 +64,10 @@ Show me the main entry point of this app and explain how it starts.
 Watch the flow:
 - Claude reads only what it needs
 - It reports back clearly
-- It waits for confirmation before changing anything
+- It asks before risky actions
 
 ## Key Takeaways
 
-- Claude Code is a terminal-first AI assistant for codebases
-- Native install is the simplest path
-- Start small, stay focused, and build from there
+- Native install is the current recommended path
+- npm installation still works but is deprecated
+- Start with small prompts and verify results as you go

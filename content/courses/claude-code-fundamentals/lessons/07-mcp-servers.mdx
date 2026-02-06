@@ -6,9 +6,14 @@ module: Core Features
 order: 7
 ---
 
+import { McpArchitectureMap } from "@/components/visuals/McpArchitectureMap"
+import { McpBloatMeter } from "@/components/visuals/McpBloatMeter"
+
 ## MCP in One Sentence
 
 MCP (Model Context Protocol) lets Claude Code use tools outside the core app - databases, browsers, APIs, and more.
+
+<McpArchitectureMap />
 
 ## The Practical Rule
 
@@ -19,6 +24,8 @@ If a task can be done with a CLI command, prefer a command or skill. Save MCP fo
 </Callout>
 
 Community guides like Everything Claude Code recommend keeping only a handful of servers enabled per project for the best results.
+
+<McpBloatMeter />
 
 ## Manage Servers
 

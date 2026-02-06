@@ -6,6 +6,8 @@ module: Power Features
 order: 10
 ---
 
+import { HookTimeline } from "@/components/visuals/HookTimeline"
+
 ## Hooks = Event-Driven Automation
 
 Hooks are scripts or prompts that run when Claude Code reaches specific lifecycle events. They're how you automate guardrails without babysitting every action.
@@ -19,6 +21,8 @@ Hooks are scripts or prompts that run when Claude Code reaches specific lifecycl
 - `PreCompact` - before context compaction
 
 There are more, but these cover most workflows.
+
+<HookTimeline />
 
 ## Example: Block Dangerous Commands
 

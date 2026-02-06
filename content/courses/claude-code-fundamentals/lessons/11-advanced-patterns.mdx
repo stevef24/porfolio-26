@@ -6,56 +6,88 @@ module: Production Patterns
 order: 11
 ---
 
-## Pattern 1: The Orchestrator
+import { SessionMemoryNote } from "@/components/visuals/SessionMemoryNote"
 
-Treat your main session like a lead engineer. Delegate specialized tasks to subagents:
+## Pattern 1: Pick the Right Topology First
+
+Before prompting, choose the smallest orchestration unit that fits the work:
+
+| Work shape | Best fit |
+| :-- | :-- |
+| Single task, single code path | Main session |
+| Focused delegated task | Subagent |
+| Multi-role parallel collaboration | Agent team |
+
+Most failures come from picking the wrong topology, not bad prompting.
+
+<InlineTOC />
+
+## Pattern 2: Lead-Only Orchestration in Team Runs
+
+When you run an agent team, keep the lead focused on coordination:
+
+- Turn on delegate mode (`Shift+Tab` cycle when team mode is active)
+- Let teammates implement; lead assigns, reviews, and synthesizes
+- Use direct teammate messaging only to unblock or redirect
+
+This reduces lead-side thrash and improves consistency.
+
+## Pattern 3: Plan-Gated Teammates for Risky Changes
+
+For auth, billing, schema, or infra edits, require teammates to plan before implementation.
+
+Prompt pattern:
+
+```text
+Create an agent team for this refactor.
+Require plan approval before any teammate writes code.
+Only approve plans that include tests and rollback notes.
+```
+
+This keeps parallel speed without losing architectural control.
+
+## Pattern 4: Session Memory Files
+
+When a task spans multiple sessions, save a handoff summary:
+
+<SessionMemoryNote />
 
 ```
-Main Session
-  - planner
-  - test-writer
-  - code-reviewer
-  - docs-writer
-```
-
-Each agent keeps its own context clean, then reports back.
-
-## Pattern 2: Session Memory Files
-
-When a task spans multiple sessions, save a summary file:
-
-```
-.claude/sessions/2026-02-04-auth.md
+.claude/sessions/2026-02-05-auth-refactor.md
 ```
 
 Include:
-- what was done
+- what changed
 - what failed
-- what's next
+- what is next
 
-Next session, add that file to context instead of re-explaining everything.
+Next session, attach this file instead of re-explaining the whole history.
 
-This pattern shows up repeatedly in community deep dives, including Everything Claude Code, because it works.
+## Pattern 5: Conflict-Proof Parallelism
 
-## Pattern 3: Dynamic Context Injection
+Parallel execution fails when teammates edit the same files.
 
-Don't stuff `CLAUDE.md` with one-off details. Add task-specific files only when you need them.
+Use file ownership in task prompts:
 
-**Rule:**
-- `CLAUDE.md` = invariants
-- prompt + files = task context
+- teammate A owns `app/api/**`
+- teammate B owns `lib/auth/**`
+- teammate C owns tests and docs only
 
-## Pattern 4: Verification Loops
+Ask the lead to enforce ownership boundaries before merges.
 
-For critical changes, create a simple loop:
+## Pattern 6: Verification Loops With Named Owners
 
-1. Change
+For each teammate output:
+
+1. Implement
 2. Test
-3. Fix
-4. Repeat
+3. Self-review
+4. Lead review
+
+A loop with explicit ownership catches integration bugs earlier than one final review pass.
 
 ## Key Takeaways
 
-- Delegate for clarity and speed
-- Use session files to survive context resets
-- Keep permanent instructions minimal
+- Topology choice (session vs subagent vs team) is a first-order decision
+- Delegate mode makes team leads better orchestrators
+- Parallelism works when ownership and approval rules are explicit

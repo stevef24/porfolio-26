@@ -6,26 +6,30 @@ module: Production Patterns
 order: 12
 ---
 
-## The Three Principles
+## The Four Principles
 
 ### 1. Keep Context Lean
-If it doesn't help the next response, remove it.
+If it won't help the next response, remove it.
 
-### 2. Stay in the Loop
-Claude can assist, but you own the code. Always review.
+### 2. Choose the Smallest Agent Pattern
+Start with main session, then subagent, then agent team only when collaboration is needed.
 
-### 3. Automate the Boring Parts
-Hooks, commands, and subagents should remove friction - not add it.
+### 3. Keep Humans on Decisions
+Let agents execute, but keep plan approval and final merge decisions human-owned.
 
-## A Practical Checklist
+### 4. Manage Token Burn Intentionally
+Parallel agents multiply token use. Keep team size and prompts tight.
 
-- Start with a fresh session for new tasks
-- Add only the files you truly need
-- Use planning mode for multi-file changes
-- Keep `CLAUDE.md` short and current
-- Restrict tools for subagents
-- Run tests before you trust a change
+## Teams + Agents Checklist
+
+- Use subagents for focused delegation
+- Use agent teams for parallel cross-role collaboration
+- Enable teams explicitly (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
+- Prefer Sonnet teammates for cost/performance balance
+- Keep task ownership file-based to avoid edit collisions
+- Clean up teams when done so idle teammates stop consuming tokens
+- Run tests before trusting any generated change
 
 ## Final Thought
 
-Claude Code works best when you treat it like a fast junior developer: capable, eager, and in need of clear context and oversight.
+The best Claude Code workflow is not "maximum autonomy" - it's controlled delegation.

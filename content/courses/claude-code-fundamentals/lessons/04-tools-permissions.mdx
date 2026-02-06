@@ -6,6 +6,8 @@ module: Foundations
 order: 4
 ---
 
+import { PermissionsSafetyLadder } from "@/components/visuals/PermissionsSafetyLadder"
+
 ## Tools = Actions
 
 Claude Code doesn't "type" on your behalf - it uses tools. Each tool is a specific action:
@@ -21,6 +23,8 @@ Claude Code doesn't "type" on your behalf - it uses tools. Each tool is a specif
 By default, Claude asks before any action that could change your system. That is a feature, not friction.
 
 If you want to speed things up, you can allow specific commands or enable broader edit permissions.
+
+<PermissionsSafetyLadder />
 
 ## The Two Safe Defaults
 

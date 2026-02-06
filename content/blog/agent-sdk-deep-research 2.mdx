@@ -1,0 +1,231 @@
+---
+title: Building a Deep Research Agent with the Claude Agent SDK
+description: A step-by-step guide to building an autonomous research agent that searches, analyzes, and synthesizes information using the Claude Agent SDK.
+author: Stav Fernandes
+date: 2026-01-10
+---
+
+import { deepResearchSteps } from "./agent-sdk-deep-research.steps";
+
+<BlogWithCanvas>
+
+When I first started building AI agents, I spent more time wiring up tool execution loops than actually solving problems. The Claude Agent SDK changed that. It handles the orchestration so you can focus on what your agent should do, not how to make it run.
+
+Deep research is one of the most compelling use cases for AI agents. A single search rarely tells the full story - you need multiple sources, cross-referencing, and synthesis. Doing this manually is tedious. Doing it with a well-designed agent takes seconds and produces better results than most humans could in hours.
+
+In this post, we'll build a Deep Research Agent from scratch. Not a toy example - a production-ready system that searches multiple sources, extracts key findings, verifies facts across references, and synthesizes everything into a structured report with confidence levels and citations.
+
+The SDK gives us three things that would take weeks to build ourselves: a streaming message protocol for real-time progress, MCP integration for extensible tools, and a subagent system for parallel specialized work. We'll use all three.
+
+## What We're Building
+
+Our research agent will:
+
+1. Accept a research topic and break it down into search queries
+2. Search multiple sources in parallel using subagents
+3. Extract and analyze content from each source
+4. Cross-reference findings for accuracy
+5. Produce a structured research report with citations
+
+Think of it as having a small research team: one agent coordinates, others specialize in finding sources, analyzing content, and fact-checking. The SDK makes this orchestration surprisingly simple.
+
+## Prerequisites
+
+Before we start, you'll need:
+
+- Node.js 18+ installed
+- An Anthropic API key ([get one here](https://console.anthropic.com))
+- Claude Code CLI installed and authenticated
+
+```bash
+npm install -g @anthropic-ai/claude-code
+claude  # Follow prompts to authenticate
+```
+
+## Building the Agent
+
+<AgentCodeWalkthrough steps={deepResearchSteps}>
+
+<CanvasStep index={0}>
+
+### Step 1: Your First Agent Query
+
+Start with the basics. The SDK's `query()` function returns an async generator that streams messages as Claude works. Each message tells you what Claude is thinking, which tools it's using, and when it's done.
+
+The streaming approach means you don't wait for completion - you get real-time updates as the agent works. This is crucial for long-running research tasks where users need feedback.
+
+</CanvasStep>
+
+<CanvasStep index={1}>
+
+### Step 2: Configuring Agent Behavior
+
+The options object controls everything about how your agent runs. Permission modes determine what the agent can do without asking, and `maxTurns` prevents runaway loops.
+
+For research tasks, we want read-only access with automatic approval. The `bypassPermissions` mode lets the agent work autonomously within the allowed tools - perfect for background research jobs.
+
+The system prompt shapes Claude's approach. Be specific about what you want: multiple sources, cross-verification, cited claims.
+
+</CanvasStep>
+
+<CanvasStep index={2}>
+
+### Step 3: Adding Custom Tools with MCP
+
+The SDK uses Model Context Protocol (MCP) for custom tools - the same protocol that powers Claude Code's extensibility.
+
+Define tools with the `@tool` decorator and `createSdkMcpServer` to package them. Each tool declares its inputs with Zod schemas, giving you runtime validation and TypeScript inference.
+
+This citation formatter shows the pattern: clear name, description Claude can understand, typed parameters, and a content response.
+
+</CanvasStep>
+
+<CanvasStep index={3}>
+
+### Step 4: Getting Structured Reports
+
+For programmatic use, you need structured data, not prose. The SDK supports JSON Schema output format.
+
+Define your report schema and Claude will return data that matches it exactly. This is essential for integrating research results into your application - you get typed objects, not strings to parse.
+
+The schema defines the contract between your agent and your code.
+
+</CanvasStep>
+
+<CanvasStep index={4}>
+
+### Step 5: Creating Specialized Subagents
+
+Complex research benefits from specialization. Define subagents with focused prompts and limited tools.
+
+This source-finder subagent only searches - it doesn't analyze or synthesize. Separation of concerns makes each piece more reliable. The faster `sonnet` model handles simpler tasks efficiently.
+
+Register subagents in the query options, and the main agent can invoke them through the `Task` tool.
+
+</CanvasStep>
+
+<CanvasStep index={5}>
+
+### Step 6: Orchestrating Multiple Specialists
+
+The real power comes from combining specialists. The orchestrator delegates to `source-finder`, `content-analyst`, and `fact-checker`.
+
+Each works independently, and the orchestrator synthesizes their outputs into a coherent report. This pattern scales - add more specialists as your research needs grow.
+
+The `Task` tool in `allowedTools` enables the orchestrator to spawn subagents.
+
+</CanvasStep>
+
+<CanvasStep index={6}>
+
+### Step 7: Real-Time Progress Tracking
+
+Research can take minutes. Without feedback, users wonder if it's working or stuck. The message stream solves this.
+
+Every tool call, every subagent task, every cost update flows through in real-time. The three message types (`system`, `assistant`, `result`) give you everything needed to build progress UIs.
+
+Session info on init, tool names as they run, and final cost when done.
+
+</CanvasStep>
+
+<CanvasStep index={7}>
+
+### Step 8: Production-Ready Research Agent
+
+The final agent brings everything together. Type-safe interfaces (`ResearchReport`) ensure your downstream code knows exactly what to expect.
+
+The query options combine all our patterns: subagents for specialization, `bypassPermissions` for automation, `maxTurns` for cost control, and JSON schema for structured output.
+
+When the result message arrives with subtype `success`, you get typed data ready for your application.
+
+</CanvasStep>
+
+</AgentCodeWalkthrough>
+
+<CanvasGap>
+
+## V2 Preview: What's Changing
+
+The V2 SDK is currently unstable but worth understanding. The patterns you've learned transfer directly - V2 just makes some things more explicit.
+
+<V2PreviewCallout title="One-Shot Prompts (Step 1)">
+
+V2 introduces `unstable_v2_prompt()` for simple, single-turn interactions:
+
+```ts
+import { unstable_v2_prompt } from "@anthropic-ai/claude-agent-sdk"
+
+const result = await unstable_v2_prompt("What is 2+2?", {
+  model: "sonnet"
+})
+```
+
+This replaces the `query()` pattern when you don't need streaming or multi-turn conversations.
+
+</V2PreviewCallout>
+
+<V2PreviewCallout title="Session Configuration (Step 2)">
+
+Configuration moves to explicit session creation:
+
+```ts
+import { unstable_v2_createSession } from "@anthropic-ai/claude-agent-sdk"
+
+const session = unstable_v2_createSession({
+  model: "opus",
+  allowedTools: ["WebSearch", "Read"],
+  systemPrompt: "You are a research specialist."
+})
+```
+
+Sessions can be resumed with `unstable_v2_resumeSession(sessionId)`.
+
+</V2PreviewCallout>
+
+<V2PreviewCallout title="Streaming Separation (Step 7)">
+
+V2 separates sending messages from receiving responses:
+
+```ts
+// Send the message
+await session.send("Research AI agent architectures")
+
+// Stream the response separately
+for await (const message of session.stream()) {
+  console.log(message.type, message)
+}
+
+// Clean up with automatic disposal
+await using session = unstable_v2_createSession(options)
+```
+
+The `await using` syntax (TypeScript 5.2+) handles cleanup automatically.
+
+</V2PreviewCallout>
+
+The migration path is straightforward: replace `query()` with session-based calls, and your tool definitions and subagent patterns work unchanged.
+
+</CanvasGap>
+
+<CanvasEnd />
+
+## What's Next
+
+From here, you could extend the agent with:
+
+- **Domain-specific tools** - Add MCP servers for databases, APIs, or internal docs
+- **Citation verification** - Use web fetch to validate source URLs
+- **Cost controls** - Add budget limits and model fallbacks
+- **Caching** - Store research results to avoid redundant searches
+
+The beauty of the SDK is that these additions are incremental. You're not fighting framework constraints - you're composing capabilities.
+
+## Resources
+
+- [Claude Agent SDK Reference](https://docs.anthropic.com/en/docs/claude-agent-sdk)
+- [MCP Server Directory](https://github.com/modelcontextprotocol/servers)
+- [Claude Code Documentation](https://docs.anthropic.com/en/docs/claude-code)
+
+The full source code for this agent is available in the companion repository. Clone it, modify it, break it, and build something that solves your specific research needs.
+
+</BlogWithCanvas>

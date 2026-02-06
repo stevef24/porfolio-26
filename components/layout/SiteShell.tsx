@@ -58,17 +58,14 @@ export function SiteShell({
 			</a>
 			<Header />
 
-			<main
-				id="main-content"
-				className={cn("flex-1 pb-24 md:pb-28", contentClassName)}
-			>
+			<main id="main-content" className={cn("flex-1 ", contentClassName)}>
 				{hasToc ? (
 					<div className={cn("mx-auto w-full px-4 lg:px-6", layoutWidth)}>
 						<div
 							className={cn(
 								"grid",
 								"gap-8 lg:gap-[var(--content-gap)]",
-								"lg:grid-cols-[minmax(0,var(--content-width))_var(--toc-width)]"
+								"lg:grid-cols-[minmax(0,var(--content-width))_var(--toc-width)]",
 							)}
 						>
 							<div className="min-w-0">{children}</div>

@@ -6,6 +6,8 @@ module: Foundations
 order: 3
 ---
 
+import { SignalNoiseDial } from "@/components/visuals/SignalNoiseDial"
+
 ## Context is a Budget
 
 Claude Code doesn't remember everything - it remembers what fits. That means every file, command output, and instruction has a cost.
@@ -25,6 +27,8 @@ When your budget is tight, you want signal, not noise.
 A useful context has one job: make the next response easier to get right. Anything that doesn't help that goal is noise.
 
 **Analogy:** Imagine a small studio desk. You only have room for the tools you're using right now. Everything else goes in a drawer.
+
+<SignalNoiseDial />
 
 ## Clear vs. Compact
 

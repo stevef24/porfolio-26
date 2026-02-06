@@ -479,6 +479,177 @@ export const oaiTransitions = {
 	slow: { duration: 0.3, ease: [0.4, 0, 0.2, 1] as const },
 };
 
+// ==========================================
+// VISUAL AID ANIMATION VARIANTS
+// ==========================================
+
+/** Token drop with small bounce - for bucket/meter fills */
+export const tokenDrop: Variants = {
+	hidden: { opacity: 0, y: -20, scale: 0.9 },
+	visible: (i: number) => ({
+		opacity: 1,
+		y: 0,
+		scale: 1,
+		transition: {
+			delay: i * 0.15,
+			type: "spring",
+			visualDuration: 0.3,
+			bounce: 0.25,
+		},
+	}),
+};
+
+/** Overflow spill - slides down into loss zone */
+export const overflowSpill: Variants = {
+	hidden: { opacity: 0, y: -8 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
+	},
+};
+
+/** Sequential highlight - for flow/timeline animations */
+export const sequentialHighlight: Variants = {
+	inactive: { opacity: 0.4, scale: 0.98 },
+	active: {
+		opacity: 1,
+		scale: 1,
+		transition: { type: "spring", visualDuration: 0.3, bounce: 0.1 },
+	},
+};
+
+/** Arrow draw - SVG path animation for connecting arrows */
+export const arrowDraw: Variants = {
+	hidden: { pathLength: 0, opacity: 0 },
+	visible: (delay: number) => ({
+		pathLength: 1,
+		opacity: 1,
+		transition: {
+			pathLength: {
+				delay,
+				type: "spring",
+				duration: 0.8,
+				bounce: 0,
+			},
+			opacity: { delay, duration: 0.01 },
+		},
+	}),
+};
+
+/** Layer stack - slides up with stagger for stacked diagrams */
+export const layerStack: Variants = {
+	hidden: { opacity: 0, y: 16 },
+	visible: (i: number) => ({
+		opacity: 1,
+		y: 0,
+		transition: {
+			delay: i * 0.12,
+			type: "spring",
+			visualDuration: 0.35,
+			bounce: 0.15,
+		},
+	}),
+};
+
+/** Typing cursor blink */
+export const typingCursor: Variants = {
+	blink: {
+		opacity: [1, 0, 1],
+		transition: { duration: 1, repeat: Infinity, ease: "linear" },
+	},
+};
+
+/** Checkmark scale-in with stagger */
+export const checkmarkIn: Variants = {
+	hidden: { scale: 0, opacity: 0 },
+	visible: (i: number) => ({
+		scale: 1,
+		opacity: 1,
+		transition: {
+			delay: i * 0.15,
+			type: "spring",
+			visualDuration: 0.25,
+			bounce: 0.3,
+		},
+	}),
+};
+
+/** Card comparison - emphasis glow */
+export const cardEmphasis: Variants = {
+	dim: { opacity: 0.7, filter: "brightness(0.95)" },
+	bright: {
+		opacity: 1,
+		filter: "brightness(1.05)",
+		transition: { duration: 0.5, ease: "easeOut" },
+	},
+};
+
+/** Ladder rung highlight - moves upward */
+export const ladderHighlight: Variants = {
+	hidden: { opacity: 0, y: 8 },
+	visible: (i: number) => ({
+		opacity: 1,
+		y: 0,
+		transition: {
+			delay: i * 0.3,
+			type: "spring",
+			visualDuration: 0.3,
+			bounce: 0.1,
+		},
+	}),
+};
+
+/** Panel slide for split context diagrams */
+export const panelSlide: Variants = {
+	hidden: { opacity: 0, x: -16 },
+	visible: {
+		opacity: 1,
+		x: 0,
+		transition: { type: "spring", visualDuration: 0.35, bounce: 0.1 },
+	},
+};
+
+/** Summary card transfer - layoutId morphing transition */
+export const summaryTransfer: Transition = {
+	type: "spring",
+	visualDuration: 0.4,
+	bounce: 0.12,
+};
+
+/** Timeline progress highlight */
+export const timelineProgress: Variants = {
+	hidden: { scaleX: 0 },
+	visible: {
+		scaleX: 1,
+		transition: { duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] },
+	},
+};
+
+/** Node glow on timeline arrival */
+export const nodeGlow: Variants = {
+	dim: { scale: 1, opacity: 0.5 },
+	glow: (delay: number) => ({
+		scale: 1.15,
+		opacity: 1,
+		transition: {
+			delay,
+			type: "spring",
+			visualDuration: 0.2,
+			bounce: 0.2,
+		},
+	}),
+};
+
+/** Meter fill - smooth width expansion */
+export const meterFill: Variants = {
+	empty: { scaleX: 0 },
+	filled: (width: number) => ({
+		scaleX: width,
+		transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+	}),
+};
+
 /** OpenAI header transition - smooth without bounce */
 export const oaiHeaderTransition: Transition = {
 	duration: 0.2,
