@@ -228,9 +228,9 @@ export type ScrollyCodeDoc = {
 	steps: ScrollyCodeStep[];
 	/** Theme pair for syntax highlighting */
 	theme?: {
-		/** Light theme name (default: "vitesse-light") */
+		/** Light theme name (default: "github-light") */
 		light: string;
-		/** Dark theme name (default: "vitesse-dark") */
+		/** Dark theme name (default: "github-dark") */
 		dark: string;
 	};
 	/** Stage container configuration */
@@ -288,8 +288,8 @@ export type ScrollyContextValue = {
  */
 export const SCROLLY_DEFAULTS = {
 	theme: {
-		light: "vitesse-light",
-		dark: "vitesse-dark",
+		light: "github-light",
+		dark: "github-dark",
 	},
 	stage: {
 		stickyTop: 80,

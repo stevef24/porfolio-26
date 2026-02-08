@@ -262,7 +262,7 @@ export function CanvasZone(props: CanvasZoneProps): JSX.Element {
     return registerZone(zoneId, observeElement, {
       content: initialContent,
       deactivateDelay,
-    });
+    }, zoneElement);
   }, [registerZone, zoneId, deactivateDelay, triggerSelector]);
 
   // Update zone config when content changes (static mode only)

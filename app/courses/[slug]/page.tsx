@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { courses } from "@/lib/source";
 import { CourseShell } from "@/components/courses/CourseShell";
 import { CourseProgressHeader } from "@/components/courses/CourseProgressHeader";
+import { CourseWithCanvas } from "@/components/courses/CourseWithCanvas";
 import customComponents from "@/lib/custom-components";
 import type { AccessLevel } from "@/hooks/useAccess";
 import { TOCProvider } from "fumadocs-ui/components/layout/toc";
@@ -79,6 +80,11 @@ export default async function CourseOverviewPage(props: {
     tags?: string[];
   };
   const tocItems = overviewMeta.toc || [];
+  const courseMdxComponents = {
+    ...(customComponents as Record<string, unknown>),
+    BlogWithCanvas: CourseWithCanvas,
+    CourseWithCanvas,
+  };
 
   return (
     <CourseShell
@@ -153,7 +159,7 @@ export default async function CourseOverviewPage(props: {
         {/* Content */}
         <TOCProvider toc={tocItems}>
           <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-medium prose-headings:tracking-tight prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-code:text-primary prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:before:content-none prose-code:after:content-none prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground">
-            <Mdx components={customComponents} />
+            <Mdx components={courseMdxComponents} />
           </div>
         </TOCProvider>
       </article>

@@ -43,8 +43,8 @@ export async function highlightCode(options: HighlightOptions): Promise<string> 
   const html = await codeToHtml(code, {
     lang: shikiLang as BundledLanguage,
     themes: {
-      light: "vitesse-light" as BundledTheme,
-      dark: "vitesse-dark" as BundledTheme,
+      light: "github-light" as BundledTheme,
+      dark: "github-dark" as BundledTheme,
     },
     defaultColor: false,
     transformers: [

@@ -39,8 +39,8 @@ var source_config_default = defineConfig({
   mdxOptions: {
     rehypeCodeOptions: {
       themes: {
-        light: "vitesse-light",
-        dark: "vitesse-dark"
+        light: "github-light",
+        dark: "github-dark"
       }
     }
   }

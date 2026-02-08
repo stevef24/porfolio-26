@@ -27,6 +27,7 @@ import { CanvasZone, CanvasGap, CanvasEnd } from "@/components/blog/CanvasZone";
 import { CanvasStep } from "@/components/blog/CanvasStep";
 import { CanvasCodeStage } from "@/components/blog/CanvasCodeStage";
 import { AgentCodeWalkthroughServer } from "@/components/blog/AgentCodeWalkthroughServer";
+import { CourseWithCanvas } from "@/components/courses/CourseWithCanvas";
 import { Scrolly } from "@/components/ui/scrolly/ScrollyServer";
 import { V2PreviewCallout } from "@/components/ui/blog/V2PreviewCallout";
 import { cn } from "@/lib/utils";
@@ -276,6 +277,7 @@ const customComponents = {
 	YouTubeEmbed,
 	// Canvas Zone for interactive demos with stepped mode
 	BlogWithCanvas,
+	CourseWithCanvas,
 	CanvasZone,
 	CanvasGap,
 	CanvasEnd,

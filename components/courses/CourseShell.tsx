@@ -163,13 +163,46 @@ export function CourseShell({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileTOCOpen, setMobileTOCOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [canvasActive, setCanvasActive] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   // Check if TOC should be shown (3+ headings)
   const showTOC = tocItems && tocItems.filter((item) => item.depth === 2 || item.depth === 3).length >= 3;
 
+  useEffect(() => {
+    const syncCanvasState = () => {
+      setCanvasActive(document.documentElement.dataset.canvasActive === "true");
+    };
+
+    syncCanvasState();
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.attributeName === "data-canvas-active") {
+          syncCanvasState();
+          break;
+        }
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-canvas-active"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (canvasActive) {
+      setMobileTOCOpen(false);
+    }
+  }, [canvasActive]);
+
+  const showTocRail = Boolean(showTOC && tocItems && !canvasActive);
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" data-course-canvas-active={canvasActive}>
       {/* Command palette - Cmd+K search */}
       <CommandPalette courseSlug={courseSlug} lessons={lessons} />
 
@@ -193,10 +226,10 @@ export function CourseShell({
       />
 
       {/* Far-right fixed TOC (XL+ screens only) */}
-      {showTOC && tocItems && <FarRightTOC items={tocItems} />}
+      {showTocRail && tocItems && <FarRightTOC items={tocItems} />}
 
       {/* Mobile TOC FAB + Sheet (< XL screens only) */}
-      {showTOC && tocItems && (
+      {showTocRail && tocItems && (
         <>
           <MobileTOCFAB onClick={() => setMobileTOCOpen(true)} />
           <MobileTOCSheet

@@ -6,6 +6,7 @@ import { VideoPlayer } from "@/components/courses/VideoPlayer";
 import { LessonResources, type Resource } from "@/components/courses/LessonResources";
 import { AccessGate } from "@/components/courses/AccessGate";
 import { LessonNavigation } from "@/components/courses/LessonNavigation";
+import { CourseWithCanvas } from "@/components/courses/CourseWithCanvas";
 import BlurFade from "@/components/shared/BlurFade";
 import customComponents from "@/lib/custom-components";
 import type { AccessLevel } from "@/hooks/useAccess";
@@ -110,6 +111,11 @@ export default async function LessonPage(props: {
 
   // Extract TOC items for right sidebar
   const tocItems = lessonData.toc || [];
+  const courseMdxComponents = {
+    ...(customComponents as Record<string, unknown>),
+    BlogWithCanvas: CourseWithCanvas,
+    CourseWithCanvas,
+  };
 
   return (
     <CourseShell
@@ -162,7 +168,7 @@ export default async function LessonPage(props: {
           {/* Content - prose handles its own max-width */}
           <TOCProvider toc={tocItems}>
             <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-display prose-headings:font-medium prose-headings:tracking-tight prose-p:text-muted-foreground prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-code:text-primary prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:before:content-none prose-code:after:content-none prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-blockquote:border-l-primary prose-blockquote:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground">
-              <Mdx components={customComponents} />
+              <Mdx components={courseMdxComponents} />
             </div>
           </TOCProvider>
 

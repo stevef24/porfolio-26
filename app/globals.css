@@ -241,7 +241,7 @@ button,
   /* ═══════════════════════════════════════════════════════
      COURSE LAYOUT TOKENS
      ═══════════════════════════════════════════════════════ */
-  --course-sidebar-width: 240px;
+  --course-sidebar-width: 256px;
   --course-content-width: 800px;
   --course-toc-width: 200px;
   --course-gap: 2rem;

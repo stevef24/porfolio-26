@@ -176,6 +176,112 @@ describe("canvas activation behavior", () => {
 		});
 	});
 
+	it("keeps canvas active when trigger selector exits but zone body is still visible", async () => {
+		render(
+			<BlogWithCanvas>
+				<CanvasZone
+					id="zone-trigger"
+					triggerSelector="h2"
+					canvasContent={<div data-testid="canvas">Canvas</div>}
+				>
+					<article>
+						<h2 id="zone-trigger-heading">Trigger Heading</h2>
+						<p style={{ minHeight: "640px" }}>
+							Large zone content to simulate a long walkthrough block.
+						</p>
+					</article>
+				</CanvasZone>
+			</BlogWithCanvas>
+		);
+
+		await hydrate();
+
+		const zone = document.getElementById("zone-trigger");
+		const trigger = document.getElementById("zone-trigger-heading");
+		if (!zone || !trigger) throw new Error("zone or trigger element missing");
+
+		await ensureObserved(trigger);
+
+		let zoneTop = 120;
+		let zoneBottom = 780;
+		Object.defineProperty(zone, "getBoundingClientRect", {
+			configurable: true,
+			value: () =>
+				({
+					top: zoneTop,
+					bottom: zoneBottom,
+					left: 0,
+					right: 0,
+					width: 0,
+					height: Math.max(0, zoneBottom - zoneTop),
+					x: 0,
+					y: zoneTop,
+					toJSON: () => "",
+				}) as DOMRect,
+		});
+
+		await act(async () => {
+			getIoMock().trigger(trigger, {
+				isIntersecting: true,
+				intersectionRatio: 0.8,
+				top: 120,
+				bottom: 200,
+			});
+		});
+		await flushRaf();
+
+		await waitFor(() => {
+			expect(
+				document.querySelector("[data-canvas-layout]")?.getAttribute("data-active")
+			).toBe("true");
+		});
+
+		// Trigger exits, but the full zone is still in the reading area.
+		zoneTop = 90;
+		zoneBottom = 620;
+		await act(async () => {
+			getIoMock().trigger(trigger, {
+				isIntersecting: false,
+				intersectionRatio: 0,
+				top: -200,
+				bottom: -120,
+			});
+		});
+		await flushRaf();
+		await act(async () => {
+			await new Promise((resolve) => setTimeout(resolve, 260));
+		});
+
+		await waitFor(() => {
+			expect(
+				document.querySelector("[data-canvas-layout]")?.getAttribute("data-active")
+			).toBe("true");
+		});
+
+		// Once the whole zone leaves, canvas should close.
+		zoneTop = -640;
+		zoneBottom = -520;
+		await act(async () => {
+			getIoMock().trigger(trigger, {
+				isIntersecting: false,
+				intersectionRatio: 0,
+				top: -740,
+				bottom: -680,
+			});
+		});
+		await flushRaf();
+
+		await act(async () => {
+			await new Promise((resolve) => setTimeout(resolve, 300));
+		});
+
+		await waitFor(() => {
+			expect(
+				document.querySelector("[data-canvas-layout]")?.getAttribute("data-active")
+			).toBe("false");
+		});
+	});
+
 	it("selects the step closest to the viewport center", async () => {
 		Object.defineProperty(window, "innerHeight", {
 			value: 800,

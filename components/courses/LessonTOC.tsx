@@ -78,15 +78,16 @@ export function LessonTOC({ items, className }: LessonTOCProps): JSX.Element | n
         // Remove sticky since parent handles positioning
         "max-h-[calc(100vh-6rem)]",
         "overflow-y-auto",
+        "rounded-lg border border-border/60 bg-background/80 p-3 backdrop-blur-sm",
         className
       )}
     >
-      <h4 className="text-swiss-label text-foreground/50 mb-3">
+      <h4 className="mb-2 text-[10px] uppercase tracking-[0.12em] text-foreground/45">
         On this page
       </h4>
       {/* Left border container for active indicator */}
-      <div className="relative border-l border-border">
-        <ul className="space-y-0.5 text-swiss-body">
+      <div className="relative">
+        <ul className="space-y-0.5">
           {headings.map((heading) => {
             const id = heading.url.replace("#", "");
             const isActive = activeId === id;
@@ -96,20 +97,20 @@ export function LessonTOC({ items, className }: LessonTOCProps): JSX.Element | n
                 {/* Active indicator bar - 3px primary accent on left */}
                 {isActive && (
                   <div
-                    className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary -ml-px rounded-full transition-all duration-200"
+                    className="absolute left-0 top-1 bottom-1 w-[2px] bg-foreground/80 rounded-full transition-all duration-200"
                     aria-hidden="true"
                   />
                 )}
                 <motion.a
                   href={heading.url}
                   className={cn(
-                    "block py-1.5 pl-4 transition-colors duration-150 cursor-pointer rounded-sm",
+                    "block py-1.5 pl-3 pr-2 transition-colors duration-150 cursor-pointer rounded-md text-[13px] leading-5",
                     "hover:text-foreground",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
-                    heading.depth === 3 && "pl-6",
+                    heading.depth === 3 && "pl-5",
                     isActive
-                      ? "text-foreground font-medium"
-                      : "text-foreground/60"
+                      ? "bg-foreground/[0.07] text-foreground font-medium"
+                      : "text-foreground/60 hover:bg-foreground/[0.04]"
                   )}
                   whileHover={prefersReducedMotion ? undefined : { x: 2 }}
                   transition={springSnappy}

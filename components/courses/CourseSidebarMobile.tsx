@@ -97,38 +97,29 @@ function LessonItem({
 }): JSX.Element {
   const isLocked = lesson.access === "paid";
 
-  let statusIcon: JSX.Element;
-  if (isLocked) {
-    statusIcon = (
-      <HugeiconsIcon
-        icon={LockIcon}
-        size={14}
-        className="text-muted-foreground shrink-0"
-      />
-    );
-  } else if (isCompleted) {
-    statusIcon = (
-      <HugeiconsIcon
-        icon={CheckmarkCircle02Icon}
-        size={14}
-        className="text-primary shrink-0"
-      />
-    );
-  } else if (isActive) {
-    statusIcon = (
-      <HugeiconsIcon
-        icon={PlayCircle02Icon}
-        size={14}
-        className="text-primary shrink-0"
-      />
-    );
-  } else {
-    statusIcon = (
-      <span className="w-4 h-4 flex items-center justify-center text-xs text-muted-foreground shrink-0">
-        {index + 1}
-      </span>
-    );
-  }
+  const statusIcon = isLocked ? (
+    <HugeiconsIcon
+      icon={LockIcon}
+      size={12}
+      className="text-muted-foreground shrink-0"
+    />
+  ) : isCompleted ? (
+    <HugeiconsIcon
+      icon={CheckmarkCircle02Icon}
+      size={12}
+      className="text-foreground/80 shrink-0"
+    />
+  ) : isActive ? (
+    <HugeiconsIcon
+      icon={PlayCircle02Icon}
+      size={12}
+      className="text-foreground/80 shrink-0"
+    />
+  ) : (
+    <span className="h-4 w-4 shrink-0 text-[10px] font-medium tabular-nums text-muted-foreground flex items-center justify-center">
+      {String(index + 1).padStart(2, "0")}
+    </span>
+  );
 
   return (
     <motion.div
@@ -139,18 +130,22 @@ function LessonItem({
         href={lesson.url}
         onClick={onNavigate}
         className={cn(
-          "flex items-start gap-2 px-3 py-2.5 text-sm rounded-md transition-colors cursor-pointer",
-          "hover:bg-sidebar-accent active:bg-sidebar-accent",
+          "relative flex min-h-11 items-center gap-2 px-2.5 py-1.5 rounded-md transition-colors cursor-pointer",
+          "text-[13px] leading-5",
+          "hover:bg-sidebar-accent/70 active:bg-sidebar-accent/80",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-sidebar",
-          isActive && "bg-sidebar-accent text-foreground font-medium",
+          isActive && "bg-sidebar-accent/80 text-foreground font-medium",
           !isActive && "text-muted-foreground",
           isLocked && "opacity-60"
         )}
       >
-        <span className="mt-0.5">{statusIcon}</span>
-        <span className={cn("leading-snug", isLocked && "text-muted-foreground")}>
+        {isActive && (
+          <span className="absolute left-0 top-1.5 bottom-1.5 w-[2px] rounded-full bg-foreground/80" />
+        )}
+        <span className={cn("flex-1 leading-snug", isLocked && "text-muted-foreground")}>
           {lesson.title}
         </span>
+        <span>{statusIcon}</span>
       </Link>
     </motion.div>
   );
@@ -235,9 +230,10 @@ export function CourseSidebarMobile({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="left" className="w-[280px] p-0 bg-sidebar">
-        <SheetHeader className="border-b border-sidebar-border px-4 py-4">
-          <SheetTitle className="text-left text-base font-medium">
+      <SheetContent side="left" className="w-[300px] p-0 bg-sidebar">
+        <SheetHeader className="border-b border-sidebar-border/70 px-4 py-4">
+          <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Course</p>
+          <SheetTitle className="text-left text-[14px] font-medium">
             {courseName}
           </SheetTitle>
         </SheetHeader>
@@ -248,11 +244,11 @@ export function CourseSidebarMobile({
             href={`/courses/${courseSlug}`}
             onClick={handleNavigate}
             className={cn(
-              "flex items-center gap-2 px-4 py-3 text-sm border-b border-sidebar-border",
-              "hover:bg-sidebar-accent transition-colors cursor-pointer",
+              "flex items-center gap-2 px-4 py-3 text-[13px] border-b border-sidebar-border/70",
+              "hover:bg-sidebar-accent/60 transition-colors cursor-pointer",
               "focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary",
               pathname === `/courses/${courseSlug}` &&
-                "bg-sidebar-accent font-medium"
+                "bg-sidebar-accent/70 font-medium"
             )}
           >
             <HugeiconsIcon icon={Home01Icon} size={16} />
@@ -261,8 +257,8 @@ export function CourseSidebarMobile({
 
           {/* Progress indicator */}
           {lessons.length > 0 && (
-            <div className="px-4 py-3 border-b border-sidebar-border">
-              <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
+            <div className="px-4 py-3 border-b border-sidebar-border/70">
+              <div className="flex items-center justify-between text-[11px] text-muted-foreground mb-1.5">
                 <span>
                   {completedLessonsCount} / {lessons.length} completed
                 </span>
@@ -298,10 +294,10 @@ export function CourseSidebarMobile({
               modules.map((module) => (
                 <div key={module.name} className="mb-4">
                   <div className="px-4 py-2">
-                    <span className="text-swiss-meta">
+                    <span className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
                       Module {String(module.index).padStart(2, "0")}
                     </span>
-                    <h3 className="text-sm font-medium text-foreground mt-0.5 leading-tight">
+                    <h3 className="text-[12px] font-medium text-foreground/80 mt-1 leading-tight">
                       {module.name}
                     </h3>
                   </div>

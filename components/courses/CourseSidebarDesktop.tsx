@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useRef } from "react";
+import { memo, useEffect, useCallback, useRef, useState } from "react";
 import {
   CheckmarkCircle02Icon,
   Home01Icon,
@@ -79,7 +79,7 @@ function groupLessonsByModule(lessons: Lesson[]): ModuleGroup[] {
 // LESSON ITEM COMPONENT
 // ==========================================
 
-function LessonItem({
+const LessonItem = memo(function LessonItem({
   lesson,
   isActive,
   isCompleted,
@@ -107,63 +107,68 @@ function LessonItem({
     }
   }, [isActive, prefersReducedMotion]);
 
+  const statusIcon = isLocked ? (
+    <HugeiconsIcon icon={LockIcon} size={12} className="text-foreground/35" />
+  ) : isCompleted ? (
+    <AnimatePresence mode="wait">
+      <motion.span
+        key="check"
+        initial={wasJustCompleted && !prefersReducedMotion ? { scale: 0 } : false}
+        animate={{ scale: 1 }}
+        transition={wasJustCompleted ? springBouncy : { duration: 0 }}
+        className="inline-flex"
+      >
+        <HugeiconsIcon icon={CheckmarkCircle02Icon} size={13} className="text-foreground/85" />
+      </motion.span>
+    </AnimatePresence>
+  ) : (
+    <span className="text-[10px] font-medium tabular-nums text-foreground/40">
+      {String(index + 1).padStart(2, "0")}
+    </span>
+  );
+
   return (
     <Link
       ref={itemRef}
       href={lesson.url}
       className={cn(
-        "relative flex items-start gap-3 px-3 py-2 text-swiss-body transition-colors duration-150",
-        "hover:bg-[var(--sf-bg-subtle)]",
-        "rounded-[4px]",
-        isActive ? "text-foreground font-medium" : "text-foreground/60",
-        isLocked && "opacity-50"
+        "group relative flex items-center gap-2.5 rounded-md px-2.5 py-1.5",
+        "text-[13px] leading-5 transition-colors duration-150",
+        isActive ? "text-foreground" : "text-foreground/65 hover:text-foreground/90",
+        "hover:bg-foreground/[0.04]",
+        isLocked && "opacity-55"
       )}
     >
-      {/* Animated active indicator - slides between active items */}
       {isActive && (
-        <motion.div
-          layoutId="sidebar-active"
-          className="absolute inset-0 bg-[var(--sf-bg-muted)] rounded-[4px]"
-          transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
-          style={{ zIndex: 0 }}
-        />
+        <>
+          <motion.span
+            layoutId="course-sidebar-active-pill"
+            className="absolute inset-0 rounded-md border border-foreground/10 bg-foreground/[0.07]"
+            transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
+            style={{ zIndex: 0 }}
+          />
+          <motion.span
+            layoutId="course-sidebar-active-rail"
+            className="absolute left-0 top-1.5 bottom-1.5 w-[2px] rounded-full bg-foreground/80"
+            transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
+            style={{ zIndex: 0 }}
+          />
+        </>
       )}
 
-      {/* Status indicator */}
-      <span className="relative z-10 mt-0.5 w-4 h-4 flex items-center justify-center shrink-0">
-        {isLocked ? (
-          <HugeiconsIcon icon={LockIcon} size={12} className="text-foreground/40" />
-        ) : isCompleted ? (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key="check"
-              initial={
-                wasJustCompleted && !prefersReducedMotion
-                  ? { scale: 0 }
-                  : false
-              }
-              animate={{ scale: 1 }}
-              transition={
-                wasJustCompleted ? springBouncy : { duration: 0 }
-              }
-            >
-              <HugeiconsIcon
-                icon={CheckmarkCircle02Icon}
-                size={14}
-                className="text-foreground"
-              />
-            </motion.div>
-          </AnimatePresence>
-        ) : (
-          <span className="text-swiss-caption text-foreground/50">
-            {index + 1}
-          </span>
+      <span className="relative z-10 flex-1 truncate">{lesson.title}</span>
+
+      <span
+        className={cn(
+          "relative z-10 inline-flex h-4 min-w-4 items-center justify-center",
+          isActive ? "text-foreground/90" : "text-foreground/45"
         )}
+      >
+        {statusIcon}
       </span>
-      <span className="relative z-10 leading-snug">{lesson.title}</span>
     </Link>
   );
-}
+});
 
 // ==========================================
 // MAIN COMPONENT
@@ -180,8 +185,9 @@ export function CourseSidebarDesktop({
   const { isLessonCompleted, completedLessonsCount, refreshProgress } =
     useCourseProgress(courseSlug);
 
-  // Track which lessons were just completed (for bounce animation)
-  const recentlyCompletedRef = useRef<Set<string>>(new Set());
+  const [recentlyCompleted, setRecentlyCompleted] = useState<
+    Record<string, boolean>
+  >({});
 
   // Listen for lesson completion events
   const handleLessonCompleted = useCallback(
@@ -192,12 +198,15 @@ export function CourseSidebarDesktop({
       }>;
       if (customEvent.detail.courseSlug === courseSlug) {
         if (customEvent.detail.lessonSlug) {
-          recentlyCompletedRef.current.add(customEvent.detail.lessonSlug);
+          const lessonSlug = customEvent.detail.lessonSlug;
+          setRecentlyCompleted((prev) => ({ ...prev, [lessonSlug]: true }));
           // Clear the "just completed" flag after animation
           setTimeout(() => {
-            recentlyCompletedRef.current.delete(
-              customEvent.detail.lessonSlug!
-            );
+            setRecentlyCompleted((prev) => {
+              const next = { ...prev };
+              delete next[lessonSlug];
+              return next;
+            });
           }, 1000);
         }
         refreshProgress();
@@ -212,7 +221,6 @@ export function CourseSidebarDesktop({
       window.removeEventListener("lesson-completed", handleLessonCompleted);
   }, [handleLessonCompleted]);
 
-  // Calculate progress percentage
   const prefersReducedMotion = useReducedMotion();
 
   const progressPercentage =
@@ -226,50 +234,62 @@ export function CourseSidebarDesktop({
         "hidden md:flex flex-col",
         "w-[var(--course-sidebar-width)] min-w-[var(--course-sidebar-width)]",
         "h-screen sticky top-0",
-        "border-r border-border",
-        "bg-background",
+        "border-r border-border/70",
+        "bg-background/92 backdrop-blur-sm",
         "overflow-hidden",
         className
       )}
     >
       {/* Header */}
-      <div className="px-4 py-4 border-b border-border">
+      <div className="border-b border-border/70 px-4 py-4">
+        <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-foreground/45">
+          Course
+        </p>
+
         {/* Top row with overview and close button */}
         <div className="flex items-center justify-between">
           <Link
             href={`/courses/${courseSlug}`}
             className={cn(
-              "flex items-center gap-2 text-swiss-body font-medium",
-              "hover:text-foreground transition-colors",
+              "flex min-w-0 items-center gap-2 text-[13px] font-medium",
+              "transition-colors hover:text-foreground",
               pathname === `/courses/${courseSlug}`
                 ? "text-foreground"
-                : "text-foreground/60"
+                : "text-foreground/70"
             )}
           >
-            <HugeiconsIcon icon={Home01Icon} size={14} />
-            <span>Overview</span>
+            <HugeiconsIcon icon={Home01Icon} size={13} />
+            <span className="truncate">Overview</span>
           </Link>
           {onCollapse && (
             <button
               onClick={onCollapse}
-              className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-[var(--sf-bg-subtle)] transition-colors"
+              className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-foreground/[0.05] hover:text-foreground"
               aria-label="Close sidebar"
             >
-              <HugeiconsIcon icon={Cancel01Icon} size={14} />
+              <HugeiconsIcon icon={Cancel01Icon} size={13} />
             </button>
           )}
+        </div>
+
+        <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-foreground/[0.02] px-2 py-1 text-[11px] text-foreground/55">
+          <kbd className="rounded border border-border/80 px-1 py-0.5 text-[10px] font-mono leading-none">
+            ⌘/Ctrl
+          </kbd>
+          <kbd className="rounded border border-border/80 px-1 py-0.5 text-[10px] font-mono leading-none">K</kbd>
+          <span>Search lessons</span>
         </div>
 
         {/* Progress bar */}
         {lessons.length > 0 && completedLessonsCount > 0 && (
           <div className="mt-3">
-            <div className="flex items-center justify-between text-swiss-caption text-foreground/50 mb-1">
+            <div className="mb-1 flex items-center justify-between text-[11px] text-foreground/50">
               <span>{completedLessonsCount}/{lessons.length}</span>
               <span>{progressPercentage}%</span>
             </div>
-            <div className="h-1 bg-[var(--sf-bg-muted)] rounded-full overflow-hidden">
+            <div className="h-1 overflow-hidden rounded-full bg-foreground/[0.08]">
               <div
-                className="h-full bg-foreground rounded-full transition-all duration-300"
+                className="h-full rounded-full bg-foreground/80 transition-all duration-300"
                 style={{ width: `${progressPercentage}%` }}
               />
             </div>
@@ -279,7 +299,8 @@ export function CourseSidebarDesktop({
 
       {/* Scrollable module list */}
       <motion.div
-        className="flex-1 overflow-y-auto py-4"
+        className="flex-1 overflow-y-auto py-3"
+        style={{ contain: "content" }}
         variants={sidebarContainer}
         initial={prefersReducedMotion ? undefined : "hidden"}
         animate="visible"
@@ -287,24 +308,26 @@ export function CourseSidebarDesktop({
         {modules.map((module, moduleIndex) => (
           <motion.div
             key={module.name}
-            className="mb-6"
+            className="mb-5"
             variants={sidebarModule}
             custom={moduleIndex}
           >
             {/* Module Header */}
-            <div className="px-4 mb-2">
-              <span className="text-swiss-label text-foreground/50">
-                {module.name}
+            <div className="mb-2 px-4">
+              <span className="text-[10px] uppercase tracking-[0.12em] text-foreground/45">
+                Module {String(module.index).padStart(2, "0")}
               </span>
+              <p className="mt-1 text-[12px] leading-snug text-foreground/70">
+                {module.name}
+              </p>
             </div>
 
             {/* Lessons */}
-            <div className="px-2 space-y-0.5">
+            <div className="space-y-0.5 px-2">
               {module.lessons.map((lesson, index) => {
                 const isActive = pathname === lesson.url;
                 const isCompleted = isLessonCompleted(lesson.slug);
-                const wasJustCompleted =
-                  recentlyCompletedRef.current.has(lesson.slug);
+                const wasJustCompleted = Boolean(recentlyCompleted[lesson.slug]);
 
                 return (
                   <motion.div key={lesson.slug} variants={sidebarItem}>
@@ -324,20 +347,11 @@ export function CourseSidebarDesktop({
         ))}
       </motion.div>
 
-      {/* Footer - keyboard shortcut hint */}
-      <div className="px-4 py-3 border-t border-border">
-        <span className="flex items-center justify-center gap-1.5 text-swiss-caption text-foreground/40">
-          <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
-            {typeof navigator !== "undefined" &&
-            /Mac/.test(navigator.userAgent)
-              ? "\u2318"
-              : "Ctrl"}
-          </kbd>
-          <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
-            K
-          </kbd>
-          <span className="ml-0.5">to search</span>
-        </span>
+      {/* Footer */}
+      <div className="border-t border-border/70 px-4 py-3">
+        <p className="text-[11px] leading-relaxed text-foreground/45">
+          Keep lessons focused and progress-friendly.
+        </p>
       </div>
     </aside>
   );
