@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import {
   CheckmarkCircle02Icon,
   Home01Icon,
@@ -8,10 +8,18 @@ import {
   Cancel01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCourseProgress } from "@/hooks/useProgress";
 import { cn } from "@/lib/utils";
+import {
+  sidebarContainer,
+  sidebarModule,
+  sidebarItem,
+  springSmooth,
+  springBouncy,
+} from "@/lib/motion-variants";
 import type { AccessLevel } from "@/hooks/useAccess";
 
 // ==========================================
@@ -75,38 +83,84 @@ function LessonItem({
   lesson,
   isActive,
   isCompleted,
+  wasJustCompleted,
   index,
+  prefersReducedMotion,
 }: {
   lesson: Lesson;
   isActive: boolean;
   isCompleted: boolean;
+  wasJustCompleted: boolean;
   index: number;
+  prefersReducedMotion: boolean | null;
 }): JSX.Element {
   const isLocked = lesson.access === "paid";
+  const itemRef = useRef<HTMLAnchorElement>(null);
+
+  // Auto-scroll active lesson into view
+  useEffect(() => {
+    if (isActive && itemRef.current) {
+      itemRef.current.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "nearest",
+      });
+    }
+  }, [isActive, prefersReducedMotion]);
 
   return (
     <Link
+      ref={itemRef}
       href={lesson.url}
       className={cn(
-        "flex items-start gap-3 px-3 py-2 text-[15px] transition-colors duration-150",
-        "hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-[rgba(255,255,255,0.04)]",
+        "relative flex items-start gap-3 px-3 py-2 text-swiss-body transition-colors duration-150",
+        "hover:bg-[var(--sf-bg-subtle)]",
         "rounded-[4px]",
-        isActive && "bg-[rgba(0,0,0,0.06)] dark:bg-[rgba(255,255,255,0.06)]",
         isActive ? "text-foreground font-medium" : "text-foreground/60",
         isLocked && "opacity-50"
       )}
     >
+      {/* Animated active indicator - slides between active items */}
+      {isActive && (
+        <motion.div
+          layoutId="sidebar-active"
+          className="absolute inset-0 bg-[var(--sf-bg-muted)] rounded-[4px]"
+          transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
+          style={{ zIndex: 0 }}
+        />
+      )}
+
       {/* Status indicator */}
-      <span className="mt-0.5 w-4 h-4 flex items-center justify-center shrink-0">
+      <span className="relative z-10 mt-0.5 w-4 h-4 flex items-center justify-center shrink-0">
         {isLocked ? (
           <HugeiconsIcon icon={LockIcon} size={12} className="text-foreground/40" />
         ) : isCompleted ? (
-          <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} className="text-foreground" />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key="check"
+              initial={
+                wasJustCompleted && !prefersReducedMotion
+                  ? { scale: 0 }
+                  : false
+              }
+              animate={{ scale: 1 }}
+              transition={
+                wasJustCompleted ? springBouncy : { duration: 0 }
+              }
+            >
+              <HugeiconsIcon
+                icon={CheckmarkCircle02Icon}
+                size={14}
+                className="text-foreground"
+              />
+            </motion.div>
+          </AnimatePresence>
         ) : (
-          <span className="text-[15px] text-foreground/50">{index + 1}</span>
+          <span className="text-swiss-caption text-foreground/50">
+            {index + 1}
+          </span>
         )}
       </span>
-      <span className="leading-snug">{lesson.title}</span>
+      <span className="relative z-10 leading-snug">{lesson.title}</span>
     </Link>
   );
 }
@@ -126,11 +180,26 @@ export function CourseSidebarDesktop({
   const { isLessonCompleted, completedLessonsCount, refreshProgress } =
     useCourseProgress(courseSlug);
 
+  // Track which lessons were just completed (for bounce animation)
+  const recentlyCompletedRef = useRef<Set<string>>(new Set());
+
   // Listen for lesson completion events
   const handleLessonCompleted = useCallback(
     (e: Event) => {
-      const customEvent = e as CustomEvent<{ courseSlug: string }>;
+      const customEvent = e as CustomEvent<{
+        courseSlug: string;
+        lessonSlug?: string;
+      }>;
       if (customEvent.detail.courseSlug === courseSlug) {
+        if (customEvent.detail.lessonSlug) {
+          recentlyCompletedRef.current.add(customEvent.detail.lessonSlug);
+          // Clear the "just completed" flag after animation
+          setTimeout(() => {
+            recentlyCompletedRef.current.delete(
+              customEvent.detail.lessonSlug!
+            );
+          }, 1000);
+        }
         refreshProgress();
       }
     },
@@ -144,6 +213,8 @@ export function CourseSidebarDesktop({
   }, [handleLessonCompleted]);
 
   // Calculate progress percentage
+  const prefersReducedMotion = useReducedMotion();
+
   const progressPercentage =
     lessons.length > 0
       ? Math.round((completedLessonsCount / lessons.length) * 100)
@@ -168,7 +239,7 @@ export function CourseSidebarDesktop({
           <Link
             href={`/courses/${courseSlug}`}
             className={cn(
-              "flex items-center gap-2 text-[15px] font-medium",
+              "flex items-center gap-2 text-swiss-body font-medium",
               "hover:text-foreground transition-colors",
               pathname === `/courses/${courseSlug}`
                 ? "text-foreground"
@@ -181,7 +252,7 @@ export function CourseSidebarDesktop({
           {onCollapse && (
             <button
               onClick={onCollapse}
-              className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+              className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-[var(--sf-bg-subtle)] transition-colors"
               aria-label="Close sidebar"
             >
               <HugeiconsIcon icon={Cancel01Icon} size={14} />
@@ -192,11 +263,11 @@ export function CourseSidebarDesktop({
         {/* Progress bar */}
         {lessons.length > 0 && completedLessonsCount > 0 && (
           <div className="mt-3">
-            <div className="flex items-center justify-between text-[15px] text-foreground/50 mb-1">
+            <div className="flex items-center justify-between text-swiss-caption text-foreground/50 mb-1">
               <span>{completedLessonsCount}/{lessons.length}</span>
               <span>{progressPercentage}%</span>
             </div>
-            <div className="h-1 bg-[rgba(0,0,0,0.08)] dark:bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+            <div className="h-1 bg-[var(--sf-bg-muted)] rounded-full overflow-hidden">
               <div
                 className="h-full bg-foreground rounded-full transition-all duration-300"
                 style={{ width: `${progressPercentage}%` }}
@@ -207,12 +278,22 @@ export function CourseSidebarDesktop({
       </div>
 
       {/* Scrollable module list */}
-      <div className="flex-1 overflow-y-auto py-4">
-        {modules.map((module) => (
-          <div key={module.name} className="mb-6">
+      <motion.div
+        className="flex-1 overflow-y-auto py-4"
+        variants={sidebarContainer}
+        initial={prefersReducedMotion ? undefined : "hidden"}
+        animate="visible"
+      >
+        {modules.map((module, moduleIndex) => (
+          <motion.div
+            key={module.name}
+            className="mb-6"
+            variants={sidebarModule}
+            custom={moduleIndex}
+          >
             {/* Module Header */}
             <div className="px-4 mb-2">
-              <span className="text-[15px] text-foreground/50 uppercase tracking-wide">
+              <span className="text-swiss-label text-foreground/50">
                 {module.name}
               </span>
             </div>
@@ -222,20 +303,41 @@ export function CourseSidebarDesktop({
               {module.lessons.map((lesson, index) => {
                 const isActive = pathname === lesson.url;
                 const isCompleted = isLessonCompleted(lesson.slug);
+                const wasJustCompleted =
+                  recentlyCompletedRef.current.has(lesson.slug);
 
                 return (
-                  <LessonItem
-                    key={lesson.slug}
-                    lesson={lesson}
-                    isActive={isActive}
-                    isCompleted={isCompleted}
-                    index={index}
-                  />
+                  <motion.div key={lesson.slug} variants={sidebarItem}>
+                    <LessonItem
+                      lesson={lesson}
+                      isActive={isActive}
+                      isCompleted={isCompleted}
+                      wasJustCompleted={wasJustCompleted}
+                      index={index}
+                      prefersReducedMotion={prefersReducedMotion}
+                    />
+                  </motion.div>
                 );
               })}
             </div>
-          </div>
+          </motion.div>
         ))}
+      </motion.div>
+
+      {/* Footer - keyboard shortcut hint */}
+      <div className="px-4 py-3 border-t border-border">
+        <span className="flex items-center justify-center gap-1.5 text-swiss-caption text-foreground/40">
+          <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
+            {typeof navigator !== "undefined" &&
+            /Mac/.test(navigator.userAgent)
+              ? "\u2318"
+              : "Ctrl"}
+          </kbd>
+          <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
+            K
+          </kbd>
+          <span className="ml-0.5">to search</span>
+        </span>
       </div>
     </aside>
   );

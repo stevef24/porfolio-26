@@ -81,12 +81,12 @@ export function LessonTOC({ items, className }: LessonTOCProps): JSX.Element | n
         className
       )}
     >
-      <h4 className="text-[15px] text-foreground/50 uppercase tracking-wide mb-3">
+      <h4 className="text-swiss-label text-foreground/50 mb-3">
         On this page
       </h4>
       {/* Left border container for active indicator */}
       <div className="relative border-l border-border">
-        <ul className="space-y-0.5 text-[15px]">
+        <ul className="space-y-0.5 text-swiss-body">
           {headings.map((heading) => {
             const id = heading.url.replace("#", "");
             const isActive = activeId === id;

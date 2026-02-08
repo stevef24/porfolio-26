@@ -16,15 +16,15 @@ export default function BlogPage(): JSX.Element {
         {/* Page header */}
         <header className="mb-8">
           <BlurFade delay={0.05}>
-            <p className="text-[15px] text-foreground/50 mb-3">Blog</p>
+            <p className="text-swiss-label text-foreground/50 mb-3">Blog</p>
           </BlurFade>
           <BlurFade delay={0.1}>
-            <h1 className="text-[15px] text-foreground font-medium mb-3">
+            <h1 className="text-swiss-body text-foreground font-medium mb-3">
               Thoughts & Writing
             </h1>
           </BlurFade>
           <BlurFade delay={0.15}>
-            <p className="text-[15px] text-foreground/60 leading-relaxed max-w-xl">
+            <p className="text-swiss-body text-foreground/60 leading-relaxed max-w-xl">
               On engineering, design systems, and building for the web.
             </p>
           </BlurFade>
@@ -33,7 +33,7 @@ export default function BlogPage(): JSX.Element {
         {/* Posts list */}
         <section>
           <BlurFade delay={0.2}>
-            <h2 className="text-[15px] text-foreground/50 mb-4">
+            <h2 className="text-swiss-label text-foreground/50 mb-4">
               Latest Posts
             </h2>
           </BlurFade>

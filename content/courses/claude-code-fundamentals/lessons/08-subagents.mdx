@@ -8,49 +8,89 @@ order: 8
 
 import { SubagentSplitContext } from "@/components/visuals/SubagentSplitContext"
 
-## What Subagents Are
+<InlineTOC />
 
-Subagents are specialized Claude instances with their own context window, prompt, model, and tool rules. They run a focused task, then return a summary to your main session.
+## The Context Pollution Problem
+
+You're building a feature and realize you need to understand how a utility function works across the codebase. You ask Claude to search for all usages. It reads fifteen files, fills your context with code you don't need, and now your feature conversation is buried under grep results.
+
+**Subagents solve this.** They're separate Claude instances with their own context window. They do focused work -- search, analyze, review -- and return only a summary. Your main session stays clean.
+
+Think of it like sending an intern to the library. They do the research, come back with a one-page brief, and you never had to leave your desk.
 
 <SubagentSplitContext />
 
-<InlineTOC />
+## What Subagents Actually Are
 
-## Subagents vs Agent Teams
+A **subagent** is a Claude instance with:
 
-Both are useful. The decision is about communication.
+- Its own context window (separate from yours)
+- A specific model (can be different from your main session)
+- Restricted tools (you control what it can access)
+- A focused task (search, review, generate, etc.)
+
+When the subagent finishes, it returns a summary to your main session. The fifteen files it read? They stay in its context, not yours.
+
+This is the key insight: **subagents trade tokens for context cleanliness.** They use more total tokens (because they have their own context) but keep your main session focused.
+
+## Built-In Subagents
+
+Claude Code already uses subagents behind the scenes. You'll encounter three built-in types:
+
+| Subagent | What it does | When it runs |
+| :-- | :-- | :-- |
+| **Explore** | Fast, read-only codebase search | When Claude needs to find code without polluting your context |
+| **Plan** | Read-only research in planning mode | When you're in plan mode and Claude needs to gather information |
+| **General-purpose** | Full capability for multi-step work | For complex delegated tasks requiring edits |
+
+This matters because **delegation already happens automatically**. Custom subagents should fill gaps in what the built-ins don't cover.
+
+## Subagents vs. Agent Teams
+
+Both delegate work. The difference is how workers communicate.
 
 | Need | Use |
 | :-- | :-- |
-| One focused worker that reports back | Subagent |
-| Multiple workers that need to talk to each other | Agent team |
-| Lower token overhead | Subagent |
-| Cross-role collaboration (research + architecture + critique) | Agent team |
+| One focused worker that reports back to you | **Subagent** |
+| Multiple workers that need to coordinate with each other | **Agent team** |
+| Lower token overhead | **Subagent** |
+| Cross-role collaboration (researcher + architect + reviewer) | **Agent team** |
+| Quick, scoped task (review, search, generate) | **Subagent** |
+| Large feature spanning many concerns | **Agent team** |
 
-Rule of thumb:
-- Use subagents by default
-- Move to agent teams when peer-to-peer collaboration is required
+<Callout title="Key Insight">
+Start with subagents. They're simpler, cheaper, and sufficient for most delegation needs. Graduate to agent teams only when workers genuinely need to talk to each other during execution.
+</Callout>
 
-## Built-In Subagents You Should Know
+## Decision Matrix: When to Use Subagents
 
-Claude Code already includes built-ins you will see often:
+Ask yourself these questions before delegating:
 
-- `Explore`: fast, read-only codebase exploration
-- `Plan`: read-only research while you're in plan mode
-- `general-purpose`: full capability for complex multi-step execution
+**"Will this task pollute my main context?"**
+- Reading many files to answer a question: **use a subagent**
+- Quick edit to one file: **just do it in your main session**
 
-This matters because delegation already happens under the hood. Custom subagents should fill gaps, not duplicate these roles.
+**"Does the worker need to edit files?"**
+- Read-only research or review: **subagent with restricted tools**
+- Needs to make changes: **subagent with write access, or do it yourself**
 
-## Create a Team-Ready Subagent
+**"Do I need the raw results or just a summary?"**
+- Just the conclusion: **subagent** (it summarizes before returning)
+- Need to see every detail: **do it in your main session**
 
-Use `/agents` for the fastest setup, then tighten scope:
+**"Is this a repeating pattern?"**
+- One-off task: **ad hoc subagent**
+- Something you do weekly: **create a custom subagent definition**
 
-1. Choose scope: project (`.claude/agents/`) for shared team workflows, user (`~/.claude/agents/`) for personal helpers
-2. Write a precise description so Claude delegates correctly
-3. Restrict tools and permission mode aggressively
-4. Set model intentionally (`haiku`, `sonnet`, `opus`, or `inherit`)
+## Creating Custom Subagents
 
-Example project subagent:
+Use `/agents` for the fastest setup. You'll choose between two scopes:
+
+**Project scope** (`.claude/agents/`): Shared with your team. Committed to git. Everyone gets the same agent behavior.
+
+**User scope** (`~/.claude/agents/`): Just for you. Personal helpers that match your workflow.
+
+Here's an example project subagent for API reviews:
 
 ```markdown
 ---
@@ -65,19 +105,50 @@ memory: project
 ---
 
 You are a strict API reviewer.
-Focus on security boundaries, schema consistency, and regression risk.
+Focus on:
+1. Authentication and authorization boundaries
+2. Input validation and schema consistency
+3. Error handling patterns and status codes
+4. Regression risk from changed endpoints
+
 Return concise findings with file paths and suggested fixes.
+Never suggest cosmetic changes. Focus on correctness and security.
 ```
 
-## Guardrails That Keep Agents Useful
+Notice the pattern: **narrow purpose, restricted tools, clear instructions.** A subagent that can do everything is just another Claude session. The value comes from constraints.
 
-- Keep each subagent narrow in purpose
-- Prefer read-only tools unless edits are required
-- Use `memory: project` when the agent should learn team conventions over time
-- Check project subagents into git so the whole team gets consistent behavior
+<Callout title="Key Insight">
+The best subagents are boringly specific. "Review API auth boundaries" is better than "review code." Narrow scope produces focused results.
+</Callout>
 
-## Key Takeaways
+## Guardrails That Keep Subagents Useful
 
-- Subagents are your default delegation tool for focused tasks
-- Agent teams are better when workers must coordinate directly
-- Tool limits, model choice, and permission mode define subagent quality
+A few rules that prevent subagent sprawl:
+
+- **One job per subagent.** If you're describing two responsibilities, make two subagents.
+- **Prefer read-only tools.** Only grant write access when the subagent genuinely needs to edit files.
+- **Set the model intentionally.** A search-focused subagent doesn't need Opus. Haiku or Sonnet is usually enough.
+- **Use `memory: project`** when the subagent should learn team conventions over time.
+- **Commit project subagents to git** so the whole team gets consistent behavior.
+
+## Try It Yourself
+
+<Steps>
+  <Step>
+    **Delegate a search.** Next time you need to understand how a function is used across your codebase, ask Claude to "use a subagent to find all usages of [function name] and summarize the patterns." Notice how your main context stays clean.
+  </Step>
+  <Step>
+    **Create your first custom subagent.** Think of a review or analysis task you repeat often. Use `/agents` to create a subagent for it. Keep the tools list minimal and the instructions specific.
+  </Step>
+  <Step>
+    **Compare context impact.** Do a codebase search in your main session, then clear and do the same search via a subagent. Compare how much context each approach uses with `/cost`.
+  </Step>
+</Steps>
+
+## What You Learned
+
+- **Subagents are separate Claude instances** that do focused work and return summaries, keeping your main context clean.
+- **Three built-in subagents** (Explore, Plan, General-purpose) already handle common delegation patterns.
+- **Start with subagents** for single-worker tasks. Use agent teams only when workers need to coordinate.
+- **Custom subagents** should be narrow in purpose, restricted in tools, and committed to git for team consistency.
+- **The value is in the constraints.** A good subagent does one thing well with minimal permissions.

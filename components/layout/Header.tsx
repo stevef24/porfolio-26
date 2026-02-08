@@ -93,7 +93,7 @@ export function Header() {
 								href={link.url}
 								aria-current={isActive ? "page" : undefined}
 								className={cn(
-									"text-[15px] font-medium transition-colors duration-150",
+									"text-swiss-body font-medium transition-colors duration-150",
 									isActive
 										? "text-foreground"
 										: "text-foreground/60 hover:text-foreground"

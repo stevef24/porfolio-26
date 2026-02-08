@@ -4,6 +4,7 @@ import { MeshGradient, PaperTexture } from "@paper-design/shaders-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { springSmooth, springGentle } from "@/lib/motion-variants";
 
 interface BlogHeroHeaderProps {
   date?: string;
@@ -147,10 +148,10 @@ export function BlogHeroHeader({
             className="flex items-center justify-center gap-3 mb-6"
             initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ ...springGentle, delay: 0.1 }}
           >
             {date && (
-              <span className="text-[15px] text-foreground/60">
+              <span className="text-swiss-caption text-foreground/60">
                 {date}
               </span>
             )}
@@ -159,7 +160,7 @@ export function BlogHeroHeader({
                 {categories.map((category) => (
                   <span
                     key={category}
-                    className="text-[15px] text-foreground/50 hover:text-foreground transition-colors cursor-pointer"
+                    className="text-swiss-caption text-foreground/50 hover:text-foreground transition-colors cursor-pointer"
                   >
                     {category}
                   </span>
@@ -176,7 +177,7 @@ export function BlogHeroHeader({
             }}
             initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ ...springGentle, delay: 0.2 }}
           >
             {title}
           </motion.h1>
@@ -184,10 +185,10 @@ export function BlogHeroHeader({
           {/* Description */}
           {description && (
             <motion.p
-              className="text-[15px] text-foreground/60 max-w-2xl mx-auto leading-relaxed"
+              className="text-swiss-body text-foreground/60 max-w-2xl mx-auto leading-relaxed"
               initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.35 }}
+              transition={{ ...springSmooth, delay: 0.35 }}
             >
               {description}
             </motion.p>

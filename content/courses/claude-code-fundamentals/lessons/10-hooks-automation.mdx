@@ -8,23 +8,47 @@ order: 10
 
 import { HookTimeline } from "@/components/visuals/HookTimeline"
 
-## Hooks = Event-Driven Automation
+## You Keep Doing the Same Thing. Stop It.
 
-Hooks are scripts or prompts that run when Claude Code reaches specific lifecycle events. They're how you automate guardrails without babysitting every action.
+Every time you run Claude Code, you probably do something repetitive. Maybe you check `git status` after every edit. Maybe you lint before committing. Maybe you nervously watch for `rm -rf` in bash commands.
 
-## The Core Events (Most Useful)
+What if Claude Code could do all of that for you, automatically, every single time?
 
-- `PreToolUse` - before a tool runs (can block)
-- `PostToolUse` - after a tool succeeds
-- `PostToolUseFailure` - after a tool fails
-- `Stop` - after Claude finishes responding
-- `PreCompact` - before context compaction
+That is what **hooks** are for. They are scripts that fire when specific events happen inside Claude Code. Think of them like GitHub Actions, but for your local Claude Code session.
 
-There are more, but these cover most workflows.
+<InlineTOC />
+
+## The Mental Model: Event Listeners for Your AI
+
+If you have ever written a `useEffect` in React or an `addEventListener` in vanilla JS, you already understand hooks. They follow the same pattern:
+
+1. An **event** happens (Claude is about to run a tool, just finished responding, etc.)
+2. Your **hook script** runs in response
+3. The script can **observe**, **modify**, or **block** the action
+
+The difference from typical event listeners: hooks can actually prevent things from happening. A `PreToolUse` hook can deny a dangerous command before it executes.
 
 <HookTimeline />
 
-## Example: Block Dangerous Commands
+## The Core Events
+
+You do not need to memorize every event. These five cover the vast majority of workflows:
+
+| Event | When it fires | What you can do |
+| :-- | :-- | :-- |
+| `PreToolUse` | Before a tool runs | Block it, modify input |
+| `PostToolUse` | After a tool succeeds | Log it, trigger follow-ups |
+| `PostToolUseFailure` | After a tool fails | Alert, retry logic |
+| `Stop` | After Claude finishes responding | Run validation, auto-commit |
+| `PreCompact` | Before context compaction | Save important state |
+
+<Callout type="info" title="Key Insight">
+`PreToolUse` is your safety net. It is the only event that can block actions. Start here when building your first hook.
+</Callout>
+
+## Your First Hook: Block Dangerous Commands
+
+Let us build something real. This hook watches every Bash command and blocks anything containing `rm -rf`:
 
 `.claude/hooks/block-dangerous.sh`
 
@@ -36,7 +60,7 @@ if echo "$COMMAND" | grep -q 'rm -rf'; then
     hookSpecificOutput: {
       hookEventName: "PreToolUse",
       permissionDecision: "deny",
-      permissionDecisionReason: "Destructive command blocked"
+      permissionDecisionReason: "Destructive command blocked by hook"
     }
   }'
 else
@@ -44,7 +68,7 @@ else
 fi
 ```
 
-Register it:
+Now register it in your settings (`.claude/settings.json`):
 
 ```json
 {
@@ -53,7 +77,10 @@ Register it:
       {
         "matcher": "Bash",
         "hooks": [
-          { "type": "command", "command": ".claude/hooks/block-dangerous.sh" }
+          {
+            "type": "command",
+            "command": ".claude/hooks/block-dangerous.sh"
+          }
         ]
       }
     ]
@@ -61,12 +88,116 @@ Register it:
 }
 ```
 
-<Callout type="info" title="Don't over-automate">
-Hooks are powerful, but they can slow you down if they run too often. Keep them fast and narrow.
+The `matcher` field controls which tool triggers the hook. `"Bash"` means it only runs when Claude tries to execute shell commands. No unnecessary overhead on file reads or edits.
+
+## Hook Recipes: Three You Should Steal
+
+### Auto-lint after every edit
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx eslint --fix $TOOL_OUTPUT_PATH"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Log every command for audit
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date): $TOOL_INPUT_COMMAND\" >> .claude/audit.log"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Auto-run tests after Stop
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm test --run 2>&1 | tail -5"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Decision Framework: Should This Be a Hook?
+
+Not everything belongs in a hook. Use this test:
+
+<Steps>
+  <Step>
+    **Is it repetitive?** You do it every session or every few prompts. If yes, continue.
+  </Step>
+  <Step>
+    **Is it fast?** Hooks run synchronously. If the script takes more than a second or two, it will slow down every action. If slow, consider running it in a `Stop` hook instead.
+  </Step>
+  <Step>
+    **Is it safety-critical?** If forgetting this step could break production, a hook is better than willpower. Use `PreToolUse` to block.
+  </Step>
+  <Step>
+    **Is it tool-specific?** If it only matters for Bash commands, use a `matcher`. If it matters for everything, skip the matcher.
+  </Step>
+</Steps>
+
+<Callout type="warn" title="Don't Over-Automate">
+Hooks that run on every tool use add latency to every action. A slow `PreToolUse` hook on `"*"` will make Claude feel sluggish. Keep hooks fast, keep matchers narrow.
 </Callout>
 
-## Key Takeaways
+## Try It Yourself
 
-- Hooks trigger on lifecycle events
-- `PreToolUse` is your safety net
-- Keep hooks fast and focused
+<Steps>
+  <Step>
+    Create a `.claude/hooks/` directory in any project.
+  </Step>
+  <Step>
+    Write a `PreToolUse` hook that blocks `git push --force` commands. Use the `block-dangerous.sh` recipe above as your starting template.
+  </Step>
+  <Step>
+    Register it in `.claude/settings.json` with `"matcher": "Bash"`.
+  </Step>
+  <Step>
+    Test it by asking Claude Code to force push. Verify it gets blocked.
+  </Step>
+  <Step>
+    **Bonus:** Add a `PostToolUse` hook that appends every successful Bash command to an audit log.
+  </Step>
+</Steps>
+
+## What You Learned
+
+- Hooks are event-driven scripts that fire during Claude Code lifecycle events
+- `PreToolUse` is the only event that can block actions, making it your primary safety tool
+- The `matcher` field keeps hooks focused on specific tools instead of slowing everything down
+- Fast, narrow hooks are good. Slow, broad hooks are a tax on every interaction
+- When in doubt, start with a `Stop` hook for validation rather than a `PreToolUse` hook for blocking

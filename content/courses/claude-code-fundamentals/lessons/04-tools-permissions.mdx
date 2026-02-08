@@ -8,50 +8,177 @@ order: 4
 
 import { PermissionsSafetyLadder } from "@/components/visuals/PermissionsSafetyLadder"
 
-## Tools = Actions
+## The Power and The Guardrails
 
-Claude Code doesn't "type" on your behalf - it uses tools. Each tool is a specific action:
+Here's a scenario. You ask Claude Code to fix a failing test. It reads the test file, identifies the issue, edits the source code, runs the tests again, and confirms they pass. All in one shot.
 
-- **Read / Glob / Grep**: inspect files
-- **Edit / Write**: modify files
-- **Bash**: run commands
-- **Task**: delegate to a subagent
-- **WebSearch / WebFetch**: get external info
+That's incredibly powerful. It's also a lot of trust to place in an AI tool.
+
+The tools and permissions system is how Claude Code balances these two things. It gives Claude real capabilities while keeping you in control of what it can actually do to your system.
+
+<InlineTOC />
+
+## Tools Are Actions, Not Suggestions
+
+When you ask Claude Code to do something, it doesn't just generate text about what it would do. It actually **takes actions** through a set of discrete tools. Each tool does one specific thing:
+
+**Read-only tools** (safe, no side effects):
+- **Read** - Open and read a file
+- **Glob** - Find files by name pattern
+- **Grep** - Search file contents
+- **WebSearch / WebFetch** - Look up external information
+
+**Write tools** (modify your project):
+- **Edit** - Make targeted changes to a file
+- **Write** - Create or overwrite a file
+- **Bash** - Run a shell command
+
+**Orchestration tools:**
+- **Task** - Delegate work to a subagent (a separate Claude instance with its own context)
+
+<Callout type="info" title="Key Insight">
+Understanding the tool system changes how you write prompts. Instead of saying "look at my code," you can say "read `src/auth.ts` and grep for `validateToken`." You're speaking Claude's language.
+</Callout>
 
 ## The Permission Model
 
-By default, Claude asks before any action that could change your system. That is a feature, not friction.
+By default, Claude Code operates with a cautious permission model. It **asks you before taking any action that could change your system**. This includes:
 
-If you want to speed things up, you can allow specific commands or enable broader edit permissions.
+- Writing or editing files
+- Running shell commands
+- Creating new files
+
+Read-only actions (reading files, searching, globbing) happen automatically. Claude doesn't need your permission to look at things, only to change them.
+
+This default is a feature, not friction. It means you can let Claude explore freely while staying in full control of what gets modified.
 
 <PermissionsSafetyLadder />
 
-## The Two Safe Defaults
+## Three Permission Levels
 
-**1. Allow known commands**
+Think of permissions as a dial, not a switch. You can set it anywhere from maximum caution to maximum speed.
+
+### Level 1: Ask Every Time (Default)
+
+Claude asks for approval on every write action. Every file edit, every command, every creation gets a prompt.
+
+**Best for:** Learning Claude Code, unfamiliar projects, high-risk work.
+
+This is where you should start. The approval prompts teach you what Claude is actually doing, which builds the understanding you need to safely relax permissions later.
+
+### Level 2: Allow Specific Commands
+
+You can whitelist specific commands that Claude can run without asking:
 
 ```
 /permissions
 ```
 
-Add a whitelist like:
-- `pnpm dev`
-- `pnpm test`
-- `git status`
+Common commands to allow:
+- `pnpm dev` / `npm run dev`
+- `pnpm test` / `npm test`
+- `pnpm build`
+- `git status` / `git diff`
+- `ls`, `cat`, `pwd`
 
-**2. Keep destructive commands blocked**
+This is the sweet spot for most developers. Claude can run your build and test pipeline freely, but still asks before editing files or running unfamiliar commands.
 
-Never auto-allow:
-- `rm -rf`
-- `git push --force`
-- database drop commands
+### Level 3: Trust Mode
 
-<Callout type="info" title="Sandbox mode">
-You can run bash in a safer sandbox with `/sandbox` when you want extra isolation.
+In full trust mode, Claude can read, write, and execute without asking. This is fast, but it means Claude can run any command and edit any file without your approval.
+
+**Best for:** Experienced users on well-tested projects with good version control.
+
+<Callout type="warning" title="Trust Mode Requires Git">
+Never use trust mode without a clean git state. If Claude makes a bad edit, you need to be able to `git checkout` your way back. No git history means no safety net.
 </Callout>
 
-## Key Takeaways
+## The Commands You Should Never Auto-Allow
 
-- Tools are the real actions Claude performs
-- You control the risk through permissions
-- Start strict, then relax only when you trust the workflow
+Some commands should always require manual approval, no matter how comfortable you get:
+
+| Command | Why It's Dangerous |
+|---|---|
+| `rm -rf` | Irreversible deletion. One wrong path and you've lost work. |
+| `git push --force` | Overwrites remote history. Can destroy teammates' work. |
+| `git reset --hard` | Discards all uncommitted changes. No recovery without reflog. |
+| `DROP TABLE` / `DELETE FROM` | Database destruction. Usually irreversible in production. |
+| `chmod` / `chown` | Changes file permissions. Security implications. |
+| `curl \| bash` | Executes remote code. Classic supply chain attack vector. |
+
+If you find yourself tempted to auto-allow any of these, stop and ask why. There's almost always a safer pattern.
+
+## How Permissions Flow in Practice
+
+Here's what a typical session looks like with Level 2 permissions:
+
+```
+You: Fix the failing test in auth.spec.ts
+
+Claude: Let me read the test file and the source...
+  [Read] src/auth.ts           ← automatic (read-only)
+  [Read] tests/auth.spec.ts    ← automatic (read-only)
+  [Grep] "validateToken"       ← automatic (read-only)
+
+I found the issue. The test expects a string but
+validateToken returns an object. I'll fix the source.
+
+  [Edit] src/auth.ts           ← ASKS PERMISSION
+  > Allow this edit? (y/n)
+
+You: y
+
+  [Bash] pnpm test             ← automatic (whitelisted)
+
+All tests pass.
+```
+
+Notice the pattern: Claude reads freely, asks before writing, and runs whitelisted commands automatically. You stay in control of the important decisions.
+
+## Try It Yourself: Configure Your Permissions
+
+<Steps>
+  <Step>
+    **Start with defaults.** Open Claude Code in a project and do some work. Notice every time it asks for permission. Pay attention to what it's asking to do.
+  </Step>
+  <Step>
+    **Identify repetitive approvals.** After a few sessions, you'll notice you always approve the same commands: `pnpm test`, `git status`, `pnpm build`. Those are candidates for whitelisting.
+  </Step>
+  <Step>
+    **Open the permissions panel.** Run `/permissions` and add your safe commands to the allow list.
+  </Step>
+  <Step>
+    **Work for a session with the new permissions.** Notice how the flow improves. Claude can now run your tests and build without interrupting you, but still asks before editing code.
+  </Step>
+  <Step>
+    **Evaluate.** After a week, check your permission list. Are there commands you added that you now regret? Are there others you want to add? Adjust accordingly.
+  </Step>
+</Steps>
+
+## Decision Framework: What Permission Level Should I Use?
+
+| Factor | Level 1 (Ask All) | Level 2 (Whitelist) | Level 3 (Trust) |
+|---|---|---|---|
+| New to Claude Code | Yes | | |
+| Unfamiliar project | Yes | | |
+| Your own project, good git hygiene | | Yes | |
+| Well-tested codebase with CI | | Yes | Maybe |
+| Prototype or throwaway code | | | Yes |
+| Production code, no tests | Yes | | |
+| Pair programming / learning | Yes | | |
+
+The general rule: **start strict, then relax only when you have evidence that it's safe.** Evidence means: good version control, a test suite that catches errors, and your own understanding of what Claude tends to do in your project.
+
+<Callout type="info" title="Permissions Are Per-Project">
+Your permission settings are scoped to each project, not global. You might use Level 3 on your personal side project and Level 1 on a production API. Match the permissions to the risk.
+</Callout>
+
+## What You Learned
+
+- **Tools are discrete actions**, not suggestions. Claude reads, edits, writes, and runs commands through specific tools.
+- **The default permission model is cautious by design.** Claude asks before changing anything.
+- **Three levels of trust:** ask every time, whitelist specific commands, or full trust mode.
+- **Some commands should never be auto-allowed** (force push, destructive deletes, database drops).
+- **Start strict, relax with evidence.** Good git hygiene is the prerequisite for relaxed permissions.
+
+Next, you'll learn about planning and thinking, the techniques that help Claude Code reason through complex tasks before it starts taking action.

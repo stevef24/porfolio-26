@@ -54,7 +54,7 @@ const videos = [
 
 export default function Home({ posts }: HomeProps): JSX.Element {
 	return (
-		<main className="py-8 lg:py-6">
+		<main className="py-12 lg:py-16">
 			<TabVisibility
 				awayMessage="Come back - I'm bored"
 				originalTitle="Stav Fernandes - Full Stack Developer & Technical Writer"
@@ -69,12 +69,12 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 				<BlurFade delay={0}>
 					<div className="mb-12">
 						<h2
-							className="text-foreground text-[15px] mb-0.5"
+							className="text-foreground text-swiss-body font-medium mb-0.5"
 							id="home-hero-heading"
 						>
 							Stav Fernandes
 						</h2>
-						<p className="text-foreground/50 text-[15px]">
+						<p className="text-foreground/50 text-swiss-body">
 							Frontend Developer
 						</p>
 					</div>
@@ -83,10 +83,10 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 				{/* Today section */}
 				<BlurFade delay={0.1}>
 					<div>
-						<h3 className="text-foreground text-[15px] mb-3">
+						<h3 className="text-foreground text-swiss-body font-medium mb-3">
 							Today
 						</h3>
-						<p className="text-foreground/60 text-[15px] leading-relaxed mb-3">
+						<p className="text-foreground/60 text-swiss-body leading-relaxed mb-3">
 							I build frontend interfaces and create{" "}
 							<LinkPreview
 								href="https://www.youtube.com/@CodewithStav"
@@ -96,7 +96,7 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 							</LinkPreview>{" "}
 							about AI tooling and modern web development. I like to break down complex systems into visual explanations.
 						</p>
-						<p className="text-foreground/50 text-[15px] leading-relaxed">
+						<p className="text-foreground/50 text-swiss-body leading-relaxed">
 							Previously worked at Nationwide UK. Currently freelancing, based in Thailand.
 						</p>
 					</div>
@@ -104,16 +104,16 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 			</section>
 
 			{/* Videos Section */}
-			<section className="py-6" id="videos" aria-labelledby="videos-heading">
+			<section className="py-8" id="videos" aria-labelledby="videos-heading">
 				<BlurFade delay={0.35}>
 					<h3
-						className="text-foreground text-[15px] mb-4"
+						className="text-foreground text-swiss-body font-medium mb-4"
 						id="videos-heading"
 					>
 						Latest videos
 					</h3>
 				</BlurFade>
-				<div className="space-y-1">
+				<div className="space-y-0">
 					{videos.map((video, index) => (
 						<BlurFade key={video.href} delay={0.4 + index * 0.05}>
 							<VideoCard
@@ -127,16 +127,16 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 			</section>
 
 			{/* Posts Section */}
-			<section className="py-6" id="posts" aria-labelledby="posts-heading">
+			<section className="py-8" id="posts" aria-labelledby="posts-heading">
 				<BlurFade delay={0.6}>
 					<h3
-						className="text-foreground text-[15px] mb-4"
+						className="text-foreground text-swiss-body font-medium mb-4"
 						id="posts-heading"
 					>
 						Latest posts
 					</h3>
 				</BlurFade>
-				<div className="space-y-1">
+				<div className="space-y-0">
 					{posts.slice(0, 3).map((post, index) => (
 						<BlurFade key={post.url} delay={0.65 + index * 0.05}>
 							<MidCard
@@ -151,7 +151,7 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 
 			{/* Subscribe Section */}
 			<section
-				className="py-6"
+				className="py-8"
 				id="subscribe"
 				aria-labelledby="subscribe-heading"
 			>
@@ -167,13 +167,13 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 
 			{/* Contact Section */}
 			<section
-				className="py-6"
+				className="py-8"
 				id="contact"
 				aria-labelledby="contact-heading"
 			>
 				<BlurFade delay={0.8}>
 					<h3
-						className="text-foreground text-[15px] mb-4"
+						className="text-foreground text-swiss-body font-medium mb-4"
 						id="contact-heading"
 					>
 						Contact

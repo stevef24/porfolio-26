@@ -105,7 +105,7 @@ function ModuleSidebarContent({
         {/* Progress indicator */}
         {lessons.length > 0 && (
           <div className="px-3 pb-3">
-            <div className="flex items-center justify-between text-[15px] text-foreground/50 mb-1.5">
+            <div className="flex items-center justify-between text-swiss-caption text-foreground/50 mb-1.5">
               <span>{completedLessonsCount} / {lessons.length} completed</span>
               <span>{progressPercentage}%</span>
             </div>
@@ -157,7 +157,7 @@ function ModuleSidebarContent({
                     );
                   } else {
                     statusIcon = (
-                      <span className="w-6 h-6 flex items-center justify-center text-[15px] text-foreground/50">
+                      <span className="w-6 h-6 flex items-center justify-center text-swiss-caption text-foreground/50">
                         {index + 1}
                       </span>
                     );
@@ -183,7 +183,7 @@ function ModuleSidebarContent({
                         >
                           {/* Progress/status icon */}
                           {statusIcon}
-                          <span className={cn("text-[15px]", isLocked && "text-foreground/40")}>
+                          <span className={cn("text-swiss-body", isLocked && "text-foreground/40")}>
                             {lesson.title}
                           </span>
                         </Link>

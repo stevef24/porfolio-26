@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
+import { springGentle } from "@/lib/motion-variants";
 
 interface BlurFadeProps {
   children: ReactNode;
@@ -58,11 +59,11 @@ export default function BlurFade({
       ref={ref}
       initial={hiddenState}
       animate={isInView ? visibleState : hiddenState}
-      transition={{
-        delay: shouldReduceMotion ? 0 : delay,
-        duration: shouldReduceMotion ? 0.01 : duration,
-        ease: [0.21, 0.47, 0.32, 0.98],
-      }}
+      transition={
+        shouldReduceMotion
+          ? { duration: 0.01 }
+          : { ...springGentle, delay }
+      }
       className={className}
     >
       {children}

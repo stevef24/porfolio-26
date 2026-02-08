@@ -3,8 +3,7 @@
 import type { ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
-
-const PANEL_EASE = [0.2, 0.8, 0.2, 1] as const;
+import { springGentle } from "@/lib/motion-variants";
 
 interface FocusSplitLayoutProps {
 	mode: "split" | "read";
@@ -29,7 +28,7 @@ export function FocusSplitLayout({
 
 	const panelTransition = prefersReducedMotion
 		? { duration: 0 }
-		: { duration: 0.32, ease: PANEL_EASE };
+		: springGentle;
 
 	return (
 		<div className={cn("relative w-full", className)}>
@@ -60,9 +59,8 @@ export function FocusSplitLayout({
 												opacity: 1,
 												scale: 1,
 												transition: {
-													duration: 0.15,
+													...springGentle,
 													delay: 0.12,
-													ease: PANEL_EASE,
 												},
 											}
 								}
@@ -73,9 +71,8 @@ export function FocusSplitLayout({
 												opacity: 0,
 												scale: 0.98,
 												transition: {
-													duration: 0.12,
+													...springGentle,
 													delay: 0,
-													ease: PANEL_EASE,
 												},
 											}
 								}

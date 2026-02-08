@@ -11,6 +11,7 @@ import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { springSmooth } from "@/lib/motion-variants";
 import { LessonCompletionButton } from "@/components/courses/LessonCompletionButton";
 
 interface LessonInfo {
@@ -72,7 +73,7 @@ export function LessonNavigation({
       className={cn("pt-8 border-t border-border", className)}
       initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, delay: 0.2 }}
+      transition={{ ...springSmooth, delay: 0.2 }}
       aria-label="Lesson navigation"
     >
       {/* Mark Complete Button */}
@@ -90,7 +91,7 @@ export function LessonNavigation({
             href={prevLesson.url}
             className="group flex flex-col items-start cursor-pointer max-w-[45%] rounded-md p-2 -m-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            <span className="flex items-center gap-1.5 text-[15px] text-foreground/50 mb-1">
+            <span className="flex items-center gap-1.5 text-swiss-caption text-foreground/50 mb-1">
               <HugeiconsIcon
                 icon={ArrowLeft01Icon}
                 size={12}
@@ -98,7 +99,7 @@ export function LessonNavigation({
               />
               Previous
             </span>
-            <span className="text-[15px] text-foreground group-hover:text-primary transition-colors truncate w-full">
+            <span className="text-swiss-body text-foreground group-hover:text-primary transition-colors truncate w-full">
               {prevLesson.title}
             </span>
           </Link>
@@ -112,7 +113,7 @@ export function LessonNavigation({
             href={nextLesson.url}
             className="group flex flex-col items-end text-right cursor-pointer max-w-[45%] rounded-md p-2 -m-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            <span className="flex items-center gap-1.5 text-[15px] text-foreground/50 mb-1">
+            <span className="flex items-center gap-1.5 text-swiss-caption text-foreground/50 mb-1">
               Next
               <HugeiconsIcon
                 icon={ArrowRight01Icon}
@@ -120,7 +121,7 @@ export function LessonNavigation({
                 className="group-hover:translate-x-0.5 transition-transform"
               />
             </span>
-            <span className="text-[15px] text-foreground group-hover:text-primary transition-colors truncate w-full">
+            <span className="text-swiss-body text-foreground group-hover:text-primary transition-colors truncate w-full">
               {nextLesson.title}
             </span>
           </Link>
@@ -129,11 +130,11 @@ export function LessonNavigation({
             href={`/courses/${courseSlug}`}
             className="group flex flex-col items-end text-right cursor-pointer rounded-md p-2 -m-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            <span className="flex items-center gap-1.5 text-[15px] text-primary mb-1">
+            <span className="flex items-center gap-1.5 text-swiss-caption text-primary mb-1">
               <HugeiconsIcon icon={CheckmarkCircle02Icon} size={12} />
               Complete
             </span>
-            <span className="text-[15px] text-foreground group-hover:text-primary transition-colors">
+            <span className="text-swiss-body text-foreground group-hover:text-primary transition-colors">
               Back to Course
             </span>
           </Link>
@@ -142,7 +143,7 @@ export function LessonNavigation({
 
       {/* Keyboard shortcut hint */}
       <div className="mt-4 flex justify-center">
-        <span className="text-[15px] text-foreground/40">
+        <span className="text-swiss-caption text-foreground/40">
           <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">Shift</kbd>
           {" + "}
           <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">←</kbd>

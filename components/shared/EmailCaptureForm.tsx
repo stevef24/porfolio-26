@@ -102,8 +102,8 @@ export function EmailCaptureForm({
     >
       <div className="flex flex-col gap-4">
         <div className="space-y-1">
-          <h3 className="text-foreground text-[15px]">{title}</h3>
-          <p className="text-foreground/50 text-[15px] leading-relaxed">{description}</p>
+          <h3 className="text-foreground text-swiss-body font-medium">{title}</h3>
+          <p className="text-foreground/50 text-swiss-body leading-relaxed">{description}</p>
         </div>
 
         <form
@@ -124,7 +124,7 @@ export function EmailCaptureForm({
             onChange={(event) => setEmail(event.target.value)}
             disabled={isLocked}
             spellCheck={false}
-            className="h-9 flex-1 text-[15px]"
+            className="h-9 flex-1 text-swiss-body"
           />
           <input
             type="text"
@@ -139,7 +139,7 @@ export function EmailCaptureForm({
             type="submit"
             variant="cta"
             disabled={isLocked}
-            className="h-9 px-6 cursor-pointer text-[15px]"
+            className="h-9 px-6 cursor-pointer text-swiss-body"
           >
             {status === "loading" ? "Subscribing…" : buttonLabel}
           </Button>
@@ -147,7 +147,7 @@ export function EmailCaptureForm({
 
         {statusMessage && (
           <p
-            className="text-foreground/50 text-[15px]"
+            className="text-foreground/50 text-swiss-caption"
             aria-live="polite"
           >
             {statusMessage}

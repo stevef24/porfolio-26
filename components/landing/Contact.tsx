@@ -28,7 +28,7 @@ export default function Contact(): JSX.Element {
 
 	return (
 		<BlurFade delay={0.85}>
-			<p className="text-[15px] text-foreground/60 leading-relaxed mb-4">
+			<p className="text-swiss-body text-foreground/60 leading-relaxed mb-4">
 				The best way to reach me is through{" "}
 				<a
 					href={emailHref}

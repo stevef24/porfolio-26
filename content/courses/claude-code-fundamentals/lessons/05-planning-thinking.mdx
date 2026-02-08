@@ -8,59 +8,119 @@ order: 5
 
 import { PlanClearExecuteFlow } from "@/components/visuals/PlanClearExecuteFlow"
 
-## Plan vs. Execute
+<InlineTOC />
 
-Small changes can be done directly. Anything touching multiple files deserves a plan.
+## The Expensive Lesson
 
-**Direct execution:** fix a typo, adjust a single component, rename a variable.
+You open Claude Code, describe a feature that touches six files, and hit enter. Claude starts editing. File one looks great. File two, decent. By file four, it's forgotten the schema you agreed on in file one. You spend twenty minutes untangling the mess.
 
-**Plan first:** new features, refactors, multi-file edits.
+Sound familiar? The fix isn't better prompting. It's **planning before executing**.
+
+The difference between developers who love Claude Code and developers who rage-quit it usually comes down to one habit: they plan first.
+
+## When to Plan vs. When to Just Do
+
+Not every task needs a plan. A typo fix doesn't need a strategy session. But anything that crosses file boundaries deserves one.
+
+Here's the **decision framework**:
+
+| Situation | Approach |
+| :-- | :-- |
+| Fix a typo, rename a variable | Just do it |
+| Adjust styles in one component | Just do it |
+| New feature touching 2+ files | Plan first |
+| Refactor shared logic | Plan first |
+| Anything you'd whiteboard with a colleague | Plan first |
+
+The rule of thumb: **if you'd need to explain the task in more than two sentences, plan it.**
 
 ## Planning Mode
 
-Toggle planning mode with **Alt+M** (or **Option+M** on Mac). In planning mode, Claude will:
+Toggle planning mode with **Option+M** (or **Alt+M** on Windows/Linux). When active, Claude will:
 
-1. Propose a step-by-step plan
-2. Wait for your approval
-3. Execute only after confirmation
+1. Read the relevant code
+2. Propose a step-by-step plan
+3. Wait for you to approve, modify, or reject it
+4. Execute only after you say go
 
-## Plan -> Clear -> Execute
+This changes the dynamic completely. Instead of hoping Claude understands your intent, you **verify the plan before any code changes happen**.
 
-Here's the workflow that keeps context sharp:
+<Callout title="Key Insight">
+Planning mode doesn't just prevent mistakes. It teaches you how Claude interprets your requests. Over time, you'll learn to write prompts that need fewer corrections.
+</Callout>
+
+## The Plan-Clear-Execute Workflow
+
+Here's the workflow that keeps context sharp and results predictable:
 
 <PlanClearExecuteFlow />
 
 <Steps>
   <Step>
-    **Plan the task.** Ask for a plan and adjust it.
+    **Plan the task.** Describe what you want. Review Claude's proposed plan. Adjust until it matches your intent.
   </Step>
   <Step>
-    **Clear context.** Remove the planning discussion.
+    **Clear context.** Use `/clear` to wipe the planning conversation. This removes all the back-and-forth debate that would confuse execution.
   </Step>
   <Step>
-    **Execute the plan.** Focus on action, not debate.
+    **Execute the plan.** Paste the agreed plan and let Claude work. With clean context, it stays focused.
   </Step>
 </Steps>
 
-## Thinking Keywords
+Why clear between planning and execution? Because the planning conversation is full of "what about this?" and "no, actually do it this way." That noise degrades execution quality. A fresh context with just the final plan produces cleaner code.
 
-Use these when you want deeper reasoning without a full plan:
+## Extended Thinking Keywords
 
-- `think`
-- `think hard`
-- `think harder`
-- `ultrathink`
+Sometimes you don't need a full plan. You just need Claude to think more carefully about a tricky problem. That's where **thinking keywords** come in.
+
+These keywords trigger deeper reasoning:
+
+| Keyword | When to use it |
+| :-- | :-- |
+| `think` | Moderate complexity, needs more care than default |
+| `think hard` | Subtle bugs, architectural decisions |
+| `think harder` | Complex multi-system interactions |
+| `ultrathink` | Maximum reasoning depth, hardest problems |
+
+Each level uses more of your context budget but produces more thorough analysis. Start with `think` and escalate only when needed.
+
+<Callout title="Key Insight">
+Thinking keywords are about quality, not planning. Use them for "how should this work?" questions. Use planning mode for "what files need to change?" questions.
+</Callout>
 
 ## When Context Feels Noisy
 
-If Claude starts repeating itself or ignoring your constraints:
+You'll know context has gone stale when Claude starts:
 
-- Clear the session
-- Re-add only the two most relevant files
-- Restate the task in one paragraph
+- Repeating itself or contradicting earlier statements
+- Ignoring constraints you've already established
+- Producing code that doesn't match the patterns in your project
 
-## Key Takeaways
+When that happens, don't try to fix it mid-conversation. Reset:
 
-- Plan for anything that touches multiple files
-- Clear context before execution
-- Use thinking keywords for deep reasoning
+1. Clear the session with `/clear`
+2. Re-add only the one or two most relevant files
+3. Restate the task in a single, focused paragraph
+
+Think of it like restarting a confused GPS. Sometimes a fresh route calculation is faster than correcting a wrong turn.
+
+## Try It Yourself
+
+<Steps>
+  <Step>
+    **Practice the plan-clear-execute loop.** Pick a feature you've been meaning to add. Enter planning mode with Option+M, review the plan, then clear and execute.
+  </Step>
+  <Step>
+    **Test thinking keywords.** Take a bug you've been struggling with. First try `think` in your prompt. If the answer isn't thorough enough, try `think hard`. Notice how the reasoning depth changes.
+  </Step>
+  <Step>
+    **Intentionally break context.** Have a long conversation with Claude (10+ exchanges), then ask it to summarize what it's working on. If the summary is fuzzy, practice the reset: clear, re-add files, restate the task.
+  </Step>
+</Steps>
+
+## What You Learned
+
+- **Plan first** for any task touching multiple files. Use Option+M to toggle planning mode.
+- **Clear between planning and execution** to remove noisy debate from your context.
+- **Thinking keywords** (`think`, `think hard`, `think harder`, `ultrathink`) control reasoning depth without entering full planning mode.
+- **Reset aggressively** when context feels stale. A fresh start beats a patched conversation.

@@ -9,64 +9,95 @@ order: 13
 import { ClaudeCodeStack } from "@/components/visuals/ClaudeCodeStack"
 import { ChangelogScanChecklist } from "@/components/visuals/ChangelogScanChecklist"
 
-## How Claude Code is Structured
+## Software That Changes Every Week
 
-At a high level, Claude Code is:
+Claude Code is not a static tool. It ships updates weekly, sometimes multiple times a week. New models drop, agent features evolve, settings change names, and behaviors shift.
 
-- **A CLI** that manages sessions, settings, and auth
-- **A tool runtime** that executes Read/Edit/Bash and other actions
-- **An agent layer** for subagents and agent teams
-- **An MCP layer** that connects external tools
-- **A model layer** where you choose capability vs. cost
-- **A sandbox** that isolates risky commands
-
-Understanding this structure helps you predict where updates will land.
-
-<ClaudeCodeStack />
+This is exciting. It is also a source of breakage if you are not paying attention. A workflow that worked last Tuesday might need adjustment this Tuesday. This lesson teaches you how to understand the architecture beneath Claude Code, read changelogs efficiently, and adapt your workflow when things change.
 
 <InlineTOC />
 
-## How to Read the Changelog Fast
+## The Architecture: What Lives Where
 
-Don't read line-by-line. Scan for behavior changes:
+Understanding how Claude Code is structured helps you predict where updates will land and what they will affect.
 
-- New/changed commands and flags
-- Team and subagent behavior
-- Model defaults and alias behavior
-- Permission/sandbox updates
-- Cost or context handling updates
+<ClaudeCodeStack />
+
+At a high level, Claude Code is a stack of six layers:
+
+| Layer | What it does | What changes here |
+| :-- | :-- | :-- |
+| **CLI** | Manages sessions, settings, auth | New flags, settings structure |
+| **Tool runtime** | Executes Read, Edit, Bash, etc. | New tools, tool behavior changes |
+| **Agent layer** | Subagents and agent teams | Coordination logic, delegation |
+| **MCP layer** | Connects external tool servers | Protocol updates, new built-in servers |
+| **Model layer** | Routes to Claude models | New models, alias changes, pricing |
+| **Sandbox** | Isolates risky commands | Permission defaults, OS support |
+
+When you see a changelog entry, map it to a layer. "New `--plan` flag" is CLI. "Opus 4.6 available" is model layer. "Agent teams research preview" is agent layer. This tells you immediately what part of your workflow might be affected.
+
+<Callout type="info" title="Key Insight">
+Most breaking changes happen in the CLI and model layers. Settings rename, flags move, and model defaults shift. The tool runtime and sandbox are the most stable.
+</Callout>
+
+## How to Read a Changelog in 60 Seconds
+
+Do not read changelogs line by line. That is how you spend twenty minutes and retain nothing. Instead, scan for five categories:
 
 <ChangelogScanChecklist />
 
-## Last 10-Hour Snapshot (Feb 5, 2026)
+1. **New or changed commands and flags** - Will your scripts or muscle memory break?
+2. **Agent and subagent behavior** - Did delegation, team mode, or plan mode change?
+3. **Model defaults and aliases** - Did the default model change? Are there new options?
+4. **Permission and sandbox updates** - Do you need to re-approve anything?
+5. **Cost or context handling** - Did token limits, pricing, or compaction behavior change?
 
-This scan window ended on **February 5, 2026 at 19:20 UTC**.
+If none of these five categories have entries, the changelog is safe to skim and move on.
 
-### Release-level updates
+## The Staying Current Framework
 
-- **2026-02-05T17:47:04Z - `v2.1.32` shipped**
-- **Opus 4.6 became available** in Claude Code
-- **Agent teams (research preview)** landed behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
-- **Automatic memory behavior** was added (Claude records and recalls memories while working)
-- **"Summarize from here"** was added to support partial conversation summarization
+Staying current does not mean reading every release note the day it ships. It means having a rhythm that catches important changes before they bite you.
 
-### Docs-level updates in the same window
+<Steps>
+  <Step>
+    **Weekly scan.** Spend two minutes scanning the changelog once a week. Use the five-category filter above.
+  </Step>
+  <Step>
+    **Test after updates.** After Claude Code updates, run your most common workflow once. If something feels different, check the changelog.
+  </Step>
+  <Step>
+    **Update CLAUDE.md.** When a feature changes how you work, update your project instructions. This is how you "save" your adaptation.
+  </Step>
+  <Step>
+    **Share with your team.** If you work with others, share relevant changes in your team's channel. A one-line summary saves everyone else the scan.
+  </Step>
+</Steps>
 
-- **~17:50Z** updates to `agent-teams`, `sub-agents`, `cli-reference`, and core workflow docs
-- **~18:33Z** updates to `model-config`, `settings`, and `common-workflows`
-- Settings now explicitly document **`teammateMode`** and CLI `--teammate-mode`
-- Cost docs now explicitly call out that agent-team plan runs can use **~7x tokens** vs standard sessions
+## What Changed Recently
 
-## What To Change In Your Workflow Today
+This snapshot covers changes as of **February 5, 2026**.
 
-1. **Update your model strategy**
-Use aliases intentionally:
-- `opus` for complex architecture/reasoning
-- `sonnet` for day-to-day implementation
-- `opusplan` when you want Opus planning and Sonnet execution
+### Release Highlights
 
-2. **Enable agent teams deliberately**
-Only turn them on when collaboration between agents is needed:
+- **Opus 4.6** became available in Claude Code
+- **Agent teams** (research preview) landed behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+- **Automatic memory** was added (Claude records and recalls memories while working)
+- **Summarize from here** was added for partial conversation summarization
+- **Settings** now document `teammateMode` and `--teammate-mode` CLI flag
+- **Cost docs** explicitly note that agent-team runs can use roughly 7x tokens vs. standard sessions
+
+### What This Means for Your Workflow
+
+**Model strategy update.** Use aliases intentionally:
+
+| Alias | When to use |
+| :-- | :-- |
+| `opus` | Complex architecture, multi-step reasoning |
+| `sonnet` | Day-to-day implementation, teammate model |
+| `haiku` | Fast read-only tasks, quick lookups |
+| `opusplan` | Opus planning with Sonnet execution |
+
+**Agent teams.** Enable deliberately, not by default:
 
 ```json
 {
@@ -77,17 +108,36 @@ Only turn them on when collaboration between agents is needed:
 }
 ```
 
-3. **Treat lead sessions as orchestrators**
-When running teams, keep the lead coordinating and teammates executing.
+**Token awareness.** With teams using 7x tokens, keep team size small and prompts tight. Three focused teammates beat five unfocused ones.
 
-4. **Cap team size and keep prompts tight**
-Token usage scales per teammate context window, so smaller teams usually win.
+## Where to Check
 
-## Where to Check Updates
+These are the primary sources for staying current:
 
-- [Claude Code Changelog](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)
-- [Agent Teams](https://code.claude.com/docs/en/agent-teams)
-- [Subagents](https://code.claude.com/docs/en/sub-agents)
-- [Model Configuration](https://code.claude.com/docs/en/model-config)
-- [Claude Code Settings](https://code.claude.com/docs/en/settings)
-- [Costs](https://code.claude.com/docs/en/costs)
+- **Changelog** - The single source of truth for what shipped
+- **Agent Teams docs** - Evolving fast; check weekly if you use teams
+- **Model Configuration docs** - Model aliases and defaults
+- **Settings docs** - New settings and changed defaults
+- **Cost docs** - Pricing changes and token estimates
+
+## Try It Yourself
+
+<Steps>
+  <Step>
+    Open the Claude Code changelog right now. Using the five-category scan, identify the last change that would affect your workflow.
+  </Step>
+  <Step>
+    Check your `CLAUDE.md` file. Does it reference any settings, flags, or model names that might have changed? Update anything stale.
+  </Step>
+  <Step>
+    Set a weekly calendar reminder: "Scan Claude Code changelog (2 min)." Do this for four weeks and see if it catches something before it bites you.
+  </Step>
+</Steps>
+
+## What You Learned
+
+- Claude Code has six architectural layers; mapping changes to layers helps you assess impact
+- Five-category changelog scanning is faster and more effective than reading line by line
+- The Staying Current Framework: weekly scan, test after updates, update CLAUDE.md, share with team
+- Model strategy (opus/sonnet/haiku/opusplan) should be intentional, not default
+- Agent teams multiply token cost; enable deliberately and keep teams small

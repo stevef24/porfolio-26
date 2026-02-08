@@ -79,10 +79,10 @@ function ResourceItem({ resource }: { resource: Resource }): JSX.Element {
         />
       </div>
       <div className="flex-1 min-w-0">
-        <span className="text-[15px] text-foreground group-hover:text-primary transition-colors block truncate">
+        <span className="text-swiss-body text-foreground group-hover:text-primary transition-colors block truncate">
           {resource.label}
         </span>
-        <span className="text-[15px] text-foreground/50 mt-0.5 block truncate">
+        <span className="text-swiss-caption text-foreground/50 mt-0.5 block truncate">
           {type.charAt(0).toUpperCase() + type.slice(1)}
         </span>
       </div>
@@ -112,7 +112,7 @@ export function LessonResources({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.1 }}
     >
-      <h3 className="text-[15px] text-foreground/50 uppercase tracking-wide mb-4">
+      <h3 className="text-swiss-label text-foreground/50 mb-4">
         Lesson Resources
       </h3>
 

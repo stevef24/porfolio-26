@@ -8,49 +8,143 @@ order: 3
 
 import { SignalNoiseDial } from "@/components/visuals/SignalNoiseDial"
 
-## Context is a Budget
+## The Invisible Decay
 
-Claude Code doesn't remember everything - it remembers what fits. That means every file, command output, and instruction has a cost.
+Here's something that happens to everyone. You start a Claude Code session. The first few responses are crisp, accurate, exactly what you wanted. Twenty prompts later, Claude starts missing details. It forgets a convention you mentioned earlier. It edits a file you told it not to touch.
 
-When your budget is tight, you want signal, not noise.
+You didn't do anything wrong. Your context window got noisy.
 
-## What Fills the Window
+Understanding how this happens, and how to prevent it, is the difference between a frustrating tool and a productive one.
 
-- Conversation history
-- Files you've added
-- Tool outputs (commands, reads, searches)
-- `CLAUDE.md` instructions
-- Active skills/commands
+<InlineTOC />
 
-## Signal vs. Noise
+## How the Context Window Actually Works
 
-A useful context has one job: make the next response easier to get right. Anything that doesn't help that goal is noise.
+Think of the context window as a **conveyor belt** with a fixed length. New items (your prompts, Claude's responses, file contents, command outputs) are placed on one end. When the belt is full, items at the other end fall off.
 
-**Analogy:** Imagine a small studio desk. You only have room for the tools you're using right now. Everything else goes in a drawer.
+But it's not quite that simple. Claude Code uses a technique called **context compaction**. Instead of simply dropping old messages, it tries to summarize them. Think of it like compressing a photo: you keep the image, but you lose detail.
+
+This means:
+
+- **Recent messages** have full detail and fidelity
+- **Older messages** become summaries that may lose nuance
+- **Your `CLAUDE.md`** stays intact (it's re-injected each time)
+- **Large tool outputs** (like a 500-line file read) take a huge chunk of space
+
+<Callout type="info" title="Key Insight">
+Context decay is not a bug. It's a fundamental property of how language models work. The skill is learning to work with it, not against it.
+</Callout>
+
+## What Fills the Window (And How Much)
+
+Not all context items are equal in size. Here's a rough sense of the cost:
+
+| Item | Relative Size | Notes |
+|---|---|---|
+| Short prompt (1-2 sentences) | Small | Almost free |
+| Claude's response | Medium-Large | Claude is often verbose. Its own responses fill context fast |
+| File read (small file) | Medium | A 100-line file is reasonable |
+| File read (large file) | Very Large | A 1,000-line file is expensive. Avoid if possible |
+| Command output | Varies | A passing test suite? Small. A full stack trace? Large |
+| `CLAUDE.md` | Fixed | Always present, always costs the same |
+| Conversation history | Growing | This grows with every exchange |
+
+The key takeaway: **Claude's own responses are often the biggest context consumers.** A detailed explanation that takes 300 words is context you can't use for something else.
+
+## Signal vs. Noise in Practice
+
+Here's a concrete way to think about it. Every item in your context either helps Claude get the next response right (signal) or makes it harder (noise).
 
 <SignalNoiseDial />
 
-## Clear vs. Compact
+**High signal context looks like:**
+- The specific file with the bug, opened to the relevant section
+- A clear, one-sentence description of the expected vs. actual behavior
+- The exact error message from your terminal
 
-**Clear** is a reset. It removes the conversation but keeps `CLAUDE.md`.
+**Noisy context looks like:**
+- Three files you opened "just in case" but never referenced
+- A long discussion from five prompts ago about a different feature
+- Command output from a test suite where 47 of 48 tests passed (you only need the one that failed)
 
-**Compact** is a summary. It tries to keep the important details while shrinking the rest.
+The problem with noise isn't just that it takes up space. It actively confuses Claude. If you have three unrelated files open, Claude might make connections between them that don't exist, or apply a pattern from one file to another where it doesn't belong.
 
-**Practical rule:**
-- Use **Clear** between tasks
-- Use **Compact** only if you're mid-task and can't restart
+## Clear vs. Compact: The Two Reset Tools
 
-## Best Practices
+Claude Code gives you two ways to manage context buildup:
 
-- Plan first, then clear before execution
-- Add files intentionally, one or two at a time
-- Avoid re-adding big folders "just in case"
-- If it feels messy, reset the session
+**`/clear`** is a hard reset. It wipes the conversation history entirely. Your `CLAUDE.md` stays (it's re-loaded on the next prompt), but everything else is gone. It's like closing all your browser tabs and starting fresh.
 
-Longform community guides (including Everything Claude Code) consistently land on the same point: fewer, sharper inputs beat more context.
+**`/compact`** is a soft reset. It asks Claude to summarize the conversation so far into a condensed form, then replaces the full history with that summary. You keep the gist, but lose the details.
 
-## Key Takeaways
+### When to Use Which
 
-- Context is limited, and every item competes for space
-- Clear is safer than compact for new work
-- Clean context produces cleaner results
+| Situation | Use |
+|---|---|
+| Done with a task, starting something new | `/clear` |
+| Mid-task, context feels heavy but you need continuity | `/compact` |
+| Claude keeps forgetting or contradicting itself | `/clear` |
+| Long debugging session, want to preserve discoveries | `/compact` |
+| Not sure which one | `/clear` (it's almost always the right call) |
+
+<Callout type="warning" title="Compact Has a Cost">
+Compaction itself uses context. Claude has to read the full conversation to summarize it, and the summary itself takes space. If your context is already critical, compacting might not help enough. When in doubt, clear.
+</Callout>
+
+## The Context Budget Calculator
+
+Here's a mental exercise that will sharpen your instincts. Before you add something to context, ask:
+
+**"Is this worth the space it costs?"**
+
+Imagine you have 100 "context credits" per session. A rough allocation might look like:
+
+- `CLAUDE.md`: 10 credits (always spent)
+- Conversation history: 40 credits (grows over time)
+- File reads: 30 credits (your main working material)
+- Command outputs: 15 credits (test results, build output)
+- Buffer: 5 credits (Claude needs room to think)
+
+If you've used 95 credits and you're about to open a 500-line file, something has to give. Either clear the session, or be strategic about what you're reading.
+
+## Try It Yourself: Context Audit
+
+<Steps>
+  <Step>
+    **Start a Claude Code session** in a real project. Ask Claude to explain a part of your codebase. Have a normal back-and-forth for 8-10 prompts.
+  </Step>
+  <Step>
+    **Watch for decay.** After several exchanges, ask Claude to recall something specific from your first or second prompt. Can it? Or has it lost the detail?
+  </Step>
+  <Step>
+    **Try `/compact`.** After compacting, ask the same question. Notice what was preserved and what was lost in the summary.
+  </Step>
+  <Step>
+    **Now try `/clear` and restart.** Notice how the first response in a clean session is sharper than the tenth response in a cluttered one.
+  </Step>
+  <Step>
+    **Develop your instinct.** The next time Claude gives a response that feels "off," check how much context you've accumulated. Often, the fix is a fresh start, not a better prompt.
+  </Step>
+</Steps>
+
+## Practical Patterns for Clean Context
+
+These habits will save you from context decay in everyday work:
+
+**One task per session.** When you finish a feature, clear before starting the next one. Don't let unrelated context bleed across tasks.
+
+**Read files surgically.** Instead of "read the whole file," ask Claude to read specific functions or sections. "Read the `handleAuth` function in `src/auth.ts`" costs less than "read `src/auth.ts`."
+
+**Redirect verbose output.** If a command produces long output, pipe it to a file and have Claude read just the relevant portion. `pnpm test 2>&1 | tail -20` is better than the full test suite output.
+
+**Front-load your intent.** Put the most important information at the start of your prompt. If context gets compacted, the beginning of messages tends to survive better than the end.
+
+## What You Learned
+
+- **Context decays over time** as older messages get compacted and lose detail
+- **Claude's own responses** are often the biggest context consumers
+- **`/clear` is almost always better than `/compact`** for starting fresh work
+- **The context budget** is finite: every item competes for the same space
+- **Surgical file reads and focused prompts** keep your context sharp longer
+
+Next, you'll learn about the tools and permissions model. Understanding what Claude Code can actually do, and how to control it, is the key to trusting it with real work.

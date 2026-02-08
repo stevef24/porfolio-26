@@ -68,6 +68,11 @@
   --color-fd-accent: var(--accent);
   --color-fd-accent-foreground: var(--accent-foreground);
   --color-fd-ring: var(--ring);
+  /* Fumadocs Callout type colors - mapped to visual aid palette */
+  --color-fd-info: var(--va-blue);
+  --color-fd-warning: var(--va-yellow);
+  --color-fd-error: var(--destructive);
+  --color-fd-success: var(--va-cyan);
 }
 
 button,
@@ -92,6 +97,12 @@ button,
   --sf-text-tertiary: rgba(0, 0, 0, 0.44);
   --sf-border-default: rgba(0, 0, 0, 0.12);
   --sf-border-subtle: rgba(0, 0, 0, 0.08);
+
+  /* 4-Tier Typography Color Hierarchy */
+  --text-primary: rgba(0, 0, 0, 1);
+  --text-secondary: rgba(0, 0, 0, 0.72);
+  --text-tertiary: rgba(0, 0, 0, 0.48);
+  --text-quaternary: rgba(0, 0, 0, 0.32);
 
   /* Visual Aid Animation Accent Palette (Motion-inspired, OKLCH)
      Derived from motion.dev's 5-color system, toned for light mode legibility */
@@ -285,6 +296,12 @@ button,
   --sf-text-tertiary: rgba(255, 255, 255, 0.44);
   --sf-border-default: rgba(255, 255, 255, 0.12);
   --sf-border-subtle: rgba(255, 255, 255, 0.08);
+
+  /* 4-Tier Typography Color Hierarchy */
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.72);
+  --text-tertiary: rgba(255, 255, 255, 0.48);
+  --text-quaternary: rgba(255, 255, 255, 0.32);
 
   /* Visual Aid Animation Accent Palette (Motion-inspired, OKLCH)
      Brighter for dark backgrounds, lower chroma to avoid neon glare */
@@ -621,7 +638,7 @@ body {
   font-weight: 400; /* Instrument Serif only weight */
   line-height: 1.2;
   letter-spacing: -0.01em;
-  color: var(--foreground);
+  color: var(--text-primary);
 }
 
 /* Subheading - Section eyebrow labels
@@ -633,7 +650,7 @@ body {
   font-weight: 500; /* Medium weight */
   text-transform: uppercase;
   letter-spacing: 0.05em; /* Slight positive tracking */
-  color: var(--muted-foreground);
+  color: var(--text-tertiary);
 }
 
 /* Title - Card and article titles
@@ -645,7 +662,7 @@ body {
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--foreground);
+  color: var(--text-primary);
 }
 
 /* Body - Standard paragraphs
@@ -656,7 +673,7 @@ body {
   font-size: 1rem; /* 16px - Oatmeal body.md */
   font-weight: 400;
   line-height: 1.5; /* Comfortable reading per Oatmeal */
-  color: var(--muted-foreground);
+  color: var(--text-secondary);
 }
 
 /* Body Large - Lead paragraphs
@@ -667,7 +684,7 @@ body {
   font-size: 1.25rem; /* 20px - Oatmeal body.lg */
   font-weight: 400;
   line-height: 1.5;
-  color: var(--muted-foreground);
+  color: var(--text-secondary);
 }
 
 /* Label - Metadata and utility text
@@ -679,7 +696,7 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--muted-foreground);
+  color: var(--text-tertiary);
 }
 
 /* Caption - Supplementary text
@@ -690,7 +707,7 @@ body {
   font-size: 0.875rem; /* 14px - Oatmeal body.sm */
   font-weight: 400;
   line-height: 1.5;
-  color: var(--muted-foreground);
+  color: var(--text-tertiary);
 }
 
 /* Meta - Compact auxiliary labels
@@ -702,7 +719,7 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--muted-foreground);
+  color: var(--text-quaternary);
 }
 
 /* Section Heading - Large section titles
@@ -714,7 +731,7 @@ body {
   font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: var(--foreground);
+  color: var(--text-primary);
 }
 
 /* Code - JetBrains Mono for all code elements */
@@ -862,13 +879,13 @@ samp,
    ═══════════════════════════════════════════════════════════════════ */
 
 .prose {
-  --tw-prose-body: var(--muted-foreground);
-  --tw-prose-headings: var(--foreground);
-  --tw-prose-links: var(--foreground);
+  --tw-prose-body: var(--text-secondary);
+  --tw-prose-headings: var(--text-primary);
+  --tw-prose-links: var(--text-primary);
   font-family: var(--font-sans), system-ui, sans-serif;
   font-size: 1.0625rem; /* 17px - slightly larger for comfort */
   line-height: 1.65;
-  color: var(--foreground);
+  color: var(--text-secondary);
 }
 
 /* Prose Headings - Weight-based hierarchy at body size (17px)
@@ -879,7 +896,7 @@ samp,
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.4;
-  color: var(--foreground);
+  color: var(--text-primary);
   margin-top: 2.5em;
   margin-bottom: 0.75em;
 }
@@ -890,7 +907,7 @@ samp,
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.4;
-  color: var(--foreground);
+  color: var(--text-primary);
   margin-top: 2em;
   margin-bottom: 0.5em;
 }
@@ -901,7 +918,7 @@ samp,
   font-weight: 550; /* slightly lighter than h1/h2 */
   letter-spacing: -0.01em;
   line-height: 1.4;
-  color: var(--foreground);
+  color: var(--text-primary);
   margin-top: 1.5em;
   margin-bottom: 0.5em;
 }
@@ -912,7 +929,7 @@ samp,
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.4;
-  color: color-mix(in oklch, var(--foreground) 80%, transparent);
+  color: var(--text-secondary);
   margin-top: 1.25em;
   margin-bottom: 0.5em;
 }
@@ -930,10 +947,18 @@ samp,
 .prose p {
   margin-bottom: 1.5em;
   line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+/* Prose small/caption elements → tertiary */
+.prose small,
+.prose caption,
+.prose figcaption {
+  color: var(--text-tertiary);
 }
 
 .prose a {
-  color: var(--foreground);
+  color: var(--text-primary);
   text-decoration: underline;
   text-underline-offset: 2px;
   transition:
@@ -942,8 +967,8 @@ samp,
 }
 
 .prose a:hover {
-  color: var(--foreground);
-  text-decoration-color: var(--foreground);
+  color: var(--text-primary);
+  text-decoration-color: var(--text-primary);
 }
 
 .prose a:focus-visible {
@@ -967,10 +992,10 @@ samp,
 .prose blockquote {
   font-style: italic;
   font-size: 1.25rem;
-  border-left: 3px solid var(--foreground);
+  border-left: 3px solid var(--text-quaternary);
   padding-left: 1.5em;
   margin: 2em 0;
-  color: var(--muted-foreground);
+  color: var(--text-tertiary);
 }
 
 /* Prose Code - inline only (not inside pre blocks) */
@@ -1023,7 +1048,12 @@ samp,
 
 .prose img {
   border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   margin: 2rem 0;
+}
+
+.dark .prose img {
+  border-color: rgba(255, 255, 255, 0.06);
 }
 
 .prose ul,
@@ -1034,13 +1064,55 @@ samp,
 
 .prose li {
   margin: 0.5em 0;
+  color: var(--text-secondary);
 }
 
 .prose hr {
   border: none;
   height: 1px;
-  background: var(--border);
+  background: rgba(0, 0, 0, 0.08);
   margin: 3rem 0;
+}
+
+.dark .prose hr {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Prose Tables */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  margin: 1.5rem 0;
+}
+
+.prose thead th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  border-bottom: 1px solid var(--border);
+  padding: 0.625rem 0.75rem;
+}
+
+.prose tbody td {
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  color: var(--text-secondary);
+}
+
+.dark .prose tbody td {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.prose tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.dark .prose tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 /* =====================================================

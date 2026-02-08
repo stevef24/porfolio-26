@@ -1,0 +1,122 @@
+---
+title: "Appendix: Resources"
+description: Official docs and links used in this course.
+duration: 10m
+module: Changelog & Infrastructure
+order: 14
+resources:
+  - label: Claude Code Documentation
+    url: https://docs.anthropic.com/en/docs/claude-code
+  - label: Claude Code CLI Reference
+    url: https://docs.anthropic.com/en/docs/claude-code/cli-reference
+  - label: Claude Code Changelog
+    url: https://docs.anthropic.com/en/docs/claude-code/changelog
+  - label: Claude Code GitHub
+    url: https://github.com/anthropics/claude-code
+  - label: MCP Specification
+    url: https://modelcontextprotocol.io
+  - label: Anthropic API Reference
+    url: https://docs.anthropic.com/en/api
+---
+
+## Your Reference Library
+
+This appendix collects every resource referenced in this course, organized by category. Bookmark the ones you use most. Ignore the rest until you need them.
+
+<InlineTOC />
+
+## Core Documentation
+
+These are the docs you will reach for most often. If you bookmark nothing else, bookmark these.
+
+| Resource | What it covers | When to use it |
+| :-- | :-- | :-- |
+| **Claude Code Docs** | Complete feature documentation | First stop for "how does X work?" |
+| **CLI Reference** | Every command, flag, and option | When you need exact syntax |
+| **Changelog** | What shipped and when | Weekly scan (see Lesson 13) |
+| **Settings Reference** | All configuration options | When setting up a new project |
+
+## Agent & Orchestration
+
+These docs matter once you move beyond single-session work.
+
+| Resource | What it covers |
+| :-- | :-- |
+| **Agent Teams** | Team topology, lead/teammate roles, delegation |
+| **Subagents** | Custom agents, built-in agents, scoping |
+| **Model Configuration** | Model aliases, routing, cost/capability tradeoffs |
+| **Cost Documentation** | Token estimates, team multipliers, optimization |
+
+<Callout type="info" title="Key Insight">
+The Agent Teams docs are evolving fast. If you use teams regularly, check these weekly alongside the changelog.
+</Callout>
+
+## Configuration & Setup
+
+| Resource | What it covers |
+| :-- | :-- |
+| **CLAUDE.md Guide** | Project instructions, conventions, what to include |
+| **Hooks Documentation** | Event-driven automation, safety hooks |
+| **Permissions & Safety** | Permission modes, sandbox, tool approval |
+| **MCP Specification** | Model Context Protocol for external tools |
+
+## Learning by Lesson
+
+Each lesson in this course maps to specific documentation. Use this table when you want to go deeper on a topic.
+
+| Lesson | Primary docs |
+| :-- | :-- |
+| 00 - Context Primer | Context window docs, compaction |
+| 01 - Introduction & Setup | Installation, getting started |
+| 02 - CLAUDE.md & Init | CLAUDE.md guide, project setup |
+| 03 - Understanding Context | Context management, memory |
+| 04 - Tools & Permissions | Tool reference, permission modes |
+| 05 - Planning & Thinking | Plan mode, extended thinking |
+| 06 - Slash Commands | CLI reference, custom commands |
+| 07 - MCP Servers | MCP specification, server setup |
+| 08 - Subagents | Subagent docs, custom agents |
+| 09 - GitHub Integration | Git workflows, PR automation |
+| 10 - Hooks & Automation | Hooks docs, lifecycle events |
+| 11 - Advanced Patterns | Agent teams, session management |
+| 12 - Best Practices | Settings, cost optimization |
+| 13 - Changelog & Infrastructure | Changelog, architecture |
+
+## Community & Support
+
+| Resource | Description |
+| :-- | :-- |
+| **Claude Code GitHub** | Issues, discussions, source of truth for bugs |
+| **Anthropic Discord** | Community discussions, tips, shared workflows |
+| **Anthropic Blog** | Feature announcements, deep dives |
+| **MCP Hub** | Community-built MCP servers and tools |
+
+## How to Use This Appendix
+
+This is a reference page, not a reading assignment. Here is how to get the most from it:
+
+<Steps>
+  <Step>
+    **Bookmark the Core Docs.** The four resources in the Core Documentation table cover 80% of what you will look up.
+  </Step>
+  <Step>
+    **Use the Lesson Map.** When you want to go deeper on a lesson topic, find it in the table and follow the linked docs.
+  </Step>
+  <Step>
+    **Check Agent Docs Weekly.** If you use agent teams or subagents, these docs change frequently.
+  </Step>
+  <Step>
+    **Contribute Back.** Found a bug? File it on GitHub. Built a useful MCP server? Share it. The community benefits from active participation.
+  </Step>
+</Steps>
+
+## What You Learned (In This Whole Course)
+
+You started with context windows and ended with production agent teams. Here is what you now know:
+
+- **Context is everything.** Clean context produces clean output. Every lesson built on this foundation.
+- **CLAUDE.md is your project's brain.** It tells Claude how to behave in your codebase.
+- **Tools have tradeoffs.** Permission modes, model choices, and agent patterns all balance capability against cost and risk.
+- **Automation earns its keep.** Hooks, subagents, and teams automate the repetitive so you can focus on the creative.
+- **Stay current.** Claude Code evolves fast. A weekly changelog scan keeps you ahead of breaking changes.
+
+The best way to get better is to use it. Pick a real task, apply what you have learned, and iterate. Every session makes you sharper.

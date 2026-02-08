@@ -72,9 +72,13 @@ export default async function CourseOverviewPage(props: {
   const courseName = (overviewPage.data.title as string) || params.slug;
 
   const Mdx = overviewPage.data.body;
-  const tocItems =
-    (overviewPage.data as { toc?: Array<{ title: string; url: string; depth: number }> })
-      .toc || [];
+  const overviewMeta = overviewPage.data as {
+    toc?: Array<{ title: string; url: string; depth: number }>;
+    difficulty?: string;
+    duration?: string;
+    tags?: string[];
+  };
+  const tocItems = overviewMeta.toc || [];
 
   return (
     <CourseShell
@@ -85,12 +89,48 @@ export default async function CourseOverviewPage(props: {
       <article className="py-8 lg:py-6">
         {/* Header */}
         <header className="mb-8">
-          <p className="text-[15px] text-foreground/50 mb-3">Course Overview</p>
-          <h1 className="text-[15px] text-foreground font-medium mb-3">{overviewPage.data.title}</h1>
+          <p className="text-swiss-label text-foreground/50 mb-3">Course Overview</p>
+          <h1 className="text-swiss-body text-foreground font-medium mb-3">{overviewPage.data.title}</h1>
           {overviewPage.data.description && (
-            <p className="text-[15px] text-foreground/60 leading-relaxed max-w-xl mb-6">
+            <p className="text-swiss-body text-foreground/60 leading-relaxed max-w-xl mb-4">
               {overviewPage.data.description}
             </p>
+          )}
+
+          {/* Metadata bar */}
+          {(overviewMeta.difficulty || overviewMeta.duration || lessonPages.length > 0 || (overviewMeta.tags && overviewMeta.tags.length > 0)) && (
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6">
+              {overviewMeta.difficulty && (
+                <span className="text-swiss-caption text-foreground/50">{overviewMeta.difficulty}</span>
+              )}
+              {overviewMeta.difficulty && overviewMeta.duration && (
+                <span className="text-swiss-caption text-foreground/30">&middot;</span>
+              )}
+              {overviewMeta.duration && (
+                <span className="text-swiss-caption text-foreground/50">{overviewMeta.duration}</span>
+              )}
+              {(overviewMeta.difficulty || overviewMeta.duration) && lessonPages.length > 0 && (
+                <span className="text-swiss-caption text-foreground/30">&middot;</span>
+              )}
+              {lessonPages.length > 0 && (
+                <span className="text-swiss-caption text-foreground/50">
+                  {lessonPages.length} {lessonPages.length === 1 ? "lesson" : "lessons"}
+                </span>
+              )}
+              {overviewMeta.tags && overviewMeta.tags.length > 0 && (
+                <>
+                  <span className="text-swiss-caption text-foreground/30">&middot;</span>
+                  {overviewMeta.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-swiss-caption text-foreground/50 bg-foreground/5 px-1.5 py-0.5"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </>
+              )}
+            </div>
           )}
 
           {/* Progress and CTA */}

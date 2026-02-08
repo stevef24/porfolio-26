@@ -6,40 +6,101 @@ module: Core Features
 order: 6
 ---
 
-## Why Slash Commands Matter
+<InlineTOC />
 
-Slash commands are the control panel for Claude Code. They're how you reset context, switch models, and manage integrations - fast.
+## Your Command Line Within the Command Line
 
-## The Top 6 I Use Constantly
+You already know keyboard shortcuts speed up your editor. Slash commands do the same thing for Claude Code. They're single-word instructions that control session state, switch models, manage tools, and more.
 
-1. `/clear` - wipe the conversation, keep `CLAUDE.md`
-2. `/compact [instructions]` - summarize when you're mid-task
-3. `/model` - switch models for the task at hand
-4. `/permissions` - adjust what Claude can do
-5. `/mcp` - manage MCP servers and auth
-6. `/add-dir` - add another directory to the workspace
+But here's the thing most people miss: **you don't need to memorize all of them.** There are about twenty slash commands. You'll use six of them constantly and the rest almost never.
 
-<Callout type="info" title="Note">
-Use `/compact` sparingly. A clean restart beats a messy summary most of the time.
+Let's focus on what actually matters.
+
+## The Commands You'll Use Every Day
+
+These six commands handle 90% of your workflow control:
+
+| Command | What it does | When to use it |
+| :-- | :-- | :-- |
+| `/clear` | Wipes conversation, keeps `CLAUDE.md` | Switching tasks or resetting stale context |
+| `/compact` | Summarizes conversation to free space | Mid-task when context is getting full |
+| `/model` | Switch between Haiku, Sonnet, Opus | Match model power to task difficulty |
+| `/permissions` | Adjust what Claude can do | Tighten or loosen tool access per project |
+| `/mcp` | Manage MCP server connections | Check status, reconnect, toggle servers |
+| `/add-dir` | Add another directory to the workspace | When your task spans multiple projects |
+
+That's it. Master these six and you'll cover almost every session control need.
+
+<Callout title="Key Insight">
+`/clear` is the most underused command. Developers often try to "fix" a confused conversation by adding more instructions. A clean slate is almost always faster.
 </Callout>
 
-## Also Useful (But Less Frequent)
+## The Commands You'll Use Sometimes
 
-- `/init` - generate a starter `CLAUDE.md`
-- `/config` - open the settings UI
-- `/cost` - check token usage
-- `/doctor` - health check when things feel off
-- `/login` / `/logout` - account management
+These are worth knowing but not memorizing. Glance at this list when you need them:
 
-## When to Use What
+| Command | What it does |
+| :-- | :-- |
+| `/init` | Generate a starter `CLAUDE.md` for a new project |
+| `/config` | Open the settings UI |
+| `/cost` | Check how many tokens you've used this session |
+| `/doctor` | Run a health check when something feels off |
+| `/login` / `/logout` | Account management |
+| `/review` | Ask Claude to review recent changes |
+| `/agents` | Create or manage custom subagents |
+| `/terminal-setup` | Configure terminal integration |
 
-If you remember nothing else:
-- Switching tasks? Use `/clear`.
-- Deep reasoning? Switch to a stronger model.
-- New tools? Add MCP only when needed.
+## Decision Framework: Which Command Do I Need?
 
-## Key Takeaways
+When you're mid-session and something feels wrong, ask yourself:
 
-- Slash commands keep your workflow fast
-- Master a small set and ignore the rest
-- Commands are part of your context budget too
+**"Is Claude confused about what I want?"**
+- Yes, and we just started a new task: `/clear`
+- Yes, but I'm deep into the current task: `/compact` with a focusing instruction
+- No, the output quality is just low: `/model` to switch to a stronger model
+
+**"Is a tool not working?"**
+- MCP server issue: `/mcp` to check status
+- Permission denied: `/permissions` to adjust access
+- General weirdness: `/doctor` to diagnose
+
+**"Am I running out of context space?"**
+- Early in the task: `/clear` and restart with fewer files
+- Deep into a multi-step task: `/compact` to summarize and continue
+
+## Model Switching Strategy
+
+`/model` deserves special attention. Different tasks benefit from different models:
+
+| Task type | Recommended model |
+| :-- | :-- |
+| Quick edits, renames, simple questions | **Haiku** (fast, cheap) |
+| Standard feature work, bug fixes | **Sonnet** (balanced) |
+| Architecture decisions, complex refactors | **Opus** (deep reasoning) |
+
+You can switch models mid-conversation. This is powerful: start with Sonnet for exploration, switch to Opus for the hard architectural decision, then back to Sonnet for implementation.
+
+<Callout title="Key Insight">
+Model switching is about matching power to difficulty. Using Opus for a typo fix wastes tokens. Using Haiku for a complex refactor wastes time. Think of it like choosing the right tool from a toolbox.
+</Callout>
+
+## Try It Yourself
+
+<Steps>
+  <Step>
+    **Build the `/clear` habit.** For your next three tasks, start each one with `/clear`. Notice how much cleaner the first response is when Claude doesn't have leftover context from something unrelated.
+  </Step>
+  <Step>
+    **Practice model switching.** Start a conversation with Sonnet, ask an architectural question, then switch to Opus with `/model` and ask the same question. Compare the depth of reasoning.
+  </Step>
+  <Step>
+    **Create your own workflow.** Write down the three commands you think you'll use most. Pin them somewhere visible for a week. After a week, check: were they the ones you actually used?
+  </Step>
+</Steps>
+
+## What You Learned
+
+- **Six commands** (`/clear`, `/compact`, `/model`, `/permissions`, `/mcp`, `/add-dir`) cover 90% of workflow control.
+- **`/clear` is your most powerful tool** for maintaining clean context between tasks.
+- **Model switching** with `/model` lets you match reasoning power to task difficulty.
+- **You don't need to memorize everything.** Learn the core six, look up the rest when needed.

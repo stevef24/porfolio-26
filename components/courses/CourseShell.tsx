@@ -10,6 +10,7 @@ import { LessonTOC, type TOCItem } from "@/components/courses/LessonTOC";
 import { MobileTOCFAB } from "@/components/courses/MobileTOCFAB";
 import { MobileTOCSheet } from "@/components/courses/MobileTOCSheet";
 import { SidebarToggle } from "@/components/courses/SidebarToggle";
+import { CommandPalette } from "@/components/courses/CommandPalette";
 import { cn } from "@/lib/utils";
 import { springSnappy } from "@/lib/motion-variants";
 
@@ -169,6 +170,9 @@ export function CourseShell({
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Command palette - Cmd+K search */}
+      <CommandPalette courseSlug={courseSlug} lessons={lessons} />
+
       {/* Global header */}
       <Header />
 

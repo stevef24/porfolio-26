@@ -6,64 +6,185 @@ module: Foundations
 order: 2
 ---
 
-## Why CLAUDE.md Exists
+## The Problem With Starting Over
 
-Claude Code starts every session fresh. `CLAUDE.md` is how you teach it your project's DNA - once - so you don't repeat yourself every time.
+Every time you open a new Claude Code session, it starts with a blank slate. No memory of yesterday's conversation. No knowledge of your project's quirks. No idea that you use pnpm, not npm, or that your tests live in `__tests__`, not `tests`.
 
-The trick is to keep it lean. This file is always loaded, so anything you add competes with the rest of your context budget.
+You could re-explain all of this every single session. Or you could write it down once.
+
+That's what **`CLAUDE.md`** is: a persistent instruction file that gets loaded into context automatically, every time Claude Code starts in your project.
+
+<InlineTOC />
+
+## What CLAUDE.md Actually Does
+
+When Claude Code launches, it looks for a `CLAUDE.md` file in your project root. If it finds one, it loads the entire contents into the context window before you type a single prompt.
+
+This means two things:
+
+1. **Everything in `CLAUDE.md` is always present.** It competes with your conversation for context space. A 2,000-word `CLAUDE.md` leaves less room for everything else.
+
+2. **It applies to every session.** This is the place for project-wide invariants, not one-off task instructions.
+
+<Callout type="info" title="Key Insight">
+Think of `CLAUDE.md` as your project's constitution, not its diary. It should contain the rules that never change, not the details of what you're working on today.
+</Callout>
 
 ## The Fastest Way to Start
+
+Claude Code can draft a `CLAUDE.md` for you:
 
 ```
 /init
 ```
 
-Claude will scan your repo and draft a starter file. Your job is to trim and clarify.
+This scans your repo structure, your package manager, your framework, and your existing config files. It produces a reasonable first draft.
+
+But here's the important part: **your job is to trim it**, not to accept it as-is. The auto-generated version is almost always too long. Delete anything that's obvious (Claude already knows what React is) and keep only what's specific to your project.
 
 ## A Minimal, High-Signal Example
 
+Here's a `CLAUDE.md` that actually works. Notice how short it is.
+
 ```markdown
-# Project Name
+# My Portfolio
 
-Short description of what this project does.
-
-## Stack
-- Next.js 16
-- TypeScript
-- Tailwind
+Personal portfolio built with Next.js 16, TypeScript, Tailwind.
 
 ## Commands
-- pnpm dev
-- pnpm test
+- pnpm dev (port 3000)
 - pnpm build
+- pnpm test
 
 ## Conventions
-- Components in PascalCase
-- Utilities in camelCase
+- Components: PascalCase, one per file
+- Utilities: camelCase
 - No `any` types
+- Always use `cn()` from lib/utils for conditional classes
+
+## Architecture
+- lib/source.ts is SERVER-ONLY (uses fs/promises)
+- Never import lib/source.ts in "use client" components
+- Animations use motion/react with spring presets from lib/motion-variants.ts
 
 ## Never Do
-- Don't write to `.env`
-- Don't run destructive commands
+- Don't modify .env files
+- Don't run destructive git commands (push --force, reset --hard)
+- Don't add new dependencies without asking
 ```
 
-## Always-On vs. Dynamic Context
+Every line here is something Claude would get wrong without being told. That's the bar. If Claude would figure it out on its own by reading your code, leave it out.
 
-Some context is permanent (`CLAUDE.md`). Some should be injected only when needed (specific files or one-off instructions). Overloading `CLAUDE.md` makes every session heavier than it needs to be.
+## Before and After: Real CLAUDE.md Edits
 
-**Rule of thumb:**
-- Put invariants in `CLAUDE.md`
-- Put task details in your prompt or files you add
+**Before (too long, too obvious):**
+
+```markdown
+## Tech Stack
+- React: A JavaScript library for building user interfaces
+- TypeScript: A typed superset of JavaScript
+- Tailwind CSS: A utility-first CSS framework
+- Next.js: A React framework for production applications
+
+## What is this project?
+This project is a web application that serves as a portfolio website.
+It was created in January 2025 and has been actively developed since then.
+The project uses modern web technologies and follows best practices...
+```
+
+Claude already knows what React and TypeScript are. And it can figure out what your project does by reading the code. This is pure noise.
+
+**After (lean, specific):**
+
+```markdown
+## Stack
+Next.js 16, TypeScript strict, Tailwind 4, Motion (framer-motion v12)
+
+## Critical
+- lib/source.ts is server-only (fs/promises). Never import in client components.
+- All animations must check useReducedMotion() for accessibility.
+```
+
+Two lines of high-signal information that prevent real mistakes.
+
+## Always-On vs. Task Context
+
+This is a distinction that will save you enormous frustration.
+
+**Always-on context** (`CLAUDE.md`) is for invariants: your tech stack, your naming conventions, your "never do" rules. These apply to every task, every session.
+
+**Task context** is for the specific thing you're working on right now. It goes in your prompt, not in `CLAUDE.md`.
+
+| Goes in CLAUDE.md | Goes in your prompt |
+|---|---|
+| "We use pnpm, not npm" | "Fix the login bug in auth.ts" |
+| "No `any` types" | "Here's the error message I'm seeing" |
+| "Server components can't use hooks" | "Add a search feature to the blog" |
+| "Run tests before committing" | "The test on line 42 is failing" |
+
+<Callout type="warning" title="Common Mistake">
+Don't put task-specific instructions in `CLAUDE.md`. They'll pollute every future session and waste context budget on information that's only relevant once.
+</Callout>
 
 ## What to Keep Out
 
-- Long architecture docs
-- Entire API references
-- One-off task details
-- Outdated instructions
+These items seem helpful but actually hurt:
 
-## Key Takeaways
+- **Long architecture docs.** Link to them instead, or summarize in two lines.
+- **Entire API references.** Claude can read the files when it needs them.
+- **One-off task details.** These belong in your prompt.
+- **Outdated instructions.** Old rules that no longer apply cause confused output.
+- **Obvious information.** Don't explain what TypeScript is to a model that was trained on millions of TypeScript files.
 
-- `CLAUDE.md` is the smallest set of instructions that should always apply
-- Use `/init`, then delete more than you add
-- Save "task context" for the prompt, not the file
+## The CLAUDE.md Hierarchy
+
+Claude Code actually checks for `CLAUDE.md` files in multiple locations, in this priority order:
+
+1. **`~/.claude/CLAUDE.md`** - Your global instructions (applies to all projects)
+2. **`./CLAUDE.md`** - Project root (most common)
+3. **`./subdirectory/CLAUDE.md`** - Subdirectory-specific rules (applies when working in that directory)
+
+This means you can put global preferences (like "always explain before editing") in your home directory and project-specific rules in each repo.
+
+## Try It Yourself
+
+<Steps>
+  <Step>
+    **Open a project** in Claude Code and run `/init`. Let it generate the first draft.
+  </Step>
+  <Step>
+    **Read the generated file carefully.** Highlight every line that Claude would figure out on its own. Delete those lines.
+  </Step>
+  <Step>
+    **Add your "never do" rules.** What has Claude (or any AI tool) gotten wrong in your project before? Write those down.
+  </Step>
+  <Step>
+    **Add your critical architecture notes.** What server/client boundaries, special file conventions, or naming rules exist?
+  </Step>
+  <Step>
+    **Count the lines.** If your `CLAUDE.md` is over 50 lines, it's probably too long. Cut more.
+  </Step>
+  <Step>
+    **Test it.** Start a fresh session and ask Claude to do something in your project. Does it follow the rules without being reminded?
+  </Step>
+</Steps>
+
+## Decision Framework: Does This Belong in CLAUDE.md?
+
+Ask these three questions about any instruction you're considering:
+
+1. **Does this apply to every session?** If no, put it in your prompt instead.
+2. **Would Claude get this wrong without being told?** If no, leave it out.
+3. **Is this still accurate?** If no, update or remove it.
+
+If the answer to all three is yes, it belongs in `CLAUDE.md`.
+
+## What You Learned
+
+- **`CLAUDE.md` is your project's constitution** - always loaded, always present in context
+- **`/init` gets you started**, but your real job is cutting it down
+- **Lean beats long.** Every unnecessary line wastes context budget
+- **Invariants go in `CLAUDE.md`**, task details go in your prompt
+- **The hierarchy** (global, project, subdirectory) lets you layer instructions
+
+Next, you'll dive deeper into how context actually works inside Claude Code, including practical techniques for managing your context budget during long sessions.

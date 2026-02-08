@@ -8,86 +8,168 @@ order: 11
 
 import { SessionMemoryNote } from "@/components/visuals/SessionMemoryNote"
 
-## Pattern 1: Pick the Right Topology First
+## The Difference Between a Demo and a Production Workflow
 
-Before prompting, choose the smallest orchestration unit that fits the work:
+You have seen Claude Code do impressive things in a single session. It reads files, writes code, runs tests. But single-session demos hide a hard truth: real projects span days, involve multiple people, and require coordination.
 
-| Work shape | Best fit |
-| :-- | :-- |
-| Single task, single code path | Main session |
-| Focused delegated task | Subagent |
-| Multi-role parallel collaboration | Agent team |
-
-Most failures come from picking the wrong topology, not bad prompting.
+This lesson is about the patterns that survive contact with reality. These are the workflows that teams actually use when the project is big, the stakes are real, and "just ask Claude" is not a strategy.
 
 <InlineTOC />
 
-## Pattern 2: Lead-Only Orchestration in Team Runs
+## Pattern 1: Choose Your Topology First
 
-When you run an agent team, keep the lead focused on coordination:
+Before you write a single prompt, answer one question: **how many agents need to coordinate?**
 
-- Turn on delegate mode (`Shift+Tab` cycle when team mode is active)
-- Let teammates implement; lead assigns, reviews, and synthesizes
+| Work shape | Best fit | Why |
+| :-- | :-- | :-- |
+| Single task, single code path | Main session | No overhead, full context |
+| Focused delegated task | Subagent | Isolated context, clean handoff |
+| Multi-role parallel work | Agent team | Peer communication, shared goals |
+
+Most failures come from picking the wrong topology, not from bad prompting. If you use an agent team for a task that a single session could handle, you are paying 3-7x the tokens for coordination overhead you do not need.
+
+<Callout type="info" title="Key Insight">
+Start with the simplest topology that fits. Upgrade only when you hit a wall that coordination would solve.
+</Callout>
+
+## Pattern 2: Lead-Only Orchestration
+
+When you do run an agent team, the lead agent's job is **not** to write code. Its job is to coordinate.
+
+Think of a construction site. The foreman does not lay bricks. The foreman decides which crew works on which wall, checks quality, and resolves conflicts. Your lead agent should work the same way.
+
+In practice:
+
+- Enable **delegate mode** (`Shift+Tab` when team mode is active) so the lead delegates instead of implementing
+- Let teammates implement, test, and self-review
+- The lead assigns tasks, reviews output, and synthesizes results
 - Use direct teammate messaging only to unblock or redirect
 
-This reduces lead-side thrash and improves consistency.
+This one change, keeping the lead out of implementation, dramatically reduces thrash and improves consistency.
 
-## Pattern 3: Plan-Gated Teammates for Risky Changes
+## Pattern 3: Plan-Gated Teammates
 
-For auth, billing, schema, or infra edits, require teammates to plan before implementation.
-
-Prompt pattern:
+Some changes are too risky for "implement first, review later." Authentication flows, billing logic, database migrations, infrastructure changes. For these, require teammates to submit a plan before writing code.
 
 ```text
-Create an agent team for this refactor.
+Create an agent team for this auth refactor.
 Require plan approval before any teammate writes code.
 Only approve plans that include tests and rollback notes.
 ```
 
-This keeps parallel speed without losing architectural control.
+The lead reviews each plan before approving implementation. This keeps parallel speed without losing architectural control.
+
+### When to Gate vs. When to Trust
+
+| Change type | Gate? | Reasoning |
+| :-- | :-- | :-- |
+| UI tweaks, copy changes | No | Low risk, easy to revert |
+| New API endpoints | Maybe | Depends on auth surface |
+| Auth, billing, permissions | Yes | High blast radius |
+| Database schema changes | Yes | Hard to roll back |
+| Deleting code or files | Yes | Information loss |
 
 ## Pattern 4: Session Memory Files
 
-When a task spans multiple sessions, save a handoff summary:
-
 <SessionMemoryNote />
+
+A single Claude Code session has a context limit. When a task spans multiple sessions, you lose continuity. The fix is a **session memory file**: a structured handoff document that tells the next session everything it needs to know.
 
 ```
 .claude/sessions/2026-02-05-auth-refactor.md
 ```
 
-Include:
-- what changed
-- what failed
-- what is next
+Include three things, and only three things:
 
-Next session, attach this file instead of re-explaining the whole history.
+1. **What changed** - files modified, decisions made
+2. **What failed** - approaches that did not work and why
+3. **What is next** - the immediate next step, not the whole roadmap
+
+Next session, attach this file instead of re-explaining the whole history. Claude picks up right where you left off.
+
+<Callout type="info" title="Key Insight">
+The "what failed" section is the most valuable part. It prevents the next session from repeating dead-end approaches.
+</Callout>
 
 ## Pattern 5: Conflict-Proof Parallelism
 
-Parallel execution fails when teammates edit the same files.
+Parallel execution breaks when two teammates edit the same file. The merge conflicts waste more time than the parallelism saved.
 
-Use file ownership in task prompts:
+The fix is **file ownership boundaries** in your task prompts:
 
-- teammate A owns `app/api/**`
-- teammate B owns `lib/auth/**`
-- teammate C owns tests and docs only
+```text
+teammate-a owns app/api/** -- all API routes
+teammate-b owns lib/auth/** -- auth utilities
+teammate-c owns tests and docs only -- no source edits
+```
 
-Ask the lead to enforce ownership boundaries before merges.
+Ask the lead to enforce these boundaries before merging. If a teammate needs to edit outside their scope, they message the owner instead of editing directly.
 
-## Pattern 6: Verification Loops With Named Owners
+This is not bureaucracy. It is the same principle behind database locking: concurrent writes need coordination.
 
-For each teammate output:
+## Pattern 6: Verification Loops
 
-1. Implement
-2. Test
-3. Self-review
-4. Lead review
+For each piece of teammate output, run a four-step loop:
 
-A loop with explicit ownership catches integration bugs earlier than one final review pass.
+<Steps>
+  <Step>
+    **Implement.** The teammate writes the code.
+  </Step>
+  <Step>
+    **Test.** The teammate runs tests on their own output.
+  </Step>
+  <Step>
+    **Self-review.** The teammate checks for regressions and edge cases.
+  </Step>
+  <Step>
+    **Lead review.** The lead verifies integration correctness across the team.
+  </Step>
+</Steps>
 
-## Key Takeaways
+A loop with explicit ownership catches integration bugs earlier than one final review pass at the end.
 
-- Topology choice (session vs subagent vs team) is a first-order decision
-- Delegate mode makes team leads better orchestrators
-- Parallelism works when ownership and approval rules are explicit
+## Decision Framework: Which Pattern Do I Need?
+
+<Steps>
+  <Step>
+    **Is it a single-session task?** Use main session. No patterns needed.
+  </Step>
+  <Step>
+    **Does it span multiple sessions?** Add session memory files (Pattern 4).
+  </Step>
+  <Step>
+    **Does it need parallel workers?** Add file ownership (Pattern 5) and verification loops (Pattern 6).
+  </Step>
+  <Step>
+    **Does it touch risky code?** Add plan gating (Pattern 3).
+  </Step>
+  <Step>
+    **Is the lead doing too much?** Switch to lead-only orchestration (Pattern 2).
+  </Step>
+</Steps>
+
+## Try It Yourself
+
+<Steps>
+  <Step>
+    Pick a medium-sized task in your codebase (a feature that touches 3+ files).
+  </Step>
+  <Step>
+    Write a session memory file for it: what changed so far, what failed, what is next.
+  </Step>
+  <Step>
+    Plan an agent team topology: who owns which files? Does anyone need plan gating?
+  </Step>
+  <Step>
+    Execute the task using the topology you planned. Note where coordination helped and where it added friction.
+  </Step>
+</Steps>
+
+## What You Learned
+
+- Topology choice (session vs. subagent vs. team) is the first and most impactful decision
+- Lead agents should orchestrate, not implement
+- Plan gating protects high-risk changes without killing parallel speed
+- Session memory files prevent context loss across sessions
+- File ownership boundaries prevent merge conflicts in parallel work
+- Verification loops catch integration bugs early

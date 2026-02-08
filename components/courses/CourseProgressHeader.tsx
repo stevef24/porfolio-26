@@ -10,6 +10,7 @@ import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useCourseProgress } from "@/hooks/useProgress";
 import { cn } from "@/lib/utils";
+import { springSmooth } from "@/lib/motion-variants";
 
 interface Lesson {
   slug: string;
@@ -70,18 +71,18 @@ export function CourseProgressHeader({
       className={cn("", className)}
       initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={springSmooth}
     >
       {/* Progress stats */}
       <div className="flex items-center gap-4 mb-4">
-        <span className="text-[15px] text-foreground/50">
+        <span className="text-swiss-caption text-foreground/50">
           {lessons.length} {lessons.length === 1 ? "lesson" : "lessons"}
         </span>
 
         {completedLessonsCount > 0 && (
           <>
             <span className="text-foreground/30">•</span>
-            <span className="text-[15px] text-foreground flex items-center gap-1.5">
+            <span className="text-swiss-body text-foreground flex items-center gap-1.5">
               <HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} />
               {completedLessonsCount} completed
             </span>
@@ -92,16 +93,16 @@ export function CourseProgressHeader({
       {/* Progress bar (only show if progress exists) */}
       {completedLessonsCount > 0 && (
         <div className="mb-6">
-          <div className="flex items-center justify-between text-[15px] text-foreground/60 mb-2">
+          <div className="flex items-center justify-between text-swiss-caption text-foreground/60 mb-2">
             <span>Progress</span>
             <span>{Math.round(progressPercent)}%</span>
           </div>
-          <div className="h-1 bg-[rgba(0,0,0,0.08)] dark:bg-[rgba(255,255,255,0.08)] rounded-full overflow-hidden">
+          <div className="h-1 bg-[var(--sf-bg-muted)] rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-foreground rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progressPercent}%` }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              transition={springSmooth}
             />
           </div>
         </div>
@@ -110,7 +111,7 @@ export function CourseProgressHeader({
       {/* CTA Button */}
       <Link
         href={continueLessonUrl}
-        className="group inline-flex items-center gap-2 px-5 py-3 rounded-[6px] bg-foreground text-background text-[15px] font-medium hover:opacity-90 transition-opacity cursor-pointer"
+        className="group inline-flex items-center gap-2 px-5 py-3 rounded-[6px] bg-foreground text-background text-swiss-body font-medium hover:opacity-90 transition-opacity cursor-pointer"
       >
         <HugeiconsIcon
           icon={isComplete ? CheckmarkCircle02Icon : PlayCircle02Icon}

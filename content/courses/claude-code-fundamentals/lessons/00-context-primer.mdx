@@ -12,61 +12,93 @@ import { ContextTrimComparison } from "@/components/visuals/ContextTrimCompariso
 
 ## Start Here (Yes, Before Claude Code)
 
-Claude Code is only as good as the context you give it. If the context is sharp, the output is sharp. If the context is noisy, the output gets fuzzy. This lesson teaches the mental model you'll use for every lesson after this one.
+Have you ever tried to explain a bug to someone while they're also reading Slack, listening to a podcast, and glancing at a meeting invite? That's what it feels like to give Claude Code a messy context window.
+
+Claude Code is only as good as the information you give it. Sharp context produces sharp output. Noisy context produces fuzzy results. This lesson teaches the mental model you'll lean on for the rest of the course.
 
 <InlineTOC />
 
-## What Counts as Context
+## What "Context" Actually Means
 
-Think of context as the "working memory" Claude can see during a session. It includes:
+Think of context as Claude's **working memory** for your conversation. It's everything the model can "see" at any given moment. That includes:
 
-- The conversation so far
-- Files you've added or opened
-- Tool outputs (like command results)
-- Your `CLAUDE.md` instructions
+- The conversation so far (your prompts and Claude's responses)
+- Files you've opened or added
+- Tool outputs (command results, search results, file reads)
+- Your `CLAUDE.md` project instructions
 - Any active skills or command outputs
+
+Every single one of these items lives in the same space.
 
 <ContextCompositionStack />
 
-<Callout type="info" title="Why this matters">
-Every item above shares the same finite budget. When the budget is full, older or less-important details get pushed out.
+Here's the part that trips people up: **there is no separate bucket for each category**. Your conversation history, your files, and your instructions all compete for the same fixed budget. Add a massive file? That's less room for Claude to reason about your question.
+
+<Callout type="info" title="Key Insight">
+Context is not a filing cabinet with infinite drawers. It's a single backpack. Everything you bring has weight, and the bag has a maximum capacity.
 </Callout>
 
 ## The Context Budget
 
-A good mental model is a backpack. You can't take everything - you choose what matters for the hike you're on.
+Let's extend that backpack analogy. You're heading out on a day hike. You can't bring your entire closet. You pick the water bottle, the map, and a snack. You leave the camping stove at home.
 
 <ContextBudgetBucket />
 
-When your context is too full, Claude starts forgetting details or mixing ideas. The fix isn't more context. It's better context.
+Claude's context window works the same way. When your budget is full, older messages get compressed or dropped entirely. Claude starts losing track of details, mixing ideas, or forgetting instructions you gave three prompts ago.
+
+The fix is never "add more context." The fix is **better context**.
+
+This is the single most important idea in this entire course. Every technique you'll learn, from `CLAUDE.md` to subagents to hooks, is ultimately about putting the right information in the window at the right time.
+
+## Signal vs. Noise
+
+Not all context is created equal. Some of it directly helps Claude answer your question. That's **signal**. The rest is **noise**, and it actively makes things worse.
+
+**Signal examples:**
+- The two files involved in a bug
+- The error message from your terminal
+- A clear description of what you want changed
+
+**Noise examples:**
+- Your entire `node_modules` directory listing
+- A wall of unrelated test output
+- Asking Claude to "review everything and fix all issues"
+
+Every piece of noise pushes out a piece of signal. It's not neutral. It's actively harmful.
 
 ## A Simple Context Workflow
 
+Here's a workflow you can use starting today. It works for every task, at every skill level.
+
 <Steps>
   <Step>
-    **Start fresh.** New task, new session. Clean context.
+    **Start fresh.** New task, new session. Don't carry baggage from the last conversation.
   </Step>
   <Step>
-    **Add only what you need.** One or two files beats a whole directory.
+    **Add only what's needed.** One or two files beats a whole directory. Be specific about what you want Claude to look at.
   </Step>
   <Step>
-    **Do the work.** Keep prompts focused on the current task.
+    **Do the work.** Keep your prompts focused on the current task. Resist the urge to ask "while you're at it" follow-ups.
   </Step>
   <Step>
-    **Clear or compact.** When the task ends, clean up.
+    **Clear or compact.** When the task is done, clean up before starting the next one.
   </Step>
 </Steps>
 
-## Mini Exercise: Trim the Prompt
+## Try It Yourself: Trim the Prompt
 
-**Before**
+Here's a real exercise. Look at these two prompts and notice how the second one changes everything.
+
+**Before (noisy):**
 
 ```
 Here is my whole repo. Please review all code, find issues,
 rewrite the architecture, and implement all changes.
 ```
 
-**After**
+This prompt is asking Claude to do five different jobs at once, with no focus. The context window fills with everything, and the output will be vague and scattered.
+
+**After (focused):**
 
 ```
 Here are two files:
@@ -76,12 +108,33 @@ Here are two files:
 Please review for auth bugs and suggest fixes only.
 ```
 
-Notice the difference: the second prompt makes the task possible - and keeps context focused.
+The second prompt gives Claude a clear task, specific files, and a bounded scope. It will produce dramatically better results, not because Claude got smarter, but because **you gave it better context**.
 
 <ContextTrimComparison />
 
-## Key Takeaways
+<Callout type="info" title="Try this now">
+Open a project you're working on. Think about the last time you asked an AI for help. Could you have narrowed the scope? What files were actually relevant vs. what you dumped in "just in case"?
+</Callout>
 
-- Context is a finite budget, not an infinite library
-- Clearer context beats more context
-- Build a habit of starting fresh and adding only what you need
+## Decision Framework: Fresh Session or Continue?
+
+You'll face this choice constantly. Here's a simple rule:
+
+| Situation | Action |
+|---|---|
+| Starting a new, unrelated task | Start a fresh session |
+| Continuing the exact same task | Keep the current session |
+| Task is done, small follow-up | Start fresh (it's faster than you think) |
+| Context feels "muddy" or confused | Start fresh immediately |
+| Claude keeps forgetting your instructions | Start fresh and re-add only essentials |
+
+When in doubt, **start fresh**. It takes seconds and prevents the slow context decay that causes frustrating, off-target responses.
+
+## What You Learned
+
+- **Context is a finite budget**, not an infinite library. Everything you add competes for space.
+- **Signal beats noise.** Two relevant files outperform an entire repository dump.
+- **The backpack mental model** will guide every decision you make in this course.
+- **Start fresh often.** Clean context produces clean results.
+
+Next up, you'll install Claude Code and run your first command. The context principles from this lesson will immediately apply to how you structure your first prompts.

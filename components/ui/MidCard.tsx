@@ -28,7 +28,7 @@ export function MidCard({
 			className={cn(
 				"group block py-6 -mx-4 px-4",
 				"rounded-[6px]",
-				"hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-[rgba(255,255,255,0.04)]",
+				"hover:bg-[var(--sf-bg-subtle)]",
 				"transition-colors duration-150",
 				"shadow-none",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -37,10 +37,10 @@ export function MidCard({
 		>
 			<article className="flex items-start justify-between gap-4">
 				<div className="flex-1 min-w-0">
-					<h3 className="text-[15px] text-foreground font-medium group-hover:text-foreground/70 transition-colors duration-150 line-clamp-1">
+					<h3 className="text-swiss-body text-foreground font-medium group-hover:text-foreground/70 transition-colors duration-150 line-clamp-1">
 						{title}
 					</h3>
-					<p className="text-[15px] text-foreground/50 line-clamp-2 mt-1">
+					<p className="text-swiss-body text-foreground/50 line-clamp-2 mt-1">
 						{description}
 					</p>
 				</div>

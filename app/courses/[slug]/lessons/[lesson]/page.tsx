@@ -6,6 +6,7 @@ import { VideoPlayer } from "@/components/courses/VideoPlayer";
 import { LessonResources, type Resource } from "@/components/courses/LessonResources";
 import { AccessGate } from "@/components/courses/AccessGate";
 import { LessonNavigation } from "@/components/courses/LessonNavigation";
+import BlurFade from "@/components/shared/BlurFade";
 import customComponents from "@/lib/custom-components";
 import type { AccessLevel } from "@/hooks/useAccess";
 import { TOCProvider } from "fumadocs-ui/components/layout/toc";
@@ -95,6 +96,7 @@ export default async function LessonPage(props: {
     description?: string;
     playbackId?: string;
     module?: string;
+    duration?: string;
     access?: string;
     resources?: Resource[];
     toc?: Array<{ title: string; url: string; depth: number }>;
@@ -135,19 +137,24 @@ export default async function LessonPage(props: {
           courseName={courseData?.title}
         >
           {/* Lesson Header */}
-          <header className="mb-8">
-            {lessonData.module && (
-              <p className="text-[15px] text-foreground/50 mb-3">
-                {lessonData.module}
-              </p>
-            )}
-            <h1 className="text-[15px] text-foreground font-medium mb-3">{lessonData.title}</h1>
-            {lessonData.description && (
-              <p className="text-[15px] text-foreground/60 leading-relaxed max-w-xl">
-                {lessonData.description}
-              </p>
-            )}
-          </header>
+          <BlurFade inView>
+            <header className="mb-8">
+              {lessonData.module && (
+                <p className="text-swiss-label text-foreground/50 mb-3">
+                  {lessonData.module}
+                  {lessonData.duration && (
+                    <span className="text-swiss-caption text-foreground/40 ml-2 normal-case tracking-normal">&middot; {lessonData.duration} read</span>
+                  )}
+                </p>
+              )}
+              <h1 className="text-swiss-body text-foreground font-medium mb-3">{lessonData.title}</h1>
+              {lessonData.description && (
+                <p className="text-swiss-body text-foreground/60 leading-relaxed max-w-xl">
+                  {lessonData.description}
+                </p>
+              )}
+            </header>
+          </BlurFade>
 
           {/* Divider */}
           <div className="h-px bg-border mb-8" />
@@ -166,13 +173,15 @@ export default async function LessonPage(props: {
         </AccessGate>
 
         {/* Lesson Navigation */}
-        <LessonNavigation
-          prevLesson={prevLesson}
-          nextLesson={nextLesson}
-          courseSlug={params.slug}
-          lessonSlug={params.lesson}
-          className="mt-12"
-        />
+        <BlurFade inView delay={0.1}>
+          <LessonNavigation
+            prevLesson={prevLesson}
+            nextLesson={nextLesson}
+            courseSlug={params.slug}
+            lessonSlug={params.lesson}
+            className="mt-12"
+          />
+        </BlurFade>
       </article>
     </CourseShell>
   );

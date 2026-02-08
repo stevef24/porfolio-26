@@ -655,3 +655,37 @@ export const oaiHeaderTransition: Transition = {
 	duration: 0.2,
 	ease: [0.4, 0, 0.2, 1],
 };
+
+// ==========================================
+// COURSE-SPECIFIC ANIMATION VARIANTS
+// ==========================================
+
+/** Lesson content entrance - gentle fade + slide for main content */
+export const lessonContentEntrance: Variants = {
+	hidden: { opacity: 0, y: 12 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: springGentle,
+	},
+};
+
+/** Course card entrance - smooth fade + slide for card elements */
+export const courseCardEntrance: Variants = {
+	hidden: { opacity: 0, y: 8 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: springSmooth,
+	},
+};
+
+/** Nav link entrance - snappy horizontal slide for navigation items */
+export const navLinkEntrance: Variants = {
+	hidden: { opacity: 0, x: -8 },
+	visible: {
+		opacity: 1,
+		x: 0,
+		transition: springSnappy,
+	},
+};

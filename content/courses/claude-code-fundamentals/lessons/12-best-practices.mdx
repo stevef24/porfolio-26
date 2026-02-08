@@ -6,30 +6,158 @@ module: Production Patterns
 order: 12
 ---
 
+## The Trap of Maximum Autonomy
+
+There is a tempting idea when you first get good with Claude Code: "What if I just let it do everything?" You give it a vague prompt, grant all permissions, and let it run wild across your codebase.
+
+It works, sometimes. And when it does not, the cleanup takes longer than doing the task yourself would have.
+
+The best Claude Code workflows are not about maximum autonomy. They are about **controlled delegation**. This lesson gives you the principles and anti-patterns to stay on the right side of that line.
+
+<InlineTOC />
+
 ## The Four Principles
 
 ### 1. Keep Context Lean
-If it won't help the next response, remove it.
+
+Your context window is not a filing cabinet. It is a workbench. Only put things on it that you need for the current task.
+
+**In practice:**
+- Start new sessions for new tasks (do not reuse stale sessions)
+- Add specific files, not whole directories
+- Use `/compact` when context grows large mid-session
+- Write focused prompts that reference only what matters
+
+If a piece of information will not improve Claude's next response, it should not be in context.
 
 ### 2. Choose the Smallest Agent Pattern
-Start with main session, then subagent, then agent team only when collaboration is needed.
+
+Escalation order: main session, then subagent, then agent team.
+
+- **Main session** handles most tasks. One agent, one context, no overhead.
+- **Subagents** handle focused delegation. One worker, isolated context, clean return.
+- **Agent teams** handle parallel collaboration. Multiple workers, peer communication, higher cost.
+
+Each step up multiplies token usage. Most tasks never need to leave the main session.
 
 ### 3. Keep Humans on Decisions
+
 Let agents execute, but keep plan approval and final merge decisions human-owned.
 
+This is not about trust. It is about accountability. When an agent writes code, a human should still decide whether that code ships. Plan mode, `--plan` flag, and plan-gated teammates exist for exactly this reason.
+
 ### 4. Manage Token Burn Intentionally
-Parallel agents multiply token use. Keep team size and prompts tight.
 
-## Teams + Agents Checklist
+Parallel agents multiply token use. A three-agent team uses roughly 3x the tokens of a single session, sometimes more with coordination overhead.
 
-- Use subagents for focused delegation
-- Use agent teams for parallel cross-role collaboration
-- Enable teams explicitly (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`)
-- Prefer Sonnet teammates for cost/performance balance
-- Keep task ownership file-based to avoid edit collisions
-- Clean up teams when done so idle teammates stop consuming tokens
-- Run tests before trusting any generated change
+Be deliberate about when you spend tokens. A quick Sonnet session for a simple fix costs a fraction of an Opus agent team planning a refactor.
 
-## Final Thought
+<Callout type="info" title="Key Insight">
+The cheapest prompt is the one you do not send. Invest time in making your first prompt precise rather than iterating through five rounds of clarification.
+</Callout>
 
-The best Claude Code workflow is not "maximum autonomy" - it's controlled delegation.
+## Anti-Patterns and Their Fixes
+
+These are the mistakes that burn tokens and produce bad output. Every one of them has a simple fix.
+
+### The Kitchen Sink Prompt
+
+**Anti-pattern:** "Review my entire codebase, find all bugs, refactor everything, and write tests."
+
+**Why it fails:** No focus means Claude spreads attention thin. You get surface-level results on everything instead of deep results on anything.
+
+**Fix:** One task per prompt. "Review `src/auth.ts` for permission bypass bugs" beats "review everything."
+
+### The Stale Session
+
+**Anti-pattern:** Reusing a session from yesterday for today's task. The old context is still loaded, confusing the new work.
+
+**Why it fails:** Claude mixes old and new context. It references files that have changed. It applies outdated assumptions.
+
+**Fix:** New task, new session. Use session memory files (Lesson 11) to carry forward relevant context.
+
+### The Unscoped Agent Team
+
+**Anti-pattern:** Spinning up an agent team without file ownership rules. Three teammates all edit `index.ts`.
+
+**Why it fails:** Merge conflicts. Wasted work. One teammate overwrites another's changes.
+
+**Fix:** Assign file ownership in task prompts before starting. Teammate A owns `app/`, Teammate B owns `lib/`, Teammate C owns `tests/`.
+
+### The Trust-Everything Workflow
+
+**Anti-pattern:** Running in fully permissive mode with no hooks, no plan gating, no review.
+
+**Why it fails:** It works until it does not. One bad `rm -rf` or one wrong `git push --force` is all it takes.
+
+**Fix:** Use `PreToolUse` hooks for safety-critical commands. Use plan mode for risky changes. Trust, but verify.
+
+### The Token Bonfire
+
+**Anti-pattern:** Using Opus for everything, including simple file edits and formatting.
+
+**Why it fails:** Opus is the most capable model but also the most expensive. Simple tasks do not need it.
+
+**Fix:** Use model aliases intentionally. `sonnet` for implementation, `opus` for architecture and complex reasoning, `haiku` for fast read-only tasks.
+
+## Audit Your Workflow Checklist
+
+Use this checklist to evaluate your current Claude Code setup:
+
+<Steps>
+  <Step>
+    **Context hygiene.** Do you start fresh sessions for new tasks? Do you compact when context grows?
+  </Step>
+  <Step>
+    **CLAUDE.md quality.** Is your project `CLAUDE.md` up to date? Does it include conventions, patterns, and what to avoid?
+  </Step>
+  <Step>
+    **Safety hooks.** Do you have at least one `PreToolUse` hook blocking dangerous commands?
+  </Step>
+  <Step>
+    **Model strategy.** Are you using the right model for each task type? Are teammates on Sonnet?
+  </Step>
+  <Step>
+    **Human checkpoints.** Is plan mode enabled for risky changes? Do you review before merging?
+  </Step>
+  <Step>
+    **Agent scoping.** When you use teams, do teammates have file ownership boundaries?
+  </Step>
+</Steps>
+
+If you answer "no" to more than two of these, your workflow has room to improve.
+
+## Decision Framework: When to Automate vs. When to Intervene
+
+| Signal | Action |
+| :-- | :-- |
+| You do it every session | Automate with a hook |
+| It could break production | Gate with plan mode |
+| It is a one-time task | Just do it manually |
+| Multiple people need it | Put it in project `CLAUDE.md` or a shared hook |
+| You forget it regularly | Automate or add a `Stop` hook reminder |
+
+## Try It Yourself
+
+<Steps>
+  <Step>
+    Open your most recent Claude Code project. Run through the Audit Checklist above.
+  </Step>
+  <Step>
+    Identify your top anti-pattern from the list. Which one do you hit most often?
+  </Step>
+  <Step>
+    Write one concrete change: a new hook, a CLAUDE.md update, or a model strategy tweak.
+  </Step>
+  <Step>
+    Implement that change and test it in your next Claude Code session.
+  </Step>
+</Steps>
+
+## What You Learned
+
+- Controlled delegation beats maximum autonomy every time
+- Four principles: lean context, smallest pattern, human decisions, intentional token use
+- Five anti-patterns to watch for: kitchen sink prompts, stale sessions, unscoped teams, trust-everything mode, token bonfires
+- A six-point audit checklist to evaluate any Claude Code workflow
+- Automation is for repetitive safety-critical actions; manual intervention is for one-time decisions

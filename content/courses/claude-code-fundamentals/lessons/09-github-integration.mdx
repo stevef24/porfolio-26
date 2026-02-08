@@ -6,41 +6,143 @@ module: Power Features
 order: 9
 ---
 
-## What This Enables
+<InlineTOC />
 
-Claude Code can review PRs, respond to @claude mentions, and automate issue work - directly inside GitHub.
+## Your AI Teammate on GitHub
 
-The modern path is the **Claude Code GitHub Action**, which runs on your own GitHub runners.
+You've been using Claude Code locally -- planning features, writing code, debugging. But what happens when you push that code? You switch to GitHub, wait for reviews, manually triage issues, and write PR descriptions by hand.
 
-## Quick Start (Fastest Path)
+**It doesn't have to be this way.** Claude Code integrates directly with GitHub through a GitHub Action. It can review PRs, respond to `@claude` mentions in issues, and even make small fixes -- all inside your existing GitHub workflow.
 
-Inside Claude Code, run:
+The result: Claude becomes a team member that's always available for code review, never takes a day off, and responds in minutes instead of hours.
+
+## What GitHub Integration Can Do
+
+Once set up, Claude Code can:
+
+- **Review pull requests** -- flag bugs, suggest improvements, check for consistency with your codebase patterns
+- **Respond to `@claude` mentions** -- answer questions in issues and PRs, provide explanations, suggest approaches
+- **Make small code fixes** -- when someone comments "fix this typo" or "update this variable name," Claude can push the change
+- **Triage issues** -- label, categorize, and provide initial analysis of new issues
+- **Run automated workflows** -- scheduled or event-triggered tasks like dependency checks or changelog generation
+
+<Callout title="Key Insight">
+Think of GitHub integration as extending your local Claude Code workflow to your team. The same assistant that helps you write code locally can now help your team review and manage it on GitHub.
+</Callout>
+
+## Quick Setup
+
+The fastest path is the built-in installer. Inside Claude Code, run:
 
 ```
 /install-github-app
 ```
 
-This guides you through:
-- Installing the GitHub app
-- Adding required secrets
-- Creating the workflow
+This walks you through three steps:
 
-## What It Can Do
+<Steps>
+  <Step>
+    **Install the Claude Code GitHub App** on your repository or organization. This grants the necessary permissions for Claude to interact with your repo.
+  </Step>
+  <Step>
+    **Add required secrets** to your repository. You'll need an API key stored as a GitHub secret so the Action can authenticate.
+  </Step>
+  <Step>
+    **Create the workflow file.** The installer generates a `.github/workflows/claude.yml` that defines when and how Claude responds to events.
+  </Step>
+</Steps>
 
-- PR reviews and feedback
-- Issue triage and responses
-- Small code fixes and refactors
-- Automated workflows (scheduled or event-based)
+After setup, Claude will automatically respond to events based on your workflow configuration.
 
-## Cost + Latency Reality
+## The Workflow File
 
-Every GitHub run uses tokens and takes time. For large repos:
-- Expect longer runtimes
-- Set limits for triggers
-- Use labels or paths to reduce scope
+The generated workflow defines triggers and behavior. Here's what a typical one looks like:
 
-## Key Takeaways
+```yaml
+name: Claude Code
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened]
 
-- GitHub integration runs via Actions
-- Use `/install-github-app` for the quickest setup
-- Keep automation scoped and intentional
+jobs:
+  claude:
+    if: contains(github.event.comment.body, '@claude')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+```
+
+The key parts: **triggers** (which events activate Claude), **conditions** (like checking for `@claude` mentions), and **configuration** (API key, model preferences, custom instructions).
+
+## PR Review Workflow in Practice
+
+Here's what a typical PR review cycle looks like with Claude integrated:
+
+1. Developer opens a PR
+2. Claude automatically reviews the diff, checking for bugs, inconsistencies, and style issues
+3. Claude posts review comments on specific lines
+4. Developer addresses feedback or replies with questions
+5. On updates, Claude re-reviews changed files
+
+The review quality depends on your project's `CLAUDE.md`. If you've documented your conventions, naming patterns, and architectural decisions there, Claude's reviews will reflect those standards.
+
+<Callout title="Key Insight">
+The `CLAUDE.md` file you wrote for local development doubles as review guidelines for GitHub integration. The more specific your conventions, the more useful the automated reviews.
+</Callout>
+
+## Decision Framework: What to Automate
+
+Not everything should be automated. Here's how to decide:
+
+| Task | Automate? | Why |
+| :-- | :-- | :-- |
+| PR review (first pass) | Yes | Catches obvious issues before human review |
+| Issue triage and labeling | Yes | Saves time on repetitive categorization |
+| Small fixes from review comments | Yes | Faster than round-tripping back to the developer |
+| Architectural decisions | No | Requires human judgment and team discussion |
+| Security-sensitive changes | No | Needs human verification before merge |
+| Breaking change approval | No | Requires understanding of downstream impact |
+
+A good rule: **automate the first pass, keep humans for the final call.** Claude catches the typos, missing error handling, and inconsistencies. Humans decide on architecture, security, and user experience.
+
+## Cost and Latency Reality
+
+Every GitHub Action run uses API tokens and compute time. For a healthy setup:
+
+- **Scope your triggers.** Don't run Claude on every comment -- use `@claude` mentions or specific labels to control when it activates.
+- **Use path filters.** If Claude only needs to review backend code, filter to `src/api/**` paths.
+- **Set model intentionally.** Sonnet is usually sufficient for reviews. Reserve Opus for complex architectural analysis.
+- **Monitor costs.** Check your API usage dashboard weekly during the first month to calibrate.
+
+Large monorepos will take longer per run. If your repo has thousands of files, consider scoping the Action to specific directories or using a `CLAUDE.md` that tells Claude which areas to focus on.
+
+## Try It Yourself
+
+<Steps>
+  <Step>
+    **Set up the integration.** Run `/install-github-app` in Claude Code and follow the prompts. Pick a test repository first -- don't start with your team's production repo.
+  </Step>
+  <Step>
+    **Open a test PR.** Create a branch with a small, intentional mistake (a missing null check, a typo, an unused import). Open a PR and see how Claude reviews it.
+  </Step>
+  <Step>
+    **Try the `@claude` mention.** In your test PR, leave a comment like "@claude explain what this function does" and see how it responds in context.
+  </Step>
+  <Step>
+    **Refine your workflow.** Based on the test, adjust triggers, add path filters, or update your `CLAUDE.md` with review-specific guidelines.
+  </Step>
+</Steps>
+
+## What You Learned
+
+- **Claude Code integrates with GitHub** through a GitHub Action that responds to PRs, issues, and `@claude` mentions.
+- **Setup takes minutes** with `/install-github-app`, which handles app installation, secrets, and workflow creation.
+- **Your `CLAUDE.md` drives review quality.** The conventions you document locally become the standards Claude enforces on GitHub.
+- **Automate the first pass**, keep humans for final decisions on architecture and security.
+- **Scope your triggers** with mention filters, path filters, and model selection to control cost and relevance.

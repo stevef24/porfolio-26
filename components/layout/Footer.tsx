@@ -13,7 +13,7 @@ export function Footer(): JSX.Element {
 		<footer className="border-t border-border/40 py-4 mt-4">
 			<div className="flex items-center justify-between">
 				{/* Copyright */}
-				<p className="text-[15px] text-foreground/50">
+				<p className="text-swiss-caption text-foreground/50">
 					&copy; {new Date().getFullYear()} Stav Fernandes
 				</p>
 
@@ -21,7 +21,7 @@ export function Footer(): JSX.Element {
 				<button
 					onClick={scrollToTop}
 					type="button"
-					className="group flex items-center gap-1.5 text-[15px] text-foreground/50 hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
+					className="group flex items-center gap-1.5 text-swiss-caption text-foreground/50 hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
 					aria-label="Back to top"
 				>
 					<span>Top</span>

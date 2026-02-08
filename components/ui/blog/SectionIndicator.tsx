@@ -157,7 +157,7 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
       >
         {/* Collapsed state - current section indicator */}
         <div className="flex items-center gap-2 relative z-10">
-          <span className="text-foreground/50 text-[15px] shrink-0">
+          <span className="text-foreground/50 text-swiss-caption shrink-0">
             On this page
           </span>
           <span className="text-foreground/30">›</span>
@@ -168,7 +168,7 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
               animate={{ y: 0, opacity: 1 }}
               exit={prefersReducedMotion ? undefined : { y: -6, opacity: 0 }}
               transition={{ duration: 0.12, ease: "easeOut" }}
-              className="text-[15px] text-foreground truncate flex-1"
+              className="text-swiss-body text-foreground truncate flex-1"
             >
               {activeSection}
             </motion.span>
@@ -222,7 +222,7 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
                       type="button"
                       onClick={() => handleSectionClick(section.url)}
                       className={cn(
-                        "text-[15px] w-full text-left py-1.5 transition-colors",
+                        "text-swiss-body w-full text-left py-1.5 transition-colors",
                         section.url === activeSectionUrl
                           ? "text-foreground"
                           : "text-foreground/50 hover:text-foreground/70"

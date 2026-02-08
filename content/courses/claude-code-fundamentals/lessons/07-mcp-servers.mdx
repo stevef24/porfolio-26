@@ -9,65 +9,130 @@ order: 7
 import { McpArchitectureMap } from "@/components/visuals/McpArchitectureMap"
 import { McpBloatMeter } from "@/components/visuals/McpBloatMeter"
 
-## MCP in One Sentence
+<InlineTOC />
 
-MCP (Model Context Protocol) lets Claude Code use tools outside the core app - databases, browsers, APIs, and more.
+## The Plugin System You Didn't Know You Had
+
+Imagine if your code editor could talk to your database. Not through a terminal window you switch to, but directly -- querying tables, reading schemas, and writing migrations as part of the same conversation where you're building a feature.
+
+That's what **MCP** (Model Context Protocol) does for Claude Code. It's a standardized way to connect external tools -- databases, browsers, APIs, file systems, design tools -- so Claude can use them natively.
+
+But there's a catch. Every tool you connect costs context space, even when you're not using it. The art of MCP is knowing **what to connect and what to leave disconnected**.
+
+## How MCP Actually Works
+
+The architecture is simpler than it sounds:
 
 <McpArchitectureMap />
 
-## The Practical Rule
+Your Claude Code session talks to **MCP servers** -- small programs that each expose a set of tools. When you ask Claude to "check the database schema," it calls a tool on the database MCP server, gets the result, and uses it in its response.
 
-Enable a **few** servers per project. The more tools you add, the more context they consume. Keep it lean.
+Each server runs as a separate process. Claude Code manages the connections. You just tell it which servers to enable.
 
-<Callout type="info" title="A useful rule">
-If a task can be done with a CLI command, prefer a command or skill. Save MCP for things that truly need it.
+<Callout title="Key Insight">
+MCP servers are like browser extensions. Each one adds capability, but too many slow everything down. Be intentional about what you install.
 </Callout>
 
-Community guides like Everything Claude Code recommend keeping only a handful of servers enabled per project for the best results.
+## The Context Cost Problem
+
+Here's what trips people up: **every enabled MCP server adds its tool definitions to your context**, whether you use those tools or not. Three servers might add 2,000 tokens of tool descriptions before you've even typed a prompt.
 
 <McpBloatMeter />
 
-## Manage Servers
+This matters because context is a budget. Tool descriptions that sit unused are wasting space that could hold your actual code.
 
-You can manage servers from the CLI:
+The practical rule: **enable 2-4 servers per project.** If a task can be handled with a built-in tool or a shell command, prefer that over adding another MCP server.
+
+## Managing Servers
+
+From the terminal, you can manage servers with these commands:
 
 ```bash
-claude mcp add <name> <command>
+# Add a new server
+claude mcp add my-server npx @example/mcp-server
+
+# List all configured servers
 claude mcp list
-claude mcp get <name>
-claude mcp remove <name>
+
+# Check a specific server's config
+claude mcp get my-server
+
+# Remove a server you no longer need
+claude mcp remove my-server
 ```
 
-Inside Claude Code, check status with:
+Inside a Claude Code session, check status with:
 
 ```
 /mcp
 ```
 
-## Project-Shared Config
+This shows which servers are connected, which have errors, and lets you restart them.
 
-Use a `.mcp.json` at your project root when you want the whole team to share servers:
+## Decision Framework: Which Server Do I Need?
+
+Before adding an MCP server, ask yourself:
+
+| Question | If yes... | If no... |
+| :-- | :-- | :-- |
+| Can I do this with a shell command? | Use the shell | Consider MCP |
+| Will I use this tool more than 3 times this session? | Worth the context cost | Probably not |
+| Does the whole team need this? | Add to `.mcp.json` | Keep it personal |
+| Am I already near context limits? | Skip it, use the shell | Go ahead |
+
+**Common servers and when they make sense:**
+
+| Server | Good for | Skip when... |
+| :-- | :-- | :-- |
+| Filesystem | Scoped file access across directories | You're working in one project |
+| Database (Postgres, SQLite) | Schema exploration, query testing | You rarely touch the DB |
+| Browser | Web scraping, testing | Simple curl would work |
+| GitHub | PR workflows, issue management | You prefer the `gh` CLI |
+
+## Project-Shared vs. Personal Servers
+
+MCP servers live in one of two places:
+
+**Project-shared** (`.mcp.json` at project root): Every team member gets these servers automatically. Commit this file to git.
 
 ```json
 {
   "mcpServers": {
-    "filesystem": {
+    "postgres": {
       "command": "npx",
-      "args": ["@modelcontextprotocol/server-filesystem"],
+      "args": ["@modelcontextprotocol/server-postgres"],
       "env": {
-        "ALLOWED_PATHS": "/Users/me/projects"
+        "DATABASE_URL": "postgresql://localhost:5432/mydb"
       }
     }
   }
 }
 ```
 
-## Team vs. Personal
+**Personal** (user config at `~/.claude/`): Only you get these. Use for servers tied to your local setup or personal tools.
 
-Use `.mcp.json` when you want the whole team to share servers. Keep personal servers in your own user config when you do not want them committed to the repo.
+<Callout title="Key Insight">
+Treat `.mcp.json` like you treat `.eslintrc`. It defines shared tooling conventions. Personal preferences go in your user config.
+</Callout>
 
-## Key Takeaways
+## Try It Yourself
 
-- MCP is powerful but expensive in context
-- Keep only a few servers enabled per project
-- Prefer simple CLI commands when possible
+<Steps>
+  <Step>
+    **Audit your current setup.** Run `claude mcp list` and count how many servers you have enabled. If it's more than four, consider which ones you haven't used recently and remove them.
+  </Step>
+  <Step>
+    **Add a server intentionally.** Pick one server that would genuinely help your current project. Add it with `claude mcp add`, use it for a task, then check `/cost` to see the context impact.
+  </Step>
+  <Step>
+    **Create a `.mcp.json`.** If your project doesn't have one yet, create a minimal config with just the one or two servers your whole team would benefit from. Commit it and ask a teammate to verify it works.
+  </Step>
+</Steps>
+
+## What You Learned
+
+- **MCP connects external tools** (databases, browsers, APIs) to Claude Code through a standardized protocol.
+- **Every enabled server costs context**, even when idle. Keep 2-4 servers per project.
+- **Prefer shell commands** over MCP when the task is simple enough.
+- **Project-shared servers** go in `.mcp.json` (committed to git). Personal servers go in your user config.
+- **Audit regularly.** Remove servers you haven't used recently to keep context lean.
