@@ -5,12 +5,12 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  // Base styles - Oatmeal design system
+  // Base styles - minimal, contrast-safe across light/dark
   [
     "cursor-pointer",
     "inline-flex items-center justify-center",
     "whitespace-nowrap",
-    "font-medium text-base", // 16px
+    "font-medium text-sm", // 14px
     "transition-colors duration-200",
     "disabled:pointer-events-none disabled:opacity-60 disabled:cursor-not-allowed",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
@@ -23,43 +23,51 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Default: Subtle opacity-based background
+        // Default: subtle filled pill
         default: [
-          "bg-[rgba(0,0,0,0.04)] hover:bg-[rgba(0,0,0,0.08)]",
-          "dark:bg-[rgba(255,255,255,0.04)] dark:hover:bg-[rgba(255,255,255,0.08)]",
-          "text-foreground",
+          "border border-transparent",
+          "bg-[var(--btn-subtle-bg)]",
+          "text-[var(--btn-subtle-fg)]",
+          "hover:bg-[var(--btn-subtle-bg-hover)]",
           "rounded-full",
         ],
-        // CTA: Solid fill with inverted contrast
+        // CTA: high-contrast solid pill
         cta: [
-          "bg-foreground text-background",
-          "hover:opacity-90",
+          "border border-transparent",
+          "bg-[var(--btn-solid-bg)]",
+          "text-[var(--btn-solid-fg)]",
+          "hover:bg-[var(--btn-solid-bg-hover)]",
           "rounded-full",
         ],
-        // Outline: Border with transparent background
+        // Outline: low-chroma stroke, subtle hover fill
         outline: [
-          "border border-border bg-transparent",
-          "hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-[rgba(255,255,255,0.04)]",
-          "text-foreground",
+          "border border-[var(--btn-outline-border)]",
+          "bg-transparent",
+          "text-[var(--btn-subtle-fg)]",
+          "hover:bg-[var(--btn-subtle-bg)]",
           "rounded-full",
         ],
-        // Secondary solid
+        // Secondary: slightly stronger subtle fill
         secondary: [
-          "bg-secondary text-secondary-foreground",
-          "hover:bg-muted",
+          "border border-transparent",
+          "bg-[var(--btn-subtle-bg-hover)]",
+          "text-[var(--btn-subtle-fg)]",
+          "hover:bg-[var(--btn-subtle-bg)]",
           "rounded-full",
         ],
-        // Ghost: No background
+        // Ghost: text-first with light hover
         ghost: [
-          "hover:bg-[rgba(0,0,0,0.04)] dark:hover:bg-[rgba(255,255,255,0.04)]",
-          "text-foreground",
+          "border border-transparent",
+          "text-[var(--btn-subtle-fg)]",
+          "hover:bg-[var(--btn-subtle-bg)]",
           "rounded-full",
         ],
         // Destructive
         destructive: [
-          "bg-red-500/10 text-red-600",
-          "hover:bg-red-500/20",
-          "dark:text-red-400",
+          "border border-red-500/25",
+          "bg-red-500/10 text-red-700",
+          "hover:bg-red-500/18",
+          "dark:text-red-300 dark:border-red-400/35",
           "rounded-full",
         ],
         // Link style
@@ -70,19 +78,19 @@ const buttonVariants = cva(
         ],
       },
       size: {
-        // Oatmeal default: 48px height
-        default: "h-12 px-6 gap-2",
-        // Small: 36px (header CTA)
+        // OpenAI-inspired defaults: 40px baseline
+        default: "h-10 px-5 gap-2",
+        // Small: 36px
         sm: "h-9 px-4 gap-1.5 text-sm",
-        // Large: 56px
-        lg: "h-14 px-8 gap-2",
+        // Large: 44px
+        lg: "h-11 px-6 gap-2 text-sm",
         // Extra small
-        xs: "h-7 px-3 gap-1 text-xs",
+        xs: "h-8 px-3 gap-1 text-xs",
         // Icon buttons
-        icon: "size-12",
+        icon: "size-10",
         "icon-sm": "size-9",
-        "icon-lg": "size-14",
-        "icon-xs": "size-7",
+        "icon-lg": "size-11",
+        "icon-xs": "size-8",
       },
     },
     defaultVariants: {

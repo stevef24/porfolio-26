@@ -9,6 +9,7 @@ import { AuthModal } from "@/components/auth/AuthModal";
 import { useAccess, type AccessLevel } from "@/hooks/useAccess";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface AccessGateProps {
   accessLevel: AccessLevel;
@@ -92,8 +93,11 @@ export function AccessGate({
           {/* CTA Button */}
           {showSignInPrompt ? (
             <>
-              <button
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-swiss-label hover:bg-primary/90 transition-colors cursor-pointer w-full justify-center"
+              <Button
+                type="button"
+                variant="cta"
+                size="sm"
+                className="group w-full justify-center gap-2"
                 onClick={() => setIsAuthModalOpen(true)}
               >
                 Sign In with Email
@@ -102,15 +106,18 @@ export function AccessGate({
                   size={16}
                   className="group-hover:translate-x-0.5 transition-transform"
                 />
-              </button>
+              </Button>
               <AuthModal
                 open={isAuthModalOpen}
                 onOpenChange={setIsAuthModalOpen}
               />
             </>
           ) : (
-            <button
-              className="group inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-swiss-label hover:bg-primary/90 transition-colors cursor-pointer w-full justify-center"
+            <Button
+              type="button"
+              variant="cta"
+              size="sm"
+              className="group w-full justify-center gap-2"
               onClick={() => {
                 // Future: Integrate payment/checkout flow
                 alert(
@@ -124,7 +131,7 @@ export function AccessGate({
                 size={16}
                 className="group-hover:translate-x-0.5 transition-transform"
               />
-            </button>
+            </Button>
           )}
 
           {/* Alternative option */}

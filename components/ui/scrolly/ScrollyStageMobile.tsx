@@ -126,9 +126,14 @@ export function ScrollyStageMobile({
 					type="button"
 					onClick={handleCopy}
 					className={cn(
-						"text-swiss-label transition-colors cursor-pointer",
-						"hover:text-foreground",
-						copied ? "text-foreground" : "text-muted-foreground"
+						"inline-flex h-7 items-center rounded-full border px-2.5",
+						"text-[11px] font-medium transition-colors cursor-pointer",
+						"border-[var(--btn-outline-border)] bg-[var(--btn-subtle-bg)]",
+						"hover:bg-[var(--btn-subtle-bg-hover)] hover:text-foreground",
+						"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+						copied
+							? "text-foreground"
+							: "text-[var(--btn-subtle-fg)]"
 					)}
 					aria-label={copied ? "Copied!" : "Copy code"}
 				>

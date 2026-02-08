@@ -139,7 +139,7 @@ export function EmailCaptureForm({
             type="submit"
             variant="cta"
             disabled={isLocked}
-            className="h-9 px-6 cursor-pointer text-swiss-body"
+            className="h-9 px-6 cursor-pointer"
           >
             {status === "loading" ? "Subscribing…" : buttonLabel}
           </Button>

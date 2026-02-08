@@ -116,9 +116,12 @@ export function Header() {
 						onClick={toggleTheme}
 						type="button"
 						className={cn(
-							"relative flex items-center justify-center w-8 h-8 rounded-full",
+							"relative flex items-center justify-center w-9 h-9 rounded-full",
+							"border border-[var(--btn-outline-border)]",
+							"bg-[var(--btn-subtle-bg)] text-[var(--btn-subtle-fg)]",
 							"transition-colors duration-150 cursor-pointer",
-							"hover:bg-muted"
+							"hover:bg-[var(--btn-subtle-bg-hover)] hover:text-foreground",
+							"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-1 focus-visible:ring-offset-background"
 						)}
 						aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
 					>

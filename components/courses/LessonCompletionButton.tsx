@@ -61,12 +61,12 @@ export function LessonCompletionButton({
       disabled={isCompleted}
       className={cn(
         "group relative flex items-center justify-center gap-2 w-full py-3 px-4",
-        "text-sm font-medium rounded-md transition-colors",
+        "text-sm font-medium rounded-full transition-colors",
         "border",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         isCompleted
-          ? "bg-primary/10 border-primary/30 text-primary cursor-default"
-          : "bg-background border-border text-foreground hover:bg-muted hover:border-primary/50 cursor-pointer",
+          ? "bg-foreground border-foreground text-background cursor-default"
+          : "bg-foreground/[0.05] border-border/80 text-foreground hover:bg-foreground/[0.1] hover:border-border cursor-pointer",
         className
       )}
       whileHover={!isCompleted && !prefersReducedMotion ? { scale: 1.01 } : {}}

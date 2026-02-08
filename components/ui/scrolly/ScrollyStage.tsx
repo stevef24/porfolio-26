@@ -240,8 +240,8 @@ export function ScrollyStage({
 							className={cn(
 								"text-swiss-label px-2.5 py-1",
 								"rounded-full",
-								// OpenAI design: inverted colors for contrast on stage background
-								"bg-foreground/90 text-background/80",
+								"border border-[var(--btn-outline-border)]",
+								"bg-[var(--btn-subtle-bg)] text-[var(--btn-subtle-fg)]",
 								"backdrop-blur-sm",
 								"transition-opacity duration-200",
 								isAnimating && "opacity-60"
@@ -316,8 +316,8 @@ export function ScrollyStage({
 							className={cn(
 								"text-swiss-label px-2.5 py-1",
 								"rounded-full",
-								// OpenAI design: inverted colors for contrast on stage background
-								"bg-foreground/90 text-background/80",
+								"border border-[var(--btn-outline-border)]",
+								"bg-[var(--btn-subtle-bg)] text-[var(--btn-subtle-fg)]",
 								"transition-opacity duration-200",
 								isAnimating && "opacity-60"
 							)}

@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useCourseProgress } from "@/hooks/useProgress";
 import { cn } from "@/lib/utils";
 import { springSmooth } from "@/lib/motion-variants";
+import { Button } from "@/components/ui/button";
 
 interface Lesson {
   slug: string;
@@ -109,16 +110,15 @@ export function CourseProgressHeader({
       )}
 
       {/* CTA Button */}
-      <Link
-        href={continueLessonUrl}
-        className="group inline-flex items-center gap-2 px-5 py-3 rounded-[6px] bg-foreground text-background text-swiss-body font-medium hover:opacity-90 transition-opacity cursor-pointer"
-      >
-        <HugeiconsIcon
-          icon={isComplete ? CheckmarkCircle02Icon : PlayCircle02Icon}
-          size={16}
-        />
-        {ctaContent}
-      </Link>
+      <Button asChild variant="cta" size="sm" className="group gap-2">
+        <Link href={continueLessonUrl}>
+          <HugeiconsIcon
+            icon={isComplete ? CheckmarkCircle02Icon : PlayCircle02Icon}
+            size={16}
+          />
+          {ctaContent}
+        </Link>
+      </Button>
     </motion.div>
   );
 }

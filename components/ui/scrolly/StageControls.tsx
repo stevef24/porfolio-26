@@ -67,19 +67,23 @@ export function StageControls({
 }: StageControlsProps) {
 	const prefersReducedMotion = useReducedMotion();
 
-	// OpenAI design: circular buttons with opacity-based backgrounds
-	// Works in both light and dark mode via CSS variables
+	// Minimal icon controls with shared button tokens.
 	const buttonClass = cn(
-		"w-7 h-7 flex items-center justify-center",
+		"w-9 h-9 flex items-center justify-center",
 		"rounded-full cursor-pointer",
-		// Light mode: dark background on cream stage | Dark mode: light background on dark stage
-		"bg-foreground/80 text-background/70",
-		"hover:text-background hover:bg-foreground/90",
+		"border border-[var(--btn-outline-border)]",
+		"bg-[var(--btn-subtle-bg)] text-[var(--btn-subtle-fg)]",
+		"hover:text-foreground hover:bg-[var(--btn-subtle-bg-hover)]",
 		"transition-all duration-150",
-		"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20"
+		"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-1 focus-visible:ring-offset-background"
 	);
 
-	const activeButtonClass = cn(buttonClass, "text-background bg-foreground/90");
+	const activeButtonClass = cn(
+		buttonClass,
+		"border-transparent",
+		"bg-[var(--btn-solid-bg)] text-[var(--btn-solid-fg)]",
+		"hover:bg-[var(--btn-solid-bg-hover)] hover:text-[var(--btn-solid-fg)]"
+	);
 
 	// Check if any buttons are visible
 	const hasButtons =
@@ -94,12 +98,10 @@ export function StageControls({
 	return (
 		<motion.div
 			className={cn(
-				// OpenAI design: floating pill toolbar with opacity-based backgrounds
-				"flex items-center gap-1 p-1",
-				// Light mode: dark container | Dark mode: light container
-				"bg-foreground/90 rounded-2xl",
-				// Shadow only in light mode
-				"shadow-[0_2px_8px_rgba(0,0,0,0.15)] dark:shadow-none",
+				"flex items-center gap-1 p-1.5",
+				"rounded-full border border-[var(--btn-outline-border)]",
+				"bg-background/90 backdrop-blur-sm",
+				"shadow-none",
 				className
 			)}
 			initial={prefersReducedMotion ? false : { opacity: 0, y: -4 }}

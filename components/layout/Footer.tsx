@@ -21,7 +21,7 @@ export function Footer(): JSX.Element {
 				<button
 					onClick={scrollToTop}
 					type="button"
-					className="group flex items-center gap-1.5 text-swiss-caption text-foreground/50 hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
+					className="group inline-flex h-8 items-center gap-1.5 rounded-full border border-[var(--btn-outline-border)] bg-[var(--btn-subtle-bg)] px-3 text-swiss-caption text-[var(--btn-subtle-fg)] hover:text-foreground hover:bg-[var(--btn-subtle-bg-hover)] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-1 focus-visible:ring-offset-background"
 					aria-label="Back to top"
 				>
 					<span>Top</span>
