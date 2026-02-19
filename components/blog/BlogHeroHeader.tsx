@@ -14,6 +14,31 @@ interface BlogHeroHeaderProps {
   className?: string;
 }
 
+interface BlogHeroVisualTokens {
+  mesh: [string, string, string, string];
+  paperFront: string;
+  paperBack: string;
+}
+
+const FALLBACK_HERO_TOKENS: BlogHeroVisualTokens = {
+  mesh: [
+    "rgb(224 242 254)",
+    "rgb(221 214 254)",
+    "rgb(252 231 243)",
+    "rgb(254 215 170)",
+  ],
+  paperFront: "rgb(102 102 102)",
+  paperBack: "rgb(255 255 255)",
+};
+
+function readColorToken(
+  styles: CSSStyleDeclaration,
+  token: string,
+  fallback: string
+): string {
+  return styles.getPropertyValue(token).trim() || fallback;
+}
+
 export function BlogHeroHeader({
   date,
   categories,
@@ -23,10 +48,45 @@ export function BlogHeroHeader({
 }: BlogHeroHeaderProps) {
   const prefersReducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
+  const [heroTokens, setHeroTokens] =
+    useState<BlogHeroVisualTokens>(FALLBACK_HERO_TOKENS);
 
   // Only render shaders after mount to avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
+    const root = document.documentElement;
+
+    const syncHeroTokens = () => {
+      const styles = getComputedStyle(root);
+      setHeroTokens({
+        mesh: [
+          readColorToken(styles, "--blog-hero-mesh-1", FALLBACK_HERO_TOKENS.mesh[0]),
+          readColorToken(styles, "--blog-hero-mesh-2", FALLBACK_HERO_TOKENS.mesh[1]),
+          readColorToken(styles, "--blog-hero-mesh-3", FALLBACK_HERO_TOKENS.mesh[2]),
+          readColorToken(styles, "--blog-hero-mesh-4", FALLBACK_HERO_TOKENS.mesh[3]),
+        ],
+        paperFront: readColorToken(
+          styles,
+          "--blog-hero-paper-front",
+          FALLBACK_HERO_TOKENS.paperFront
+        ),
+        paperBack: readColorToken(
+          styles,
+          "--blog-hero-paper-back",
+          FALLBACK_HERO_TOKENS.paperBack
+        ),
+      });
+    };
+
+    syncHeroTokens();
+
+    const observer = new MutationObserver(syncHeroTokens);
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ["class", "style", "data-theme"],
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -39,34 +99,17 @@ export function BlogHeroHeader({
       {/* Mesh Gradient Background - only render after mount */}
       {mounted && (
         <div className="absolute inset-0">
-          {/* Light mode gradient */}
-          <div className="dark:hidden absolute inset-0">
-            <MeshGradient
-              colors={["#e0f2fe", "#ddd6fe", "#fce7f3", "#fed7aa"]}
-              speed={prefersReducedMotion ? 0 : 0.12}
-              distortion={0.5}
-              swirl={0.25}
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          </div>
-          {/* Dark mode gradient - #0d0d0d base with vibrant colorful accents */}
-          <div className="hidden dark:block absolute inset-0">
-            <MeshGradient
-              colors={["#0d0d0d", "#1e3a5f", "#0d2d2d", "#2d1b4e"]}
-              speed={prefersReducedMotion ? 0 : 0.15}
-              distortion={0.4}
-              swirl={0.3}
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          </div>
+          <MeshGradient
+            colors={heroTokens.mesh}
+            speed={prefersReducedMotion ? 0 : 0.13}
+            distortion={0.45}
+            swirl={0.28}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+            }}
+          />
         </div>
       )}
 
@@ -113,8 +156,8 @@ export function BlogHeroHeader({
         <>
           <div className="absolute inset-0 pointer-events-none opacity-15 mix-blend-overlay dark:hidden">
             <PaperTexture
-              colorFront="#666666"
-              colorBack="#ffffff"
+              colorFront={heroTokens.paperFront}
+              colorBack={heroTokens.paperBack}
               scale={1.5}
               contrast={0.2}
               style={{
@@ -126,8 +169,8 @@ export function BlogHeroHeader({
           </div>
           <div className="absolute inset-0 pointer-events-none opacity-[0.15] mix-blend-soft-light hidden dark:block">
             <PaperTexture
-              colorFront="#ffffff"
-              colorBack="#0d0d0d"
+              colorFront={heroTokens.paperFront}
+              colorBack={heroTokens.paperBack}
               scale={1.5}
               contrast={0.15}
               style={{

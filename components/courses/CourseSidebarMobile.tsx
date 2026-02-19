@@ -116,7 +116,7 @@ function LessonItem({
       className="text-foreground/80 shrink-0"
     />
   ) : (
-    <span className="h-4 w-4 shrink-0 text-[10px] font-medium tabular-nums text-muted-foreground flex items-center justify-center">
+    <span className="flex h-4 w-4 shrink-0 items-center justify-center text-xs font-medium tabular-nums text-muted-foreground">
       {String(index + 1).padStart(2, "0")}
     </span>
   );
@@ -131,7 +131,7 @@ function LessonItem({
         onClick={onNavigate}
         className={cn(
           "relative flex min-h-11 items-center gap-2 px-2.5 py-1.5 rounded-md transition-colors cursor-pointer",
-          "text-[13px] leading-5",
+          "text-sm leading-5",
           "hover:bg-sidebar-accent/70 active:bg-sidebar-accent/80",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-sidebar",
           isActive && "bg-sidebar-accent/80 text-foreground font-medium",
@@ -232,8 +232,8 @@ export function CourseSidebarMobile({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="left" className="w-[300px] p-0 bg-sidebar">
         <SheetHeader className="border-b border-sidebar-border/70 px-4 py-4">
-          <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Course</p>
-          <SheetTitle className="text-left text-[14px] font-medium">
+          <p className="text-swiss-meta tracking-[0.12em] text-muted-foreground">Course</p>
+          <SheetTitle className="text-left text-sm font-medium">
             {courseName}
           </SheetTitle>
         </SheetHeader>
@@ -244,7 +244,7 @@ export function CourseSidebarMobile({
             href={`/courses/${courseSlug}`}
             onClick={handleNavigate}
             className={cn(
-              "flex items-center gap-2 px-4 py-3 text-[13px] border-b border-sidebar-border/70",
+              "flex items-center gap-2 border-b border-sidebar-border/70 px-4 py-3 text-sm",
               "hover:bg-sidebar-accent/60 transition-colors cursor-pointer",
               "focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary",
               pathname === `/courses/${courseSlug}` &&
@@ -258,7 +258,7 @@ export function CourseSidebarMobile({
           {/* Progress indicator */}
           {lessons.length > 0 && (
             <div className="px-4 py-3 border-b border-sidebar-border/70">
-              <div className="flex items-center justify-between text-[11px] text-muted-foreground mb-1.5">
+              <div className="mb-1.5 flex items-center justify-between text-xs text-muted-foreground">
                 <span>
                   {completedLessonsCount} / {lessons.length} completed
                 </span>
@@ -294,10 +294,10 @@ export function CourseSidebarMobile({
               modules.map((module) => (
                 <div key={module.name} className="mb-4">
                   <div className="px-4 py-2">
-                    <span className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+                    <span className="text-swiss-meta tracking-[0.12em] text-muted-foreground">
                       Module {String(module.index).padStart(2, "0")}
                     </span>
-                    <h3 className="text-[12px] font-medium text-foreground/80 mt-1 leading-tight">
+                    <h3 className="mt-1 text-sm font-medium leading-tight text-foreground/80">
                       {module.name}
                     </h3>
                   </div>

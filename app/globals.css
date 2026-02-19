@@ -94,7 +94,7 @@ button,
   --sf-bg-emphasis: rgba(0, 0, 0, 0.12);
   --sf-text-primary: #000000;
   --sf-text-secondary: rgba(0, 0, 0, 0.6);
-  --sf-text-tertiary: rgba(0, 0, 0, 0.44);
+  --sf-text-tertiary: rgba(0, 0, 0, 0.54);
   --sf-border-default: rgba(0, 0, 0, 0.12);
   --sf-border-subtle: rgba(0, 0, 0, 0.08);
   --btn-subtle-bg: rgba(0, 0, 0, 0.04);
@@ -108,8 +108,8 @@ button,
   /* 4-Tier Typography Color Hierarchy */
   --text-primary: rgba(0, 0, 0, 1);
   --text-secondary: rgba(0, 0, 0, 0.72);
-  --text-tertiary: rgba(0, 0, 0, 0.48);
-  --text-quaternary: rgba(0, 0, 0, 0.32);
+  --text-tertiary: rgba(0, 0, 0, 0.58);
+  --text-quaternary: rgba(0, 0, 0, 0.54);
 
   /* Visual Aid Animation Accent Palette (Motion-inspired, OKLCH)
      Derived from motion.dev's 5-color system, toned for light mode legibility */
@@ -243,6 +243,12 @@ button,
   --canvas-translate-duration: 0.35s;
   --canvas-translate-timing: cubic-bezier(0.23, 0.88, 0.26, 0.92);
   --blog-content-width: 680px;
+  --blog-hero-mesh-1: rgb(224 242 254);
+  --blog-hero-mesh-2: rgb(221 214 254);
+  --blog-hero-mesh-3: rgb(252 231 243);
+  --blog-hero-mesh-4: rgb(254 215 170);
+  --blog-hero-paper-front: rgb(102 102 102);
+  --blog-hero-paper-back: rgb(255 255 255);
 
   /* ═══════════════════════════════════════════════════════
      COURSE LAYOUT TOKENS
@@ -299,7 +305,7 @@ button,
   --sf-bg-emphasis: rgba(255, 255, 255, 0.12);
   --sf-text-primary: rgba(255, 255, 255, 0.95);
   --sf-text-secondary: rgba(255, 255, 255, 0.6);
-  --sf-text-tertiary: rgba(255, 255, 255, 0.44);
+  --sf-text-tertiary: rgba(255, 255, 255, 0.54);
   --sf-border-default: rgba(255, 255, 255, 0.12);
   --sf-border-subtle: rgba(255, 255, 255, 0.08);
   --btn-subtle-bg: rgba(255, 255, 255, 0.12);
@@ -313,8 +319,14 @@ button,
   /* 4-Tier Typography Color Hierarchy */
   --text-primary: rgba(255, 255, 255, 0.95);
   --text-secondary: rgba(255, 255, 255, 0.72);
-  --text-tertiary: rgba(255, 255, 255, 0.48);
-  --text-quaternary: rgba(255, 255, 255, 0.32);
+  --text-tertiary: rgba(255, 255, 255, 0.58);
+  --text-quaternary: rgba(255, 255, 255, 0.54);
+  --blog-hero-mesh-1: rgb(13 13 13);
+  --blog-hero-mesh-2: rgb(30 58 95);
+  --blog-hero-mesh-3: rgb(13 45 45);
+  --blog-hero-mesh-4: rgb(45 27 78);
+  --blog-hero-paper-front: rgb(255 255 255);
+  --blog-hero-paper-back: rgb(13 13 13);
 
   /* Visual Aid Animation Accent Palette (Motion-inspired, OKLCH)
      Brighter for dark backgrounds, lower chroma to avoid neon glare */
@@ -678,9 +690,9 @@ body {
    Font: Inter for readability */
 .text-swiss-body {
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 1rem; /* 16px - Oatmeal body.md */
+  font-size: 1.0625rem; /* 17px - aligns with base body */
   font-weight: 400;
-  line-height: 1.5; /* Comfortable reading per Oatmeal */
+  line-height: 1.65;
   color: var(--text-secondary);
 }
 
