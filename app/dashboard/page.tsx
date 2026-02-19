@@ -1,8 +1,9 @@
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import { courses } from "@/lib/source";
 import SiteShell from "@/components/layout/SiteShell";
 import { DashboardContent } from "./DashboardContent";
+import { isFeatureEnabled } from "@/lib/features";
 
 export const metadata = {
   title: "Dashboard - Your Learning Progress",
@@ -18,6 +19,10 @@ interface CourseInfo {
 }
 
 export default async function DashboardPage(): Promise<JSX.Element> {
+  if (!isFeatureEnabled("courses")) {
+    notFound();
+  }
+
   // Check if Supabase is configured
   if (!isSupabaseConfigured()) {
     redirect("/?auth_not_configured=true");

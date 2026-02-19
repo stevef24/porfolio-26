@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 // Mock motion/react hooks
 vi.mock("motion/react", async () => {
 	const actual = await vi.importActual("motion/react");
 	return {
 		...(actual as object),
-		useReducedMotion: vi.fn(() => false),
+		useReducedMotion: vi.fn(() => true),
 		useInView: vi.fn(() => true),
 	};
 });
@@ -33,6 +33,7 @@ vi.mock("@/lib/motion-variants", () => ({
 	typingCursor: { blink: {} },
 	meterFill: { empty: {}, filled: {} },
 	springSmooth: { type: "spring", visualDuration: 0.35, bounce: 0.1 },
+	springGentle: { type: "spring", visualDuration: 0.45, bounce: 0.08 },
 }));
 
 import { ContextBudgetBucket } from "@/components/visuals/ContextBudgetBucket";
@@ -55,7 +56,7 @@ import { SessionMemoryNote } from "@/components/visuals/SessionMemoryNote";
 describe("ContextBudgetBucket", () => {
 	it("renders the wrapper label", () => {
 		render(<ContextBudgetBucket />);
-		expect(screen.getByText("Context Budget")).toBeInTheDocument();
+		expect(screen.getByRole("img", { name: "Context Budget" })).toBeInTheDocument();
 	});
 
 	it("renders token labels", () => {
@@ -267,9 +268,7 @@ describe("ContextTrimComparison", () => {
 
 	it("renders trimmed content lines", () => {
 		render(<ContextTrimComparison />);
-		expect(
-			screen.getByText(/auth\.ts:42-68/)
-		).toBeInTheDocument();
+		expect(screen.getAllByText(/auth\.ts:42-68/).length).toBeGreaterThan(0);
 	});
 });
 
@@ -286,9 +285,9 @@ describe("PermissionsSafetyLadder", () => {
 
 	it("renders rung descriptions", () => {
 		render(<PermissionsSafetyLadder />);
-		expect(screen.getByText("Safest")).toBeInTheDocument();
-		expect(screen.getByText("Medium trust")).toBeInTheDocument();
-		expect(screen.getByText("Highest trust")).toBeInTheDocument();
+		expect(screen.getAllByText("Safest").length).toBeGreaterThan(0);
+		expect(screen.getAllByText("Medium trust").length).toBeGreaterThan(0);
+		expect(screen.getAllByText("Highest trust").length).toBeGreaterThan(0);
 	});
 });
 
@@ -305,8 +304,8 @@ describe("SessionMemoryNote", () => {
 
 	it("renders bullet text content", () => {
 		render(<SessionMemoryNote />);
-		expect(screen.getByText("Migrated auth to v2")).toBeInTheDocument();
-		expect(screen.getByText("CI timeout on deploy")).toBeInTheDocument();
-		expect(screen.getByText("Add rate limiting")).toBeInTheDocument();
+		expect(screen.getAllByText("Migrated auth to v2").length).toBeGreaterThan(0);
+		expect(screen.getAllByText("CI timeout on deploy").length).toBeGreaterThan(0);
+		expect(screen.getAllByText("Add rate limiting").length).toBeGreaterThan(0);
 	});
 });

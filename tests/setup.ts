@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom/vitest";
-import { vi } from "vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach, vi } from "vitest";
 
 type MockIOInstance = {
 	callback: IntersectionObserverCallback;
@@ -108,6 +109,11 @@ const ioMock = {
 		ioInstances.length = 0;
 	},
 };
+
+afterEach(() => {
+	cleanup();
+	ioMock.reset();
+});
 
 Object.defineProperty(globalThis, "__ioMock", {
 	value: ioMock,

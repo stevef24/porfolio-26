@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MoonIcon from "@/components/ui/moon-icon";
 import BrightnessDownIcon from "@/components/ui/brightness-down-icon";
+import { useFeature } from "@/lib/features";
 
 /**
  * Floating Pill Header
@@ -18,7 +19,7 @@ import BrightnessDownIcon from "@/components/ui/brightness-down-icon";
  * - Simple and clean
  */
 
-const links = [
+const BASE_LINKS = [
 	{ text: "Home", url: "/" },
 	{ text: "Courses", url: "/courses" },
 	{ text: "Blog", url: "/blog" },
@@ -32,6 +33,10 @@ export function Header() {
 	const { setTheme, resolvedTheme } = useTheme();
 	const pathname = usePathname();
 	const shouldReduceMotion = useReducedMotion();
+	const coursesEnabled = useFeature("courses");
+	const links = coursesEnabled
+		? BASE_LINKS
+		: BASE_LINKS.filter((link) => link.url !== "/courses");
 
 	const isDark = mounted ? resolvedTheme === "dark" : false;
 
