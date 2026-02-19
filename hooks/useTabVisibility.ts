@@ -9,7 +9,7 @@ interface UseTabVisibilityOptions {
 }
 
 export function useTabVisibility({
-	awayMessage = "Come back - I'm bored",
+	awayMessage = "Come back on board",
 	originalTitle,
 	enabled = true,
 }: UseTabVisibilityOptions = {}) {
@@ -18,25 +18,24 @@ export function useTabVisibility({
 	useEffect(() => {
 		if (!enabled || typeof document === "undefined") return;
 
-		// Store the original title
-		originalTitleRef.current = originalTitle || document.title;
-
 		const handleVisibilityChange = () => {
 			if (document.hidden) {
-				// User switched away from tab
+				// Capture the current route title before showing away message.
+				originalTitleRef.current = originalTitle || document.title;
 				document.title = awayMessage;
 			} else {
-				// User returned to tab
-				document.title = originalTitleRef.current;
+				// Restore the last active route title.
+				document.title = originalTitleRef.current || originalTitle || document.title;
 			}
 		};
 
+		// Initialize with the current page title.
+		originalTitleRef.current = originalTitle || document.title;
 		document.addEventListener("visibilitychange", handleVisibilityChange);
 
 		return () => {
 			document.removeEventListener("visibilitychange", handleVisibilityChange);
-			// Restore original title on cleanup
-			document.title = originalTitleRef.current;
+			document.title = originalTitleRef.current || document.title;
 		};
 	}, [awayMessage, originalTitle, enabled]);
 }

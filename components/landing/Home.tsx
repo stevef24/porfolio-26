@@ -5,7 +5,6 @@ import { MidCard } from "@/components/ui/MidCard";
 import { VideoCard } from "@/components/ui/VideoCard";
 import { LinkPreview } from "@/components/ui/blog/LinkPreview";
 import Contact from "./Contact";
-import TabVisibility from "./TabVisibility";
 
 interface BlogPost {
 	url: string;
@@ -55,11 +54,6 @@ const videos = [
 export default function Home({ posts }: HomeProps): JSX.Element {
 	return (
 		<main className="py-12 lg:py-16">
-			<TabVisibility
-				awayMessage="Come back - I'm bored"
-				originalTitle="Stav Fernandes - Full Stack Developer & Technical Writer"
-				enabled
-			/>
 			{/* Hero Section - Emil Kowalski inspired minimal intro */}
 			<section
 				id="hero"

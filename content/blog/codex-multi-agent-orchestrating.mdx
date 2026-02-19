@@ -1,0 +1,188 @@
+---
+title: CodeX Multi-agent Orchestrating
+description: A practical playbook for running Codex like a small engineering team with parallel execution and tight quality gates.
+author: Stav Fernandes
+date: 2026-02-19
+---
+
+import { codexMultiAgentOrchestratingSteps } from "./codex-multi-agent-orchestrating.steps";
+
+<BlogWithCanvas>
+
+One agent can plan, code, test, review, and secure a project. It can also get slow and noisy fast.  
+This post is the lean version of a better pattern: split responsibilities into a small role-based team, run parallel work in batches, and apply repeatable gates before every merge.
+
+This draft is intentionally short and practical. We are keeping it under 1000 words so it can ship quickly, then we can expand it in a follow-up.
+
+## Outline
+
+1. Mental model for multi-agent flow
+2. Why this beats one mega-agent for CI/CD
+3. Minimal install and config
+4. Small-team role roster
+5. Why these defaults work
+6. MCP strategy without bloat
+7. The repeatable green loop
+8. Pro vs Plus starter packs
+
+## Mental model in 6 lines
+
+```text
+Main Prompt
+  -> Orchestrator
+  -> Implementers (parallel, scoped)
+  -> CI Runner
+  -> Reviewer + Security
+  -> Merge green batch back
+```
+
+Your main session stays focused. Specialist instructions load only when needed.  
+The result is less context drift and more predictable output.
+
+## Why this beats one mega-agent for CI/CD
+
+- Separation of concerns: each role owns one job, so prompts stay clear.
+- Faster iteration: independent tasks run in parallel instead of serial blocking.
+- Safer merges: review and security run every batch, not just at the end.
+
+<AgentCodeWalkthrough steps={codexMultiAgentOrchestratingSteps}>
+
+<CanvasStep index={0}>
+
+## 1) Install and enable (minimal)
+
+Put shared defaults in `~/.codex/config.toml` and keep project overrides in `.codex/config.toml` when needed.
+
+Start simple:
+
+- `max_threads = 12` as a ceiling, not a target.
+- Define only core roles first.
+- Keep secrets in env vars, not inline config.
+
+</CanvasStep>
+
+<CanvasStep index={1}>
+
+## 2) The small-team roster
+
+Recommended baseline:
+
+- `orchestrator`: owns `plan.md`, batching, and convergence.
+- `explorer`: maps code paths and CI workflow quickly.
+- `implementer`: executes one atomic task only.
+- `ci_runner`: mirrors CI locally and isolates failing commands.
+- `reviewer`: correctness and regression risks.
+- `security_auditor`: secrets, injection, and auth checks.
+- `qa_test_author`: fills missing tests and reproductions.
+- `release_manager`: release notes, rollout, rollback checklist.
+
+Keep role descriptions short and dispatch-oriented. Good routing depends on that.
+
+</CanvasStep>
+
+<CanvasStep index={2}>
+
+## 3) Run parallel batches, not parallel chaos
+
+Use 2 to 4 implementers per batch at first.  
+Only parallelize tasks that do not touch the same boundary.
+
+A simple atomic task template:
+
+- Goal
+- Acceptance criteria
+- Files likely touched
+- Done-when checks
+
+If diffs get messy, reduce batch size before changing everything else.
+
+</CanvasStep>
+
+<CanvasStep index={3}>
+
+## 4) Quality gates every batch
+
+Every parallel batch must pass:
+
+1. `ci_runner` on deterministic commands.
+2. `reviewer` for regressions and correctness.
+3. `security_auditor` for risk hotspots.
+
+Treat gates as hard stops. Do not accumulate unreviewed work.
+
+</CanvasStep>
+
+<CanvasStep index={4}>
+
+## 5) The rationale for core defaults
+
+- `max_threads = 12`: good starting headroom without immediate rate-limit pain.
+- On-demand role files: keeps the main session cleaner during long runs.
+- Tight batch loop: converges faster than huge one-shot prompts.
+- Plan as source of truth: prevents scope drift.
+
+Tune quickly:
+
+- Seeing 429s: reduce threads.
+- Seeing noisy diffs: reduce batch size.
+- Seeing drift: tighten `plan.md` format.
+
+</CanvasStep>
+
+<CanvasStep index={5}>
+
+## 6) First-run prompt that keeps the system stable
+
+Start every run by instructing the orchestrator to:
+
+- execute one bounded batch only,
+- run gates immediately after,
+- update `plan.md` with pass/fail,
+- avoid expanding scope.
+
+This gives you predictable loops and cleaner handoffs between sessions.
+
+</CanvasStep>
+
+</AgentCodeWalkthrough>
+
+## MCP strategy without context bloat
+
+Attach tools to roles, not globally.
+
+- UI roles get UI-focused MCPs.
+- Docs roles get docs/search MCPs.
+- Keep reviewer/security lean unless a tool is truly required.
+
+The principle: tool access should follow responsibility.
+
+## Two starter packs (for release)
+
+We’ll ship two downloadable packs:
+
+- **Pro pack**: faster defaults for teams comfortable with higher concurrency.
+- **Plus pack**: conservative defaults for reliability-first runs.
+
+Each pack includes:
+
+- `config.toml`
+- `agents/` role files
+- first-run prompt
+- role-to-model mapping table
+
+Example mapping:
+
+| Role | Pro | Plus |
+| --- | --- | --- |
+| orchestrator | GPT-5.3 | GPT-5.2 |
+| implementer | GPT-5.2 / Spark | GPT-5.2 |
+| reviewer | GPT-5.3 | GPT-5.2 |
+| security_auditor | GPT-5.3 | GPT-5.2 |
+
+## Close
+
+The win is simple: parallel where it helps, strict gates where it matters, and a single planning source to avoid drift.  
+That combination gets you faster delivery without turning your repo into chaos.
+
+</BlogWithCanvas>
+

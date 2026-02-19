@@ -1,10 +1,10 @@
-import { blog } from "@/lib/source";
 import { BlogPostsList } from "@/components/blog/BlogPostsList";
 import SiteShell from "@/components/layout/SiteShell";
 import BlurFade from "@/components/shared/BlurFade";
+import { getVisibleBlogPages } from "@/lib/blog-visibility";
 
 export default function BlogPage(): JSX.Element {
-  const posts = blog.getPages().map((post) => ({
+  const posts = getVisibleBlogPages().map((post) => ({
     url: post.url,
     title: post.data.title || "",
     description: post.data.description || "",

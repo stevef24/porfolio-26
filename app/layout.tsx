@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import TabVisibility from "@/components/landing/TabVisibility";
 import { SwissGridBackground } from "@/components/ui/SwissGridBackground";
 import { Agentation } from "agentation";
 import "./globals.css";
@@ -61,6 +62,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <TabVisibility awayMessage="Come back on board" enabled />
           <SwissGridBackground />
           {children}
           {process.env.NODE_ENV === "development" && <Agentation />}
