@@ -8,7 +8,6 @@
  * - Dual-theme support (CSS-based instant switching)
  * - Multi-file tab support with persistence
  * - Copy to clipboard
- * - Fullscreen mode
  * - Focus line highlighting
  */
 
@@ -21,7 +20,6 @@ import {
   useState,
   memo,
 } from "react";
-import { createPortal } from "react-dom";
 import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import { ShikiMagicMoveRenderer } from "shiki-magic-move/react";
 import { syncTokenKeys, toKeyedTokens } from "shiki-magic-move/core";
@@ -31,8 +29,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Copy01Icon,
   CheckmarkCircle02Icon,
-  ArrowExpandDiagonal01Icon,
-  Cancel01Icon,
   File01Icon,
 } from "@hugeicons/core-free-icons";
 import {
@@ -50,7 +46,6 @@ interface CanvasCodeStageProps {
   steps: AnyCodeStep[];
   activeIndex: number;
   className?: string;
-  fullscreenEnabled?: boolean;
   showStepIndicator?: boolean;
 }
 
@@ -165,13 +160,11 @@ export function CanvasCodeStage({
   steps,
   activeIndex,
   className,
-  fullscreenEnabled = true,
   showStepIndicator = true,
 }: CanvasCodeStageProps): JSX.Element {
   const prefersReducedMotion = useReducedMotion();
   const [copied, setCopied] = useState(false);
   const [activeFileName, setActiveFileName] = useState<string | null>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const currentStep = steps[activeIndex] ?? steps[0];
@@ -237,22 +230,6 @@ export function CanvasCodeStage({
     prevFileRef.current = newFile;
     prevStepRef.current = activeIndex;
   }, [activeIndex, steps]);
-
-  // Handle fullscreen
-  const handleFullscreen = useCallback(() => setIsFullscreen(prev => !prev), []);
-
-  useEffect(() => {
-    if (!isFullscreen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsFullscreen(false);
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [isFullscreen]);
 
   // Copy to clipboard
   const handleCopy = useCallback(() => {
@@ -336,8 +313,7 @@ export function CanvasCodeStage({
     );
   };
 
-  // Render header (shared between normal and fullscreen)
-  const renderHeader = (layoutIdSuffix: string = "") => (
+  const renderHeader = () => (
     <div className="canvas-code-stage-header">
       <div className="flex items-center gap-3">
         {showStepIndicator && steps.length > 1 && (
@@ -365,7 +341,7 @@ export function CanvasCodeStage({
                   {file.name}
                   {isSelected && (
                     <motion.span
-                      layoutId={`canvas-tab-underline${layoutIdSuffix}`}
+                      layoutId="canvas-tab-underline"
                       className="canvas-code-stage-underline"
                       transition={prefersReducedMotion ? { duration: 0 } : springSnappy}
                     />
@@ -397,11 +373,6 @@ export function CanvasCodeStage({
       </div>
 
       <div className="canvas-code-stage-toolbar">
-        {fullscreenEnabled && (
-          <button onClick={handleFullscreen} className="canvas-code-stage-btn" aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"} title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}>
-            <HugeiconsIcon icon={isFullscreen ? Cancel01Icon : ArrowExpandDiagonal01Icon} size={13} strokeWidth={1.5} aria-hidden="true" />
-          </button>
-        )}
         <button onClick={handleCopy} className="canvas-code-stage-btn" aria-label="Copy code" title="Copy code">
           <AnimatePresence mode="wait">
             {copied ? (
@@ -442,43 +413,6 @@ export function CanvasCodeStage({
       )}>
         {renderContent()}
       </div>
-
-      {/* Fullscreen portal */}
-      <AnimatePresence>
-        {isFullscreen && typeof document !== "undefined" && createPortal(
-          <motion.div
-            className="fixed inset-0 z-[100]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-          >
-            <motion.div
-              className="absolute inset-0 bg-background/80 backdrop-blur-sm"
-              onClick={handleFullscreen}
-            />
-            <motion.div
-              className={cn("canvas-code-stage absolute flex flex-col", hasFocus && "has-focus")}
-              style={{ top: "2rem", left: "2rem", right: "2rem", bottom: "2rem" }}
-              initial={prefersReducedMotion ? {} : { scale: 0.95, y: 10 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={prefersReducedMotion ? {} : { scale: 0.95, y: 10 }}
-              transition={prefersReducedMotion ? { duration: 0 } : springGentle}
-            >
-              {focusLineCSS && <style dangerouslySetInnerHTML={{ __html: focusLineCSS }} />}
-              {renderHeader("-fullscreen")}
-              <div className={cn(
-                "canvas-code-stage-content flex-1",
-                "font-mono text-sm leading-relaxed",
-                isAnimating && "pointer-events-none"
-              )}>
-                {renderContent()}
-              </div>
-            </motion.div>
-          </motion.div>,
-          document.body
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }

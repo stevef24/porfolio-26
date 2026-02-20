@@ -297,7 +297,7 @@ export function Header() {
 					"flex items-center justify-between",
 					"py-3 px-5",
 					"rounded-full",
-					"bg-background/75 backdrop-blur-2xl",
+					"bg-background/90 backdrop-blur-2xl",
 					"border border-border",
 					"shadow-sm dark:shadow-none"
 				)}
