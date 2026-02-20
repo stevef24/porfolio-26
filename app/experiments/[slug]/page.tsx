@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { experiments } from "@/data/experiments";
 import { ExperimentDetail } from "@/components/experiments/ExperimentDetail";
-import Link from "next/link";
+import { AnimatedBackLink } from "@/components/experiments/AnimatedBackLink";
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 
@@ -42,13 +42,8 @@ export default async function ExperimentPage({ params }: PageProps) {
         id="main-content"
         className="flex-1 px-6 md:px-10 lg:px-16 py-12 lg:py-16 pb-28"
       >
-        <div className="max-w-5xl">
-          <Link
-            href="/experiments"
-            className="inline-flex items-center gap-1.5 text-swiss-caption text-foreground/50 hover:text-foreground transition-colors mb-10 no-underline"
-          >
-            &larr; Experiments
-          </Link>
+        <div className="max-w-5xl mx-auto">
+          <AnimatedBackLink />
 
           <ExperimentDetail experiment={experiment} />
         </div>

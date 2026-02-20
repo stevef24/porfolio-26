@@ -26,6 +26,8 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { VisualWrapper } from "./VisualWrapper";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { RotateLeft01Icon } from "@hugeicons/core-free-icons";
 
 /* ── Timing ────────────────────────────────────────────────────── */
 const TIMING = {
@@ -118,10 +120,11 @@ export function CodexOrchestrationLoop({
 					<button
 						onClick={handleReplay}
 						aria-label="Replay loop animation"
+						title="Replay"
 						className={cn(
 							"absolute right-0 top-0",
-							"text-[10px] uppercase tracking-[0.08em]",
-							"px-2 py-1 rounded border",
+							"flex items-center justify-center w-7 h-7",
+							"rounded border",
 							"border-[var(--sf-border-subtle)]",
 							"hover:border-[var(--va-blue)]",
 							"transition-colors duration-150",
@@ -132,7 +135,7 @@ export function CodexOrchestrationLoop({
 							backgroundColor: "var(--sf-bg-subtle)",
 						}}
 					>
-						Replay
+						<HugeiconsIcon icon={RotateLeft01Icon} size={14} strokeWidth={1.5} aria-hidden="true" />
 					</button>
 				)}
 				<svg

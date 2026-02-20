@@ -1896,23 +1896,21 @@ figure[data-rehype-pretty-code-figure] {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
   color: var(--canvas-toolbar-icon);
-  background: var(--btn-subtle-bg);
-  border: 1px solid var(--btn-outline-border);
+  background: transparent;
+  border: none;
   transition:
     color 150ms ease,
-    background-color 150ms ease,
-    border-color 150ms ease;
+    background-color 150ms ease;
   cursor: pointer;
 }
 
 .canvas-code-stage-btn:hover {
   color: var(--canvas-toolbar-icon-hover);
-  background: var(--btn-subtle-bg-hover);
-  border-color: var(--btn-outline-border);
+  background: var(--canvas-border-subtle);
 }
 
 .canvas-code-stage-btn:active {
@@ -1946,14 +1944,14 @@ figure[data-rehype-pretty-code-figure] {
 /* Code container - scrollable area with breathing room */
 .canvas-code-stage-content {
   overflow: auto;
-  padding: 1rem 0.5rem;
+  padding: 1.25rem 0.75rem;
 }
 
 /* Line styling - refined spacing */
 .canvas-code-stage .line,
 .canvas-code-stage .shiki-magic-move-line {
   display: block;
-  padding: 0 1.5rem;
+  padding: 0 1.75rem;
   min-height: var(--code-line-height);
   line-height: var(--code-line-height);
 }

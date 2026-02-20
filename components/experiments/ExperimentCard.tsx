@@ -108,7 +108,7 @@ export function ExperimentCard({ experiment }: ExperimentCardProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "inline-flex items-center justify-center w-7 h-7 rounded-[4px]",
+                  "inline-flex items-center justify-center w-8 h-8 rounded-[4px]",
                   "text-foreground/40 hover:text-foreground/80 hover:bg-muted/60",
                   "transition-colors duration-150",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -117,14 +117,14 @@ export function ExperimentCard({ experiment }: ExperimentCardProps) {
                 title="View source on GitHub"
                 onClick={(e) => e.stopPropagation()}
               >
-                <HugeiconsIcon icon={Github01Icon} size={13} strokeWidth={1.5} aria-hidden="true" />
+                <HugeiconsIcon icon={Github01Icon} size={16} strokeWidth={1.5} aria-hidden="true" />
               </a>
             ) : (
               <span
-                className="inline-flex items-center justify-center w-7 h-7 rounded-[4px] text-foreground/20 cursor-not-allowed"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-[4px] text-foreground/20 cursor-not-allowed"
                 title="No source available"
               >
-                <HugeiconsIcon icon={Github01Icon} size={13} strokeWidth={1.5} aria-hidden="true" />
+                <HugeiconsIcon icon={Github01Icon} size={16} strokeWidth={1.5} aria-hidden="true" />
               </span>
             )}
 
@@ -132,7 +132,7 @@ export function ExperimentCard({ experiment }: ExperimentCardProps) {
             <button
               type="button"
               className={cn(
-                "inline-flex items-center justify-center w-7 h-7 rounded-[4px]",
+                "inline-flex items-center justify-center w-8 h-8 rounded-[4px]",
                 "text-foreground/40 hover:text-foreground/80 hover:bg-muted/60",
                 "transition-colors duration-150",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -145,7 +145,7 @@ export function ExperimentCard({ experiment }: ExperimentCardProps) {
                 setDetailsOpen(true);
               }}
             >
-              <HugeiconsIcon icon={SourceCodeIcon} size={13} strokeWidth={1.5} aria-hidden="true" />
+              <HugeiconsIcon icon={SourceCodeIcon} size={16} strokeWidth={1.5} aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -182,7 +182,7 @@ export function ExperimentCard({ experiment }: ExperimentCardProps) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-swiss-caption text-foreground/50 hover:text-foreground transition-colors no-underline"
                   >
-                    <HugeiconsIcon icon={Github01Icon} size={12} strokeWidth={1.5} aria-hidden="true" />
+                    <HugeiconsIcon icon={Github01Icon} size={14} strokeWidth={1.5} aria-hidden="true" />
                     View on GitHub
                   </a>
                 )}

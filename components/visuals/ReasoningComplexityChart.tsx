@@ -88,7 +88,7 @@ function SegmentBar({
       {Array.from({ length: TOTAL_SEGMENTS }, (_, i) => {
         const filled = i < active;
         const opacity = segmentOpacity(i, active);
-        const delay = reduced ? 0 : rowDelay + i * 0.04;
+        const delay = reduced ? 0 : rowDelay + i * 0.07;
 
         return (
           <motion.div
@@ -106,7 +106,7 @@ function SegmentBar({
                 ? { duration: 0 }
                 : {
                     opacity: { delay, duration: 0.25, ease: "easeOut" },
-                    scaleX: { delay, type: "spring", visualDuration: 0.3, bounce: 0 },
+                    scaleX: { delay, type: "spring", visualDuration: 0.38, bounce: 0.05 },
                   }
             }
           />
@@ -179,7 +179,7 @@ export function ReasoningComplexityChart({
     return GROUPS.map((group) => ({
       ...group,
       rows: group.rows.map((row) => {
-        const delay = reduced ? 0 : 0.05 + globalIndex * 0.07;
+        const delay = reduced ? 0 : 0.06 + globalIndex * 0.12;
         globalIndex++;
         return { ...row, delay };
       }),

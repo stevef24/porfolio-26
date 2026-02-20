@@ -243,6 +243,11 @@ export function Header() {
 
 	const isDark = mounted ? resolvedTheme === "dark" : false;
 
+	/* Hide navbar entirely on experiment detail pages (back arrow provides nav) */
+	const isExperimentDetail =
+		pathname.startsWith("/experiments/") && pathname !== "/experiments";
+	const shouldShow = isExperimentDetail ? false : isVisible;
+
 	const toggleTheme = () => {
 		setTheme(isDark ? "light" : "dark");
 	};
@@ -268,22 +273,31 @@ export function Header() {
 	return (
 		<motion.header
 			className="fixed bottom-11 left-0 right-0 z-50 flex justify-center px-4"
-			initial={{ y: 0, opacity: 1 }}
+			initial={{ y: 0, opacity: 1, scale: 1, filter: "blur(0px)" }}
 			animate={{
-				y: shouldReduceMotion ? 0 : isVisible ? 0 : 80,
-				opacity: shouldReduceMotion ? 1 : isVisible ? 1 : 0,
+				y: shouldReduceMotion ? 0 : shouldShow ? 0 : 80,
+				opacity: shouldReduceMotion ? 1 : shouldShow ? 1 : 0,
+				scale: shouldReduceMotion ? 1 : shouldShow ? 1 : 0.92,
+				filter: shouldReduceMotion
+					? "blur(0px)"
+					: shouldShow
+						? "blur(0px)"
+						: "blur(4px)",
 			}}
-			transition={{
-				duration: shouldReduceMotion ? 0 : 0.2,
-				ease: [0.25, 0.1, 0.25, 1],
-			}}
+			transition={
+				shouldReduceMotion
+					? { duration: 0 }
+					: shouldShow
+						? { type: "spring", stiffness: 400, damping: 35 }
+						: { duration: 0.22, ease: [0.4, 0, 1, 1] }
+			}
 		>
 			<div
 				className={cn(
 					"flex items-center justify-between",
 					"py-3 px-5",
 					"rounded-full",
-					"bg-background/85 backdrop-blur-md",
+					"bg-background/55 backdrop-blur-xl",
 					"border border-border",
 					"shadow-sm dark:shadow-none"
 				)}

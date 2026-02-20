@@ -54,6 +54,15 @@ Recommended placement:
 - Avoid duplicate labels (title + caption + inline label saying the same thing).
 - Default to one clear message per visual.
 
+## Replay / Refresh / Restart Button Rules
+- **Always icon-only** — never text labels ("Replay", "Restart", etc.).
+- Use a rotate/reload icon (e.g. `RotateLeft01Icon` from `@hugeicons/core-free-icons`).
+- Size: `w-7 h-7` container, icon `size={14}` with `strokeWidth={1.5}`.
+- Position: `absolute top-0 right-0` within the visual's container div.
+- Always include `aria-label` + `title` for accessibility.
+- Style: `border border-[var(--sf-border-subtle)] hover:border-[var(--va-blue)]` with `var(--sf-bg-subtle)` background.
+- Only show after the animation has completed (e.g. `{hasPlayed && !isReduced && ...}`).
+
 ## Motion Rules
 - Motion explains cause and effect.
 - Prefer short spring transitions from `lib/motion-variants.ts`.
