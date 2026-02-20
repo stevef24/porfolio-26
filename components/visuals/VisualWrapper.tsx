@@ -33,13 +33,15 @@ interface VisualWrapperProps {
   className?: string;
   label?: string;
   tone?: VisualTone;
+  showCaption?: boolean;
 }
 
 export function VisualWrapper({
   children,
   className,
   label,
-  tone = "blue",
+  tone = "neutral",
+  showCaption = true,
 }: VisualWrapperProps) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -59,24 +61,8 @@ export function VisualWrapper({
         role="img"
         aria-label={label}
       >
-        <div
-          aria-hidden
-          className="va-shell__bg pointer-events-none absolute inset-0"
-        />
-        <div
-          aria-hidden
-          className="va-shell__grid pointer-events-none absolute inset-0"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px"
-          style={{
-            background: "var(--sf-border-default)",
-            opacity: 0.5,
-          }}
-        />
         <div className="relative z-10">{children}</div>
-        {label && (
+        {label && showCaption && (
           <figcaption
             className="mt-6 text-center text-[13px] italic"
             style={{ color: "var(--sf-text-tertiary)" }}

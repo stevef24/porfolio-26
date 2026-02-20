@@ -1,8 +1,15 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ExperimentCard } from "./ExperimentCard";
 import BlurFade from "@/components/shared/BlurFade";
 import type { Experiment } from "@/data/experiments";
+
+declare global {
+  interface Window {
+    __experimentsGridAnimated?: boolean;
+  }
+}
 
 interface ExperimentGridProps {
   experiments: Experiment[];
@@ -15,6 +22,17 @@ export function ExperimentGrid({
   baseDelay = 0.2,
   stagger = 0.05,
 }: ExperimentGridProps) {
+  const [shouldAnimate] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return !window.__experimentsGridAnimated;
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.__experimentsGridAnimated = true;
+    }
+  }, []);
+
   return (
     <div
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
@@ -25,11 +43,17 @@ export function ExperimentGrid({
        */
       style={{ gridAutoRows: "auto" }}
     >
-      {experiments.map((exp, index) => (
-        <BlurFade key={exp.slug} delay={baseDelay + index * stagger}>
-          <ExperimentCard experiment={exp} />
-        </BlurFade>
-      ))}
+      {experiments.map((exp, index) =>
+        shouldAnimate ? (
+          <BlurFade key={exp.slug} delay={baseDelay + index * stagger}>
+            <ExperimentCard experiment={exp} />
+          </BlurFade>
+        ) : (
+          <div key={exp.slug}>
+            <ExperimentCard experiment={exp} />
+          </div>
+        )
+      )}
     </div>
   );
 }

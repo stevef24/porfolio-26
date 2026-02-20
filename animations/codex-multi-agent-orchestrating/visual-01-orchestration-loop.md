@@ -12,15 +12,16 @@ The workflow is conceptually simple but hard to picture from text alone. This vi
 ## What it should show
 - Four sequential nodes: Plan, Implement, CI, Review.
 - Forward arrows drawing left-to-right.
-- One subtle loop-back arrow from Review to Plan labeled Repeat.
-- A replay action for quick rewatch while reading.
+- One subtle loop-back arrow from Review to Plan.
+- One compact replay action in the top-right corner.
 
 ## How it works (visual + motion)
 - Visual language is monochrome first: neutral surface, neutral borders, neutral text.
 - Accent color is used intentionally and sparingly: `var(--va-blue)`.
 - Stage-driven sequence reveals one node/arrow at a time.
-- Final stage reveals the loop-back path and Repeat label.
+- Final stage settles with the full loop path visible.
 - The active node has a soft pulse to indicate current focus.
+- No duplicate caption text inside the visual shell when the section already names the concept.
 
 ## Steps (if multi-step)
 1. Stage 0: Plan node appears.
@@ -28,7 +29,7 @@ The workflow is conceptually simple but hard to picture from text alone. This vi
 3. Stage 2: Implement -> CI arrow draws, CI appears.
 4. Stage 3: CI -> Review arrow draws, Review appears.
 5. Stage 4: Loop-back arrow draws from Review to Plan.
-6. Stage 5: Repeat label appears and sequence settles.
+6. Stage 5: Sequence settles in final state.
 
 ## Placement (lesson + section)
 - File: `content/blog/codex-multi-agent-orchestrating.mdx`

@@ -126,10 +126,10 @@ button,
   --va-yellow: var(--va-fg-muted);
 
   /* Visual Aid shell + code block surfaces */
-  --va-shell-bg: linear-gradient(
-    180deg,
-    color-mix(in oklch, var(--sf-bg-surface) 96%, white 4%),
-    var(--sf-bg-page)
+  --va-shell-bg: color-mix(
+    in oklch,
+    var(--sf-bg-page) 90%,
+    var(--sf-bg-surface) 10%
   );
   --va-shell-border: var(--sf-border-subtle);
   --va-shell-grid: color-mix(
@@ -137,9 +137,7 @@ button,
     var(--sf-border-subtle) 55%,
     transparent
   );
-  --va-shell-shadow:
-    0 24px 54px -40px rgba(11, 18, 32, 0.18),
-    0 4px 18px -12px rgba(11, 18, 32, 0.1);
+  --va-shell-shadow: none;
   --code-block-bg: #f6f6f3;
   --code-block-border: rgba(0, 0, 0, 0.12);
   --code-block-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
@@ -416,10 +414,10 @@ button,
   --va-yellow: var(--va-fg-muted);
 
   /* Visual Aid shell + code block surfaces */
-  --va-shell-bg: linear-gradient(
-    180deg,
-    color-mix(in oklch, var(--sf-bg-surface) 96%, black 4%),
-    var(--sf-bg-page)
+  --va-shell-bg: color-mix(
+    in oklch,
+    var(--sf-bg-page) 86%,
+    var(--sf-bg-surface) 14%
   );
   --va-shell-border: var(--sf-border-subtle);
   --va-shell-grid: color-mix(
@@ -427,7 +425,7 @@ button,
     var(--sf-border-subtle) 48%,
     transparent
   );
-  --va-shell-shadow: 0 28px 60px -46px rgba(0, 0, 0, 0.5);
+  --va-shell-shadow: none;
   --code-block-bg: #141414;
   --code-block-border: rgba(255, 255, 255, 0.14);
   --code-block-shadow: none;
@@ -584,43 +582,15 @@ button,
 }
 
 .va-shell::before {
-  content: "";
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  border: 1px solid var(--sf-border-subtle);
-  pointer-events: none;
-  opacity: 0.4;
+  content: none;
 }
 
 .va-shell__bg {
-  background:
-    radial-gradient(
-      120% 70% at 8% -10%,
-      color-mix(in oklch, var(--va-fg) 4%, transparent),
-      transparent 62%
-    ),
-    radial-gradient(
-      95% 80% at 100% 100%,
-      color-mix(in oklch, var(--va-fg) 3%, transparent),
-      transparent 68%
-    );
-  opacity: 0.95;
+  display: none;
 }
 
 .va-shell__grid {
-  background-image:
-    linear-gradient(to right, var(--va-shell-grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--va-shell-grid) 1px, transparent 1px);
-  background-size: 24px 24px;
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.55) 24%,
-    rgba(0, 0, 0, 0.55) 76%,
-    transparent 100%
-  );
-  opacity: 0.2;
+  display: none;
 }
 
 .va-shell [data-va-panel] {

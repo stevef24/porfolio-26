@@ -9,7 +9,7 @@
  * │  800     Stage 2  Arrow draws → CI node fades in               │
  * │  1200    Stage 3  Arrow draws → Review node fades in           │
  * │  1600    Stage 4  Loop arrow draws back to Plan, pulse glow    │
- * │  2400    Stage 5  All nodes settle, "Repeat" label appears     │
+ * │  2400    Stage 5  All nodes settle                              │
  * │                                                                 │
  * │  Layout (top-down):                                            │
  * │                                                                 │
@@ -105,11 +105,36 @@ export function CodexOrchestrationLoop({
 
 	return (
 		<VisualWrapper
-			label="Plan → Implement → CI → Review → Repeat"
+			label="Codex orchestration loop diagram"
 			className={className}
 			tone="neutral"
+			showCaption={false}
 		>
-			<div ref={ref} className="flex flex-col items-center gap-6 py-4">
+			<div
+				ref={ref}
+				className="relative flex w-full flex-col items-center py-4"
+			>
+				{hasPlayed && !isReduced && (
+					<button
+						onClick={handleReplay}
+						aria-label="Replay loop animation"
+						className={cn(
+							"absolute right-0 top-0",
+							"text-[10px] uppercase tracking-[0.08em]",
+							"px-2 py-1 rounded border",
+							"border-[var(--sf-border-subtle)]",
+							"hover:border-[var(--va-blue)]",
+							"transition-colors duration-150",
+							"cursor-pointer",
+						)}
+						style={{
+							color: TEXT_DIM,
+							backgroundColor: "var(--sf-bg-subtle)",
+						}}
+					>
+						Replay
+					</button>
+				)}
 				<svg
 					viewBox={`-4 -4 ${SVG_W + 8} ${SVG_H + 8}`}
 					className="block w-full max-w-[520px]"
@@ -206,29 +231,6 @@ export function CodexOrchestrationLoop({
 											: { duration: 0.15, delay: 0.5 }
 									}
 								/>
-								{/* "Repeat" label on the loop arrow */}
-								<motion.text
-									x={(startX + endX) / 2}
-									y={loopY + 14}
-									textAnchor="middle"
-									fill={TEXT_DIM}
-									fontSize={10}
-									fontFamily="var(--font-sans), monospace"
-									letterSpacing="0.08em"
-									initial={{ opacity: 0 }}
-									animate={
-										isReduced || stage >= 5
-											? { opacity: 1 }
-											: { opacity: 0 }
-									}
-									transition={
-										isReduced
-											? { duration: 0 }
-											: { duration: 0.3 }
-									}
-								>
-									REPEAT
-								</motion.text>
 							</g>
 						);
 					})()}
@@ -304,32 +306,6 @@ export function CodexOrchestrationLoop({
 						);
 					})}
 				</svg>
-
-				{/* Caption + Replay */}
-				<div className="flex items-center gap-3">
-					<p className="text-swiss-code">
-						Orchestration loop
-					</p>
-					{hasPlayed && !isReduced && (
-						<button
-							onClick={handleReplay}
-							className={cn(
-								"text-swiss-code",
-								"px-2 py-1 rounded border",
-								"border-[var(--sf-border-subtle)]",
-								"hover:border-[var(--va-blue)]",
-								"transition-colors duration-150",
-								"cursor-pointer",
-							)}
-							style={{
-								color: TEXT_DIM,
-								backgroundColor: "var(--sf-bg-subtle)",
-							}}
-						>
-							Replay
-						</button>
-					)}
-				</div>
 			</div>
 		</VisualWrapper>
 	);
