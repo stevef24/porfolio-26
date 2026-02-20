@@ -39,6 +39,8 @@ These instructions guide agents (including Codex) working in this repo.
   - Placement (lesson + section)
   - Motion + Reduced-motion behavior
 - Shared design system lives in `animations/visual-aids.md`.
+- Blog visual animation rules live in `ANIMATION-RULEBOOK.md` (canonical for blog visuals).
+- For blog visuals, storyboard-first is mandatory before implementation (stage-based orchestration + reduced-motion plan).
 
 ## Codex/GitHub Review Guidance
 - For review tasks, prioritize P0/P1 issues over style nits.

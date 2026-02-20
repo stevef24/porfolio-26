@@ -1,4 +1,4 @@
-# Visual System Overview
+# Visual Aid Rulebook
 
 This folder holds animation and visual briefs for every course.
 
@@ -15,6 +15,7 @@ This folder holds animation and visual briefs for every course.
 ## Folder Layout
 
 - `animations/visual-aids.md` (this file) - design system + index
+- `ANIMATION-RULEBOOK.md` - canonical rulebook for blog visual animations
 - `animations/ideas/` - research notes and inspiration
 - `animations/claude-code-fundamentals/` - one file per visual
 - `animations/codex-cli-deep-dive/` - one file per visual
@@ -40,6 +41,8 @@ Every visual brief must include:
 - Prefer monochrome with one accent color for emphasis.
 - Keep shapes geometric: rectangles, circles, simple strokes.
 - Use 1px or 2px lines consistently; avoid heavy borders.
+- Visual shells must use flat tokenized surfaces only: no default gradients, meshes, or grid textures.
+- Avoid duplicated language in the visual UI (for example, title + caption + loop label all saying the same thing).
 
 ### Canvas and Scale
 - Default canvas: 960x320 for desktop, 720x280 for tablet, 360x220 for mobile.
@@ -88,6 +91,8 @@ Every visual brief must include:
 - If interactive, provide a default state that already communicates the idea.
 - Hover or click should reveal detail, not hide it.
 - Keep controls minimal: one slider, one toggle, or one play button.
+- Default to one control per visual (usually replay), placed in a low-noise corner position.
+- If the surrounding paragraph already names the visual, hide repeated caption text inside the visual shell.
 
 ### Accessibility
 - All visuals should remain understandable when motion is disabled.
