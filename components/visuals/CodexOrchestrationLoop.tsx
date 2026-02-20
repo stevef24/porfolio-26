@@ -122,7 +122,7 @@ export function CodexOrchestrationLoop({
 						aria-label="Replay loop animation"
 						title="Replay"
 						className={cn(
-							"absolute left-3 top-3",
+							"absolute right-3 top-3",
 							"flex items-center justify-center w-7 h-7",
 							"rounded border",
 							"border-[var(--sf-border-subtle)]",

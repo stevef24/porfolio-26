@@ -58,7 +58,7 @@ Recommended placement:
 - **Always icon-only** — never text labels ("Replay", "Restart", etc.).
 - Use a rotate/reload icon (e.g. `RotateLeft01Icon` from `@hugeicons/core-free-icons`).
 - Size: `w-7 h-7` container, icon `size={14}` with `strokeWidth={1.5}`.
-- Position: `absolute left-3 top-3` within the visual's container div (top-left, consistent across all blocks).
+- Position: `absolute right-3 top-3` within the visual's container div (top-right like a close/exit button, consistent across all blocks).
 - The container div must have `relative` positioning so the absolute button anchors correctly.
 - Always include `aria-label` + `title` for accessibility.
 - Style: `border border-[var(--sf-border-subtle)] hover:border-[var(--va-blue)]` with `var(--sf-bg-subtle)` background.
