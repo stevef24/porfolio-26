@@ -23,6 +23,7 @@ import {
 } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
 	transitionCanvasSlide,
 	springCanvasStretch,
@@ -148,6 +149,9 @@ export function BlogWithCanvas({
 	const [isHydrated, setIsHydrated] = useState(false);
 	const [willChangeTransform, setWillChangeTransform] = useState(false);
 	const prefersReducedMotion = useReducedMotion();
+	const isMobile = useIsMobile();
+	const isDesktopCanvasLayout = !isMobile;
+	const isDesktopCanvasActive = isDesktopCanvasLayout && hasActiveZone;
 
 	const hasActiveZoneRef = useRef(hasActiveZone);
 	const activeZoneIdRef = useRef(activeZoneId);
@@ -309,11 +313,13 @@ export function BlogWithCanvas({
 	// Expose canvas active state globally for components outside the context tree
 	// (e.g., SectionIndicator at page level needs to shift with the blog column)
 	useEffect(() => {
-		document.documentElement.dataset.canvasActive = hasActiveZone ? "true" : "false";
+		document.documentElement.dataset.canvasActive = isDesktopCanvasActive
+			? "true"
+			: "false";
 		return () => {
 			delete document.documentElement.dataset.canvasActive;
 		};
-	}, [hasActiveZone]);
+	}, [isDesktopCanvasActive]);
 
 	// Stable setter references for context consumers
 	const handleSetHasActiveZone = useCallback((active: boolean) => {
@@ -719,9 +725,9 @@ export function BlogWithCanvas({
 			<div
 				className={cn(
 					"relative min-h-screen",
-					fullBleed
+					isDesktopCanvasLayout && fullBleed
 						? "w-screen -ml-[calc((100vw-100%)/2)]"
-						: "w-full",
+						: "w-full overflow-x-hidden",
 					className
 				)}
 				data-canvas-layout
@@ -732,10 +738,15 @@ export function BlogWithCanvas({
 					className="relative"
 					data-blog-column
 					animate={{
-						x: hasActiveZone ? activeShiftX : 0,
+						x: isDesktopCanvasActive ? activeShiftX : 0,
 					}}
 					transition={prefersReducedMotion ? { duration: 0 } : transition}
-					style={{ willChange: willChangeTransform ? "transform" : "auto" }}
+					style={{
+						willChange:
+							isDesktopCanvasLayout && willChangeTransform
+								? "transform"
+								: "auto",
+					}}
 				>
 					{/* Content lock - max width for readability, centered */}
 					<div className={cn(contentMaxWidthClassName, "mx-auto px-4 md:px-6")}>
@@ -751,7 +762,7 @@ export function BlogWithCanvas({
 
 				{/* Canvas Column - fixed overlay that stretches from right edge */}
 				<AnimatePresence mode="sync">
-					{hasActiveZone && (
+					{isDesktopCanvasActive && (
 						<motion.div
 							className={cn(
 								// Fixed positioning - stays in viewport while scrolling

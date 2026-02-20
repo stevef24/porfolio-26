@@ -15,6 +15,7 @@
 import { useRef, useEffect } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { ScrollyProvider } from "./ScrollyContext";
 import {
 	ScrollyDrawerProvider,
@@ -47,6 +48,8 @@ function ScrollyCodingInner({
 }: ScrollyCodingComponentProps) {
 	const { isDrawerOpen, openDrawer, closeDrawer } = useScrollyDrawer();
 	const prefersReducedMotion = useReducedMotion();
+	const isMobile = useIsMobile();
+	const isDesktopDrawerLayout = !isMobile;
 
 	// Ref for the entire scrolly section
 	const sectionRef = useRef<HTMLElement>(null);
@@ -64,19 +67,34 @@ function ScrollyCodingInner({
 
 	// Manage drawer state based on scroll position
 	useEffect(() => {
+		if (!isDesktopDrawerLayout) {
+			if (isDrawerOpen) {
+				closeDrawer();
+			}
+			return;
+		}
+
 		if (isStepsInView && !isDrawerOpen) {
 			openDrawer();
 		}
 		if (!isStepsInView && isDrawerOpen) {
 			closeDrawer();
 		}
-	}, [isStepsInView, isDrawerOpen, openDrawer, closeDrawer]);
+	}, [isDesktopDrawerLayout, isStepsInView, isDrawerOpen, openDrawer, closeDrawer]);
+
+	const contentWrapperWidth = isDesktopDrawerLayout
+		? isDrawerOpen
+			? "50vw"
+			: "100vw"
+		: "100%";
 
 	return (
 		<motion.section
 			ref={sectionRef}
 			className={cn(
-				"relative flex w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden",
+				isDesktopDrawerLayout
+					? "relative flex w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden"
+					: "relative flex w-full overflow-x-hidden",
 				className
 			)}
 			aria-label="Interactive code walkthrough"
@@ -90,11 +108,12 @@ function ScrollyCodingInner({
 				layout
 				className="flex-shrink-0 w-full flex justify-center"
 				animate={{
-					width: isDrawerOpen ? "50vw" : "100vw",
+					width: contentWrapperWidth,
 				}}
 				transition={prefersReducedMotion ? { duration: 0 } : springScrollySplit}
 				style={{
-					willChange: "width",
+					willChange:
+						isDesktopDrawerLayout && isDrawerOpen ? "width" : "auto",
 				}}
 			>
 				{/* Content Lock - fixed width prevents text reflow during animation */}
@@ -139,25 +158,27 @@ function ScrollyCodingInner({
 			</motion.div>
 
 			{/* Right: Drawer Wrapper - Slides in from right */}
-			<motion.div
-				className={cn(
-					// Hidden on mobile/tablet
-					"hidden lg:block",
-					// Fixed position relative to viewport
-					"fixed right-0 top-0 h-screen w-[50vw]",
-					// Padding for visual breathing room
-					"p-2",
-					// Above content but below modals
-					"z-30",
-					// Code font for the drawer
-					"font-mono"
-				)}
-				initial={{ x: "100%" }}
-				animate={{ x: isDrawerOpen ? "0%" : "100%" }}
-				transition={prefersReducedMotion ? { duration: 0 } : springScrollySplit}
-			>
-				<ScrollyStage compiledSteps={compiledSteps} steps={steps} />
-			</motion.div>
+			{isDesktopDrawerLayout && (
+				<motion.div
+					className={cn(
+						// Hidden on mobile/tablet
+						"hidden lg:block",
+						// Fixed position relative to viewport
+						"fixed right-0 top-0 h-screen w-[50vw]",
+						// Padding for visual breathing room
+						"p-2",
+						// Above content but below modals
+						"z-30",
+						// Code font for the drawer
+						"font-mono"
+					)}
+					initial={{ x: "100%" }}
+					animate={{ x: isDrawerOpen ? "0%" : "100%" }}
+					transition={prefersReducedMotion ? { duration: 0 } : springScrollySplit}
+				>
+					<ScrollyStage compiledSteps={compiledSteps} steps={steps} />
+				</motion.div>
+			)}
 		</motion.section>
 	);
 }
