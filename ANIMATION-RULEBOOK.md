@@ -58,7 +58,8 @@ Recommended placement:
 - **Always icon-only** — never text labels ("Replay", "Restart", etc.).
 - Use a rotate/reload icon (e.g. `RotateLeft01Icon` from `@hugeicons/core-free-icons`).
 - Size: `w-7 h-7` container, icon `size={14}` with `strokeWidth={1.5}`.
-- Position: `absolute top-0 right-0` within the visual's container div.
+- Position: `absolute left-3 top-3` within the visual's container div (top-left, consistent across all blocks).
+- The container div must have `relative` positioning so the absolute button anchors correctly.
 - Always include `aria-label` + `title` for accessibility.
 - Style: `border border-[var(--sf-border-subtle)] hover:border-[var(--va-blue)]` with `var(--sf-bg-subtle)` background.
 - Only show after the animation has completed (e.g. `{hasPlayed && !isReduced && ...}`).
@@ -74,6 +75,13 @@ Recommended placement:
 - Never rely on color alone; pair with position, text, or state.
 - Keep labels readable and concise.
 
+## Mobile Responsiveness Rules
+- **Every blog visual must render correctly at 375px viewport width.**
+- Never use fixed pixel widths on the outer layout container. Use `w-full` and let content adapt.
+- If a visual requires a minimum width (e.g. SVG diagrams with absolute-positioned nodes), wrap it in `overflow-x-auto` so it scrolls horizontally rather than overflowing.
+- Prefer responsive Tailwind classes (`w-24 md:w-36`, `text-[10px] md:text-[11px]`, `gap-2 md:gap-4`) over fixed sizes where text or columns might crowd on small screens.
+- Test at 375px and 768px before marking a visual complete.
+
 ## Quick Checklist
 - Is this visual mostly monochrome?
 - Are green/red used only for success/error meaning?
@@ -81,3 +89,4 @@ Recommended placement:
 - Does a storyboard exist before implementation?
 - Is the sequence orchestrated and easy to follow?
 - Does reduced-motion show the same meaning?
+- Does it render correctly at 375px?

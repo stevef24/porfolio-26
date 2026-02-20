@@ -5,6 +5,8 @@ import { motion, useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { sequentialHighlight, arrowDraw } from "@/lib/motion-variants";
 import { VisualWrapper } from "./VisualWrapper";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { RotateLeft01Icon } from "@hugeicons/core-free-icons";
 
 const TILES = [
   { label: "Plan", id: "plan" },
@@ -78,7 +80,29 @@ export function PlanClearExecuteFlow({ className }: PlanClearExecuteFlowProps) {
       className={className}
       tone="purple"
     >
-      <div ref={ref} className="flex flex-col items-center gap-6 py-4">
+      <div ref={ref} className="relative flex flex-col items-center gap-6 py-4">
+        {hasPlayed && !prefersReducedMotion && (
+          <button
+            onClick={handleReplay}
+            aria-label="Replay animation"
+            title="Replay"
+            className={cn(
+              "absolute left-3 top-3",
+              "flex items-center justify-center w-7 h-7",
+              "rounded border",
+              "border-[var(--sf-border-subtle)]",
+              "hover:border-[var(--va-blue)]",
+              "transition-colors duration-150",
+              "cursor-pointer",
+            )}
+            style={{
+              color: "var(--sf-text-tertiary)",
+              backgroundColor: "var(--sf-bg-subtle)",
+            }}
+          >
+            <HugeiconsIcon icon={RotateLeft01Icon} size={14} strokeWidth={1.5} aria-hidden="true" />
+          </button>
+        )}
         {/* Flow container */}
         <div
           className="relative flex items-center justify-center"
@@ -189,34 +213,13 @@ export function PlanClearExecuteFlow({ className }: PlanClearExecuteFlowProps) {
           })}
         </div>
 
-        {/* Caption + Replay */}
-        <div className="flex items-center gap-3">
-          <p
-            className="text-[11px] font-mono uppercase tracking-wider"
-            style={{ color: "var(--sf-text-tertiary)" }}
-          >
-            Sequential workflow
-          </p>
-          {hasPlayed && !prefersReducedMotion && (
-            <button
-              onClick={handleReplay}
-              className={cn(
-                "text-[10px] font-mono uppercase tracking-wider",
-                "px-2 py-1 rounded border",
-                "border-[var(--sf-border-subtle)]",
-                "hover:border-[var(--va-cyan)]",
-                "transition-colors duration-150",
-                "cursor-pointer",
-              )}
-              style={{
-                color: "var(--sf-text-tertiary)",
-                backgroundColor: "var(--sf-bg-subtle)",
-              }}
-            >
-              Replay
-            </button>
-          )}
-        </div>
+        {/* Caption */}
+        <p
+          className="text-[11px] font-mono uppercase tracking-wider"
+          style={{ color: "var(--sf-text-tertiary)" }}
+        >
+          Sequential workflow
+        </p>
       </div>
     </VisualWrapper>
   );

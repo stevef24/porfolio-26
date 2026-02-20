@@ -131,7 +131,7 @@ function RoleRow({
 }) {
   return (
     <motion.div
-      className="flex items-center gap-4"
+      className="flex items-center gap-2 md:gap-4"
       initial={{ opacity: 0, x: -6 }}
       animate={{ opacity: 1, x: 0 }}
       transition={
@@ -142,7 +142,7 @@ function RoleRow({
     >
       {/* Role name */}
       <span
-        className="w-36 shrink-0 font-mono text-[11px] tracking-wide"
+        className="w-24 md:w-36 shrink-0 font-mono text-[10px] md:text-[11px] tracking-wide"
         style={{ color: "var(--sf-text-secondary)" }}
       >
         {role}
