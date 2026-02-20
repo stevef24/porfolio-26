@@ -31,6 +31,7 @@ import { CourseWithCanvas } from "@/components/courses/CourseWithCanvas";
 import { Scrolly } from "@/components/ui/scrolly/ScrollyServer";
 import { V2PreviewCallout } from "@/components/ui/blog/V2PreviewCallout";
 import { CodexOrchestrationLoop } from "@/components/visuals/CodexOrchestrationLoop";
+import { ReasoningComplexityChart } from "@/components/visuals/ReasoningComplexityChart";
 import { cn } from "@/lib/utils";
 
 // Swiss-style minimal heading component without link icons
@@ -292,6 +293,7 @@ const customComponents = {
 	// V2 Preview callout with gradient styling
 	V2PreviewCallout,
 	CodexOrchestrationLoop,
+	ReasoningComplexityChart,
 };
 
 // Cast to MDXComponents to satisfy fumadocs MDX component typing

@@ -42,7 +42,7 @@ const NODES = [
 	{ id: "review", label: "Review" },
 ] as const;
 
-const ACCENT = "var(--va-blue)";
+const ACCENT = "var(--va-fg)";
 const DIM = "var(--sf-border-subtle)";
 const TEXT_DIM = "var(--sf-text-tertiary)";
 const TEXT_ON = "var(--sf-text-primary)";
@@ -107,7 +107,7 @@ export function CodexOrchestrationLoop({
 		<VisualWrapper
 			label="Plan → Implement → CI → Review → Repeat"
 			className={className}
-			tone="blue"
+			tone="neutral"
 		>
 			<div ref={ref} className="flex flex-col items-center gap-6 py-4">
 				<svg
@@ -307,17 +307,14 @@ export function CodexOrchestrationLoop({
 
 				{/* Caption + Replay */}
 				<div className="flex items-center gap-3">
-					<p
-						className="text-[11px] font-mono uppercase tracking-wider"
-						style={{ color: TEXT_DIM }}
-					>
+					<p className="text-swiss-code">
 						Orchestration loop
 					</p>
 					{hasPlayed && !isReduced && (
 						<button
 							onClick={handleReplay}
 							className={cn(
-								"text-[10px] font-mono uppercase tracking-wider",
+								"text-swiss-code",
 								"px-2 py-1 rounded border",
 								"border-[var(--sf-border-subtle)]",
 								"hover:border-[var(--va-blue)]",

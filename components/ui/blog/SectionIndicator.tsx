@@ -84,27 +84,30 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
   const updateActiveSection = useCallback(() => {
     if (sections.length === 0) return;
 
-    const headings = sections
+    // Build paired section-heading objects to preserve alignment even if some headings are missing
+    const sectionHeadings = sections
       .map((section) => {
         const id = section.url.replace("#", "");
-        return document.getElementById(id);
+        const element = document.getElementById(id);
+        return element ? { section, element } : null;
       })
-      .filter(Boolean) as HTMLElement[];
+      .filter((item): item is { section: TOCItem; element: HTMLElement } => item !== null);
 
-    if (headings.length === 0) return;
+    if (sectionHeadings.length === 0) return;
 
-    // Find the heading that's closest to the top 30% of viewport
-    const viewportHeight = window.innerHeight;
-    const threshold = viewportHeight * 0.3;
+    // Fixed threshold: a heading is "active" once it has scrolled to within 120px of the
+    // viewport top. This is precise enough that scrolling back up immediately switches to
+    // the previous section rather than holding the current one for a large scroll range.
+    const threshold = 120;
 
-    let currentSection = sections[0].title;
-    let currentUrl = sections[0].url;
+    let currentSection = sectionHeadings[0].section.title;
+    let currentUrl = sectionHeadings[0].section.url;
 
-    for (let i = 0; i < headings.length; i++) {
-      const rect = headings[i].getBoundingClientRect();
+    for (const { section, element } of sectionHeadings) {
+      const rect = element.getBoundingClientRect();
       if (rect.top <= threshold) {
-        currentSection = sections[i].title;
-        currentUrl = sections[i].url;
+        currentSection = section.title;
+        currentUrl = section.url;
       } else {
         break;
       }
@@ -168,7 +171,7 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
               animate={{ y: 0, opacity: 1 }}
               exit={prefersReducedMotion ? undefined : { y: -6, opacity: 0 }}
               transition={{ duration: 0.12, ease: "easeOut" }}
-              className="text-swiss-body text-foreground truncate flex-1"
+              className="text-swiss-caption text-foreground truncate flex-1"
             >
               {activeSection}
             </motion.span>
@@ -222,7 +225,7 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
                       type="button"
                       onClick={() => handleSectionClick(section.url)}
                       className={cn(
-                        "text-swiss-body w-full text-left py-1.5 transition-colors",
+                        "text-swiss-caption w-full text-left py-1.5 transition-colors",
                         section.url === activeSectionUrl
                           ? "text-foreground"
                           : "text-foreground/50 hover:text-foreground/70"

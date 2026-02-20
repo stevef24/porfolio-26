@@ -1,8 +1,8 @@
 import { Footer } from "@/components/layout/Footer";
 import { EmailCaptureForm } from "@/components/shared/EmailCaptureForm";
 import BlurFade from "@/components/shared/BlurFade";
-import { MidCard } from "@/components/ui/MidCard";
-import { VideoCard } from "@/components/ui/VideoCard";
+import { BlogPostsList } from "@/components/blog/BlogPostsList";
+import { VideoCardList } from "@/components/ui/VideoCardList";
 import { LinkPreview } from "@/components/ui/blog/LinkPreview";
 import Contact from "./Contact";
 
@@ -52,14 +52,16 @@ const videos = [
 ];
 
 export default function Home({ posts }: HomeProps): JSX.Element {
+	const blogPosts = posts.slice(0, 3).map((post) => ({
+		url: post.url,
+		title: post.data.title || "",
+		description: post.data.description || "",
+	}));
+
 	return (
-		<main className="py-12 lg:py-16">
-			{/* Hero Section - Emil Kowalski inspired minimal intro */}
-			<section
-				id="hero"
-				className="pb-12"
-				aria-labelledby="home-hero-heading"
-			>
+		<main className="pt-12 lg:pt-16">
+			{/* Hero Section */}
+			<section id="hero" className="pb-12" aria-labelledby="home-hero-heading">
 				<BlurFade delay={0}>
 					<div className="mb-12">
 						<h2
@@ -74,10 +76,9 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 					</div>
 				</BlurFade>
 
-				{/* Today section */}
 				<BlurFade delay={0.1}>
 					<div>
-						<h3 className="text-foreground text-swiss-body font-medium mb-3">
+						<h3 className="text-swiss-label text-foreground/50 mb-3">
 							Today
 						</h3>
 						<p className="text-foreground/60 text-swiss-body leading-relaxed mb-3">
@@ -101,54 +102,30 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 			<section className="py-8" id="videos" aria-labelledby="videos-heading">
 				<BlurFade delay={0.35}>
 					<h3
-						className="text-foreground text-swiss-body font-medium mb-4"
+						className="text-swiss-label text-foreground/50 mb-4"
 						id="videos-heading"
 					>
 						Latest videos
 					</h3>
 				</BlurFade>
-				<div className="space-y-0">
-					{videos.map((video, index) => (
-						<BlurFade key={video.href} delay={0.4 + index * 0.05}>
-							<VideoCard
-								title={video.title}
-								description={video.description}
-								href={video.href}
-							/>
-						</BlurFade>
-					))}
-				</div>
+				<VideoCardList videos={videos} baseDelay={0.4} stagger={0.05} />
 			</section>
 
 			{/* Posts Section */}
 			<section className="py-8" id="posts" aria-labelledby="posts-heading">
 				<BlurFade delay={0.6}>
 					<h3
-						className="text-foreground text-swiss-body font-medium mb-4"
+						className="text-swiss-label text-foreground/50 mb-4"
 						id="posts-heading"
 					>
 						Latest posts
 					</h3>
 				</BlurFade>
-				<div className="space-y-0">
-					{posts.slice(0, 3).map((post, index) => (
-						<BlurFade key={post.url} delay={0.65 + index * 0.05}>
-							<MidCard
-								title={post.data.title || ""}
-								description={post.data.description || ""}
-								href={post.url}
-							/>
-						</BlurFade>
-					))}
-				</div>
+				<BlogPostsList posts={blogPosts} baseDelay={0.65} stagger={0.05} />
 			</section>
 
 			{/* Subscribe Section */}
-			<section
-				className="py-8"
-				id="subscribe"
-				aria-labelledby="subscribe-heading"
-			>
+			<section className="py-8" id="subscribe" aria-labelledby="subscribe-heading">
 				<BlurFade delay={0.75}>
 					<EmailCaptureForm
 						title="Stay in the loop"
@@ -160,14 +137,10 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 			</section>
 
 			{/* Contact Section */}
-			<section
-				className="py-8"
-				id="contact"
-				aria-labelledby="contact-heading"
-			>
+			<section className="py-8" id="contact" aria-labelledby="contact-heading">
 				<BlurFade delay={0.8}>
 					<h3
-						className="text-foreground text-swiss-body font-medium mb-4"
+						className="text-swiss-label text-foreground/50 mb-4"
 						id="contact-heading"
 					>
 						Contact

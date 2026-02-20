@@ -70,6 +70,7 @@ const nextConfig: NextConfig = {
   // Experimental performance features
   experimental: {
     optimizePackageImports: ["motion", "@hugeicons/react"],
+    viewTransition: true,
   },
 
   // Silence incorrect workspace root detection

@@ -2,7 +2,7 @@
 
 import { MeshGradient, PaperTexture } from "@paper-design/shaders-react";
 import { motion, useReducedMotion } from "motion/react";
-import { useState, useEffect } from "react";
+import { ViewTransition, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { springSmooth, springGentle } from "@/lib/motion-variants";
 
@@ -12,6 +12,7 @@ interface BlogHeroHeaderProps {
   title: string;
   description?: string;
   className?: string;
+  slug?: string;
 }
 
 interface BlogHeroVisualTokens {
@@ -45,6 +46,7 @@ export function BlogHeroHeader({
   title,
   description,
   className,
+  slug,
 }: BlogHeroHeaderProps) {
   const prefersReducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
@@ -89,21 +91,26 @@ export function BlogHeroHeader({
     return () => observer.disconnect();
   }, []);
 
-  return (
+  const fallbackBg = `linear-gradient(135deg, ${heroTokens.mesh[0]}, ${heroTokens.mesh[2]})`;
+
+  const header = (
     <header
       className={cn(
         "relative overflow-hidden -mx-4 md:-mx-8 lg:-mx-12 -mt-8 lg:-mt-6 mb-8",
         className
       )}
+      style={{
+        background: fallbackBg,
+      }}
     >
       {/* Mesh Gradient Background - only render after mount */}
       {mounted && (
         <div className="absolute inset-0">
           <MeshGradient
             colors={heroTokens.mesh}
-            speed={prefersReducedMotion ? 0 : 0.13}
-            distortion={0.45}
-            swirl={0.28}
+            speed={prefersReducedMotion ? 0 : 0.15}
+            distortion={0.65}
+            swirl={0.45}
             style={{
               position: "absolute",
               width: "100%",
@@ -120,34 +127,52 @@ export function BlogHeroHeader({
           background: `radial-gradient(
             ellipse 90% 80% at 50% 45%,
             transparent 0%,
-            transparent 50%,
-            rgba(var(--background-rgb), 0.4) 75%,
+            transparent 60%,
+            rgba(var(--background-rgb), 0.25) 80%,
             var(--background) 100%
           )`,
         }}
       />
 
-      {/* Left edge fade - subtle blend */}
+      {/* Left edge fade */}
       <div
-        className="absolute inset-y-0 left-0 w-24 pointer-events-none"
+        className="absolute inset-y-0 left-0 w-[42%] pointer-events-none"
         style={{
-          background: `linear-gradient(to right, var(--background) 0%, transparent 100%)`,
+          background: `linear-gradient(to right,
+            var(--background) 0%,
+            var(--background) 20%,
+            rgba(var(--background-rgb), 0.95) 40%,
+            rgba(var(--background-rgb), 0.7) 65%,
+            rgba(var(--background-rgb), 0.2) 85%,
+            transparent 100%
+          )`,
         }}
       />
 
-      {/* Right edge fade - subtle blend */}
+      {/* Right edge fade */}
       <div
-        className="absolute inset-y-0 right-0 w-24 pointer-events-none"
+        className="absolute inset-y-0 right-0 w-[42%] pointer-events-none"
         style={{
-          background: `linear-gradient(to left, var(--background) 0%, transparent 100%)`,
+          background: `linear-gradient(to left,
+            var(--background) 0%,
+            var(--background) 20%,
+            rgba(var(--background-rgb), 0.95) 40%,
+            rgba(var(--background-rgb), 0.7) 65%,
+            rgba(var(--background-rgb), 0.2) 85%,
+            transparent 100%
+          )`,
         }}
       />
 
-      {/* Bottom edge fade - smooth transition to content */}
+      {/* Bottom edge fade */}
       <div
-        className="absolute inset-x-0 bottom-0 h-20 pointer-events-none"
+        className="absolute inset-x-0 bottom-0 h-14 pointer-events-none"
         style={{
-          background: `linear-gradient(to top, var(--background) 0%, transparent 100%)`,
+          background: `linear-gradient(to top,
+            var(--background) 0%,
+            rgba(var(--background-rgb), 0.6) 50%,
+            transparent 100%
+          )`,
         }}
       />
 
@@ -194,7 +219,7 @@ export function BlogHeroHeader({
             transition={{ ...springGentle, delay: 0.1 }}
           >
             {date && (
-              <span className="text-swiss-caption text-foreground/60">
+              <span className="text-swiss-meta text-foreground/60">
                 {date}
               </span>
             )}
@@ -213,31 +238,57 @@ export function BlogHeroHeader({
           </motion.div>
 
           {/* Title */}
-          <motion.h1
-            className="text-2xl md:text-3xl font-medium tracking-tight text-foreground leading-[1.1] mb-6"
-            style={{
-              textWrap: "balance",
-            }}
-            initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...springGentle, delay: 0.2 }}
-          >
-            {title}
-          </motion.h1>
+          {slug ? (
+            <ViewTransition name={`blog-title-${slug}`}>
+              <motion.h1
+                className="text-swiss-hero mb-6"
+                style={{ textWrap: "balance" }}
+                initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...springGentle, delay: 0.2 }}
+              >
+                {title}
+              </motion.h1>
+            </ViewTransition>
+          ) : (
+            <motion.h1
+              className="text-swiss-hero mb-6"
+              style={{ textWrap: "balance" }}
+              initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...springGentle, delay: 0.2 }}
+            >
+              {title}
+            </motion.h1>
+          )}
 
           {/* Description */}
           {description && (
-            <motion.p
-              className="text-swiss-body text-foreground/60 max-w-2xl mx-auto leading-relaxed"
-              initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ ...springSmooth, delay: 0.35 }}
-            >
-              {description}
-            </motion.p>
+            slug ? (
+              <ViewTransition name={`blog-description-${slug}`}>
+                <motion.p
+                  className="text-swiss-body text-foreground/60 max-w-2xl mx-auto leading-relaxed"
+                  initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...springSmooth, delay: 0.35 }}
+                >
+                  {description}
+                </motion.p>
+              </ViewTransition>
+            ) : (
+              <motion.p
+                className="text-swiss-body text-foreground/60 max-w-2xl mx-auto leading-relaxed"
+                initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ ...springSmooth, delay: 0.35 }}
+              >
+                {description}
+              </motion.p>
+            )
           )}
         </div>
       </div>
     </header>
   );
+  return header;
 }

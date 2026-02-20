@@ -26,9 +26,9 @@ export function AnimatedBlockquote({
 			ref={ref}
 			className={cn(
 				"relative my-10 py-6 pl-6 pr-4",
-				"border-l-2 border-primary",
-				"bg-muted/30",
-				"rounded-r-lg",
+				"border-l-2 border-[var(--sf-border-default)]",
+				"bg-[var(--sf-bg-subtle)]",
+				"rounded-r-[10px]",
 				className
 			)}
 			initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -12 }}
@@ -39,7 +39,7 @@ export function AnimatedBlockquote({
 			}}
 		>
 			{/* Quote text */}
-			<div className="text-lg text-foreground italic font-display leading-relaxed">
+			<div className="text-swiss-body-lg italic">
 				{children}
 			</div>
 

@@ -68,11 +68,11 @@
   --color-fd-accent: var(--accent);
   --color-fd-accent-foreground: var(--accent-foreground);
   --color-fd-ring: var(--ring);
-  /* Fumadocs Callout type colors - mapped to visual aid palette */
+  /* Fumadocs Callout type colors - semantic only */
   --color-fd-info: var(--va-blue);
-  --color-fd-warning: var(--va-yellow);
+  --color-fd-warning: var(--va-red);
   --color-fd-error: var(--destructive);
-  --color-fd-success: var(--va-cyan);
+  --color-fd-success: var(--va-green);
 }
 
 button,
@@ -111,33 +111,35 @@ button,
   --text-tertiary: rgba(0, 0, 0, 0.58);
   --text-quaternary: rgba(0, 0, 0, 0.54);
 
-  /* Visual Aid Animation Accent Palette (Motion-inspired, OKLCH)
-     Derived from motion.dev's 5-color system, toned for light mode legibility */
-  --va-cyan: oklch(0.55 0.14 200);
+  /* Visual Aid Animation Palette — Monochromatic base
+     Color only when semantically needed (red = error, green = success, blue = info) */
+  --va-fg: rgba(0, 0, 0, 0.85);
+  --va-fg-muted: rgba(0, 0, 0, 0.5);
+  --va-red: oklch(0.55 0.22 25);
+  --va-green: oklch(0.55 0.18 155);
   --va-blue: oklch(0.45 0.22 265);
-  --va-purple: oklch(0.48 0.22 295);
-  --va-pink: oklch(0.55 0.2 10);
-  --va-yellow: oklch(0.8 0.14 100);
+
+  /* Legacy aliases — map to monochrome for backwards compat */
+  --va-cyan: var(--va-fg-muted);
+  --va-purple: var(--va-fg-muted);
+  --va-pink: var(--va-fg-muted);
+  --va-yellow: var(--va-fg-muted);
 
   /* Visual Aid shell + code block surfaces */
   --va-shell-bg: linear-gradient(
     180deg,
-    color-mix(in oklch, var(--sf-bg-surface) 92%, white 8%),
-    color-mix(in oklch, var(--sf-bg-page) 96%, var(--va-cyan) 4%)
+    color-mix(in oklch, var(--sf-bg-surface) 96%, white 4%),
+    var(--sf-bg-page)
   );
-  --va-shell-border: color-mix(
-    in oklch,
-    var(--sf-border-subtle) 90%,
-    var(--va-blue) 10%
-  );
+  --va-shell-border: var(--sf-border-subtle);
   --va-shell-grid: color-mix(
     in oklch,
     var(--sf-border-subtle) 55%,
     transparent
   );
   --va-shell-shadow:
-    0 24px 54px -40px rgba(11, 18, 32, 0.38),
-    0 4px 18px -12px rgba(11, 18, 32, 0.22);
+    0 24px 54px -40px rgba(11, 18, 32, 0.18),
+    0 4px 18px -12px rgba(11, 18, 32, 0.1);
   --code-block-bg: #f6f6f3;
   --code-block-border: rgba(0, 0, 0, 0.12);
   --code-block-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
@@ -161,12 +163,13 @@ button,
   --sf-radius-md: 6px;
   --sf-radius-lg: 8px;
   --sf-radius-xl: 12px;
+  --sf-radius-container: 10px;
   --sf-radius-pill: 9999px;
 
   /* Shared code typography tokens */
   --code-font-family: "Berkeley Mono", "JetBrains Mono", "Fira Code", var(--font-mono), ui-monospace, monospace;
-  --code-font-size: 0.84rem;
-  --code-line-height: 1.55rem;
+  --code-font-size: 0.8125rem; /* 13px - clean value */
+  --code-line-height: 1.5rem; /* 24px - clean value */
   --code-letter-spacing: -0.01em;
 
   /* SF Shadow System - Light Mode */
@@ -180,10 +183,10 @@ button,
   --foreground: rgba(0, 0, 0, 0.95); /* text.primary - near black */
 
   /* Card/Elevated Surfaces */
-  --card: #faf9f5; /* bg.surface - warm cream for cards */
+  --card: #ffffff; /* matches --background */
   --card-foreground: rgba(0, 0, 0, 0.95);
 
-  /* Popover (same as card) */
+  /* Popover */
   --popover: #ffffff;
   --popover-foreground: rgba(0, 0, 0, 0.95);
 
@@ -249,6 +252,41 @@ button,
   --blog-hero-mesh-4: rgb(254 215 170);
   --blog-hero-paper-front: rgb(102 102 102);
   --blog-hero-paper-back: rgb(255 255 255);
+  /* Blog listing page hero — vivid sage/mint editorial */
+  --blog-list-hero-mesh-1: rgb(134 239 172);
+  --blog-list-hero-mesh-2: rgb(240 253 244);
+  --blog-list-hero-mesh-3: rgb(167 243 208);
+  --blog-list-hero-mesh-4: rgb(186 230 253);
+  --blog-list-hero-paper-front: rgb(60 100 70);
+  --blog-list-hero-paper-back: rgb(255 255 255);
+  /* Experiments hero — vivid amber/lab */
+  --experiments-hero-mesh-1: rgb(254 243 199);
+  --experiments-hero-mesh-2: rgb(253 224 71);
+  --experiments-hero-mesh-3: rgb(254 215 170);
+  --experiments-hero-mesh-4: rgb(251 191 36);
+  --experiments-hero-paper-front: rgb(120 80 20);
+  --experiments-hero-paper-back: rgb(255 255 255);
+  /* Courses hero — soft lavender/periwinkle (keep it calm) */
+  --courses-hero-mesh-1: rgb(237 233 254);
+  --courses-hero-mesh-2: rgb(224 231 255);
+  --courses-hero-mesh-3: rgb(219 234 254);
+  --courses-hero-mesh-4: rgb(245 243 255);
+  --courses-hero-paper-front: rgb(80 60 140);
+  --courses-hero-paper-back: rgb(255 255 255);
+  /* 404 page — clay blush, sage, lavender mist, warm honey */
+  --not-found-mesh-1: rgb(242 218 205);
+  --not-found-mesh-2: rgb(205 222 215);
+  --not-found-mesh-3: rgb(220 212 235);
+  --not-found-mesh-4: rgb(238 225 205);
+  --not-found-paper-front: rgb(90 70 55);
+  --not-found-paper-back: rgb(255 255 255);
+  /* Error page hero — warm amber, dusty rose */
+  --error-page-mesh-1: rgb(254 226 210);
+  --error-page-mesh-2: rgb(252 200 180);
+  --error-page-mesh-3: rgb(255 235 220);
+  --error-page-mesh-4: rgb(248 215 195);
+  --error-page-paper-front: rgb(120 60 20);
+  --error-page-paper-back: rgb(255 255 255);
 
   /* ═══════════════════════════════════════════════════════
      COURSE LAYOUT TOKENS
@@ -327,32 +365,69 @@ button,
   --blog-hero-mesh-4: rgb(45 27 78);
   --blog-hero-paper-front: rgb(255 255 255);
   --blog-hero-paper-back: rgb(13 13 13);
+  /* Blog listing hero dark — rich forest greens */
+  --blog-list-hero-mesh-1: rgb(5 46 22);
+  --blog-list-hero-mesh-2: rgb(6 78 59);
+  --blog-list-hero-mesh-3: rgb(2 44 34);
+  --blog-list-hero-mesh-4: rgb(7 89 133);
+  --blog-list-hero-paper-front: rgb(255 255 255);
+  --blog-list-hero-paper-back: rgb(5 15 10);
+  /* Experiments hero dark — rich deep amber */
+  --experiments-hero-mesh-1: rgb(53 29 0);
+  --experiments-hero-mesh-2: rgb(92 50 0);
+  --experiments-hero-mesh-3: rgb(40 24 0);
+  --experiments-hero-mesh-4: rgb(70 42 0);
+  --experiments-hero-paper-front: rgb(255 255 255);
+  --experiments-hero-paper-back: rgb(20 10 0);
+  /* Courses hero dark — deep indigo/violet */
+  --courses-hero-mesh-1: rgb(30 15 70);
+  --courses-hero-mesh-2: rgb(15 25 90);
+  --courses-hero-mesh-3: rgb(50 10 70);
+  --courses-hero-mesh-4: rgb(10 20 80);
+  --courses-hero-paper-front: rgb(255 255 255);
+  --courses-hero-paper-back: rgb(10 5 25);
+  /* 404 page dark — deep clay, deep sage, deep lavender, deep amber */
+  --not-found-mesh-1: rgb(48 28 18);
+  --not-found-mesh-2: rgb(18 30 24);
+  --not-found-mesh-3: rgb(26 18 38);
+  --not-found-mesh-4: rgb(38 28 14);
+  --not-found-paper-front: rgb(160 130 110);
+  --not-found-paper-back: rgb(10 8 5);
+  /* Error page hero dark — deep ember, warm rust */
+  --error-page-mesh-1: rgb(70 35 15);
+  --error-page-mesh-2: rgb(80 40 20);
+  --error-page-mesh-3: rgb(65 30 12);
+  --error-page-mesh-4: rgb(85 45 22);
+  --error-page-paper-front: rgb(180 100 50);
+  --error-page-paper-back: rgb(20 10 5);
 
-  /* Visual Aid Animation Accent Palette (Motion-inspired, OKLCH)
-     Brighter for dark backgrounds, lower chroma to avoid neon glare */
-  --va-cyan: oklch(0.78 0.13 200);
+  /* Visual Aid Animation Palette — Monochromatic base (dark mode)
+     Color only when semantically needed */
+  --va-fg: rgba(255, 255, 255, 0.85);
+  --va-fg-muted: rgba(255, 255, 255, 0.4);
+  --va-red: oklch(0.7 0.2 25);
+  --va-green: oklch(0.7 0.16 155);
   --va-blue: oklch(0.68 0.18 265);
-  --va-purple: oklch(0.68 0.18 295);
-  --va-pink: oklch(0.72 0.16 10);
-  --va-yellow: oklch(0.92 0.12 100);
+
+  /* Legacy aliases — map to monochrome */
+  --va-cyan: var(--va-fg-muted);
+  --va-purple: var(--va-fg-muted);
+  --va-pink: var(--va-fg-muted);
+  --va-yellow: var(--va-fg-muted);
 
   /* Visual Aid shell + code block surfaces */
   --va-shell-bg: linear-gradient(
     180deg,
-    color-mix(in oklch, var(--sf-bg-surface) 92%, black 8%),
-    color-mix(in oklch, var(--sf-bg-page) 95%, var(--va-blue) 5%)
+    color-mix(in oklch, var(--sf-bg-surface) 96%, black 4%),
+    var(--sf-bg-page)
   );
-  --va-shell-border: color-mix(
-    in oklch,
-    var(--sf-border-subtle) 82%,
-    var(--va-cyan) 18%
-  );
+  --va-shell-border: var(--sf-border-subtle);
   --va-shell-grid: color-mix(
     in oklch,
     var(--sf-border-subtle) 48%,
     transparent
   );
-  --va-shell-shadow: 0 28px 60px -46px rgba(0, 0, 0, 0.7);
+  --va-shell-shadow: 0 28px 60px -46px rgba(0, 0, 0, 0.5);
   --code-block-bg: #141414;
   --code-block-border: rgba(255, 255, 255, 0.14);
   --code-block-shadow: none;
@@ -371,11 +446,11 @@ button,
   --foreground: rgba(255, 255, 255, 0.95); /* text.primary - off white */
 
   /* Card/Elevated Surfaces */
-  --card: #1a1a1a; /* bg.surface */
+  --card: #0d0d0d; /* matches --background */
   --card-foreground: rgba(255, 255, 255, 0.95);
 
   /* Popover */
-  --popover: #1a1a1a;
+  --popover: #0d0d0d;
   --popover-foreground: rgba(255, 255, 255, 0.95);
 
   /* Primary - Monochrome (inverted for dark mode) */
@@ -513,22 +588,21 @@ button,
   position: absolute;
   inset: 1px;
   border-radius: inherit;
-  border: 1px solid
-    color-mix(in oklch, var(--va-accent, var(--va-blue)) 18%, transparent);
+  border: 1px solid var(--sf-border-subtle);
   pointer-events: none;
-  opacity: 0.7;
+  opacity: 0.4;
 }
 
 .va-shell__bg {
   background:
     radial-gradient(
       120% 70% at 8% -10%,
-      color-mix(in oklch, var(--va-accent, var(--va-blue)) 16%, transparent),
+      color-mix(in oklch, var(--va-fg) 4%, transparent),
       transparent 62%
     ),
     radial-gradient(
       95% 80% at 100% 100%,
-      color-mix(in oklch, var(--va-cyan) 10%, transparent),
+      color-mix(in oklch, var(--va-fg) 3%, transparent),
       transparent 68%
     );
   opacity: 0.95;
@@ -550,31 +624,13 @@ button,
 }
 
 .va-shell [data-va-panel] {
-  border: 1px solid
-    color-mix(
-      in oklch,
-      var(--va-accent, var(--va-blue)) 20%,
-      var(--sf-border-subtle)
-    ) !important;
-  background: color-mix(
-    in oklch,
-    var(--va-accent, var(--va-blue)) 6%,
-    var(--sf-bg-surface)
-  ) !important;
+  border: 1px solid var(--sf-border-subtle) !important;
+  background: var(--sf-bg-surface) !important;
 }
 
 .va-shell [data-va-chip] {
-  border: 1px solid
-    color-mix(
-      in oklch,
-      var(--va-accent, var(--va-blue)) 26%,
-      var(--sf-border-subtle)
-    ) !important;
-  background: color-mix(
-    in oklch,
-    var(--va-accent, var(--va-blue)) 8%,
-    var(--sf-bg-surface)
-  ) !important;
+  border: 1px solid var(--sf-border-default) !important;
+  background: var(--sf-bg-subtle) !important;
 }
 
 /* Force all layout components to be transparent to reveal unified background */
@@ -636,7 +692,7 @@ main {
 /* Body base - Inter for exceptional readability */
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 1.0625rem; /* 17px - slightly larger for comfort */
+  font-size: 0.875rem; /* 14px - clean base */
   line-height: 1.7;
   font-feature-settings:
     "kern" 1,
@@ -666,7 +722,7 @@ body {
    Font: Inter uppercase for contrast */
 .text-swiss-subheading {
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 0.875rem; /* 14px - Oatmeal body.sm */
+  font-size: 0.75rem; /* 12px */
   font-weight: 500; /* Medium weight */
   text-transform: uppercase;
   letter-spacing: 0.05em; /* Slight positive tracking */
@@ -690,7 +746,7 @@ body {
    Font: Inter for readability */
 .text-swiss-body {
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 1.0625rem; /* 17px - aligns with base body */
+  font-size: 0.875rem; /* 14px */
   font-weight: 400;
   line-height: 1.65;
   color: var(--text-secondary);
@@ -701,7 +757,7 @@ body {
    Font: Inter at larger size */
 .text-swiss-body-lg {
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 1.25rem; /* 20px - Oatmeal body.lg */
+  font-size: 1.125rem; /* 18px */
   font-weight: 400;
   line-height: 1.5;
   color: var(--text-secondary);
@@ -712,7 +768,7 @@ body {
    Font: Inter uppercase small */
 .text-swiss-label {
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.75rem; /* 12px */
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -724,7 +780,7 @@ body {
    Font: Inter small */
 .text-swiss-caption {
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 0.875rem; /* 14px - Oatmeal body.sm */
+  font-size: 0.75rem; /* 12px */
   font-weight: 400;
   line-height: 1.5;
   color: var(--text-tertiary);
@@ -740,6 +796,18 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-quaternary);
+}
+
+/* Code label - Mono uppercase utility label
+   Usage: inline code labels, toggle buttons, replay buttons
+   Font: Mono 12px uppercase */
+.text-swiss-code {
+  font-family: var(--font-code, var(--code-font-family));
+  font-size: 0.75rem; /* 12px - clean value */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
 }
 
 /* Section Heading - Large section titles
@@ -903,17 +971,17 @@ samp,
   --tw-prose-headings: var(--text-primary);
   --tw-prose-links: var(--text-primary);
   font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 1.0625rem; /* 17px - slightly larger for comfort */
+  font-size: 0.875rem; /* 14px */
   line-height: 1.65;
   color: var(--text-secondary);
 }
 
-/* Prose Headings - Weight-based hierarchy at body size (17px)
+/* Prose Headings - Weight-based hierarchy at body size (14px)
    All headings share the same font-size, differentiated by weight */
 .prose h1 {
   font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.0625rem; /* 17px - same as body */
-  font-weight: 600;
+  font-size: 0.875rem; /* 14px - same as body */
+  font-weight: 650;
   letter-spacing: -0.01em;
   line-height: 1.4;
   color: var(--text-primary);
@@ -923,7 +991,7 @@ samp,
 
 .prose h2 {
   font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.0625rem; /* 17px - same as body */
+  font-size: 0.875rem; /* 14px - same as body */
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.4;
@@ -934,7 +1002,7 @@ samp,
 
 .prose h3 {
   font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.0625rem; /* 17px - same as body */
+  font-size: 0.875rem; /* 14px - same as body */
   font-weight: 550; /* slightly lighter than h1/h2 */
   letter-spacing: -0.01em;
   line-height: 1.4;
@@ -945,7 +1013,7 @@ samp,
 
 .prose h4 {
   font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.0625rem; /* 17px - same as body */
+  font-size: 0.875rem; /* 14px - same as body */
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.4;
@@ -1042,6 +1110,7 @@ samp,
   padding: 1rem;
   margin: 1.25rem 0;
   overflow-x: auto;
+  max-width: 100%;
 }
 
 .prose pre code {
@@ -1191,7 +1260,7 @@ article [role="tab"][data-state="active"] {
 .prose [role="tabpanel"],
 article [role="tabpanel"] {
   padding: 1.25rem 1.5rem;
-  background: var(--card);
+  background: var(--background);
   border: 1px solid var(--border);
   border-top: none;
   border-radius: 0 0 0.5rem 0.5rem;
@@ -2401,5 +2470,102 @@ figure[data-rehype-pretty-code-figure] {
 @media (prefers-reduced-motion: reduce) {
   .hover-surface {
     transition: none;
+  }
+}
+
+/* ─── Post thumbnail gradient animation ───────────────────────────────────── */
+@keyframes gradient-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+.post-thumbnail-gradient {
+  background-size: 250% 250%;
+  animation: gradient-flow 3s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-thumbnail-gradient {
+    animation: none;
+    background-size: 100% 100%;
+  }
+}
+
+/* ─── 404 ghost text fade-in ─────────────────────────────────────────────── */
+@keyframes ghost-fade-in {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 0.05; transform: scale(1); }
+}
+
+.ghost-404-text {
+  animation: ghost-fade-in 2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ghost-404-text {
+    animation: none;
+    opacity: 0.05;
+    transform: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   VIEW TRANSITIONS
+   Shared-element morphs: card thumbnail → page hero.
+   Browser handles geometric interpolation automatically
+   for matched view-transition-name pairs.
+   ═══════════════════════════════════════════════════════ */
+
+/* Shared element morph geometry timing */
+::view-transition-group(*) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Shared element cross-fade timing — only duration/easing, NOT animation-name
+   so the browser's built-in geometry morph is preserved */
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Root page content: quick fade out / in */
+::view-transition-old(root) {
+  animation: vt-fade-out 180ms ease-in forwards;
+}
+::view-transition-new(root) {
+  animation: vt-fade-in 220ms ease-out forwards;
+  animation-delay: 60ms;
+}
+
+@keyframes vt-fade-out {
+  from {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  to {
+    opacity: 0;
+    filter: blur(2px);
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* Kill all transitions for prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0ms !important;
+    animation-delay: 0ms !important;
   }
 }

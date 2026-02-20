@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { LayoutGroup } from "motion/react";
 import { MidCard } from "@/components/ui/MidCard";
 import BlurFade from "@/components/shared/BlurFade";
 
@@ -20,17 +22,25 @@ export function BlogPostsList({
   baseDelay = 0.25,
   stagger = 0.05,
 }: BlogPostsListProps): JSX.Element {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
   return (
-    <div>
-      {posts.map((post, index) => (
-        <BlurFade key={post.url} delay={baseDelay + index * stagger}>
-          <MidCard
-            title={post.title}
-            description={post.description}
-            href={post.url}
-          />
-        </BlurFade>
-      ))}
-    </div>
+    <LayoutGroup id="blog-posts">
+      <div>
+        {posts.map((post, index) => (
+          <BlurFade key={post.url} delay={baseDelay + index * stagger}>
+            <MidCard
+              title={post.title}
+              description={post.description}
+              href={post.url}
+              isHovered={hoveredId === post.url}
+              onHoverChange={(hovered) =>
+                setHoveredId(hovered ? post.url : null)
+              }
+            />
+          </BlurFade>
+        ))}
+      </div>
+    </LayoutGroup>
   );
 }

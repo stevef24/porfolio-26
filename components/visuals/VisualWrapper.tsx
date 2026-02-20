@@ -5,12 +5,25 @@ import { MotionConfig, useReducedMotion } from "motion/react";
 import { springSmooth } from "@/lib/motion-variants";
 import type { CSSProperties } from "react";
 
+/**
+ * Tone map — keep it minimal. Only blue/red/green carry semantic meaning.
+ * Everything else maps to the monochrome base.
+ *
+ * blue  → informational, active states, flow diagrams
+ * green → success, CI pass, confirmed / approved
+ * red   → error, warning, rejection, danger
+ * neutral / others → monochrome, no semantic load
+ */
 const TONE_MAP = {
-  cyan: "var(--va-cyan)",
+  neutral: "var(--va-fg)",
   blue: "var(--va-blue)",
-  purple: "var(--va-purple)",
-  pink: "var(--va-pink)",
-  yellow: "var(--va-yellow)",
+  green: "var(--va-green)",
+  red: "var(--va-red)",
+  // Legacy — collapse to muted so old usages don't break
+  cyan: "var(--va-fg-muted)",
+  purple: "var(--va-fg-muted)",
+  pink: "var(--va-fg-muted)",
+  yellow: "var(--va-fg-muted)",
 } as const;
 
 type VisualTone = keyof typeof TONE_MAP;
@@ -38,7 +51,7 @@ export function VisualWrapper({
       <figure
         className={cn(
           "va-shell not-prose my-12 mx-auto w-full max-w-[960px]",
-          "relative overflow-hidden rounded-2xl",
+          "relative overflow-hidden rounded-[12px]",
           "p-8 md:p-10",
           className,
         )}
@@ -58,9 +71,8 @@ export function VisualWrapper({
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 h-px"
           style={{
-            background:
-              "linear-gradient(90deg, var(--va-cyan), var(--va-blue), var(--va-purple), var(--va-pink), var(--va-yellow))",
-            opacity: 0.8,
+            background: "var(--sf-border-default)",
+            opacity: 0.5,
           }}
         />
         <div className="relative z-10">{children}</div>

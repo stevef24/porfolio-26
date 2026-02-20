@@ -79,7 +79,7 @@ Rules:
     lang: "toml",
     code: `# ── explorer.toml ──────────────────────────
 model = "gpt-5.3-codex-spark"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "low"      # just reading — no complex reasoning
 
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
@@ -98,7 +98,7 @@ Do not implement changes unless explicitly asked.
 
 # ── implementer.toml ──────────────────────
 model = "gpt-5.3-codex-spark"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "medium"   # scoped tasks, moderate reasoning
 
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
@@ -124,7 +124,7 @@ Report:
     lang: "toml",
     code: `# ── ci_runner.toml ────────────────────────
 model = "gpt-5.3-codex-spark"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "low"       # deterministic commands, simple parsing
 
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
@@ -141,7 +141,7 @@ Output:
 
 # ── reviewer.toml ─────────────────────────
 model = "gpt-5.3-codex"
-model_reasoning_effort = "high"
+model_reasoning_effort = "xhigh"     # deep analysis catches subtle bugs
 
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
@@ -160,7 +160,7 @@ Keep it short and actionable.
 
 # ── security_auditor.toml ─────────────────
 model = "gpt-5.3-codex"
-model_reasoning_effort = "high"
+model_reasoning_effort = "xhigh"     # thorough reasoning for injection vectors
 
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
@@ -188,7 +188,7 @@ Output:
     lang: "toml",
     code: `# ── qa_test_author.toml ───────────────────
 model = "gpt-5.3-codex"
-model_reasoning_effort = "high"
+model_reasoning_effort = "high"      # edge-case reasoning for good coverage
 
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
@@ -209,7 +209,7 @@ Output:
 
 # ── release_manager.toml ──────────────────
 model = "gpt-5.3-codex"
-model_reasoning_effort = "high"
+model_reasoning_effort = "medium"    # structured output, not analytical
 
 approval_policy = "never"
 sandbox_mode = "danger-full-access"

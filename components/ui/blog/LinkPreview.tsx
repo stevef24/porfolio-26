@@ -180,17 +180,17 @@ export function LinkPreview({
                         loading="lazy"
                       />
                     )}
-                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground truncate">
+                    <span className="text-swiss-meta truncate">
                       {metadata.siteName || new URL(href).hostname}
                     </span>
                   </div>
                   {metadata.title && (
-                    <h4 className="text-sm font-medium text-foreground leading-snug line-clamp-2">
+                    <h4 className="text-swiss-caption font-medium text-foreground leading-snug line-clamp-2">
                       {metadata.title}
                     </h4>
                   )}
                   {metadata.description && (
-                    <p className="text-xs text-muted-foreground/80 leading-relaxed line-clamp-2">
+                    <p className="text-swiss-caption text-foreground/50 leading-relaxed line-clamp-2">
                       {metadata.description}
                     </p>
                   )}

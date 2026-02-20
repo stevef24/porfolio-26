@@ -43,7 +43,7 @@ The orchestrator role file is where the loop lives. It declares `model`, `model_
 
 Instructions tell it to maintain `plan.md`, delegate independent tasks to implementers in parallel, run all three gates after each batch, and convert findings into new tasks. Two rules keep things clean: no scope creep (extras go in a Later section) and small diffs (every update ends with Done / Next / Risks).
 
-The orchestrator runs `gpt-5.3-codex` with `xhigh` reasoning because planning mistakes are the most expensive kind.
+The orchestrator runs `gpt-5.3-codex` with `xhigh` reasoning because planning mistakes are the most expensive kind. This is where `model_reasoning_effort` matters most — get it right per role and you save tokens without losing quality.
 
 </CanvasStep>
 
@@ -55,7 +55,7 @@ The explorer maps file paths, finds CI configs, and suggests next probes — but
 
 Implementers do the opposite: one scoped task from `plan.md`, minimal change set, run lint/typecheck/tests, iterate until green, stop. The structured report (what changed, commands run, result) gives the orchestrator the feedback it needs.
 
-Both roles use `gpt-5.3-codex-spark` at medium reasoning effort for fast, cheap execution.
+The explorer runs at `low` reasoning — it is just reading files, no complex analysis. The implementer gets `medium` since it needs to reason about code changes, but tasks are scoped enough that deep thinking is waste. Both use `gpt-5.3-codex-spark` for speed.
 
 </CanvasStep>
 
@@ -65,7 +65,7 @@ Both roles use `gpt-5.3-codex-spark` at medium reasoning effort for fast, cheap 
 
 Every batch hits three gates before anything merges. The **ci_runner** mirrors CI locally and outputs pass/fail with root cause analysis. The **reviewer** performs PR-grade review — must-fix issues with file/line refs and a ship-or-block verdict. The **security_auditor** hunts for secrets leakage, injection risks, auth mistakes, and SSRF.
 
-These are hard stops, not suggestions. A batch that cannot pass all three gates is not done. All three share `approval_policy = "never"` and `sandbox_mode = "danger-full-access"`, so the review gate itself is the quality control.
+These are hard stops, not suggestions. A batch that cannot pass all three gates is not done. The reviewer and security auditor both run at `xhigh` reasoning — this is where you want the model to think deeply, not cut corners. The CI runner stays at `low` since it is running deterministic commands and parsing output. All three share `approval_policy = "never"` and `sandbox_mode = "danger-full-access"`, so the review gate itself is the quality control.
 
 </CanvasStep>
 
@@ -90,6 +90,25 @@ The first-run prompt should tell the orchestrator to execute one bounded batch, 
 </CanvasStep>
 
 </AgentCodeWalkthrough>
+
+## Reasoning effort — spend tokens where they matter
+
+Not every role needs deep thinking. The rule: roles that **decide** (orchestrator, reviewer, security) get `xhigh`. Roles that **execute** (explorer, ci_runner) get `low`. Roles that **create** (implementer, qa, release) sit in the middle.
+
+| Role | Reasoning | Why |
+| --- | --- | --- |
+| orchestrator | xhigh | Planning mistakes cascade through every batch |
+| reviewer | xhigh | Subtle bugs need deep analysis to surface |
+| security_auditor | xhigh | Injection vectors hide in boring code |
+| qa_test_author | high | Edge-case thinking improves coverage |
+| implementer | medium | Scoped tasks with clear acceptance criteria |
+| release_manager | medium | Structured output, not analytical |
+| explorer | low | Reading files, no complex reasoning |
+| ci_runner | low | Deterministic commands, simple parsing |
+
+<ReasoningComplexityChart />
+
+The saving is real. An `xhigh` call uses roughly 3-4x the tokens of a `low` call on the same prompt. By keeping fast roles cheap, you can afford to run the expensive review roles on every batch without blowing through your budget.
 
 ## MCP strategy without context bloat
 

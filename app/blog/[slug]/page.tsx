@@ -63,6 +63,7 @@ export default async function BlogPostPage(props: {
             description={page.data.description}
             date={formattedDate}
             categories={["Article"]}
+            slug={params.slug}
           />
 
           {/* Back Link */}
