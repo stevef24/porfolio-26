@@ -24,10 +24,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
-import { cn } from "@/lib/utils";
 import { VisualWrapper } from "./VisualWrapper";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { RotateLeft01Icon } from "@hugeicons/core-free-icons";
 
 /* ── Timing ────────────────────────────────────────────────────── */
 const TIMING = {
@@ -111,33 +108,13 @@ export function CodexOrchestrationLoop({
 			className={className}
 			tone="neutral"
 			showCaption={false}
+			onReplay={handleReplay}
+			showReplay={hasPlayed && !isReduced}
 		>
 			<div
 				ref={ref}
 				className="relative flex w-full flex-col items-center py-4"
 			>
-				{hasPlayed && !isReduced && (
-					<button
-						onClick={handleReplay}
-						aria-label="Replay loop animation"
-						title="Replay"
-						className={cn(
-							"absolute right-3 top-3",
-							"flex items-center justify-center w-7 h-7",
-							"rounded border",
-							"border-[var(--sf-border-subtle)]",
-							"hover:border-[var(--va-blue)]",
-							"transition-colors duration-150",
-							"cursor-pointer",
-						)}
-						style={{
-							color: TEXT_DIM,
-							backgroundColor: "var(--sf-bg-subtle)",
-						}}
-					>
-						<HugeiconsIcon icon={RotateLeft01Icon} size={14} strokeWidth={1.5} aria-hidden="true" />
-					</button>
-				)}
 				<svg
 					viewBox={`-4 -4 ${SVG_W + 8} ${SVG_H + 8}`}
 					className="block w-full max-w-[520px]"
@@ -270,8 +247,7 @@ export function CodexOrchestrationLoop({
 									height={NODE_H}
 									rx={3}
 									fill={SURFACE}
-									stroke={active ? ACCENT : DIM}
-									strokeWidth={isCurrent ? 2 : 1}
+									stroke="none"
 								/>
 								{/* Subtle pulse glow on active node */}
 								{isCurrent && (
@@ -282,8 +258,7 @@ export function CodexOrchestrationLoop({
 										height={NODE_H + 4}
 										rx={5}
 										fill="none"
-										stroke={ACCENT}
-										strokeWidth={1}
+										stroke="none"
 										initial={{ opacity: 0 }}
 										animate={{ opacity: [0, 0.4, 0] }}
 										transition={{

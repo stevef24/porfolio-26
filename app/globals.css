@@ -141,9 +141,9 @@ button,
   --code-block-bg: #f6f6f3;
   --code-block-border: rgba(0, 0, 0, 0.12);
   --code-block-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --code-inline-bg: rgba(0, 0, 0, 0.08);
-  --code-inline-border: rgba(0, 0, 0, 0.12);
-  --code-inline-fg: rgba(0, 0, 0, 0.92);
+  --code-inline-bg: rgba(0, 0, 0, 0.04);
+  --code-inline-border: transparent;
+  --code-inline-fg: rgba(0, 0, 0, 0.78);
 
   /* SF Spacing Scale (4px increments) */
   --sf-space-1: 4px;
@@ -429,9 +429,9 @@ button,
   --code-block-bg: #141414;
   --code-block-border: rgba(255, 255, 255, 0.14);
   --code-block-shadow: none;
-  --code-inline-bg: rgba(255, 255, 255, 0.2);
-  --code-inline-border: rgba(255, 255, 255, 0.26);
-  --code-inline-fg: rgba(255, 255, 255, 0.95);
+  --code-inline-bg: rgba(255, 255, 255, 0.08);
+  --code-inline-border: transparent;
+  --code-inline-fg: rgba(255, 255, 255, 0.82);
 
   /* SF Shadow System - Dark Mode (all shadows disabled) */
   --sf-shadow-sm: none;
@@ -575,9 +575,9 @@ button,
    ===================================================== */
 
 .va-shell {
-  border: 1px solid var(--va-shell-border) !important;
+  border: none !important;
   background: var(--va-shell-bg) !important;
-  box-shadow: var(--va-shell-shadow) !important;
+  box-shadow: none !important;
   isolation: isolate;
 }
 
@@ -594,12 +594,12 @@ button,
 }
 
 .va-shell [data-va-panel] {
-  border: 1px solid var(--sf-border-subtle) !important;
+  border: none !important;
   background: var(--sf-bg-surface) !important;
 }
 
 .va-shell [data-va-chip] {
-  border: 1px solid var(--sf-border-default) !important;
+  border: none !important;
   background: var(--sf-bg-subtle) !important;
 }
 
@@ -1062,10 +1062,10 @@ samp,
   font-size: 0.84em;
   background-color: var(--code-inline-bg);
   color: var(--code-inline-fg);
-  padding: 0.05em 0.33em;
+  padding: 0.1em 0.35em;
   border-radius: 4px;
-  border: 1px solid var(--code-inline-border);
-  font-weight: 500;
+  border: none;
+  font-weight: 450;
 }
 
 /* Code blocks - pre and code inside pre */
@@ -1074,9 +1074,9 @@ samp,
   font-size: var(--code-font-size);
   line-height: var(--code-line-height);
   background: var(--code-block-bg);
-  border: 1px solid var(--code-block-border);
+  border: none;
   border-radius: 0.75rem;
-  box-shadow: var(--code-block-shadow);
+  box-shadow: none;
   padding: 1rem;
   margin: 1.25rem 0;
   overflow-x: auto;
@@ -1250,33 +1250,29 @@ article [role="tabpanel"][hidden] {
    Fumadocs Codeblock - Syntax Highlighting
    ===================================================== */
 
-/* Code block container styling */
-[data-rehype-pretty-code-figure] {
-  margin: 1.25rem 0;
-  position: relative;
-  background: var(--code-block-bg) !important;
-  border: 1px solid var(--code-block-border) !important;
-  border-radius: 0.75rem !important;
-  box-shadow: var(--code-block-shadow) !important;
-  overflow: hidden;
-}
+/* ── Code block figure — strip ALL wrapper chrome ──
+   Fumadocs CodeBlock renders: <figure class="shiki bg-fd-card border rounded-xl shadow-sm ...">
+   We flatten everything so the <pre> inside is the only visible surface. */
 
-/* Remove any wrapper styling from fumadocs */
+[data-rehype-pretty-code-figure],
 .prose figure[data-rehype-pretty-code-figure],
 article figure[data-rehype-pretty-code-figure],
-.prose [data-rehype-pretty-code-figure],
-article [data-rehype-pretty-code-figure],
+figure[data-rehype-pretty-code-figure],
+figure.shiki,
+.prose figure.shiki,
 [data-codeblock],
-[data-codeblock] > div,
-figure[data-rehype-pretty-code-figure] {
-  background: var(--code-block-bg) !important;
-  border: 1px solid var(--code-block-border) !important;
-  border-radius: 0.75rem !important;
-  box-shadow: var(--code-block-shadow) !important;
+[data-codeblock] > div {
+  margin: 1.25rem 0;
+  position: relative;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
   padding: 0 !important;
+  overflow: visible;
 }
 
-/* Fumadocs codeblock overrides */
+/* Fumadocs codeblock class overrides */
 .nd-codeblock,
 [class*="nd-codeblock"],
 [class*="codeblock"] {
@@ -1286,10 +1282,23 @@ figure[data-rehype-pretty-code-figure] {
   box-shadow: none !important;
 }
 
-[data-rehype-pretty-code-figure] pre {
-  background: transparent !important;
+/* The viewport div inside CodeBlock (text-[13px] py-3.5 fd-scroll-container) —
+   make it seamless by inheriting the pre's background */
+figure.shiki > div:not([class*="absolute"]),
+[data-rehype-pretty-code-figure] > div:not([class*="absolute"]) {
+  background: var(--code-block-bg) !important;
+  border-radius: 0.75rem !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+/* The pre IS the code block — single surface, no wrapper chrome */
+[data-rehype-pretty-code-figure] pre,
+figure.shiki pre {
+  position: relative;
+  background: var(--code-block-bg) !important;
   border: none !important;
-  border-radius: 0 !important;
+  border-radius: 0.75rem !important;
   box-shadow: none !important;
   margin: 0 !important;
   padding: 0.72rem 0 0.8rem;
@@ -1327,12 +1336,12 @@ figure[data-rehype-pretty-code-figure] {
   box-shadow: none !important;
 }
 
-/* Code title/filename */
+/* Code title/filename — gets top rounding since figure is transparent */
 [data-rehype-pretty-code-title] {
-  background: color-mix(in srgb, var(--code-inline-bg) 88%, transparent);
+  background: var(--code-block-bg);
   border: none;
-  border-bottom: 1px solid var(--code-block-border);
-  border-radius: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
+  border-radius: 0.75rem 0.75rem 0 0;
   padding: 0.56rem 0.95rem;
   font-size: 0.72rem;
   font-weight: 500;
@@ -1342,42 +1351,64 @@ figure[data-rehype-pretty-code-figure] {
 }
 
 [data-rehype-pretty-code-title] + pre {
-  border-radius: 0;
+  border-radius: 0 0 0.75rem 0.75rem !important;
   margin-top: 0;
 }
 
-/* Copy button */
-[data-rehype-pretty-code-figure] button[aria-label="Copy"] {
+/* Copy button — show on hover, sits inside the code block area */
+[data-rehype-pretty-code-figure] button[aria-label="Copy"],
+[data-rehype-pretty-code-figure] button[aria-label="Copy Text"],
+[data-rehype-pretty-code-figure] button[aria-label="Copied Text"],
+figure.shiki button[aria-label="Copy Text"],
+figure.shiki button[aria-label="Copied Text"] {
   position: absolute;
-  top: 0.45rem;
-  right: 0.45rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
   width: 1.7rem;
   height: 1.7rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--btn-subtle-bg);
-  border: 1px solid var(--btn-outline-border);
+  background: transparent;
+  border: none;
   border-radius: 999px;
-  color: var(--btn-subtle-fg);
-  opacity: 1;
+  color: var(--sf-text-tertiary);
+  opacity: 0;
   cursor: pointer;
   transition:
     background-color 0.15s ease,
     color 0.15s ease,
-    border-color 0.15s ease;
+    opacity 0.15s ease;
 }
 
-[data-rehype-pretty-code-figure]:hover button[aria-label="Copy"] {
+/* The fumadocs Actions wrapper div — strip its chrome and keep it positioned */
+figure.shiki > .absolute,
+[data-rehype-pretty-code-figure] > .absolute {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+[data-rehype-pretty-code-figure]:hover button[aria-label="Copy"],
+[data-rehype-pretty-code-figure]:hover button[aria-label="Copy Text"],
+figure.shiki:hover button[aria-label="Copy Text"] {
+  opacity: 1;
+}
+
+[data-rehype-pretty-code-figure] button[aria-label="Copy"]:hover,
+[data-rehype-pretty-code-figure] button[aria-label="Copy Text"]:hover,
+figure.shiki button[aria-label="Copy Text"]:hover {
+  color: var(--foreground);
   background: var(--btn-subtle-bg-hover);
 }
 
-[data-rehype-pretty-code-figure] button[aria-label="Copy"]:hover {
-  color: var(--foreground);
-  border-color: var(--btn-outline-border);
-}
-
-[data-rehype-pretty-code-figure] button[aria-label="Copy"]:focus-visible {
+[data-rehype-pretty-code-figure] button[aria-label="Copy"]:focus-visible,
+[data-rehype-pretty-code-figure] button[aria-label="Copy Text"]:focus-visible,
+figure.shiki button[aria-label="Copy Text"]:focus-visible {
+  opacity: 1;
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
@@ -2206,9 +2237,9 @@ figure[data-rehype-pretty-code-figure] {
 /* Code blocks inside V2 callout - clean with proper spacing */
 .v2-preview-callout pre {
   background: var(--code-block-bg) !important;
-  border: 1px solid var(--code-block-border) !important;
+  border: none !important;
   border-radius: 0.75rem !important;
-  box-shadow: var(--code-block-shadow) !important;
+  box-shadow: none !important;
   margin: 1.25rem 0 !important;
   padding: 0.95rem 1rem !important;
 }

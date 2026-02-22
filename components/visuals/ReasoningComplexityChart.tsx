@@ -210,11 +210,9 @@ export function ReasoningComplexityChart({
                 <span
                   className={cn(
                     "font-mono text-[9px] uppercase tracking-[0.12em] px-1.5 py-0.5 rounded",
-                    "border"
                   )}
                   style={{
                     color: "var(--sf-text-tertiary)",
-                    borderColor: "var(--sf-border-subtle)",
                     backgroundColor: "var(--sf-bg-subtle)",
                   }}
                 >

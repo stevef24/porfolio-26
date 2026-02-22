@@ -32,6 +32,7 @@ import { Scrolly } from "@/components/ui/scrolly/ScrollyServer";
 import { V2PreviewCallout } from "@/components/ui/blog/V2PreviewCallout";
 import { CodexOrchestrationLoop } from "@/components/visuals/CodexOrchestrationLoop";
 import { ReasoningComplexityChart } from "@/components/visuals/ReasoningComplexityChart";
+import { Annotate } from "@/components/blog/Annotate";
 import { cn } from "@/lib/utils";
 
 // Swiss-style minimal heading component without link icons
@@ -294,6 +295,7 @@ const customComponents = {
 	V2PreviewCallout,
 	CodexOrchestrationLoop,
 	ReasoningComplexityChart,
+	Annotate,
 };
 
 // Cast to MDXComponents to satisfy fumadocs MDX component typing

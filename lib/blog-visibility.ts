@@ -11,7 +11,14 @@ function isHiddenBlogPage(page: BlogPage): boolean {
 }
 
 export function getVisibleBlogPages(): BlogPage[] {
-  return blog.getPages().filter((page) => !isHiddenBlogPage(page));
+  return blog
+    .getPages()
+    .filter((page) => !isHiddenBlogPage(page))
+    .sort((a, b) => {
+      const dateA = new Date((a.data as { date?: string }).date ?? 0).getTime();
+      const dateB = new Date((b.data as { date?: string }).date ?? 0).getTime();
+      return dateB - dateA;
+    });
 }
 
 export function getVisibleBlogPage(slug: string): BlogPage | null {
