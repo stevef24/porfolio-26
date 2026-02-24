@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { ArrowDown01Icon, ArrowUp01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -25,7 +25,6 @@ interface SectionIndicatorProps {
  * Shifts left with blog content when canvas is active.
  */
 export function SectionIndicator({ items, className }: SectionIndicatorProps) {
-  const [activeSection, setActiveSection] = useState<string>("");
   const [activeSectionUrl, setActiveSectionUrl] = useState<string>("");
   const [canvasActive, setCanvasActive] = useState(false);
   const [isStuck, setIsStuck] = useState(false);
@@ -78,8 +77,17 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
     return () => observer.disconnect();
   }, []);
 
-  // Find section titles (only H2s for cleaner display)
-  const sections = items.filter((item) => item.depth === 2);
+  // Find section titles (only H2s for cleaner display) — memoized to keep
+  // the scroll listener stable across re-renders
+  const sections = useMemo(
+    () => items.filter((item) => item.depth === 2),
+    [items]
+  );
+  const activeSectionTitle = useMemo(() => {
+    if (sections.length === 0) return "";
+    const matched = sections.find((section) => section.url === activeSectionUrl);
+    return matched?.title ?? sections[0].title;
+  }, [sections, activeSectionUrl]);
 
   const updateActiveSection = useCallback(() => {
     if (sections.length === 0) return;
@@ -100,33 +108,37 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
     // the previous section rather than holding the current one for a large scroll range.
     const threshold = 120;
 
-    let currentSection = sectionHeadings[0].section.title;
     let currentUrl = sectionHeadings[0].section.url;
 
     for (const { section, element } of sectionHeadings) {
       const rect = element.getBoundingClientRect();
       if (rect.top <= threshold) {
-        currentSection = section.title;
         currentUrl = section.url;
       } else {
         break;
       }
     }
 
-    setActiveSection(currentSection);
     setActiveSectionUrl(currentUrl);
   }, [sections]);
+
+  // Stable ref so the scroll listener never needs to be torn down / re-attached
+  // when React re-renders from activeSection state updates
+  const updateRef = useRef(updateActiveSection);
+  updateRef.current = updateActiveSection;
 
   useEffect(() => {
     if (sections.length === 0) return;
 
     // Initial check
-    updateActiveSection();
+    updateRef.current();
 
-    // Listen to scroll
-    window.addEventListener("scroll", updateActiveSection, { passive: true });
-    return () => window.removeEventListener("scroll", updateActiveSection);
-  }, [sections, updateActiveSection]);
+    // Stable handler via ref — survives re-renders without re-registration
+    const handleScroll = () => updateRef.current();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [sections]);
 
   // Don't render if no sections
   if (sections.length === 0) return null;
@@ -164,18 +176,15 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
             On this page
           </span>
           <span className="text-foreground/30">›</span>
-          <AnimatePresence mode="wait">
-            <motion.span
-              key={activeSection}
-              initial={prefersReducedMotion ? false : { y: 6, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={prefersReducedMotion ? undefined : { y: -6, opacity: 0 }}
-              transition={{ duration: 0.12, ease: "easeOut" }}
-              className="text-swiss-caption text-foreground truncate flex-1"
-            >
-              {activeSection}
-            </motion.span>
-          </AnimatePresence>
+          <motion.span
+            key={activeSectionUrl || activeSectionTitle}
+            initial={prefersReducedMotion ? false : { y: 6, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.12, ease: "easeOut" }}
+            className="text-swiss-caption text-foreground truncate flex-1"
+          >
+            {activeSectionTitle}
+          </motion.span>
 
           {/* Expand/collapse button - only show when stuck */}
           {isStuck && (

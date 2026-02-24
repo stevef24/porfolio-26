@@ -1301,7 +1301,7 @@ figure.shiki pre {
   border-radius: 0.75rem !important;
   box-shadow: none !important;
   margin: 0 !important;
-  padding: 0.72rem 0 0.8rem;
+  padding: 0.85rem 1.25rem 0.9rem;
   overflow-x: auto;
   font-family: var(--code-font-family);
   font-size: var(--code-font-size);
@@ -1323,7 +1323,7 @@ figure.shiki pre {
   background: transparent !important;
   border: none !important;
   display: block;
-  padding: 0 0.95rem;
+  padding: 0;
 }
 
 /* Remove any line-specific borders or backgrounds */
