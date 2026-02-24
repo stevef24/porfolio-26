@@ -73,12 +73,11 @@ Rules:
 """`,
   },
   {
-    id: "explorer-implementer",
-    title: "Explorer + implementer roles",
-    file: "~/.codex/agents/explorer.toml + implementer.toml",
+    id: "explorer-role",
+    title: "The explorer role file",
+    file: "~/.codex/agents/explorer.toml",
     lang: "toml",
-    code: `# ── explorer.toml ──────────────────────────
-model = "gpt-5.3-codex-spark"
+    code: `model = "gpt-5.3-codex-spark"
 model_reasoning_effort = "low"      # just reading — no complex reasoning
 
 approval_policy = "never"
@@ -94,10 +93,14 @@ Return:
 - next probes
 
 Do not implement changes unless explicitly asked.
-"""
-
-# ── implementer.toml ──────────────────────
-model = "gpt-5.3-codex-spark"
+"""`,
+  },
+  {
+    id: "implementer-role",
+    title: "The implementer role file",
+    file: "~/.codex/agents/implementer.toml",
+    lang: "toml",
+    code: `model = "gpt-5.3-codex-spark"
 model_reasoning_effort = "medium"   # scoped tasks, moderate reasoning
 
 approval_policy = "never"
@@ -118,12 +121,11 @@ Report:
 """`,
   },
   {
-    id: "ci-reviewer-security",
-    title: "CI runner + reviewer + security auditor",
-    file: "~/.codex/agents/ci_runner.toml + reviewer.toml + security_auditor.toml",
+    id: "ci-runner-role",
+    title: "The CI runner role file",
+    file: "~/.codex/agents/ci_runner.toml",
     lang: "toml",
-    code: `# ── ci_runner.toml ────────────────────────
-model = "gpt-5.3-codex-spark"
+    code: `model = "gpt-5.3-codex-spark"
 model_reasoning_effort = "low"       # deterministic commands, simple parsing
 
 approval_policy = "never"
@@ -137,10 +139,14 @@ Output:
 2) Pass/fail summary
 3) Failure analysis (most likely root cause)
 4) Smallest next fix
-"""
-
-# ── reviewer.toml ─────────────────────────
-model = "gpt-5.3-codex"
+"""`,
+  },
+  {
+    id: "reviewer-role",
+    title: "The reviewer role file",
+    file: "~/.codex/agents/reviewer.toml",
+    lang: "toml",
+    code: `model = "gpt-5.3-codex"
 model_reasoning_effort = "xhigh"     # deep analysis catches subtle bugs
 
 approval_policy = "never"
@@ -156,10 +162,14 @@ Output:
 4) Risk assessment (ship or block)
 
 Keep it short and actionable.
-"""
-
-# ── security_auditor.toml ─────────────────
-model = "gpt-5.3-codex"
+"""`,
+  },
+  {
+    id: "security-auditor-role",
+    title: "The security auditor role file",
+    file: "~/.codex/agents/security_auditor.toml",
+    lang: "toml",
+    code: `model = "gpt-5.3-codex"
 model_reasoning_effort = "xhigh"     # thorough reasoning for injection vectors
 
 approval_policy = "never"
@@ -182,12 +192,11 @@ Output:
 """`,
   },
   {
-    id: "qa-release",
-    title: "QA test author + release manager",
-    file: "~/.codex/agents/qa_test_author.toml + release_manager.toml",
+    id: "qa-test-author-role",
+    title: "The QA test author role file",
+    file: "~/.codex/agents/qa_test_author.toml",
     lang: "toml",
-    code: `# ── qa_test_author.toml ───────────────────
-model = "gpt-5.3-codex"
+    code: `model = "gpt-5.3-codex"
 model_reasoning_effort = "high"      # edge-case reasoning for good coverage
 
 approval_policy = "never"
@@ -205,10 +214,14 @@ Output:
 - tests changed
 - commands run
 - confidence + remaining risks
-"""
-
-# ── release_manager.toml ──────────────────
-model = "gpt-5.3-codex"
+"""`,
+  },
+  {
+    id: "release-manager-role",
+    title: "The release manager role file",
+    file: "~/.codex/agents/release_manager.toml",
+    lang: "toml",
+    code: `model = "gpt-5.3-codex"
 model_reasoning_effort = "medium"    # structured output, not analytical
 
 approval_policy = "never"

@@ -9,19 +9,32 @@ import { codexMultiAgentOrchestratingSteps } from "./codex-multi-agent-orchestra
 
 <BlogWithCanvas>
 
-We have all been there. You hand an agent a project, walk away feeling productive, and come back to a confident green summary while real CI is quietly on fire.
+As AI becomes a bigger part of how we build software, the amount of code we need to review grows with it. The real question is not whether to use these tools — it is how we utilise our time in the most efficient way as we learn to integrate them, and in a way that maximises the value we get back.
 
-The fix is not a better prompt. It is the same fix that works for human teams: distinct jobs, parallel independent work, and a gate before anything merges.
+When AI coding tools first arrived, everyone thought that better prompts would be the fix for better code. But the actual fix is the same one that works for orchestrating human teams: distinct roles, parallel independent work, and a gate before anything ships.
 
-## Think kitchen brigade, not lone chef
+## Think conductor, not solo performer
 
-One chef trying to prep, cook, plate, and serve every dish will burn something. A brigade — each person owning a station — moves faster and catches mistakes before they leave the pass.
+Think of it like an orchestra. You would never see a conductor trying to play every instrument, read every sheet, and manage the tempo all at once. Instead, there are sections — strings, brass, woodwinds, percussion — each owning their part. The conductor sets the direction, keeps everyone in sync, and decides when to bring each section in.
 
-Your codex session works the same way. An **orchestrator** owns the plan, an **explorer** scouts the repo, **implementers** each take one atomic task, a **ci_runner** validates deterministically, and a review layer (**reviewer** + **security_auditor**) catches what the others missed. A **qa_test_author** fills coverage gaps and a **release_manager** handles ship day. The loop: Plan → Implement → CI → Review → Repeat.
+This is exactly how you should think about your Codex session. We have an **orchestrator** that owns the plan — the conductor setting the direction. We have **explorer** agents that scout the repo like a first chair reading ahead in the score. Multi-agent workflows are currently experimental in the Codex CLI, but once enabled you can define your own agent roles with role-specific configs and instructions. That is exactly what this post covers.
+
+Below, we will walk through the full setup: the scouts, the implementers, the quality gates, and how they all fit together. The loop is: **plan → implement in parallel → run checks** (tests, typecheck, lint) **→ review/security gate → repeat**.
+
+One thing to be mindful of: parallelise read-heavy work first. Multiple agents editing code at the same time can cause merge conflicts, so keep writes scoped and sequential where possible.
 
 <CodexOrchestrationLoop />
 
-Why it works: each role owns one job so prompts stay short and hallucinated side-quests starve. Independent tasks run in parallel instead of blocking a single serial chain. Review and security run on every batch — not stapled to the end.
+### Why this matters
+
+First, each role owns one job, so the prompts can be short and tailored to that agent specifically — instead of reusing the same bloated prompt over and over had we only had a single agent. Second, different tasks require different abilities. When we explore the repository, there is not much deep reasoning involved, which means we can reduce the reasoning effort and in turn increase the speed and efficiency of execution. Below, we will review how to enable multi-agent mode and a quick explanation of how I use it.
+
+To get started, open your Codex config:
+
+```bash
+# Open the global codex config (create it if it doesn't exist)
+open ~/.codex/config.toml
+```
 
 <AgentCodeWalkthrough steps={codexMultiAgentOrchestratingSteps}>
 
@@ -31,108 +44,127 @@ Why it works: each role owns one job so prompts stay short and hallucinated side
 
 Everything starts in `~/.codex/config.toml` (or `.codex/config.toml` for repo-specific overrides). Set `multi_agent = true` under `[features]`, then register each role in `[agents]` with a description and a path to its TOML file.
 
-The practical scaling tip: set `max_threads = 12`. Twelve threads give enough headroom for parallel batches without slamming into rate limits. If you see 429 errors, bring it down — you can always scale up once you trust the loop.
+The `agents.max_threads` setting controls how many agent threads can be open concurrently. The default is `6`, but I start at `12` for parallel batches. If you hit rate limits or stability issues, bring it down to `10`, and if you are still seeing errors, try `8`. You can always scale back up once the loop is stable.
 
 </CanvasStep>
 
 <CanvasStep index={1}>
 
-## 2) The orchestrator — your team lead in TOML
+## 2) The orchestrator — your team lead
 
-The orchestrator role file is where the loop lives. It declares `model`, `model_reasoning_effort`, `approval_policy`, `sandbox_mode`, and `developer_instructions`.
+Let us start with the orchestrator. This is the agent that tells everyone else what to do. Its main job is to maintain the `plan.md` file at the repo root — breaking the work into atomic tasks, delegating them to implementers in parallel, and running all three quality gates after each batch.
 
-Instructions tell it to maintain `plan.md`, delegate independent tasks to implementers in parallel, run all three gates after each batch, and convert findings into new tasks. Two rules keep things clean: no scope creep (extras go in a Later section) and small diffs (every update ends with Done / Next / Risks).
+Personally, I set this one to the highest reasoning level because the better the plan, the better the outcome. A planning mistake cascades through every batch, so this is where you want the model thinking the hardest.
 
-The orchestrator runs `gpt-5.3-codex` with `xhigh` reasoning because planning mistakes are the most expensive kind. This is where `model_reasoning_effort` matters most — get it right per role and you save tokens without losing quality.
+```bash
+# Create the orchestrator agent file
+mkdir -p ~/.codex/agents && touch ~/.codex/agents/orchestrator.toml
+```
 
 </CanvasStep>
 
 <CanvasStep index={2}>
 
-## 3) Workers: explorer and implementer
+## 3) The explorer — your scout
 
-The explorer maps file paths, finds CI configs, and suggests next probes — but never implements. Keeping exploration separate prevents the classic failure mode where an agent starts "fixing" things it was only supposed to understand.
+The explorer maps file paths, finds CI configs, and suggests what to look at next — but it never implements anything. Keeping exploration separate prevents the classic failure mode where an agent starts "fixing" things it was only supposed to understand.
 
-Implementers do the opposite: one scoped task from `plan.md`, minimal change set, run lint/typecheck/tests, iterate until green, stop. The structured report (what changed, commands run, result) gives the orchestrator the feedback it needs.
-
-The explorer runs at `low` reasoning — it is just reading files, no complex analysis. The implementer gets `medium` since it needs to reason about code changes, but tasks are scoped enough that deep thinking is waste. Both use `gpt-5.3-codex-spark` for speed.
+I run this at `low` reasoning — it is just reading files and listing paths. No complex analysis needed, which makes it fast and cheap.
 
 </CanvasStep>
 
 <CanvasStep index={3}>
 
-## 4) Quality gates: CI, review, security
+## 4) The implementer — your builder
 
-Every batch hits three gates before anything merges. The **ci_runner** mirrors CI locally and outputs pass/fail with root cause analysis. The **reviewer** performs PR-grade review — must-fix issues with file/line refs and a ship-or-block verdict. The **security_auditor** hunts for secrets leakage, injection risks, auth mistakes, and SSRF.
+Implementers do the opposite of the explorer: one scoped task from `plan.md`, minimal change set, run lint/typecheck/tests, iterate until green, then stop. The structured report (what changed, commands run, result) gives the orchestrator the feedback it needs to move on.
 
-These are hard stops, not suggestions. A batch that cannot pass all three gates is not done. The reviewer and security auditor both run at `xhigh` reasoning — this is where you want the model to think deeply, not cut corners. The CI runner stays at `low` since it is running deterministic commands and parsing output. All three share `approval_policy = "never"` and `sandbox_mode = "danger-full-access"`, so the review gate itself is the quality control.
+I give this `medium` reasoning — the tasks are scoped enough that deep thinking is waste, but it still needs to reason about code changes.
 
 </CanvasStep>
 
 <CanvasStep index={4}>
 
-## 5) Coverage and release roles
+## 5) The CI runner — your build machine
 
-The **qa_test_author** fills gaps: adds tests for changed behavior, writes minimal repro steps for bugs, verifies fixes with commands plus expected output. The **release_manager** handles release notes, rollout steps, rollback plan, and a pre-deploy checklist.
-
-You do not need all eight roles on day one. Start with orchestrator, implementer, ci_runner, and reviewer. Add the rest when you feel the gap.
+The CI runner mirrors CI locally and outputs pass/fail with root cause analysis. It is running deterministic commands and parsing output, so `low` reasoning is all it needs. Think of it as the metronome in our orchestra — it just keeps time.
 
 </CanvasStep>
 
 <CanvasStep index={5}>
 
-## 6) Verify and choose your model tier
+## 6) The reviewer — your code critic
 
-A quick `ls` and TOML parse confirm codex can read everything. Pro subscribers get `codex-spark` for fast roles (explorer, implementer, ci_runner), while Plus subscribers use `gpt-5.3-codex` across the board. Heavy roles stay on `gpt-5.3-codex`.
+The reviewer performs PR-grade review — must-fix issues with file/line refs and a ship-or-block verdict. This is where you want the model to think deeply, not cut corners. Subtle bugs need deep analysis to surface, so I give it `xhigh` reasoning.
 
-The first-run prompt should tell the orchestrator to execute one bounded batch, run all three gates, update `plan.md`, and avoid expanding scope.
+</CanvasStep>
+
+<CanvasStep index={6}>
+
+## 7) The security auditor — your last line of defence
+
+The security auditor hunts for secrets leakage, injection risks, auth mistakes, and SSRF. Injection vectors hide in boring code, so this gets `xhigh` reasoning too. Same principle as the reviewer — thoroughness is the whole point of this role.
+
+</CanvasStep>
+
+<CanvasStep index={7}>
+
+## 8) QA test author — your coverage builder
+
+The QA test author fills gaps: adds tests for changed behaviour, writes minimal repro steps for bugs, verifies fixes with commands plus expected output. Edge-case thinking improves coverage, so I give it `high` reasoning.
+
+</CanvasStep>
+
+<CanvasStep index={8}>
+
+## 9) Release manager — your ship captain
+
+The release manager handles release notes, rollout steps, rollback plan, and a pre-deploy checklist. Structured output, not analytical — `medium` reasoning does the job.
+
+You do not need all eight roles on day one. Start with orchestrator, implementer, ci_runner, and reviewer. Add the rest when you feel the gap.
+
+</CanvasStep>
+
+<CanvasStep index={9}>
+
+## 10) Verify and choose your model tier
+
+A quick `ls` and TOML parse confirm codex can read everything. The first-run prompt should tell the orchestrator to execute one bounded batch, run all three gates, update `plan.md`, and avoid expanding scope.
 
 </CanvasStep>
 
 </AgentCodeWalkthrough>
 
-## Reasoning effort — spend tokens where they matter
+## Benefit one: reasoning effort — spend tokens where they matter
 
-Not every role needs deep thinking. The rule: roles that **decide** (orchestrator, reviewer, security) get `xhigh`. Roles that **execute** (explorer, ci_runner) get `low`. Roles that **create** (implementer, qa, release) sit in the middle.
+So to recap, here is what I have chosen for my agents and the reason behind each choice. This is not a perfect split — experiment with it yourself. The principle is simple: roles that **decide** (orchestrator, reviewer, security) get the highest reasoning. Roles that **execute** (explorer, ci_runner) get the lowest. Roles that **create** (implementer, qa, release) sit somewhere in between.
 
-| Role | Reasoning | Why |
-| --- | --- | --- |
-| orchestrator | xhigh | Planning mistakes cascade through every batch |
-| reviewer | xhigh | Subtle bugs need deep analysis to surface |
-| security_auditor | xhigh | Injection vectors hide in boring code |
-| qa_test_author | high | Edge-case thinking improves coverage |
-| implementer | medium | Scoped tasks with clear acceptance criteria |
-| release_manager | medium | Structured output, not analytical |
-| explorer | low | Reading files, no complex reasoning |
-| ci_runner | low | Deterministic commands, simple parsing |
+> **Note:** Different memberships have different models available. I have the Pro membership which gives me the ability to use the Spark model (`gpt-5.3-codex-spark`). I have provided an alternative for those with the Plus membership in the chart below.
 
 <ReasoningComplexityChart />
 
-The saving is real. An `xhigh` call uses roughly 3-4x the tokens of a `low` call on the same prompt. By keeping fast roles cheap, you can afford to run the expensive review roles on every batch without blowing through your budget.
+Higher reasoning effort generally increases response time and token usage, but it improves quality on complex work like review and security. By keeping fast roles cheap with lower reasoning, you can afford to run the expensive review roles on every batch without blowing through your budget. Spark (`gpt-5.3-codex-spark`) is ideal for fast, read-heavy work like exploration and CI parsing, while `gpt-5.3-codex` is better suited for deeper analytical work.
 
-## MCP strategy without context bloat
+## Benefit two: context management with MCP
 
-Attach tools to roles, not globally. UI roles get UI MCPs, docs roles get search MCPs, review roles stay lean. If every role sees every tool, you pay in context noise and slower routing.
+Every MCP server you enable adds tool context to your messages, so keep your global set lean. That context adds up fast — especially if you have a dozen MCPs attached.
 
-## Improving over time
+With multi-agent mode, you can use role-specific config files to add heavier MCPs only to the agents that actually need them. The explorer might need file search and docs MCPs. The CI runner just needs terminal access. The reviewer needs nothing beyond the code itself. Each agent only carries the tools relevant to its job.
 
-After each run, log what broke and what fixed it into an append-only `docs/agent-notes.md`. Promote a lesson into `AGENTS.md` only when it repeats and measurably helps. Keep `AGENTS.md` curated by checking changes against eval outcomes.
+Instead of every agent paying the context cost of every tool, you scope the overhead to where it matters. Less noise, faster routing, cheaper runs.
 
-## Two starter packs
+## Grab the starter pack
 
-Pick your risk tolerance. **Pro** runs Spark on fast roles for higher concurrency. **Plus** uses `gpt-5.3-codex` everywhere for reliability.
+Rather than copying each TOML file individually, here is a setup script that creates the full config in one go. Pick your membership tier and run it.
 
-| Role | Pro | Plus |
-| --- | --- | --- |
-| orchestrator | gpt-5.3-codex | gpt-5.3-codex |
-| explorer | gpt-5.3-codex-spark | gpt-5.3-codex |
-| implementer | gpt-5.3-codex-spark | gpt-5.3-codex |
-| ci_runner | gpt-5.3-codex-spark | gpt-5.3-codex |
-| reviewer | gpt-5.3-codex | gpt-5.3-codex |
-| security_auditor | gpt-5.3-codex | gpt-5.3-codex |
+<CodexStarterPack />
 
 ## The takeaway
 
-<Annotate>Parallel where it helps</Annotate>. <Annotate type="underline" color="var(--va-green)">Strict gates where it matters</Annotate>. A single plan to prevent drift. `max_threads = 12` as your starting ceiling. That gives you faster delivery without chaos — and <Annotate type="highlight" color="oklch(0.85 0.15 85 / 0.35)">a loop you can trust enough to run unattended</Annotate>.
+<Annotate>Parallel where it helps</Annotate>. <Annotate type="underline" color="var(--va-green)">Strict gates where it matters</Annotate>. A single plan to prevent drift. `max_threads = 12` as your starting ceiling.
+
+Codex is already being built and shipped with an agent harness and parallel orchestration patterns. If you want the deep dive, read OpenAI's posts on [the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) and [the Codex harness](https://openai.com/index/unlocking-the-codex-harness/). The way we write software is shifting, and understanding multi-agent orchestration now puts you ahead of the curve.
+
+Take this implementation as an experiment. Tweak the reasoning levels, swap models, add roles, remove roles. But whatever you do — <Annotate type="highlight" color="oklch(0.85 0.15 85 / 0.35)">just experiment</Annotate>.
 
 </BlogWithCanvas>
