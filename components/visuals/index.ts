@@ -11,4 +11,5 @@ export { ChangelogScanChecklist } from "./ChangelogScanChecklist";
 export { ContextTrimComparison } from "./ContextTrimComparison";
 export { PermissionsSafetyLadder } from "./PermissionsSafetyLadder";
 export { SessionMemoryNote } from "./SessionMemoryNote";
+export { CodexStarterPack } from "./CodexStarterPack";
 export { VisualWrapper } from "./VisualWrapper";

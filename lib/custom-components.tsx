@@ -32,6 +32,7 @@ import { Scrolly } from "@/components/ui/scrolly/ScrollyServer";
 import { V2PreviewCallout } from "@/components/ui/blog/V2PreviewCallout";
 import { CodexOrchestrationLoop } from "@/components/visuals/CodexOrchestrationLoop";
 import { ReasoningComplexityChart } from "@/components/visuals/ReasoningComplexityChart";
+import { CodexStarterPack } from "@/components/visuals/CodexStarterPack";
 import { Annotate } from "@/components/blog/Annotate";
 import { cn } from "@/lib/utils";
 
@@ -295,6 +296,7 @@ const customComponents = {
 	V2PreviewCallout,
 	CodexOrchestrationLoop,
 	ReasoningComplexityChart,
+	CodexStarterPack,
 	Annotate,
 };
 

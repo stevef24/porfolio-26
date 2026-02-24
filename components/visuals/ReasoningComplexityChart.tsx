@@ -11,11 +11,12 @@
  *  CREATE  → high / medium
  *  EXECUTE → low    (1/4 segments, faint)
  *
+ * Includes model names and a Pro/Plus membership toggle.
  * Animates in on scroll — rows stagger, bars fill left→right.
  */
 
-import { useRef, useMemo } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { useRef, useMemo, useState } from "react";
+import { motion, useInView, useReducedMotion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
 import { VisualWrapper } from "./VisualWrapper";
 
@@ -23,36 +24,43 @@ import { VisualWrapper } from "./VisualWrapper";
 
 const LEVELS = { xhigh: 4, high: 3, medium: 2, low: 1 } as const;
 type Level = keyof typeof LEVELS;
+type Tier = "pro" | "plus";
 
 const GROUPS: Array<{
   tier: string;
   description: string;
-  rows: Array<{ role: string; level: Level; note: string }>;
+  rows: Array<{
+    role: string;
+    level: Level;
+    note: string;
+    proModel: string;
+    plusModel: string;
+  }>;
 }> = [
   {
     tier: "DECIDE",
     description: "Planning mistakes cascade",
     rows: [
-      { role: "orchestrator",     level: "xhigh", note: "xhigh" },
-      { role: "reviewer",         level: "xhigh", note: "xhigh" },
-      { role: "security_auditor", level: "xhigh", note: "xhigh" },
+      { role: "orchestrator",     level: "xhigh", note: "xhigh", proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
+      { role: "reviewer",         level: "xhigh", note: "xhigh", proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
+      { role: "security_auditor", level: "xhigh", note: "xhigh", proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
     ],
   },
   {
     tier: "CREATE",
     description: "Scoped analysis, edge cases",
     rows: [
-      { role: "qa_test_author",   level: "high",   note: "high"   },
-      { role: "implementer",      level: "medium",  note: "medium" },
-      { role: "release_manager",  level: "medium",  note: "medium" },
+      { role: "qa_test_author",   level: "high",   note: "high",   proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
+      { role: "implementer",      level: "medium",  note: "medium", proModel: "gpt-5.3-codex-spark", plusModel: "gpt-5.3-codex" },
+      { role: "release_manager",  level: "medium",  note: "medium", proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
     ],
   },
   {
     tier: "EXECUTE",
     description: "Deterministic, no reasoning needed",
     rows: [
-      { role: "explorer",  level: "low", note: "low" },
-      { role: "ci_runner", level: "low", note: "low" },
+      { role: "explorer",  level: "low", note: "low", proModel: "gpt-5.3-codex-spark", plusModel: "gpt-5.3-codex" },
+      { role: "ci_runner", level: "low", note: "low", proModel: "gpt-5.3-codex-spark", plusModel: "gpt-5.3-codex" },
     ],
   },
 ];
@@ -120,18 +128,20 @@ function RoleRow({
   role,
   level,
   note,
+  model,
   rowDelay,
   reduced,
 }: {
   role: string;
   level: Level;
   note: string;
+  model: string;
   rowDelay: number;
   reduced: boolean;
 }) {
   return (
     <motion.div
-      className="flex items-center gap-2 md:gap-4"
+      className="flex items-center gap-2 md:gap-3"
       initial={{ opacity: 0, x: -6 }}
       animate={{ opacity: 1, x: 0 }}
       transition={
@@ -142,7 +152,7 @@ function RoleRow({
     >
       {/* Role name */}
       <span
-        className="w-24 md:w-36 shrink-0 font-mono text-[10px] md:text-[11px] tracking-wide"
+        className="w-24 md:w-32 shrink-0 font-mono text-[10px] md:text-[11px] tracking-wide"
         style={{ color: "var(--sf-text-secondary)" }}
       >
         {role}
@@ -151,14 +161,63 @@ function RoleRow({
       {/* Bar */}
       <SegmentBar level={level} rowDelay={rowDelay} reduced={reduced} />
 
-      {/* Label */}
+      {/* Reasoning label */}
       <span
-        className="font-mono text-[10px] uppercase tracking-widest"
+        className="font-mono text-[10px] uppercase tracking-widest w-12 shrink-0"
         style={{ color: "var(--sf-text-tertiary)" }}
       >
         {note}
       </span>
+
+      {/* Model name */}
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={model}
+          initial={reduced ? false : { opacity: 0, x: -4 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={reduced ? undefined : { opacity: 0, x: 4 }}
+          transition={reduced ? { duration: 0 } : { duration: 0.15, ease: "easeOut" }}
+          className="hidden sm:inline font-mono text-[9px] md:text-[10px] tracking-wide"
+          style={{ color: "var(--sf-text-tertiary)", opacity: 0.6 }}
+        >
+          {model}
+        </motion.span>
+      </AnimatePresence>
     </motion.div>
+  );
+}
+
+function TierToggle({
+  activeTier,
+  onToggle,
+  reduced,
+}: {
+  activeTier: Tier;
+  onToggle: (tier: Tier) => void;
+  reduced: boolean;
+}) {
+  return (
+    <div className="flex items-center gap-1 relative">
+      {(["pro", "plus"] as const).map((tier) => {
+        const isActive = activeTier === tier;
+        return (
+          <button
+            key={tier}
+            type="button"
+            onClick={() => onToggle(tier)}
+            className={cn(
+              "relative font-mono text-[9px] uppercase tracking-[0.12em] px-2 py-1 rounded transition-colors",
+            )}
+            style={{
+              color: isActive ? "var(--sf-text-primary)" : "var(--sf-text-tertiary)",
+              backgroundColor: isActive ? "var(--sf-bg-subtle)" : "transparent",
+            }}
+          >
+            {tier}
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
@@ -172,6 +231,7 @@ export function ReasoningComplexityChart({
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.25 });
   const reduced = !!useReducedMotion();
+  const [activeTier, setActiveTier] = useState<Tier>("pro");
 
   // Pre-compute global row index for stagger delay
   const rowsWithDelay = useMemo(() => {
@@ -193,6 +253,17 @@ export function ReasoningComplexityChart({
       tone="neutral"
     >
       <div ref={ref} className="flex flex-col gap-6 py-2">
+        {/* Tier toggle */}
+        <div className="flex items-center justify-between">
+          <span
+            className="font-mono text-[9px] uppercase tracking-[0.12em]"
+            style={{ color: "var(--sf-text-tertiary)" }}
+          >
+            Membership
+          </span>
+          <TierToggle activeTier={activeTier} onToggle={setActiveTier} reduced={reduced} />
+        </div>
+
         {isInView &&
           rowsWithDelay.map((group, gi) => (
             <div key={group.tier} className="flex flex-col gap-2">
@@ -234,6 +305,7 @@ export function ReasoningComplexityChart({
                     role={row.role}
                     level={row.level}
                     note={row.note}
+                    model={activeTier === "pro" ? row.proModel : row.plusModel}
                     rowDelay={row.delay}
                     reduced={reduced}
                   />
