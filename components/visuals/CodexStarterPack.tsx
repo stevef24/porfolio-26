@@ -303,7 +303,7 @@ export function CodexStarterPack({ className }: { className?: string }) {
                   onClick={() => downloadScript(tier)}
                   className={cn(
                     "flex-1 font-mono text-[10px] uppercase tracking-[0.08em]",
-                    "px-3 py-2 rounded transition-colors",
+                    "px-3 py-2 rounded transition-colors cursor-pointer",
                   )}
                   style={{
                     color: "var(--sf-text-primary)",
@@ -311,7 +311,7 @@ export function CodexStarterPack({ className }: { className?: string }) {
                   }}
                   whileTap={reduced ? undefined : { scale: 0.98 }}
                 >
-                  Download .sh
+                  Download setup script
                 </motion.button>
 
                 <motion.button
@@ -319,7 +319,7 @@ export function CodexStarterPack({ className }: { className?: string }) {
                   onClick={() => handleCopy(tier)}
                   className={cn(
                     "font-mono text-[10px] uppercase tracking-[0.08em]",
-                    "px-3 py-2 rounded transition-colors",
+                    "px-3 py-2 rounded transition-colors cursor-pointer",
                   )}
                   style={{
                     color: copied === tier ? "var(--va-green)" : "var(--sf-text-tertiary)",
