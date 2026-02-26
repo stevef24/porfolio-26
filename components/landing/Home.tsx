@@ -92,7 +92,8 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 							about AI tooling and modern web development. I like to break down complex systems into visual explanations.
 						</p>
 						<p className="text-foreground/50 text-swiss-body leading-relaxed">
-							Previously worked at Nationwide UK. Currently freelancing, based in Thailand. Open to remote work only.
+							Previously worked at Nationwide UK. Currently{" "}
+								<LinkPreview href="https://littlelotus.co">freelancing</LinkPreview>, based in Thailand. Open to remote work only.
 						</p>
 					</div>
 				</BlurFade>
