@@ -24,44 +24,41 @@ const CALLOUT_CONFIG: Record<
 	{
 		icon: typeof InformationCircleIcon;
 		label: string;
-		border: string;
-		bg: string;
+		borderColor: string;
+		bgColor: string;
 		iconColor: string;
 	}
 > = {
 	note: {
 		icon: InformationCircleIcon,
 		label: "Note",
-		border: "border-blue-500/20",
-		bg: "bg-blue-500/[0.03]",
-		iconColor: "text-blue-500/60",
+		borderColor: "oklch(0.65 0.15 250 / 0.2)",
+		bgColor: "oklch(0.65 0.15 250 / 0.03)",
+		iconColor: "oklch(0.65 0.15 250 / 0.6)",
 	},
 	tip: {
 		icon: BulbIcon,
 		label: "Tip",
-		border: "border-emerald-500/20",
-		bg: "bg-emerald-500/[0.03]",
-		iconColor: "text-emerald-500/60",
+		borderColor: "oklch(0.7 0.17 155 / 0.2)",
+		bgColor: "oklch(0.7 0.17 155 / 0.03)",
+		iconColor: "oklch(0.7 0.17 155 / 0.6)",
 	},
 	warning: {
 		icon: Alert02Icon,
 		label: "Warning",
-		border: "border-amber-500/20",
-		bg: "bg-amber-500/[0.03]",
-		iconColor: "text-amber-500/60",
+		borderColor: "oklch(0.75 0.15 75 / 0.2)",
+		bgColor: "oklch(0.75 0.15 75 / 0.03)",
+		iconColor: "oklch(0.75 0.15 75 / 0.6)",
 	},
 	important: {
 		icon: CheckmarkCircle02Icon,
 		label: "Important",
-		border: "border-red-500/20",
-		bg: "bg-red-500/[0.03]",
-		iconColor: "text-red-500/60",
+		borderColor: "oklch(0.65 0.2 25 / 0.2)",
+		bgColor: "oklch(0.65 0.2 25 / 0.03)",
+		iconColor: "oklch(0.65 0.2 25 / 0.6)",
 	},
 };
 
-/**
- * Extracts text content recursively from React children
- */
 function extractText(node: ReactNode): string {
 	if (typeof node === "string") return node;
 	if (typeof node === "number") return String(node);
@@ -73,10 +70,6 @@ function extractText(node: ReactNode): string {
 	return "";
 }
 
-/**
- * Detects callout type from the first bold word in blockquote content.
- * Matches patterns like: **Note:** or **Warning:** or **Tip:**
- */
 function detectType(children: ReactNode): {
 	type: CalloutType | null;
 	strippedChildren: ReactNode;
@@ -92,7 +85,6 @@ function detectType(children: ReactNode): {
 	if (!(keyword in CALLOUT_CONFIG))
 		return { type: null, strippedChildren: children };
 
-	// Strip the keyword prefix from children
 	const childArray = Children.toArray(children);
 	const stripped = childArray
 		.map((child) => {
@@ -121,17 +113,14 @@ interface AnimatedBlockquoteProps {
 }
 
 /**
- * AnimatedBlockquote - Minimal callout with type detection
- *
- * Detects **Note:**, **Warning:**, **Tip:**, **Important:** prefixes
- * and renders with matching color, icon, and subtle background.
- * Falls back to a plain minimal blockquote when no type is detected.
+ * AnimatedBlockquote — uses a <div> to fully escape prose/fumadocs
+ * blockquote base styles. Inline styles guarantee no border-left leak.
  */
 export function AnimatedBlockquote({
 	children,
 	className,
 }: AnimatedBlockquoteProps): JSX.Element {
-	const ref = useRef<HTMLQuoteElement>(null);
+	const ref = useRef<HTMLDivElement>(null);
 	const isInView = useInView(ref, { once: true, margin: "-80px" });
 	const shouldReduceMotion = useReducedMotion();
 
@@ -143,15 +132,15 @@ export function AnimatedBlockquote({
 	const config = type ? CALLOUT_CONFIG[type] : null;
 
 	return (
-		<motion.blockquote
+		<motion.div
 			ref={ref}
-			className={cn(
-				"not-prose relative my-10 rounded-lg",
-				config
-					? cn("border", config.border, config.bg, "px-5 py-4")
-					: "border border-foreground/[0.1] bg-foreground/[0.02] px-5 py-4",
-				className
-			)}
+			role="blockquote"
+			className={cn("not-prose relative my-10 rounded-lg px-5 py-4", className)}
+			style={{
+				border: `1px solid ${config ? config.borderColor : "oklch(var(--foreground) / 0.1)"}`,
+				background: config ? config.bgColor : "oklch(var(--foreground) / 0.02)",
+				borderLeft: undefined,
+			}}
 			initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
 			animate={isInView ? { opacity: 1, y: 0 } : {}}
 			transition={{
@@ -161,10 +150,8 @@ export function AnimatedBlockquote({
 		>
 			{config && (
 				<div
-					className={cn(
-						"flex items-center gap-2 mb-3",
-						config.iconColor
-					)}
+					className="flex items-center gap-2 mb-3"
+					style={{ color: config.iconColor }}
 				>
 					<HugeiconsIcon
 						icon={config.icon}
@@ -180,6 +167,6 @@ export function AnimatedBlockquote({
 			<div className="text-[14px] leading-relaxed text-foreground/60 [&>p]:m-0">
 				{config ? strippedChildren : children}
 			</div>
-		</motion.blockquote>
+		</motion.div>
 	);
 }
