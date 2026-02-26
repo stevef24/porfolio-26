@@ -255,45 +255,30 @@ export function CodexStarterPack({ className }: { className?: string }) {
 
   return (
     <VisualWrapper
-      label="Setup script — creates config.toml + all agent TOML files"
       className={className}
       tone="neutral"
+      showCaption={false}
     >
-      <div className="flex flex-col gap-6 py-2">
-        <div className="flex flex-col gap-1">
-          <span
-            className="font-mono text-[9px] uppercase tracking-[0.12em]"
-            style={{ color: "var(--sf-text-tertiary)" }}
-          >
-            Download starter pack
-          </span>
-          <span
-            className="text-[13px]"
-            style={{ color: "var(--sf-text-secondary)" }}
-          >
-            A shell script that creates all the TOML files in one go.
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="flex flex-col gap-8 py-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {(["pro", "plus"] as const).map((tier) => (
             <div
               key={tier}
-              className="flex flex-col gap-3 rounded-lg p-4"
+              className="flex flex-col gap-4 rounded-lg p-5"
               style={{ backgroundColor: "var(--sf-bg-subtle)" }}
             >
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-1">
                 <span
-                  className="font-mono text-[10px] uppercase tracking-[0.12em] font-medium"
+                  className="font-mono text-[11px] uppercase tracking-[0.12em] font-medium"
                   style={{ color: "var(--sf-text-primary)" }}
                 >
                   {tier} tier
                 </span>
                 <span
-                  className="font-mono text-[9px]"
+                  className="font-mono text-[10px]"
                   style={{ color: "var(--sf-text-tertiary)" }}
                 >
-                  {tier === "pro" ? "codex-spark for fast roles" : "gpt-5.3-codex everywhere"}
+                  {tier === "pro" ? "Uses codex-spark for fast roles" : "gpt-5.3-codex for all roles"}
                 </span>
               </div>
 
@@ -302,8 +287,8 @@ export function CodexStarterPack({ className }: { className?: string }) {
                   type="button"
                   onClick={() => downloadScript(tier)}
                   className={cn(
-                    "flex-1 font-mono text-[10px] uppercase tracking-[0.08em]",
-                    "px-3 py-2 rounded transition-colors cursor-pointer",
+                    "flex-1 font-mono text-[11px] uppercase tracking-[0.08em]",
+                    "px-4 py-2.5 rounded transition-colors cursor-pointer",
                   )}
                   style={{
                     color: "var(--sf-text-primary)",
@@ -318,8 +303,8 @@ export function CodexStarterPack({ className }: { className?: string }) {
                   type="button"
                   onClick={() => handleCopy(tier)}
                   className={cn(
-                    "font-mono text-[10px] uppercase tracking-[0.08em]",
-                    "px-3 py-2 rounded transition-colors cursor-pointer",
+                    "font-mono text-[11px] uppercase tracking-[0.08em]",
+                    "px-4 py-2.5 rounded transition-colors cursor-pointer",
                   )}
                   style={{
                     color: copied === tier ? "var(--va-green)" : "var(--sf-text-tertiary)",
