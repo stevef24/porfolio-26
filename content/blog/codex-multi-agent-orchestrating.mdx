@@ -11,15 +11,15 @@ import { codexMultiAgentOrchestratingSteps } from "./codex-multi-agent-orchestra
 
 As AI becomes a bigger part of how we build software, the amount of code we need to review grows with it. The real question is not whether to use these tools. It is how we utilise our time in the most efficient way as we learn to integrate them, and in a way that maximises the value we get back.
 
-When AI coding tools first arrived, everyone thought that better prompts would be the fix for better code. But the actual fix is the same one that works for orchestrating human teams: distinct roles, parallel independent work, and a gate before anything ships.
+When AI coding tools first arrived, everyone thought that better prompts would be the fix for better code. But the actual fix is the same one that works for orchestrating human teams: <Annotate type="underline" color="var(--va-blue)">distinct roles</Annotate>, parallel independent work, and a gate before anything ships.
 
 ## Learning to orchestrate
 
-As AI agents progress and become better at writing code, we will write less and less of it ourselves. Both Anthropic and OpenAI have published articles stating that their AI tools now write the majority of their code. I believe that within a year or so, we will spend far less time on smaller details like code style and formatting, and shift our focus toward higher-level design, architecture, and the decisions that actually shape the product.
+As AI agents progress and become better at writing code, we will write less and less of it ourselves. At OpenAI, [Codex now reviews](https://openai.com/index/introducing-upgrades-to-codex/) the <Annotate type="underline" color="var(--va-blue)">vast majority</Annotate> of pull requests, catching hundreds of issues every day. At Anthropic, engineers report [using Claude Code increasingly](https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic) for implementing new features, with that category rising from 14% to 37% in their internal study. I believe that within a year or so, we will spend far less time on smaller details like code style and formatting, and shift our focus toward higher-level design, architecture, and the decisions that actually shape the product.
 
 Think of it like an orchestra. You would never see a conductor trying to play every instrument, read every sheet, and manage the tempo all at once. Instead, there are sections: strings, brass, woodwinds, percussion, each owning their part. The conductor sets the direction, keeps everyone in sync, and decides when to bring each section in.
 
-This is exactly how you should think about your Codex session. We have an **orchestrator** that owns the plan, the conductor setting the direction. We have **explorer** agents that scout the repo like a first chair reading ahead in the score. Multi-agent workflows are currently experimental in the Codex CLI, but once enabled you can define your own agent roles with role-specific configs and instructions. That is exactly what this post covers.
+This is exactly how you should think about your Codex session. We have an **orchestrator** that owns the plan, the conductor setting the direction. We have **explorer** agents that scout the repo like a first chair reading ahead in the score. [Multi-agent workflows](https://developers.openai.com/codex/multi-agent/) are currently experimental in the Codex CLI, but once enabled you can define your own agent roles with role-specific configs and instructions. That is exactly what this post covers.
 
 Below, we will walk through the full setup: the scouts, the implementers, the quality gates, and how they all fit together. The loop is: **plan → implement in parallel → run checks** (tests, typecheck, lint) **→ review/security gate → repeat**.
 
@@ -56,7 +56,7 @@ The key point here is to experiment and see what works for you. These settings a
 
 ## 2) The orchestrator
 
-Let's start with the orchestrator. This is the agent that tells everyone else what to do. Its main job is to maintain the `plan.md` file at the repo root, breaking the work into atomic tasks, delegating them to implementers in parallel, and running all three quality gates after each batch. Atomic tasks work better here because they keep context tight and limit how far an agent can drift off the rails. The smaller and more focused each task is, the easier it is to course-correct when something goes wrong.
+Let's start with the orchestrator. This is the agent that tells everyone else what to do. Its main job is to maintain the `plan.md` file at the repo root, breaking the work into <Annotate type="underline" color="var(--va-blue)">atomic tasks</Annotate>, delegating them to implementers in parallel, and running all three quality gates after each batch. Atomic tasks work better here because they keep context tight and limit how far an agent can drift off the rails. The smaller and more focused each task is, the easier it is to course-correct when something goes wrong.
 
 Personally, I set this one to the highest reasoning level because the better the plan, the better the outcome. A planning mistake cascades through every batch, so this is where you want the model thinking the hardest.
 
@@ -141,7 +141,7 @@ A quick `ls` and TOML parse confirm codex can read everything. The first-run pro
 
 ## Benefit one: reasoning effort, spend tokens where they matter
 
-So to recap, here is what I have chosen for my agents and the reason behind each choice. This is not a perfect split, so experiment with it yourself. The principle is simple: roles that **decide** (orchestrator, reviewer, security) get the highest reasoning. Roles that **execute** (explorer, ci_runner) get the lowest. Roles that **create** (implementer, qa, release) sit somewhere in between.
+So to recap, here is what I have chosen for my agents and the reason behind each choice. This is not a perfect split, so experiment with it yourself. The principle is simple: roles that **decide** (orchestrator, reviewer, security) get the highest <Annotate type="underline" color="var(--va-blue)">reasoning</Annotate>. Roles that **execute** (explorer, ci_runner) get the lowest. Roles that **create** (implementer, qa, release) sit somewhere in between.
 
 > **Note:** Different memberships have different models available. I have the Pro membership which gives me the ability to use the Spark model (`gpt-5.3-codex-spark`). I have provided an alternative for those with the Plus membership in the chart below.
 
@@ -157,7 +157,7 @@ With multi-agent mode, you can use role-specific config files to add heavier MCP
 
 Instead of every agent paying the context cost of every tool, you scope the overhead to where it matters. Less noise, faster routing, cheaper runs.
 
-The same principle applies to skills. Skills work similarly to MCPs but inject prompt-level instructions rather than tool definitions. I did not include skills in my config above, but I would highly recommend adding relevant ones to your agent roles. For example, the reviewer could benefit from [Vercel React Best Practices](https://skills.sh/skills/vercel-react-best-practices) or [Next.js Best Practices](https://skills.sh/skills/next-best-practices). The implementer could use [Test-Driven Development](https://skills.sh/skills/test-driven-development). Browse what is available at [skills.sh](https://skills.sh) and pick the ones that match your stack.
+The same principle applies to [skills](https://developers.openai.com/codex/skills/). Skills work similarly to MCPs but inject prompt-level instructions rather than tool definitions. They use [progressive disclosure](https://developers.openai.com/codex/concepts/customization/), loading metadata first and full instructions only when chosen. I did not include skills in my config above, but I would highly recommend adding relevant ones to your agent roles. For example, the reviewer could benefit from [Vercel React Best Practices](https://skills.sh/skills/vercel-react-best-practices) or [Next.js Best Practices](https://skills.sh/skills/next-best-practices). The implementer could use [Test-Driven Development](https://skills.sh/skills/test-driven-development). Browse what is available at [skills.sh](https://skills.sh) and pick the ones that match your stack.
 
 ## Grab the starter pack
 
