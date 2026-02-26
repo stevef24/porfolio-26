@@ -85,7 +85,7 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 							I build frontend interfaces and create{" "}
 							<LinkPreview
 								href="https://www.youtube.com/@CodewithStav"
-								className="text-foreground/80 hover:text-foreground transition-colors"
+								className="text-foreground/80 hover:text-foreground transition-colors underline underline-offset-[3px] decoration-foreground/20"
 							>
 								YouTube content
 							</LinkPreview>{" "}
@@ -93,7 +93,7 @@ export default function Home({ posts }: HomeProps): JSX.Element {
 						</p>
 						<p className="text-foreground/50 text-swiss-body leading-relaxed">
 							Previously worked at Nationwide UK. Currently{" "}
-								<LinkPreview href="https://littlelotus.co" className="text-foreground/80 hover:text-foreground transition-colors">freelancing</LinkPreview>, based in Thailand. Open to remote work only.
+								<LinkPreview href="https://littlelotus.co" className="text-foreground/80 hover:text-foreground transition-colors underline underline-offset-[3px] decoration-foreground/20">freelancing</LinkPreview>, based in Thailand. Open to remote work only.
 						</p>
 					</div>
 				</BlurFade>

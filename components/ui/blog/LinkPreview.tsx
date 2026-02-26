@@ -103,7 +103,7 @@ export function LinkPreview({
       <a
         href={href}
         className={cn(
-          "underline underline-offset-[3px] decoration-foreground/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm",
           className
         )}
         target={isHttpLink ? "_blank" : undefined}
@@ -217,7 +217,7 @@ export function LinkPreview({
         target="_blank"
         rel="noopener noreferrer"
         className={cn(
-          "inline underline underline-offset-[3px] decoration-foreground/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm",
+          "inline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm",
           className
         )}
         onMouseEnter={() => setIsHovered(true)}
