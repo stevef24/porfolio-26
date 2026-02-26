@@ -146,7 +146,7 @@ export function AnimatedBlockquote({
 		<motion.blockquote
 			ref={ref}
 			className={cn(
-				"relative my-10 rounded-lg",
+				"not-prose relative my-10 rounded-lg",
 				config
 					? cn("border", config.border, config.bg, "px-5 py-4")
 					: "border border-foreground/[0.1] bg-foreground/[0.02] px-5 py-4",
