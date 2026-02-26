@@ -237,9 +237,12 @@ export function Header() {
 	const pathname = usePathname();
 	const shouldReduceMotion = useReducedMotion();
 	const coursesEnabled = useFeature("courses");
-	const links = coursesEnabled
-		? BASE_LINKS
-		: BASE_LINKS.filter((link) => link.url !== "/courses");
+	const experimentsEnabled = useFeature("experiments");
+	const links = BASE_LINKS.filter((link) => {
+		if (link.url === "/courses" && !coursesEnabled) return false;
+		if (link.url === "/experiments" && !experimentsEnabled) return false;
+		return true;
+	});
 
 	const isDark = mounted ? resolvedTheme === "dark" : false;
 

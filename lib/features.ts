@@ -15,6 +15,7 @@ function parseBooleanFlag(value: string | undefined): boolean | undefined {
 }
 
 const coursesFlag = parseBooleanFlag(process.env.NEXT_PUBLIC_FEATURE_COURSES);
+const experimentsFlag = parseBooleanFlag(process.env.NEXT_PUBLIC_FEATURE_EXPERIMENTS);
 
 export const features = {
   /** Enable authentication UI (sign in, user menu) */
@@ -31,6 +32,15 @@ export const features = {
 
   /** Enable dashboard */
   dashboard: process.env.NEXT_PUBLIC_FEATURE_DASHBOARD === "true",
+
+  /**
+   * Enable experiments page.
+   * Default behavior:
+   * - development: enabled
+   * - production: disabled
+   * Override with NEXT_PUBLIC_FEATURE_EXPERIMENTS=true/false
+   */
+  experiments: experimentsFlag ?? process.env.NODE_ENV === "development",
 } as const;
 
 /** Type for feature flag names */

@@ -1,7 +1,9 @@
+import { notFound } from "next/navigation";
 import { experiments } from "@/data/experiments";
 import { ExperimentGrid } from "@/components/experiments/ExperimentGrid";
 import { Header } from "@/components/layout/Header";
 import { PageHeaderShader } from "@/components/ui/PageHeaderShader";
+import { isFeatureEnabled } from "@/lib/features";
 
 export const metadata = {
   title: "Experiments",
@@ -9,6 +11,7 @@ export const metadata = {
 };
 
 export default function ExperimentsPage() {
+  if (!isFeatureEnabled("experiments")) notFound();
   return (
     <div className="min-h-svh flex flex-col bg-transparent">
       <a

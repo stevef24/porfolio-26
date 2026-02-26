@@ -4,6 +4,7 @@ import { ExperimentDetail } from "@/components/experiments/ExperimentDetail";
 import { AnimatedBackLink } from "@/components/experiments/AnimatedBackLink";
 import type { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
+import { isFeatureEnabled } from "@/lib/features";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -24,6 +25,7 @@ export function generateStaticParams() {
 }
 
 export default async function ExperimentPage({ params }: PageProps) {
+  if (!isFeatureEnabled("experiments")) notFound();
   const { slug } = await params;
   const experiment = experiments.find((e) => e.slug === slug);
   if (!experiment) notFound();
