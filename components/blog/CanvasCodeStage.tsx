@@ -207,6 +207,26 @@ export function CanvasCodeStage({
     return 0;
   }, [displayFileName, multiFile, currentStep]);
 
+  // Refs for tab auto-scroll
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const activeTabRef = useRef<HTMLButtonElement>(null);
+
+  // Auto-scroll active tab into view
+  useEffect(() => {
+    const tab = activeTabRef.current;
+    const container = tabsContainerRef.current;
+    if (!tab || !container) return;
+    const tabLeft = tab.offsetLeft;
+    const tabWidth = tab.offsetWidth;
+    const containerWidth = container.offsetWidth;
+    const scrollLeft = container.scrollLeft;
+    if (tabLeft < scrollLeft) {
+      container.scrollTo({ left: tabLeft - 8, behavior: "smooth" });
+    } else if (tabLeft + tabWidth > scrollLeft + containerWidth) {
+      container.scrollTo({ left: tabLeft + tabWidth - containerWidth + 8, behavior: "smooth" });
+    }
+  }, [displayFileName]);
+
   // Track file changes between steps for animation
   const prevFileRef = useRef<string | undefined>(currentStep?.file);
   const [fileChanged, setFileChanged] = useState(false);
@@ -325,13 +345,14 @@ export function CanvasCodeStage({
         )}
 
         {globalFiles.length > 1 ? (
-          <div className="canvas-code-stage-tabs">
+          <div ref={tabsContainerRef} className="canvas-code-stage-tabs">
             {globalFiles.map((file) => {
               const isSelected = file.name === displayFileName;
               const isAvailable = file.isActiveInStep;
               return (
                 <button
                   key={file.name}
+                  ref={isSelected ? activeTabRef : undefined}
                   onClick={() => isAvailable && setActiveFileName(file.name)}
                   data-active={isSelected}
                   data-available={isAvailable}
@@ -342,7 +363,7 @@ export function CanvasCodeStage({
                     className="inline-block overflow-hidden whitespace-nowrap"
                     initial={false}
                     animate={{
-                      maxWidth: isSelected ? 300 : 120,
+                      maxWidth: isSelected ? 300 : 90,
                     }}
                     transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
                   >

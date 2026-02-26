@@ -1819,7 +1819,7 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
 /* Truncate inactive tab names with ellipsis */
 .truncate-tab {
   display: inline-block;
-  max-width: 120px;
+  max-width: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
