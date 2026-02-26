@@ -14,7 +14,7 @@ import {
 	InformationCircleIcon,
 	Alert02Icon,
 	CheckmarkCircle02Icon,
-	Bulb01Icon,
+	BulbIcon,
 } from "@hugeicons/core-free-icons";
 
 type CalloutType = "note" | "warning" | "tip" | "important";
@@ -37,7 +37,7 @@ const CALLOUT_CONFIG: Record<
 		iconColor: "text-blue-500/70",
 	},
 	tip: {
-		icon: Bulb01Icon,
+		icon: BulbIcon,
 		label: "Tip",
 		border: "border-emerald-500/30",
 		bg: "bg-emerald-500/[0.04]",
@@ -68,7 +68,7 @@ function extractText(node: ReactNode): string {
 	if (!node) return "";
 	if (Array.isArray(node)) return node.map(extractText).join("");
 	if (isValidElement(node)) {
-		return extractText(node.props.children);
+		return extractText((node.props as { children?: ReactNode }).children);
 	}
 	return "";
 }
