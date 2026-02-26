@@ -149,13 +149,15 @@ So to recap, here is what I have chosen for my agents and the reason behind each
 
 Higher reasoning effort generally increases response time and token usage, but it improves quality on complex work like review and security. By keeping fast roles cheap with lower reasoning, you can afford to run the expensive review roles on every batch without blowing through your budget. Spark (`gpt-5.3-codex-spark`) is ideal for fast, read-heavy work like exploration and CI parsing, while `gpt-5.3-codex` is better suited for deeper analytical work.
 
-## Benefit two: context management with MCP
+## Benefit two: context management with MCP and skills
 
 Every MCP server you enable adds tool context to your messages, so keep your global set lean. That context adds up fast, especially if you have a dozen MCPs attached.
 
 With multi-agent mode, you can use role-specific config files to add heavier MCPs only to the agents that actually need them. The explorer might need file search and docs MCPs. The CI runner just needs terminal access. The reviewer needs nothing beyond the code itself. Each agent only carries the tools relevant to its job.
 
 Instead of every agent paying the context cost of every tool, you scope the overhead to where it matters. Less noise, faster routing, cheaper runs.
+
+The same principle applies to skills. Skills work similarly to MCPs but inject prompt-level instructions rather than tool definitions. I did not include skills in my config above, but I would highly recommend adding relevant ones to your agent roles. For example, the reviewer could benefit from [Vercel React Best Practices](https://skills.sh/skills/vercel-react-best-practices) or [Next.js Best Practices](https://skills.sh/skills/next-best-practices). The implementer could use [Test-Driven Development](https://skills.sh/skills/test-driven-development). Browse what is available at [skills.sh](https://skills.sh) and pick the ones that match your stack.
 
 ## Grab the starter pack
 
