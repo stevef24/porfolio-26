@@ -32,30 +32,30 @@ const CALLOUT_CONFIG: Record<
 	note: {
 		icon: InformationCircleIcon,
 		label: "Note",
-		border: "border-blue-500/30",
-		bg: "bg-blue-500/[0.04]",
-		iconColor: "text-blue-500/70",
+		border: "border-blue-500/10",
+		bg: "bg-blue-500/[0.03]",
+		iconColor: "text-blue-500/60",
 	},
 	tip: {
 		icon: BulbIcon,
 		label: "Tip",
-		border: "border-emerald-500/30",
-		bg: "bg-emerald-500/[0.04]",
-		iconColor: "text-emerald-500/70",
+		border: "border-emerald-500/10",
+		bg: "bg-emerald-500/[0.03]",
+		iconColor: "text-emerald-500/60",
 	},
 	warning: {
 		icon: Alert02Icon,
 		label: "Warning",
-		border: "border-amber-500/30",
-		bg: "bg-amber-500/[0.04]",
-		iconColor: "text-amber-500/70",
+		border: "border-amber-500/10",
+		bg: "bg-amber-500/[0.03]",
+		iconColor: "text-amber-500/60",
 	},
 	important: {
 		icon: CheckmarkCircle02Icon,
 		label: "Important",
-		border: "border-red-500/30",
-		bg: "bg-red-500/[0.04]",
-		iconColor: "text-red-500/70",
+		border: "border-red-500/10",
+		bg: "bg-red-500/[0.03]",
+		iconColor: "text-red-500/60",
 	},
 };
 
@@ -94,17 +94,23 @@ function detectType(children: ReactNode): {
 
 	// Strip the keyword prefix from children
 	const childArray = Children.toArray(children);
-	const stripped = childArray.map((child) => {
-		if (!isValidElement(child)) return child;
-		const props = child.props as { children?: ReactNode };
-		if (!props.children) return child;
+	const stripped = childArray
+		.map((child) => {
+			if (!isValidElement(child)) return child;
+			const props = child.props as { children?: ReactNode };
+			if (!props.children) return child;
 
-		const innerText = extractText(props.children);
-		if (innerText.match(/^\s*\*{0,2}(Note|Warning|Tip|Important):?\*{0,2}\s*$/i)) {
-			return null; // Remove the bold label element entirely
-		}
-		return child;
-	}).filter(Boolean);
+			const innerText = extractText(props.children);
+			if (
+				innerText.match(
+					/^\s*\*{0,2}(Note|Warning|Tip|Important):?\*{0,2}\s*$/i
+				)
+			) {
+				return null;
+			}
+			return child;
+		})
+		.filter(Boolean);
 
 	return { type: keyword, strippedChildren: stripped };
 }
@@ -140,10 +146,10 @@ export function AnimatedBlockquote({
 		<motion.blockquote
 			ref={ref}
 			className={cn(
-				"relative my-10 py-4 pl-5 pr-4 rounded-r-sm",
+				"relative my-10 rounded-lg",
 				config
-					? cn("border-l-2", config.border, config.bg)
-					: "border-l border-foreground/15",
+					? cn("border", config.border, config.bg, "px-5 py-4")
+					: "border border-foreground/[0.06] bg-foreground/[0.02] px-5 py-4",
 				className
 			)}
 			initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
@@ -154,19 +160,24 @@ export function AnimatedBlockquote({
 			}}
 		>
 			{config && (
-				<div className={cn("flex items-center gap-2 mb-2", config.iconColor)}>
+				<div
+					className={cn(
+						"flex items-center gap-2 mb-3",
+						config.iconColor
+					)}
+				>
 					<HugeiconsIcon
 						icon={config.icon}
-						size={15}
+						size={14}
 						strokeWidth={1.5}
 						aria-hidden="true"
 					/>
-					<span className="text-[11px] font-medium uppercase tracking-[0.08em]">
+					<span className="text-[10px] font-medium uppercase tracking-[0.1em]">
 						{config.label}
 					</span>
 				</div>
 			)}
-			<div className="text-[15px] leading-relaxed text-foreground/70 [&>p]:m-0">
+			<div className="text-[14px] leading-relaxed text-foreground/60 [&>p]:m-0">
 				{config ? strippedChildren : children}
 			</div>
 		</motion.blockquote>
