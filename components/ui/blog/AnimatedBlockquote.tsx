@@ -32,28 +32,28 @@ const CALLOUT_CONFIG: Record<
 	note: {
 		icon: InformationCircleIcon,
 		label: "Note",
-		border: "border-blue-500/10",
+		border: "border-blue-500/20",
 		bg: "bg-blue-500/[0.03]",
 		iconColor: "text-blue-500/60",
 	},
 	tip: {
 		icon: BulbIcon,
 		label: "Tip",
-		border: "border-emerald-500/10",
+		border: "border-emerald-500/20",
 		bg: "bg-emerald-500/[0.03]",
 		iconColor: "text-emerald-500/60",
 	},
 	warning: {
 		icon: Alert02Icon,
 		label: "Warning",
-		border: "border-amber-500/10",
+		border: "border-amber-500/20",
 		bg: "bg-amber-500/[0.03]",
 		iconColor: "text-amber-500/60",
 	},
 	important: {
 		icon: CheckmarkCircle02Icon,
 		label: "Important",
-		border: "border-red-500/10",
+		border: "border-red-500/20",
 		bg: "bg-red-500/[0.03]",
 		iconColor: "text-red-500/60",
 	},
@@ -149,7 +149,7 @@ export function AnimatedBlockquote({
 				"relative my-10 rounded-lg",
 				config
 					? cn("border", config.border, config.bg, "px-5 py-4")
-					: "border border-foreground/[0.06] bg-foreground/[0.02] px-5 py-4",
+					: "border border-foreground/[0.1] bg-foreground/[0.02] px-5 py-4",
 				className
 			)}
 			initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
