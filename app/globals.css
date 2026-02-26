@@ -1816,6 +1816,16 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
   color: var(--foreground);
 }
 
+/* Truncate inactive tab names with ellipsis */
+.truncate-tab {
+  display: inline-block;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
 /* Unavailable tabs - files not in current step */
 .canvas-code-stage-tab[data-available="false"] {
   opacity: 0.3;

@@ -338,7 +338,16 @@ export function CanvasCodeStage({
                   disabled={!isAvailable}
                   className="canvas-code-stage-tab"
                 >
-                  {file.name}
+                  <motion.span
+                    className="inline-block overflow-hidden whitespace-nowrap"
+                    initial={false}
+                    animate={{
+                      maxWidth: isSelected ? 300 : 120,
+                    }}
+                    transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    <span className={cn(!isSelected && "truncate-tab")}>{file.name}</span>
+                  </motion.span>
                   {isSelected && (
                     <motion.span
                       layoutId="canvas-tab-underline"
