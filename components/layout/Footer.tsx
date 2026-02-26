@@ -21,16 +21,16 @@ export function Footer(): JSX.Element {
 				<button
 					onClick={scrollToTop}
 					type="button"
-					className="group inline-flex h-8 items-center gap-1.5 rounded-full border border-[var(--btn-outline-border)] bg-[var(--btn-subtle-bg)] px-3 text-swiss-caption text-[var(--btn-subtle-fg)] hover:text-foreground hover:bg-[var(--btn-subtle-bg-hover)] transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-1 focus-visible:ring-offset-background"
+					className="group inline-flex items-center gap-1 text-swiss-caption text-foreground/35 hover:text-foreground/70 transition-colors cursor-pointer focus-visible:outline-none"
 					aria-label="Back to top"
 				>
-					<span>Top</span>
 					<HugeiconsIcon
 						icon={ArrowUp01Icon}
-						size={14}
+						size={12}
 						className="transition-transform duration-200 group-hover:-translate-y-0.5"
 						aria-hidden={true}
 					/>
+					<span>Top</span>
 				</button>
 			</div>
 		</footer>

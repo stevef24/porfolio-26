@@ -2,13 +2,13 @@ import Link from "next/link";
 import { format } from "date-fns";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { blog } from "@/lib/source";
 import customComponents from "@/lib/custom-components";
 import { GradualBlur } from "@/components/ui/blog/GradualBlur";
 import { SectionIndicator } from "@/components/ui/blog/SectionIndicator";
 import { EmailCaptureForm } from "@/components/shared/EmailCaptureForm";
 import SiteShell from "@/components/layout/SiteShell";
 import { BlogHeroHeader } from "@/components/blog/BlogHeroHeader";
+import { getVisibleBlogPage, getVisibleBlogPages } from "@/lib/blog-visibility";
 
 // Helper to extract text content from React elements or strings
 function extractTextContent(node: unknown): string {
@@ -33,7 +33,7 @@ export default async function BlogPostPage(props: {
   params: Promise<{ slug: string }>;
 }): Promise<React.ReactNode> {
   const params = await props.params;
-  const page = blog.getPage([params.slug]);
+  const page = getVisibleBlogPage(params.slug);
 
   if (!page) notFound();
 
@@ -63,6 +63,7 @@ export default async function BlogPostPage(props: {
             description={page.data.description}
             date={formattedDate}
             categories={["Article"]}
+            slug={params.slug}
           />
 
           {/* Back Link */}
@@ -122,7 +123,7 @@ export default async function BlogPostPage(props: {
 }
 
 export function generateStaticParams(): { slug: string }[] {
-  return blog.getPages().map((page) => ({
+  return getVisibleBlogPages().map((page) => ({
     slug: page.slugs[0],
   }));
 }
@@ -131,7 +132,7 @@ export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const page = blog.getPage([params.slug]);
+  const page = getVisibleBlogPage(params.slug);
 
   if (!page) return {};
 

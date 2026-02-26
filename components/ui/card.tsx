@@ -47,7 +47,7 @@ function CardTitle({
   return (
     <div
       data-slot="card-title"
-      className={cn("text-base font-medium text-foreground", className)}
+      className={cn("text-swiss-body font-medium text-foreground", className)}
       {...props}
     />
   )
@@ -60,7 +60,7 @@ function CardDescription({
   return (
     <div
       data-slot="card-description"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-swiss-caption", className)}
       {...props}
     />
   )

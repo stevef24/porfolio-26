@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import Image, { type ImageLoaderProps } from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,10 @@ interface LinkPreviewProps {
   href: string;
   children: ReactNode;
   className?: string;
+}
+
+function passthroughImageLoader({ src }: ImageLoaderProps): string {
+  return src;
 }
 
 /**
@@ -45,9 +50,17 @@ export function LinkPreview({
   // Check if it's an external link (client-side only)
   useEffect(() => {
     setHasMounted(true);
-    if (typeof window !== "undefined") {
-      const external = href.startsWith("http") && !href.includes(window.location.hostname);
-      setIsExternal(external);
+    if (typeof window === "undefined") return;
+
+    try {
+      const parsed = new URL(href, window.location.origin);
+      const isHttpProtocol =
+        parsed.protocol === "http:" || parsed.protocol === "https:";
+      setIsExternal(
+        isHttpProtocol && parsed.hostname !== window.location.hostname,
+      );
+    } catch {
+      setIsExternal(false);
     }
   }, [href]);
 
@@ -63,7 +76,10 @@ export function LinkPreview({
       // Calculate fixed position for portal (relative to viewport)
       setPopoverPosition({
         top: showAbove ? rect.top - 8 : rect.bottom + 8,
-        left: Math.min(Math.max(rect.left + rect.width / 2, 160), window.innerWidth - 160),
+        left: Math.min(
+          Math.max(rect.left + rect.width / 2, 160),
+          window.innerWidth - 160,
+        ),
       });
     }
   }, [isHovered]);
@@ -104,12 +120,13 @@ export function LinkPreview({
         href={href}
         className={cn(
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm",
-          className
+          className,
         )}
         target={isHttpLink ? "_blank" : undefined}
         rel={isHttpLink ? "noopener noreferrer" : undefined}
       >
         {children}
+        {isHttpLink && <span className="sr-only"> (opens in new tab)</span>}
       </a>
     );
   }
@@ -122,12 +139,17 @@ export function LinkPreview({
           className="fixed z-50 w-72 pointer-events-none"
           style={{
             top: position === "bottom" ? popoverPosition.top : "auto",
-            bottom: position === "top" ? `calc(100vh - ${popoverPosition.top + 16}px)` : "auto",
+            bottom:
+              position === "top"
+                ? `calc(100vh - ${popoverPosition.top + 16}px)`
+                : "auto",
             left: popoverPosition.left,
             transform: "translateX(-50%)",
           }}
           initial={
-            prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: hoverOffset }
+            prefersReducedMotion
+              ? { opacity: 0 }
+              : { opacity: 0, y: hoverOffset }
           }
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: hoverOffset }}
@@ -156,8 +178,9 @@ export function LinkPreview({
               <>
                 {metadata.image && (
                   <div className="relative h-32 w-full overflow-hidden bg-muted">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
+                      loader={passthroughImageLoader}
+                      unoptimized
                       src={metadata.image}
                       alt=""
                       width={640}
@@ -170,8 +193,9 @@ export function LinkPreview({
                 <div className="p-3.5 space-y-2">
                   <div className="flex items-center gap-2">
                     {metadata.favicon && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
+                        loader={passthroughImageLoader}
+                        unoptimized
                         src={metadata.favicon}
                         alt=""
                         width={16}
@@ -180,17 +204,17 @@ export function LinkPreview({
                         loading="lazy"
                       />
                     )}
-                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground truncate">
+                    <span className="text-swiss-meta truncate">
                       {metadata.siteName || new URL(href).hostname}
                     </span>
                   </div>
                   {metadata.title && (
-                    <h4 className="text-sm font-medium text-foreground leading-snug line-clamp-2">
+                    <h4 className="text-swiss-caption font-medium text-foreground leading-snug line-clamp-2">
                       {metadata.title}
                     </h4>
                   )}
                   {metadata.description && (
-                    <p className="text-xs text-muted-foreground/80 leading-relaxed line-clamp-2">
+                    <p className="text-swiss-caption text-foreground/50 leading-relaxed line-clamp-2">
                       {metadata.description}
                     </p>
                   )}
@@ -218,7 +242,7 @@ export function LinkPreview({
         rel="noopener noreferrer"
         className={cn(
           "inline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm",
-          className
+          className,
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -226,6 +250,7 @@ export function LinkPreview({
         onBlur={() => setIsHovered(false)}
       >
         {children}
+        <span className="sr-only"> (opens in new tab)</span>
       </a>
       {hasMounted && createPortal(previewContent, document.body)}
     </>

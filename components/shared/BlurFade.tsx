@@ -62,7 +62,7 @@ export default function BlurFade({
       transition={
         shouldReduceMotion
           ? { duration: 0.01 }
-          : { ...springGentle, delay }
+          : { ...springGentle, delay, visualDuration: duration }
       }
       className={className}
     >

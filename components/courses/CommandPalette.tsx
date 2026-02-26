@@ -259,7 +259,7 @@ export function CommandPalette({
                   autoComplete="off"
                   spellCheck={false}
                 />
-                <kbd className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono text-foreground/40">
+                <kbd className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground/40">
                   Esc
                 </kbd>
               </div>
@@ -321,7 +321,7 @@ export function CommandPalette({
                             )}
 
                             {/* Lesson number */}
-                            <span className="relative z-10 w-6 text-center font-mono text-[11px] text-foreground/40 shrink-0">
+                            <span className="relative z-10 w-6 shrink-0 text-center font-mono text-xs text-foreground/40">
                               {String(lesson.order).padStart(2, "0")}
                             </span>
 
@@ -343,7 +343,7 @@ export function CommandPalette({
               </div>
 
               {/* Footer with navigation hints */}
-              <div className="px-4 py-2 border-t border-border flex items-center gap-4 text-[10px] font-mono text-foreground/30 uppercase tracking-wider">
+              <div className="flex items-center gap-4 border-t border-border px-4 py-2 font-mono text-xs uppercase tracking-wider text-foreground/30">
                 <span className="flex items-center gap-1">
                   <kbd className="px-1 py-0.5 bg-muted rounded">
                     &uarr;&darr;

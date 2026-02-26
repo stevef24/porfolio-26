@@ -30,6 +30,10 @@ import { AgentCodeWalkthroughServer } from "@/components/blog/AgentCodeWalkthrou
 import { CourseWithCanvas } from "@/components/courses/CourseWithCanvas";
 import { Scrolly } from "@/components/ui/scrolly/ScrollyServer";
 import { V2PreviewCallout } from "@/components/ui/blog/V2PreviewCallout";
+import { CodexOrchestrationLoop } from "@/components/visuals/CodexOrchestrationLoop";
+import { ReasoningComplexityChart } from "@/components/visuals/ReasoningComplexityChart";
+import { CodexStarterPack } from "@/components/visuals/CodexStarterPack";
+import { Annotate } from "@/components/blog/Annotate";
 import { cn } from "@/lib/utils";
 
 // Swiss-style minimal heading component without link icons
@@ -290,6 +294,10 @@ const customComponents = {
 	a: AnchorLink,
 	// V2 Preview callout with gradient styling
 	V2PreviewCallout,
+	CodexOrchestrationLoop,
+	ReasoningComplexityChart,
+	CodexStarterPack,
+	Annotate,
 };
 
 // Cast to MDXComponents to satisfy fumadocs MDX component typing

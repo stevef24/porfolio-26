@@ -85,29 +85,6 @@ export function GradualBlur({
           )`,
         }}
       />
-
-      {/* Subtle frosted glass layer */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backdropFilter: "blur(1px)",
-          WebkitBackdropFilter: "blur(1px)",
-          maskImage: "linear-gradient(to top, black 0%, black 30%, transparent 80%)",
-          WebkitMaskImage: "linear-gradient(to top, black 0%, black 30%, transparent 80%)",
-        }}
-      />
-
-      {/* Extra soft blur at very bottom */}
-      <div
-        className="absolute bottom-0 left-0 right-0"
-        style={{
-          height: "40%",
-          backdropFilter: "blur(2px)",
-          WebkitBackdropFilter: "blur(2px)",
-          maskImage: "linear-gradient(to top, black 0%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to top, black 0%, transparent 100%)",
-        }}
-      />
     </motion.div>
   );
 }

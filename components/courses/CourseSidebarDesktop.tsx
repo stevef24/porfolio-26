@@ -122,7 +122,7 @@ const LessonItem = memo(function LessonItem({
       </motion.span>
     </AnimatePresence>
   ) : (
-    <span className="text-[10px] font-medium tabular-nums text-foreground/40">
+    <span className="text-xs font-medium tabular-nums text-foreground/45">
       {String(index + 1).padStart(2, "0")}
     </span>
   );
@@ -133,7 +133,7 @@ const LessonItem = memo(function LessonItem({
       href={lesson.url}
       className={cn(
         "group relative flex items-center gap-2.5 rounded-md px-2.5 py-1.5",
-        "text-[13px] leading-5 transition-colors duration-150",
+        "text-sm leading-5 transition-colors duration-150",
         isActive ? "text-foreground" : "text-foreground/65 hover:text-foreground/90",
         "hover:bg-foreground/[0.04]",
         isLocked && "opacity-55"
@@ -242,7 +242,7 @@ export function CourseSidebarDesktop({
     >
       {/* Header */}
       <div className="border-b border-border/70 px-4 py-4">
-        <p className="mb-2 text-[10px] uppercase tracking-[0.14em] text-foreground/45">
+        <p className="mb-2 text-swiss-meta tracking-[0.12em] text-foreground/55">
           Course
         </p>
 
@@ -251,7 +251,7 @@ export function CourseSidebarDesktop({
           <Link
             href={`/courses/${courseSlug}`}
             className={cn(
-              "flex min-w-0 items-center gap-2 text-[13px] font-medium",
+              "flex min-w-0 items-center gap-2 text-sm font-medium",
               "transition-colors hover:text-foreground",
               pathname === `/courses/${courseSlug}`
                 ? "text-foreground"
@@ -272,18 +272,18 @@ export function CourseSidebarDesktop({
           )}
         </div>
 
-        <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-foreground/[0.02] px-2 py-1 text-[11px] text-foreground/55">
-          <kbd className="rounded border border-border/80 px-1 py-0.5 text-[10px] font-mono leading-none">
+        <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-foreground/[0.02] px-2 py-1 text-xs text-foreground/55">
+          <kbd className="rounded border border-border/80 px-1 py-0.5 text-xs font-mono leading-none">
             ⌘/Ctrl
           </kbd>
-          <kbd className="rounded border border-border/80 px-1 py-0.5 text-[10px] font-mono leading-none">K</kbd>
+          <kbd className="rounded border border-border/80 px-1 py-0.5 text-xs font-mono leading-none">K</kbd>
           <span>Search lessons</span>
         </div>
 
         {/* Progress bar */}
         {lessons.length > 0 && completedLessonsCount > 0 && (
           <div className="mt-3">
-            <div className="mb-1 flex items-center justify-between text-[11px] text-foreground/50">
+            <div className="mb-1 flex items-center justify-between text-xs text-foreground/50">
               <span>{completedLessonsCount}/{lessons.length}</span>
               <span>{progressPercentage}%</span>
             </div>
@@ -314,10 +314,10 @@ export function CourseSidebarDesktop({
           >
             {/* Module Header */}
             <div className="mb-2 px-4">
-              <span className="text-[10px] uppercase tracking-[0.12em] text-foreground/45">
+              <span className="text-swiss-meta tracking-[0.12em] text-foreground/55">
                 Module {String(module.index).padStart(2, "0")}
               </span>
-              <p className="mt-1 text-[12px] leading-snug text-foreground/70">
+              <p className="mt-1 text-sm leading-snug text-foreground/70">
                 {module.name}
               </p>
             </div>
@@ -349,7 +349,7 @@ export function CourseSidebarDesktop({
 
       {/* Footer */}
       <div className="border-t border-border/70 px-4 py-3">
-        <p className="text-[11px] leading-relaxed text-foreground/45">
+        <p className="text-xs leading-relaxed text-foreground/50">
           Keep lessons focused and progress-friendly.
         </p>
       </div>

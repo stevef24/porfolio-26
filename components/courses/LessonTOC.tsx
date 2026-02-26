@@ -82,7 +82,7 @@ export function LessonTOC({ items, className }: LessonTOCProps): JSX.Element | n
         className
       )}
     >
-      <h4 className="mb-2 text-[10px] uppercase tracking-[0.12em] text-foreground/45">
+      <h4 className="mb-2 text-xs uppercase tracking-[0.12em] text-foreground/45">
         On this page
       </h4>
       {/* Left border container for active indicator */}
@@ -104,7 +104,7 @@ export function LessonTOC({ items, className }: LessonTOCProps): JSX.Element | n
                 <motion.a
                   href={heading.url}
                   className={cn(
-                    "block py-1.5 pl-3 pr-2 transition-colors duration-150 cursor-pointer rounded-md text-[13px] leading-5",
+                    "block py-1.5 pl-3 pr-2 transition-colors duration-150 cursor-pointer rounded-md text-sm leading-5",
                     "hover:text-foreground",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
                     heading.depth === 3 && "pl-5",

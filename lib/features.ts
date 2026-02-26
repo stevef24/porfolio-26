@@ -6,14 +6,28 @@
  *
  * Set values in .env.local:
  * NEXT_PUBLIC_FEATURE_AUTH=true
+ * NEXT_PUBLIC_FEATURE_COURSES=true
  */
+
+function parseBooleanFlag(value: string | undefined): boolean | undefined {
+  if (value === undefined) return undefined;
+  return value === "true";
+}
+
+const coursesFlag = parseBooleanFlag(process.env.NEXT_PUBLIC_FEATURE_COURSES);
 
 export const features = {
   /** Enable authentication UI (sign in, user menu) */
   auth: process.env.NEXT_PUBLIC_FEATURE_AUTH === "true",
 
-  /** Enable course/learning features */
-  courses: process.env.NEXT_PUBLIC_FEATURE_COURSES === "true",
+  /**
+   * Enable course/learning features.
+   * Default behavior:
+   * - development: enabled
+   * - production: disabled
+   * Override with NEXT_PUBLIC_FEATURE_COURSES=true/false
+   */
+  courses: coursesFlag ?? process.env.NODE_ENV === "development",
 
   /** Enable dashboard */
   dashboard: process.env.NEXT_PUBLIC_FEATURE_DASHBOARD === "true",

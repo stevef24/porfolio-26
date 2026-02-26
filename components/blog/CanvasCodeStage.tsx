@@ -8,7 +8,6 @@
  * - Dual-theme support (CSS-based instant switching)
  * - Multi-file tab support with persistence
  * - Copy to clipboard
- * - Fullscreen mode
  * - Focus line highlighting
  */
 
@@ -21,12 +20,17 @@ import {
   useState,
   memo,
 } from "react";
-import { createPortal } from "react-dom";
 import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import { ShikiMagicMoveRenderer } from "shiki-magic-move/react";
 import { syncTokenKeys, toKeyedTokens } from "shiki-magic-move/core";
 import { cn } from "@/lib/utils";
 import { springGentle, springSnappy } from "@/lib/motion-variants";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  Copy01Icon,
+  CheckmarkCircle02Icon,
+  File01Icon,
+} from "@hugeicons/core-free-icons";
 import {
   MAGIC_MOVE_DEFAULTS,
   dedupeTokenKeys,
@@ -42,7 +46,6 @@ interface CanvasCodeStageProps {
   steps: AnyCodeStep[];
   activeIndex: number;
   className?: string;
-  fullscreenEnabled?: boolean;
   showStepIndicator?: boolean;
 }
 
@@ -92,55 +95,6 @@ function getTokens(step: AnyCodeStep, fileIndex: number = 0): KeyedTokensInfo | 
   return null;
 }
 
-// ============================================================================
-// Icons
-// ============================================================================
-
-function CopyIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-    </svg>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  );
-}
-
-function ExpandIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="15 3 21 3 21 9" />
-      <polyline points="9 21 3 21 3 15" />
-      <line x1="21" y1="3" x2="14" y2="10" />
-      <line x1="3" y1="21" x2="10" y2="14" />
-    </svg>
-  );
-}
-
-function CloseIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  );
-}
-
-function FileIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5 opacity-60">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <polyline points="14 2 14 8 20 8" />
-    </svg>
-  );
-}
 
 // ============================================================================
 // Magic Move Renderer
@@ -206,13 +160,11 @@ export function CanvasCodeStage({
   steps,
   activeIndex,
   className,
-  fullscreenEnabled = true,
   showStepIndicator = true,
 }: CanvasCodeStageProps): JSX.Element {
   const prefersReducedMotion = useReducedMotion();
   const [copied, setCopied] = useState(false);
   const [activeFileName, setActiveFileName] = useState<string | null>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const currentStep = steps[activeIndex] ?? steps[0];
@@ -255,6 +207,26 @@ export function CanvasCodeStage({
     return 0;
   }, [displayFileName, multiFile, currentStep]);
 
+  // Refs for tab auto-scroll
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const activeTabRef = useRef<HTMLButtonElement>(null);
+
+  // Auto-scroll active tab into view
+  useEffect(() => {
+    const tab = activeTabRef.current;
+    const container = tabsContainerRef.current;
+    if (!tab || !container) return;
+    const tabLeft = tab.offsetLeft;
+    const tabWidth = tab.offsetWidth;
+    const containerWidth = container.offsetWidth;
+    const scrollLeft = container.scrollLeft;
+    if (tabLeft < scrollLeft) {
+      container.scrollTo({ left: tabLeft - 8, behavior: "smooth" });
+    } else if (tabLeft + tabWidth > scrollLeft + containerWidth) {
+      container.scrollTo({ left: tabLeft + tabWidth - containerWidth + 8, behavior: "smooth" });
+    }
+  }, [displayFileName]);
+
   // Track file changes between steps for animation
   const prevFileRef = useRef<string | undefined>(currentStep?.file);
   const [fileChanged, setFileChanged] = useState(false);
@@ -278,22 +250,6 @@ export function CanvasCodeStage({
     prevFileRef.current = newFile;
     prevStepRef.current = activeIndex;
   }, [activeIndex, steps]);
-
-  // Handle fullscreen
-  const handleFullscreen = useCallback(() => setIsFullscreen(prev => !prev), []);
-
-  useEffect(() => {
-    if (!isFullscreen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsFullscreen(false);
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
-  }, [isFullscreen]);
 
   // Copy to clipboard
   const handleCopy = useCallback(() => {
@@ -377,8 +333,7 @@ export function CanvasCodeStage({
     );
   };
 
-  // Render header (shared between normal and fullscreen)
-  const renderHeader = (layoutIdSuffix: string = "") => (
+  const renderHeader = () => (
     <div className="canvas-code-stage-header">
       <div className="flex items-center gap-3">
         {showStepIndicator && steps.length > 1 && (
@@ -390,23 +345,33 @@ export function CanvasCodeStage({
         )}
 
         {globalFiles.length > 1 ? (
-          <div className="canvas-code-stage-tabs">
+          <div ref={tabsContainerRef} className="canvas-code-stage-tabs">
             {globalFiles.map((file) => {
               const isSelected = file.name === displayFileName;
               const isAvailable = file.isActiveInStep;
               return (
                 <button
                   key={file.name}
+                  ref={isSelected ? activeTabRef : undefined}
                   onClick={() => isAvailable && setActiveFileName(file.name)}
                   data-active={isSelected}
                   data-available={isAvailable}
                   disabled={!isAvailable}
                   className="canvas-code-stage-tab"
                 >
-                  {file.name}
+                  <motion.span
+                    className="inline-block overflow-hidden whitespace-nowrap"
+                    initial={false}
+                    animate={{
+                      maxWidth: isSelected ? 300 : 90,
+                    }}
+                    transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    <span className={cn(!isSelected && "truncate-tab")}>{file.name}</span>
+                  </motion.span>
                   {isSelected && (
                     <motion.span
-                      layoutId={`canvas-tab-underline${layoutIdSuffix}`}
+                      layoutId="canvas-tab-underline"
                       className="canvas-code-stage-underline"
                       transition={prefersReducedMotion ? { duration: 0 } : springSnappy}
                     />
@@ -429,7 +394,7 @@ export function CanvasCodeStage({
                 exit={{ opacity: 0, x: -8 }}
                 transition={prefersReducedMotion ? { duration: 0 } : springSnappy}
               >
-                <FileIcon />
+                <HugeiconsIcon icon={File01Icon} size={12} strokeWidth={1.5} aria-hidden="true" className="opacity-50" />
                 {displayFileName}
               </motion.div>
             </AnimatePresence>
@@ -438,20 +403,15 @@ export function CanvasCodeStage({
       </div>
 
       <div className="canvas-code-stage-toolbar">
-        {fullscreenEnabled && (
-          <button onClick={handleFullscreen} className="canvas-code-stage-btn" aria-label="Fullscreen">
-            {isFullscreen ? <CloseIcon /> : <ExpandIcon />}
-          </button>
-        )}
-        <button onClick={handleCopy} className="canvas-code-stage-btn" aria-label="Copy code">
+        <button onClick={handleCopy} className="canvas-code-stage-btn" aria-label="Copy code" title="Copy code">
           <AnimatePresence mode="wait">
             {copied ? (
-              <motion.span key="check" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={springSnappy} className="text-[--canvas-focus-border]">
-                <CheckIcon />
+              <motion.span key="check" initial={{ opacity: 0, filter: "blur(4px)", scale: 0.85 }} animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }} exit={{ opacity: 0, filter: "blur(4px)", scale: 0.85 }} transition={{ duration: 0.18, ease: "easeInOut" }} className="text-[--canvas-focus-border]">
+                <HugeiconsIcon icon={CheckmarkCircle02Icon} size={13} strokeWidth={1.5} aria-hidden="true" />
               </motion.span>
             ) : (
-              <motion.span key="copy" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={springSnappy}>
-                <CopyIcon />
+              <motion.span key="copy" initial={{ opacity: 0, filter: "blur(4px)", scale: 0.85 }} animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }} exit={{ opacity: 0, filter: "blur(4px)", scale: 0.85 }} transition={{ duration: 0.18, ease: "easeInOut" }}>
+                <HugeiconsIcon icon={Copy01Icon} size={13} strokeWidth={1.5} aria-hidden="true" />
               </motion.span>
             )}
           </AnimatePresence>
@@ -462,7 +422,6 @@ export function CanvasCodeStage({
 
   return (
     <motion.div
-      layoutId={isFullscreen ? undefined : "canvas-code-stage-container"}
       className={cn(
         "canvas-code-stage relative h-full w-full flex flex-col",
         hasFocus && "has-focus",
@@ -484,41 +443,6 @@ export function CanvasCodeStage({
       )}>
         {renderContent()}
       </div>
-
-      {/* Fullscreen portal */}
-      <AnimatePresence>
-        {isFullscreen && typeof document !== "undefined" && createPortal(
-          <motion.div
-            className="fixed inset-0 z-[100]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-          >
-            <motion.div
-              className="absolute inset-0 bg-background/80 backdrop-blur-sm"
-              onClick={handleFullscreen}
-            />
-            <motion.div
-              layoutId="canvas-code-stage-container"
-              className={cn("canvas-code-stage absolute flex flex-col", hasFocus && "has-focus")}
-              style={{ top: "2rem", left: "2rem", right: "2rem", bottom: "2rem" }}
-              transition={prefersReducedMotion ? { duration: 0 } : springGentle}
-            >
-              {focusLineCSS && <style dangerouslySetInnerHTML={{ __html: focusLineCSS }} />}
-              {renderHeader("-fullscreen")}
-              <div className={cn(
-                "canvas-code-stage-content flex-1",
-                "font-mono text-sm leading-relaxed",
-                isAnimating && "pointer-events-none"
-              )}>
-                {renderContent()}
-              </div>
-            </motion.div>
-          </motion.div>,
-          document.body
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }

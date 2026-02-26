@@ -1,13 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import { springSmooth } from "@/lib/motion-variants";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Copy01Icon, CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 import ExpandIcon from "@/components/ui/expand-icon";
 import RefreshIcon from "@/components/ui/refresh-icon";
 import CodeIcon from "@/components/ui/code-icon";
 import LinkIcon from "@/components/ui/link-icon";
-import CopyIcon from "@/components/ui/copy-icon";
 import LayoutBottombarCollapseIcon from "@/components/ui/layout-bottombar-collapse-icon";
 
 interface StageControlsProps {
@@ -66,6 +68,14 @@ export function StageControls({
 	className,
 }: StageControlsProps) {
 	const prefersReducedMotion = useReducedMotion();
+	const [copied, setCopied] = useState(false);
+
+	const handleCopyCode = () => {
+		if (!onCopyCode) return;
+		onCopyCode();
+		setCopied(true);
+		setTimeout(() => setCopied(false), 2000);
+	};
 
 	// Minimal icon controls with shared button tokens.
 	const buttonClass = cn(
@@ -158,12 +168,36 @@ export function StageControls({
 			{showCopy && onCopyCode && (
 				<button
 					type="button"
-					onClick={onCopyCode}
+					onClick={handleCopyCode}
 					className={buttonClass}
 					title="Copy code"
 					aria-label="Copy code to clipboard"
 				>
-					<CopyIcon size={16} />
+					<AnimatePresence mode="wait">
+						{copied ? (
+							<motion.span
+								key="check"
+								initial={prefersReducedMotion ? {} : { opacity: 0, filter: "blur(4px)", scale: 0.85 }}
+								animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+								exit={prefersReducedMotion ? {} : { opacity: 0, filter: "blur(4px)", scale: 0.85 }}
+								transition={{ duration: 0.18, ease: "easeInOut" }}
+								className="flex items-center justify-center text-[color:var(--btn-solid-bg)]"
+							>
+								<HugeiconsIcon icon={CheckmarkCircle02Icon} size={16} strokeWidth={1.5} aria-hidden="true" />
+							</motion.span>
+						) : (
+							<motion.span
+								key="copy"
+								initial={prefersReducedMotion ? {} : { opacity: 0, filter: "blur(4px)", scale: 0.85 }}
+								animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+								exit={prefersReducedMotion ? {} : { opacity: 0, filter: "blur(4px)", scale: 0.85 }}
+								transition={{ duration: 0.18, ease: "easeInOut" }}
+								className="flex items-center justify-center"
+							>
+								<HugeiconsIcon icon={Copy01Icon} size={16} strokeWidth={1.5} aria-hidden="true" />
+							</motion.span>
+						)}
+					</AnimatePresence>
 				</button>
 			)}
 

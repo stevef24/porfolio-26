@@ -28,8 +28,8 @@ export type {
  * Theme defaults for Shiki highlighter
  */
 const THEME_DEFAULTS = {
-  light: "github-light" as BundledTheme,
-  dark: "github-dark" as BundledTheme,
+  light: "vitesse-light" as BundledTheme,
+  dark: "vitesse-dark" as BundledTheme,
 };
 
 /**

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, useLayoutEffect } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { sequentialHighlight, arrowDraw } from "@/lib/motion-variants";
@@ -71,152 +71,158 @@ export function PlanClearExecuteFlow({ className }: PlanClearExecuteFlowProps) {
   const tileH = 56;
   const gap = 48;
   const totalW = tileW * 3 + gap * 2;
+  const totalH = tileH + 20;
+
+  // Responsive scaling — shrink the fixed layout to fit narrow containers
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useLayoutEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => {
+      setScale(Math.min(1, el.clientWidth / totalW));
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [totalW]);
 
   return (
     <VisualWrapper
       label="Plan - Clear - Execute"
       className={className}
       tone="purple"
+      onReplay={handleReplay}
+      showReplay={hasPlayed && !prefersReducedMotion}
     >
-      <div ref={ref} className="flex flex-col items-center gap-6 py-4">
-        {/* Flow container */}
+      <div ref={ref} className="relative flex flex-col items-center gap-6 py-4">
+        {/* Measure container, then scale inner content to fit */}
         <div
-          className="relative flex items-center justify-center"
-          style={{ width: totalW, height: tileH + 20 }}
+          ref={containerRef}
+          className="w-full"
+          style={{ height: totalH * scale }}
         >
-          {/* SVG arrows */}
-          <svg
-            className="absolute inset-0 pointer-events-none"
-            width={totalW}
-            height={tileH + 20}
-            viewBox={`0 0 ${totalW} ${tileH + 20}`}
-            fill="none"
+          <div
+            className="relative mx-auto"
+            style={{
+              width: totalW,
+              height: totalH,
+              transform: `scale(${scale})`,
+              transformOrigin: "top center",
+            }}
           >
-            {/* Arrow 1: Plan -> Clear */}
-            <motion.path
-              d={`M ${tileW + 4} ${(tileH + 20) / 2} L ${tileW + gap - 4} ${(tileH + 20) / 2}`}
-              stroke="var(--va-blue)"
-              strokeWidth={2}
-              strokeLinecap="round"
-              custom={0}
-              variants={arrowDraw}
-              initial={prefersReducedMotion ? "visible" : "hidden"}
-              animate={arrowPhase >= 0 ? "visible" : "hidden"}
-            />
-            {/* Arrowhead 1 */}
-            <motion.path
-              d={`M ${tileW + gap - 12} ${(tileH + 20) / 2 - 4} L ${tileW + gap - 4} ${(tileH + 20) / 2} L ${tileW + gap - 12} ${(tileH + 20) / 2 + 4}`}
-              stroke="var(--va-blue)"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            {/* SVG arrows */}
+            <svg
+              className="absolute inset-0 pointer-events-none"
+              width={totalW}
+              height={totalH}
+              viewBox={`0 0 ${totalW} ${totalH}`}
               fill="none"
-              custom={0.3}
-              variants={arrowDraw}
-              initial={prefersReducedMotion ? "visible" : "hidden"}
-              animate={arrowPhase >= 0 ? "visible" : "hidden"}
-            />
-
-            {/* Arrow 2: Clear -> Execute */}
-            <motion.path
-              d={`M ${tileW * 2 + gap + 4} ${(tileH + 20) / 2} L ${tileW * 2 + gap * 2 - 4} ${(tileH + 20) / 2}`}
-              stroke="var(--va-purple)"
-              strokeWidth={2}
-              strokeLinecap="round"
-              custom={0}
-              variants={arrowDraw}
-              initial={prefersReducedMotion ? "visible" : "hidden"}
-              animate={arrowPhase >= 1 ? "visible" : "hidden"}
-            />
-            {/* Arrowhead 2 */}
-            <motion.path
-              d={`M ${tileW * 2 + gap * 2 - 12} ${(tileH + 20) / 2 - 4} L ${tileW * 2 + gap * 2 - 4} ${(tileH + 20) / 2} L ${tileW * 2 + gap * 2 - 12} ${(tileH + 20) / 2 + 4}`}
-              stroke="var(--va-purple)"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-              custom={0.3}
-              variants={arrowDraw}
-              initial={prefersReducedMotion ? "visible" : "hidden"}
-              animate={arrowPhase >= 1 ? "visible" : "hidden"}
-            />
-          </svg>
-
-          {/* Tiles */}
-          {TILES.map((tile, i) => {
-            const isActive = activeStep >= i;
-            const isCurrentActive = activeStep === i;
-            const isExecuteGlow = i === 2 && showGlow;
-
-            return (
-              <motion.div
-                key={tile.id}
-                variants={sequentialHighlight}
-                initial={prefersReducedMotion ? "active" : "inactive"}
-                animate={isActive ? "active" : "inactive"}
-                data-va-panel
-                className={cn(
-                  "absolute rounded-md",
-                  "flex items-center justify-center",
-                  "text-[12px] font-mono uppercase tracking-wider",
-                  "border transition-colors duration-200",
-                )}
-                style={{
-                  width: tileW,
-                  height: tileH,
-                  left: i * (tileW + gap),
-                  top: 10,
-                  backgroundColor:
-                    isCurrentActive || (prefersReducedMotion && i === 2)
-                      ? TILE_COLORS[i]
-                      : `color-mix(in oklch, ${TILE_COLORS[i]} 10%, var(--sf-bg-subtle))`,
-                  borderColor: isActive
-                    ? TILE_COLORS[i]
-                    : "var(--sf-border-subtle)",
-                  color:
-                    isCurrentActive || (prefersReducedMotion && i === 2)
-                      ? "oklch(1 0 0)"
-                      : "var(--sf-text-secondary)",
-                  boxShadow: isExecuteGlow
-                    ? "0 0 20px color-mix(in oklch, var(--va-yellow) 42%, transparent)"
-                    : "none",
-                }}
-              >
-                {tile.label}
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Caption + Replay */}
-        <div className="flex items-center gap-3">
-          <p
-            className="text-[11px] font-mono uppercase tracking-wider"
-            style={{ color: "var(--sf-text-tertiary)" }}
-          >
-            Sequential workflow
-          </p>
-          {hasPlayed && !prefersReducedMotion && (
-            <button
-              onClick={handleReplay}
-              className={cn(
-                "text-[10px] font-mono uppercase tracking-wider",
-                "px-2 py-1 rounded border",
-                "border-[var(--sf-border-subtle)]",
-                "hover:border-[var(--va-cyan)]",
-                "transition-colors duration-150",
-                "cursor-pointer",
-              )}
-              style={{
-                color: "var(--sf-text-tertiary)",
-                backgroundColor: "var(--sf-bg-subtle)",
-              }}
             >
-              Replay
-            </button>
-          )}
+              {/* Arrow 1: Plan -> Clear */}
+              <motion.path
+                d={`M ${tileW + 4} ${totalH / 2} L ${tileW + gap - 4} ${totalH / 2}`}
+                stroke="var(--va-blue)"
+                strokeWidth={2}
+                strokeLinecap="round"
+                custom={0}
+                variants={arrowDraw}
+                initial={prefersReducedMotion ? "visible" : "hidden"}
+                animate={arrowPhase >= 0 ? "visible" : "hidden"}
+              />
+              {/* Arrowhead 1 */}
+              <motion.path
+                d={`M ${tileW + gap - 12} ${totalH / 2 - 4} L ${tileW + gap - 4} ${totalH / 2} L ${tileW + gap - 12} ${totalH / 2 + 4}`}
+                stroke="var(--va-blue)"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+                custom={0.3}
+                variants={arrowDraw}
+                initial={prefersReducedMotion ? "visible" : "hidden"}
+                animate={arrowPhase >= 0 ? "visible" : "hidden"}
+              />
+
+              {/* Arrow 2: Clear -> Execute */}
+              <motion.path
+                d={`M ${tileW * 2 + gap + 4} ${totalH / 2} L ${tileW * 2 + gap * 2 - 4} ${totalH / 2}`}
+                stroke="var(--va-purple)"
+                strokeWidth={2}
+                strokeLinecap="round"
+                custom={0}
+                variants={arrowDraw}
+                initial={prefersReducedMotion ? "visible" : "hidden"}
+                animate={arrowPhase >= 1 ? "visible" : "hidden"}
+              />
+              {/* Arrowhead 2 */}
+              <motion.path
+                d={`M ${tileW * 2 + gap * 2 - 12} ${totalH / 2 - 4} L ${tileW * 2 + gap * 2 - 4} ${totalH / 2} L ${tileW * 2 + gap * 2 - 12} ${totalH / 2 + 4}`}
+                stroke="var(--va-purple)"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+                custom={0.3}
+                variants={arrowDraw}
+                initial={prefersReducedMotion ? "visible" : "hidden"}
+                animate={arrowPhase >= 1 ? "visible" : "hidden"}
+              />
+            </svg>
+
+            {/* Tiles */}
+            {TILES.map((tile, i) => {
+              const isActive = activeStep >= i;
+              const isCurrentActive = activeStep === i;
+              const isExecuteGlow = i === 2 && showGlow;
+
+              return (
+                <motion.div
+                  key={tile.id}
+                  variants={sequentialHighlight}
+                  initial={prefersReducedMotion ? "active" : "inactive"}
+                  animate={isActive ? "active" : "inactive"}
+                  data-va-panel
+                  className={cn(
+                    "absolute rounded-md",
+                    "flex items-center justify-center",
+                    "text-[12px] font-mono uppercase tracking-wider",
+                    "transition-colors duration-200",
+                  )}
+                  style={{
+                    width: tileW,
+                    height: tileH,
+                    left: i * (tileW + gap),
+                    top: 10,
+                    backgroundColor:
+                      isCurrentActive || (prefersReducedMotion && i === 2)
+                        ? TILE_COLORS[i]
+                        : `color-mix(in oklch, ${TILE_COLORS[i]} 10%, var(--sf-bg-subtle))`,
+                    color:
+                      isCurrentActive || (prefersReducedMotion && i === 2)
+                        ? "oklch(1 0 0)"
+                        : "var(--sf-text-secondary)",
+                    boxShadow: isExecuteGlow
+                      ? "0 0 20px color-mix(in oklch, var(--va-yellow) 42%, transparent)"
+                      : "none",
+                  }}
+                >
+                  {tile.label}
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
+
+        {/* Caption */}
+        <p
+          className="text-[11px] font-mono uppercase tracking-wider"
+          style={{ color: "var(--sf-text-tertiary)" }}
+        >
+          Sequential workflow
+        </p>
       </div>
     </VisualWrapper>
   );
