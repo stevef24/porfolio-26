@@ -1046,14 +1046,14 @@ samp,
   margin-bottom: 0.5em;
 }
 
-/* Prose Blockquote */
+/* Prose Blockquote — reset so AnimatedBlockquote controls styling */
 .prose blockquote {
-  font-style: italic;
-  font-size: 1.25rem;
-  border-left: 3px solid var(--text-quaternary);
-  padding-left: 1.5em;
-  margin: 2em 0;
-  color: var(--text-tertiary);
+  font-style: normal;
+  font-size: inherit;
+  border-left: none;
+  padding-left: 0;
+  margin: 0;
+  color: inherit;
 }
 
 /* Prose Code - inline only (not inside pre blocks) */
