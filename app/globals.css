@@ -1340,7 +1340,7 @@ figure.shiki pre {
 [data-rehype-pretty-code-title] {
   background: var(--code-block-bg);
   border: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
+  border-bottom: 1px solid color-mix(in oklch, var(--foreground) 8%, transparent);
   border-radius: 0.75rem 0.75rem 0 0;
   padding: 0.56rem 0.95rem;
   font-size: 0.72rem;
@@ -1415,13 +1415,13 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
 
 /* Line highlighting - minimal */
 [data-highlighted-line] {
-  background: color-mix(in srgb, var(--foreground) 8%, transparent) !important;
-  border-left: 2px solid color-mix(in srgb, var(--foreground) 30%, transparent);
+  background: color-mix(in oklch, var(--foreground) 8%, transparent) !important;
+  border-left: 2px solid color-mix(in oklch, var(--foreground) 30%, transparent);
 }
 
 /* Word highlighting - subtle */
 [data-highlighted-chars] {
-  background: color-mix(in srgb, var(--foreground) 15%, transparent);
+  background: color-mix(in oklch, var(--foreground) 15%, transparent);
   border-radius: 3px;
   text-decoration: none;
 }
@@ -1663,7 +1663,7 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
 /* Monochrome focus line highlighting - uses canvas CSS variables */
 .scrolly-stage-code .scrolly-focus-line {
   background: var(--canvas-focus-bg);
-  border-left: 2px solid color-mix(in srgb, var(--foreground) 35%, transparent);
+  border-left: 2px solid color-mix(in oklch, var(--foreground) 35%, transparent);
   margin-left: -1rem;
   padding-left: calc(1rem - 2px);
   margin-right: -1rem;
