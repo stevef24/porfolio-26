@@ -62,7 +62,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TabVisibility awayMessage="Come back on board" enabled />
+          <TabVisibility awayMessage="Feeling lonely here... come back!" enabled />
           <SwissGridBackground />
           {children}
           {process.env.NODE_ENV === "development" && <Agentation />}

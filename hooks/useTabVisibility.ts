@@ -9,7 +9,7 @@ interface UseTabVisibilityOptions {
 }
 
 export function useTabVisibility({
-	awayMessage = "Come back on board",
+	awayMessage = "Feeling lonely here... come back!",
 	originalTitle,
 	enabled = true,
 }: UseTabVisibilityOptions = {}) {
