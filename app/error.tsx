@@ -31,6 +31,14 @@ export default function Error({
       <PageHeaderShader
         tokenPrefix="--error-page"
         fallbackMesh={FALLBACK_AMBER}
+        darkMesh={[
+          "#091015",
+          "#12323f",
+          "#103734",
+          "#16243b",
+        ]}
+        darkPaperFront="rgb(124 149 158)"
+        darkPaperBack="#081014"
         className="h-36 shrink-0"
       >
         <div />

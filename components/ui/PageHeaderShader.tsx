@@ -24,6 +24,10 @@ interface PageHeaderShaderProps {
 	tokenPrefix: string;
 	/** Fallback colours if CSS vars aren't resolved yet (light mode values) */
 	fallbackMesh: [string, string, string, string];
+	/** Explicit dark-mode palette to avoid washed-out shader highlights */
+	darkMesh?: [string, string, string, string];
+	darkPaperFront?: string;
+	darkPaperBack?: string;
 	children: ReactNode;
 	className?: string;
 }
@@ -31,6 +35,9 @@ interface PageHeaderShaderProps {
 export function PageHeaderShader({
 	tokenPrefix,
 	fallbackMesh,
+	darkMesh,
+	darkPaperFront,
+	darkPaperBack,
 	children,
 	className,
 }: PageHeaderShaderProps) {
@@ -57,6 +64,21 @@ export function PageHeaderShader({
 
 		const sync = () => {
 			const styles = getComputedStyle(root);
+			const isDark = root.classList.contains("dark");
+
+			if (isDark && darkMesh) {
+				setColors([
+					fallbackShaderColor(darkMesh[0]),
+					fallbackShaderColor(darkMesh[1]),
+					fallbackShaderColor(darkMesh[2]),
+					fallbackShaderColor(darkMesh[3]),
+				]);
+				setPaperFront(
+					fallbackShaderColor(darkPaperFront ?? "rgb(128 150 162)")
+				);
+				setPaperBack(fallbackShaderColor(darkPaperBack ?? "rgb(9 16 22)"));
+				return;
+			}
 
 			setColors([
 				readCssColorTokenAsShaderColor(
@@ -104,7 +126,7 @@ export function PageHeaderShader({
 			attributeFilter: ["class", "style", "data-theme"],
 		});
 		return () => observer.disconnect();
-	}, [fallbackMesh, tokenPrefix]);
+	}, [darkMesh, darkPaperBack, darkPaperFront, fallbackMesh, tokenPrefix]);
 
 	return (
 		<div className={cn("relative overflow-hidden", className)}>
@@ -188,7 +210,7 @@ export function PageHeaderShader({
 						/>
 					</div>
 					{/* Paper texture — dark mode */}
-					<div className="absolute inset-0 pointer-events-none opacity-[0.15] mix-blend-soft-light hidden dark:block">
+					<div className="absolute inset-0 pointer-events-none opacity-[0.08] mix-blend-soft-light hidden dark:block">
 						<PaperTexture
 							colorFront={paperFront as unknown as string}
 							colorBack={paperBack as unknown as string}

@@ -17,6 +17,14 @@ export default function NotFound() {
       <PageHeaderShader
         tokenPrefix="--not-found"
         fallbackMesh={FALLBACK_ZEN}
+        darkMesh={[
+          "#091015",
+          "#12323f",
+          "#102f2e",
+          "#16263f",
+        ]}
+        darkPaperFront="rgb(122 147 156)"
+        darkPaperBack="#081014"
         className="absolute inset-0 w-full h-full"
       >
         <div />

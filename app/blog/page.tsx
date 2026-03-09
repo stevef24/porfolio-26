@@ -22,6 +22,14 @@ export default function BlogPage(): JSX.Element {
           "rgb(209 250 229)",
           "rgb(224 247 250)",
         ]}
+        darkMesh={[
+          "#0a1117",
+          "#123644",
+          "#10352f",
+          "#142445",
+        ]}
+        darkPaperFront="rgb(126 153 160)"
+        darkPaperBack="#081015"
         className="-mx-4 lg:-mx-6 mb-10"
       >
         <div className="px-4 lg:px-6 pt-14 pb-10 lg:pt-16 lg:pb-12">

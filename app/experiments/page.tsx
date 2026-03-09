@@ -32,6 +32,14 @@ export default function ExperimentsPage() {
             "rgb(255 237 213)",
             "rgb(252 229 176)",
           ]}
+          darkMesh={[
+            "#091118",
+            "#123842",
+            "#11403b",
+            "#14284a",
+          ]}
+          darkPaperFront="rgb(128 156 160)"
+          darkPaperBack="#081015"
           className="mb-10"
         >
           <div className="px-6 md:px-10 lg:px-16 pt-16 pb-12 md:pt-20 lg:pt-24">

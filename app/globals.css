@@ -357,47 +357,47 @@ button,
   --text-secondary: oklch(1 0 0 / 0.72);
   --text-tertiary: oklch(1 0 0 / 0.58);
   --text-quaternary: oklch(1 0 0 / 0.54);
-  --blog-hero-mesh-1: oklch(0.15 0 0);
-  --blog-hero-mesh-2: oklch(0.30 0.06 250);
-  --blog-hero-mesh-3: oklch(0.25 0.04 185);
-  --blog-hero-mesh-4: oklch(0.24 0.08 295);
-  --blog-hero-paper-front: oklch(1 0 0);
-  --blog-hero-paper-back: oklch(0.15 0 0);
-  /* Blog listing hero dark — rich forest greens */
-  --blog-list-hero-mesh-1: oklch(0.24 0.06 155);
-  --blog-list-hero-mesh-2: oklch(0.36 0.08 165);
-  --blog-list-hero-mesh-3: oklch(0.24 0.05 170);
-  --blog-list-hero-mesh-4: oklch(0.40 0.08 230);
-  --blog-list-hero-paper-front: oklch(1 0 0);
-  --blog-list-hero-paper-back: oklch(0.13 0.02 155);
-  /* Experiments hero dark — rich deep amber */
-  --experiments-hero-mesh-1: oklch(0.26 0.06 60);
-  --experiments-hero-mesh-2: oklch(0.33 0.08 60);
-  --experiments-hero-mesh-3: oklch(0.22 0.05 60);
-  --experiments-hero-mesh-4: oklch(0.30 0.07 60);
-  --experiments-hero-paper-front: oklch(1 0 0);
-  --experiments-hero-paper-back: oklch(0.14 0.03 55);
-  /* Courses hero dark — deep indigo/violet */
-  --courses-hero-mesh-1: oklch(0.20 0.08 290);
-  --courses-hero-mesh-2: oklch(0.22 0.10 265);
-  --courses-hero-mesh-3: oklch(0.22 0.10 310);
-  --courses-hero-mesh-4: oklch(0.20 0.10 270);
-  --courses-hero-paper-front: oklch(1 0 0);
-  --courses-hero-paper-back: oklch(0.13 0.04 285);
-  /* 404 page dark — deep clay, deep sage, deep lavender, deep amber */
-  --not-found-mesh-1: oklch(0.24 0.04 45);
-  --not-found-mesh-2: oklch(0.21 0.02 165);
-  --not-found-mesh-3: oklch(0.20 0.04 290);
-  --not-found-mesh-4: oklch(0.23 0.04 65);
-  --not-found-paper-front: oklch(0.62 0.04 55);
-  --not-found-paper-back: oklch(0.11 0.01 60);
-  /* Error page hero dark — deep ember, warm rust */
-  --error-page-mesh-1: oklch(0.28 0.06 45);
-  --error-page-mesh-2: oklch(0.30 0.07 40);
-  --error-page-mesh-3: oklch(0.26 0.06 45);
-  --error-page-mesh-4: oklch(0.32 0.07 45);
-  --error-page-paper-front: oklch(0.55 0.12 50);
-  --error-page-paper-back: oklch(0.13 0.03 40);
+  --blog-hero-mesh-1: oklch(0.14 0.01 225);
+  --blog-hero-mesh-2: oklch(0.22 0.04 220);
+  --blog-hero-mesh-3: oklch(0.19 0.035 190);
+  --blog-hero-mesh-4: oklch(0.17 0.025 245);
+  --blog-hero-paper-front: oklch(0.78 0.015 220);
+  --blog-hero-paper-back: oklch(0.11 0.015 215);
+  /* Blog listing hero dark — deep marine and forest glass */
+  --blog-list-hero-mesh-1: oklch(0.18 0.03 215);
+  --blog-list-hero-mesh-2: oklch(0.27 0.05 195);
+  --blog-list-hero-mesh-3: oklch(0.20 0.04 170);
+  --blog-list-hero-mesh-4: oklch(0.30 0.05 235);
+  --blog-list-hero-paper-front: oklch(0.76 0.02 198);
+  --blog-list-hero-paper-back: oklch(0.12 0.02 198);
+  /* Experiments hero dark — cool teal and sea-glass */
+  --experiments-hero-mesh-1: oklch(0.18 0.03 210);
+  --experiments-hero-mesh-2: oklch(0.26 0.05 192);
+  --experiments-hero-mesh-3: oklch(0.20 0.04 168);
+  --experiments-hero-mesh-4: oklch(0.28 0.05 222);
+  --experiments-hero-paper-front: oklch(0.78 0.02 188);
+  --experiments-hero-paper-back: oklch(0.12 0.02 188);
+  /* Courses hero dark — ink blue with cool jade lift */
+  --courses-hero-mesh-1: oklch(0.18 0.04 242);
+  --courses-hero-mesh-2: oklch(0.24 0.05 222);
+  --courses-hero-mesh-3: oklch(0.20 0.04 192);
+  --courses-hero-mesh-4: oklch(0.26 0.05 248);
+  --courses-hero-paper-front: oklch(0.77 0.02 228);
+  --courses-hero-paper-back: oklch(0.12 0.02 228);
+  /* 404 page dark — misty slate with cool teal highlights */
+  --not-found-mesh-1: oklch(0.19 0.02 220);
+  --not-found-mesh-2: oklch(0.22 0.03 192);
+  --not-found-mesh-3: oklch(0.18 0.03 242);
+  --not-found-mesh-4: oklch(0.24 0.03 170);
+  --not-found-paper-front: oklch(0.71 0.02 202);
+  --not-found-paper-back: oklch(0.11 0.02 210);
+  /* Error page hero dark — stormy blue-green with restrained contrast */
+  --error-page-mesh-1: oklch(0.17 0.03 225);
+  --error-page-mesh-2: oklch(0.24 0.04 205);
+  --error-page-mesh-3: oklch(0.16 0.03 188);
+  --error-page-mesh-4: oklch(0.27 0.05 236);
+  --error-page-paper-front: oklch(0.72 0.03 212);
+  --error-page-paper-back: oklch(0.12 0.02 212);
 
   /* Visual Aid Animation Palette — Monochromatic base (dark mode)
      Color only when semantically needed */

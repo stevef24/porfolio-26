@@ -72,6 +72,14 @@ export default function CoursesPage(): JSX.Element {
           "rgb(237 233 254)",
           "rgb(199 210 254)",
         ]}
+        darkMesh={[
+          "#0a1018",
+          "#133148",
+          "#123a38",
+          "#172850",
+        ]}
+        darkPaperFront="rgb(130 151 166)"
+        darkPaperBack="#091017"
         className="-mx-4 lg:-mx-6 mb-10"
       >
         <div className="px-4 lg:px-6 pt-14 pb-10 lg:pt-16 lg:pb-12">

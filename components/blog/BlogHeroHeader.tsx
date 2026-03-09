@@ -8,7 +8,6 @@ import { springSmooth, springGentle } from "@/lib/motion-variants";
 import {
   type ShaderColor,
   parseShaderColor,
-  readCssColorTokenAsShaderColor,
   shaderColorToCssString,
 } from "@/lib/shader-colors";
 
@@ -42,6 +41,17 @@ const FALLBACK_HERO_TOKENS: BlogHeroVisualTokens = {
   paperBack: fallbackShaderColor("rgb(255 255 255)"),
 };
 
+const DARK_HERO_TOKENS: BlogHeroVisualTokens = {
+  mesh: [
+    fallbackShaderColor("#0b1218"),
+    fallbackShaderColor("#173949"),
+    fallbackShaderColor("#103833"),
+    fallbackShaderColor("#162645"),
+  ],
+  paperFront: fallbackShaderColor("rgb(132, 154, 166)"),
+  paperBack: fallbackShaderColor("#091016"),
+};
+
 export function BlogHeroHeader({
   date,
   categories,
@@ -61,25 +71,9 @@ export function BlogHeroHeader({
     const root = document.documentElement;
 
     const syncHeroTokens = () => {
-      const styles = getComputedStyle(root);
-      setHeroTokens({
-        mesh: [
-          readCssColorTokenAsShaderColor(styles, "--blog-hero-mesh-1", "rgb(224 242 254)"),
-          readCssColorTokenAsShaderColor(styles, "--blog-hero-mesh-2", "rgb(221 214 254)"),
-          readCssColorTokenAsShaderColor(styles, "--blog-hero-mesh-3", "rgb(252 231 243)"),
-          readCssColorTokenAsShaderColor(styles, "--blog-hero-mesh-4", "rgb(254 215 170)"),
-        ],
-        paperFront: readCssColorTokenAsShaderColor(
-          styles,
-          "--blog-hero-paper-front",
-          "rgb(102 102 102)"
-        ),
-        paperBack: readCssColorTokenAsShaderColor(
-          styles,
-          "--blog-hero-paper-back",
-          "rgb(255 255 255)"
-        ),
-      });
+      setHeroTokens(
+        root.classList.contains("dark") ? DARK_HERO_TOKENS : FALLBACK_HERO_TOKENS
+      );
     };
 
     syncHeroTokens();
@@ -195,7 +189,7 @@ export function BlogHeroHeader({
               }}
             />
           </div>
-          <div className="absolute inset-0 pointer-events-none opacity-[0.15] mix-blend-soft-light hidden dark:block">
+          <div className="absolute inset-0 pointer-events-none opacity-[0.08] mix-blend-soft-light hidden dark:block">
             <PaperTexture
               colorFront={heroTokens.paperFront as unknown as string}
               colorBack={heroTokens.paperBack as unknown as string}
