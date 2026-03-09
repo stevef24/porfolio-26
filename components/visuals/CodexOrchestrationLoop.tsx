@@ -42,7 +42,6 @@ const NODES = [
 ] as const;
 
 const ACCENT = "var(--va-fg)";
-const DIM = "var(--sf-border-subtle)";
 const TEXT_DIM = "var(--sf-text-tertiary)";
 const TEXT_ON = "var(--sf-text-primary)";
 const SURFACE = "var(--sf-bg-surface)";

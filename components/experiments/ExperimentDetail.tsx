@@ -1,4 +1,5 @@
 import { ViewTransition } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
 import {
@@ -70,10 +71,12 @@ export function ExperimentDetail({ experiment }: ExperimentDetailProps) {
       <ViewTransition name={`experiment-preview-${slug}`}>
         <div className="relative aspect-video bg-muted/30 rounded-[6px] overflow-hidden mb-8 border border-border/60">
           {preview.type === "image" && (
-            <img
+            <Image
               src={preview.src}
               alt={title}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 100vw, 768px"
+              className="object-cover"
             />
           )}
           {preview.type === "video" && (
@@ -88,7 +91,14 @@ export function ExperimentDetail({ experiment }: ExperimentDetailProps) {
             />
           )}
           {preview.type === "gif" && (
-            <img src={preview.src} alt={title} className="w-full h-full object-cover" />
+            <Image
+              src={preview.src}
+              alt={title}
+              fill
+              unoptimized
+              sizes="(max-width: 1024px) 100vw, 768px"
+              className="object-cover"
+            />
           )}
         </div>
       </ViewTransition>

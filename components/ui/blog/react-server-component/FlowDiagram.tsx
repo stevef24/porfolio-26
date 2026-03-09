@@ -435,7 +435,6 @@ function VerticalArrow({
   active: boolean;
   reduced: boolean;
 }) {
-  const midY = (y1 + y2) / 2;
   return (
     <g>
       <motion.line

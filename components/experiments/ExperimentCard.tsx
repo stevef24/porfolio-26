@@ -1,6 +1,7 @@
 "use client";
 
 import { ViewTransition, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -51,10 +52,12 @@ export function ExperimentCard({ experiment }: ExperimentCardProps) {
           <ViewTransition name={`experiment-preview-${slug}`}>
             <div className="relative aspect-[4/3] bg-muted/30 overflow-hidden rounded-[6px]">
               {preview.type === "image" && (
-                <img
+                <Image
                   src={preview.src}
                   alt={title}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  className="object-cover"
                   loading="lazy"
                 />
               )}
@@ -70,10 +73,14 @@ export function ExperimentCard({ experiment }: ExperimentCardProps) {
                 />
               )}
               {preview.type === "gif" && (
-                <img
+                <Image
                   src={preview.src}
                   alt={title}
-                  className="w-full h-full object-cover"
+                  fill
+                  unoptimized
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  className="object-cover"
+                  loading="lazy"
                 />
               )}
             </div>

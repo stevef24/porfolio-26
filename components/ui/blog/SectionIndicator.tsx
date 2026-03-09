@@ -125,7 +125,10 @@ export function SectionIndicator({ items, className }: SectionIndicatorProps) {
   // Stable ref so the scroll listener never needs to be torn down / re-attached
   // when React re-renders from activeSection state updates
   const updateRef = useRef(updateActiveSection);
-  updateRef.current = updateActiveSection;
+
+  useEffect(() => {
+    updateRef.current = updateActiveSection;
+  }, [updateActiveSection]);
 
   useEffect(() => {
     if (sections.length === 0) return;
