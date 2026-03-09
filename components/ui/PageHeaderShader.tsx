@@ -13,6 +13,11 @@ import { MeshGradient, PaperTexture } from "@paper-design/shaders-react";
 import { useReducedMotion } from "motion/react";
 import { useState, useEffect, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import {
+	type ShaderColor,
+	parseShaderColor,
+	readCssColorTokenAsShaderColor,
+} from "@/lib/shader-colors";
 
 interface PageHeaderShaderProps {
 	/** CSS variable prefix, e.g. "--blog-list-hero" or "--experiments-hero" */
@@ -31,39 +36,64 @@ export function PageHeaderShader({
 }: PageHeaderShaderProps) {
 	const prefersReducedMotion = useReducedMotion();
 	const [mounted, setMounted] = useState(false);
-	const [colors, setColors] =
-		useState<[string, string, string, string]>(fallbackMesh);
-	const [paperFront, setPaperFront] = useState("rgb(102 102 102)");
-	const [paperBack, setPaperBack] = useState("rgb(255 255 255)");
+	const [colors, setColors] = useState<
+		[ShaderColor, ShaderColor, ShaderColor, ShaderColor]
+	>(() => [
+		fallbackShaderColor(fallbackMesh[0]),
+		fallbackShaderColor(fallbackMesh[1]),
+		fallbackShaderColor(fallbackMesh[2]),
+		fallbackShaderColor(fallbackMesh[3]),
+	]);
+	const [paperFront, setPaperFront] = useState<ShaderColor>(
+		fallbackShaderColor("rgb(102 102 102)")
+	);
+	const [paperBack, setPaperBack] = useState<ShaderColor>(
+		fallbackShaderColor("rgb(255 255 255)")
+	);
 
 	useEffect(() => {
 		setMounted(true);
 		const root = document.documentElement;
 
-		const resolveToRgb = (color: string): string => {
-			const el = document.createElement("div");
-			el.style.color = color;
-			document.body.appendChild(el);
-			const resolved = getComputedStyle(el).color;
-			document.body.removeChild(el);
-			return resolved;
-		};
-
 		const sync = () => {
 			const styles = getComputedStyle(root);
-			const get = (token: string, fb: string) => {
-				const raw = styles.getPropertyValue(token).trim();
-				return raw ? resolveToRgb(raw) : fb;
-			};
 
 			setColors([
-				get(`${tokenPrefix}-mesh-1`, fallbackMesh[0]),
-				get(`${tokenPrefix}-mesh-2`, fallbackMesh[1]),
-				get(`${tokenPrefix}-mesh-3`, fallbackMesh[2]),
-				get(`${tokenPrefix}-mesh-4`, fallbackMesh[3]),
-			] as [string, string, string, string]);
-			setPaperFront(get(`${tokenPrefix}-paper-front`, "rgb(102 102 102)"));
-			setPaperBack(get(`${tokenPrefix}-paper-back`, "rgb(255 255 255)"));
+				readCssColorTokenAsShaderColor(
+					styles,
+					`${tokenPrefix}-mesh-1`,
+					fallbackMesh[0]
+				),
+				readCssColorTokenAsShaderColor(
+					styles,
+					`${tokenPrefix}-mesh-2`,
+					fallbackMesh[1]
+				),
+				readCssColorTokenAsShaderColor(
+					styles,
+					`${tokenPrefix}-mesh-3`,
+					fallbackMesh[2]
+				),
+				readCssColorTokenAsShaderColor(
+					styles,
+					`${tokenPrefix}-mesh-4`,
+					fallbackMesh[3]
+				),
+			]);
+			setPaperFront(
+				readCssColorTokenAsShaderColor(
+					styles,
+					`${tokenPrefix}-paper-front`,
+					"rgb(102 102 102)"
+				)
+			);
+			setPaperBack(
+				readCssColorTokenAsShaderColor(
+					styles,
+					`${tokenPrefix}-paper-back`,
+					"rgb(255 255 255)"
+				)
+			);
 		};
 
 		sync();
@@ -74,7 +104,7 @@ export function PageHeaderShader({
 			attributeFilter: ["class", "style", "data-theme"],
 		});
 		return () => observer.disconnect();
-	}, [tokenPrefix]);
+	}, [fallbackMesh, tokenPrefix]);
 
 	return (
 		<div className={cn("relative overflow-hidden", className)}>
@@ -82,7 +112,8 @@ export function PageHeaderShader({
 			{mounted && (
 				<div className="absolute inset-0">
 					<MeshGradient
-						colors={colors}
+						// Runtime accepts RGBA tuples even though the published React types only expose strings.
+						colors={colors as unknown as string[]}
 						speed={prefersReducedMotion ? 0 : 0.15}
 						distortion={0.65}
 						swirl={0.45}
@@ -149,8 +180,8 @@ export function PageHeaderShader({
 				<>
 					<div className="absolute inset-0 pointer-events-none opacity-15 mix-blend-overlay dark:hidden">
 						<PaperTexture
-							colorFront={paperFront}
-							colorBack={paperBack}
+							colorFront={paperFront as unknown as string}
+							colorBack={paperBack as unknown as string}
 							scale={1.5}
 							contrast={0.2}
 							style={{ position: "absolute", width: "100%", height: "100%" }}
@@ -159,8 +190,8 @@ export function PageHeaderShader({
 					{/* Paper texture — dark mode */}
 					<div className="absolute inset-0 pointer-events-none opacity-[0.15] mix-blend-soft-light hidden dark:block">
 						<PaperTexture
-							colorFront={paperFront}
-							colorBack={paperBack}
+							colorFront={paperFront as unknown as string}
+							colorBack={paperBack as unknown as string}
 							scale={1.5}
 							contrast={0.15}
 							style={{ position: "absolute", width: "100%", height: "100%" }}
@@ -173,4 +204,8 @@ export function PageHeaderShader({
 			<div className="relative z-10">{children}</div>
 		</div>
 	);
+}
+
+function fallbackShaderColor(color: string): ShaderColor {
+	return parseShaderColor(color) ?? [0, 0, 0, 1];
 }

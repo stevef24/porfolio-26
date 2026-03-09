@@ -5,6 +5,12 @@ import { motion, useReducedMotion } from "motion/react";
 import { ViewTransition, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { springSmooth, springGentle } from "@/lib/motion-variants";
+import {
+  type ShaderColor,
+  parseShaderColor,
+  readCssColorTokenAsShaderColor,
+  shaderColorToCssString,
+} from "@/lib/shader-colors";
 
 interface BlogHeroHeaderProps {
   date?: string;
@@ -16,41 +22,25 @@ interface BlogHeroHeaderProps {
 }
 
 interface BlogHeroVisualTokens {
-  mesh: [string, string, string, string];
-  paperFront: string;
-  paperBack: string;
+  mesh: [ShaderColor, ShaderColor, ShaderColor, ShaderColor];
+  paperFront: ShaderColor;
+  paperBack: ShaderColor;
+}
+
+function fallbackShaderColor(color: string): ShaderColor {
+  return parseShaderColor(color) ?? [0, 0, 0, 1];
 }
 
 const FALLBACK_HERO_TOKENS: BlogHeroVisualTokens = {
   mesh: [
-    "rgb(224 242 254)",
-    "rgb(221 214 254)",
-    "rgb(252 231 243)",
-    "rgb(254 215 170)",
+    fallbackShaderColor("rgb(224 242 254)"),
+    fallbackShaderColor("rgb(221 214 254)"),
+    fallbackShaderColor("rgb(252 231 243)"),
+    fallbackShaderColor("rgb(254 215 170)"),
   ],
-  paperFront: "rgb(102 102 102)",
-  paperBack: "rgb(255 255 255)",
+  paperFront: fallbackShaderColor("rgb(102 102 102)"),
+  paperBack: fallbackShaderColor("rgb(255 255 255)"),
 };
-
-function resolveToRgb(color: string): string {
-  // Use a temporary element to let the browser convert any color format to rgb
-  const el = document.createElement("div");
-  el.style.color = color;
-  document.body.appendChild(el);
-  const resolved = getComputedStyle(el).color;
-  document.body.removeChild(el);
-  return resolved;
-}
-
-function readColorToken(
-  styles: CSSStyleDeclaration,
-  token: string,
-  fallback: string
-): string {
-  const raw = styles.getPropertyValue(token).trim();
-  if (!raw) return fallback;
-  return resolveToRgb(raw);
-}
 
 export function BlogHeroHeader({
   date,
@@ -74,20 +64,20 @@ export function BlogHeroHeader({
       const styles = getComputedStyle(root);
       setHeroTokens({
         mesh: [
-          readColorToken(styles, "--blog-hero-mesh-1", FALLBACK_HERO_TOKENS.mesh[0]),
-          readColorToken(styles, "--blog-hero-mesh-2", FALLBACK_HERO_TOKENS.mesh[1]),
-          readColorToken(styles, "--blog-hero-mesh-3", FALLBACK_HERO_TOKENS.mesh[2]),
-          readColorToken(styles, "--blog-hero-mesh-4", FALLBACK_HERO_TOKENS.mesh[3]),
+          readCssColorTokenAsShaderColor(styles, "--blog-hero-mesh-1", "rgb(224 242 254)"),
+          readCssColorTokenAsShaderColor(styles, "--blog-hero-mesh-2", "rgb(221 214 254)"),
+          readCssColorTokenAsShaderColor(styles, "--blog-hero-mesh-3", "rgb(252 231 243)"),
+          readCssColorTokenAsShaderColor(styles, "--blog-hero-mesh-4", "rgb(254 215 170)"),
         ],
-        paperFront: readColorToken(
+        paperFront: readCssColorTokenAsShaderColor(
           styles,
           "--blog-hero-paper-front",
-          FALLBACK_HERO_TOKENS.paperFront
+          "rgb(102 102 102)"
         ),
-        paperBack: readColorToken(
+        paperBack: readCssColorTokenAsShaderColor(
           styles,
           "--blog-hero-paper-back",
-          FALLBACK_HERO_TOKENS.paperBack
+          "rgb(255 255 255)"
         ),
       });
     };
@@ -103,7 +93,7 @@ export function BlogHeroHeader({
     return () => observer.disconnect();
   }, []);
 
-  const fallbackBg = `linear-gradient(135deg, ${heroTokens.mesh[0]}, ${heroTokens.mesh[2]})`;
+  const fallbackBg = `linear-gradient(135deg, ${shaderColorToCssString(heroTokens.mesh[0])}, ${shaderColorToCssString(heroTokens.mesh[2])})`;
 
   const header = (
     <header
@@ -119,7 +109,8 @@ export function BlogHeroHeader({
       {mounted && (
         <div className="absolute inset-0">
           <MeshGradient
-            colors={heroTokens.mesh}
+            // Runtime accepts RGBA tuples even though the published React types only expose strings.
+            colors={heroTokens.mesh as unknown as string[]}
             speed={prefersReducedMotion ? 0 : 0.15}
             distortion={0.65}
             swirl={0.45}
@@ -193,8 +184,8 @@ export function BlogHeroHeader({
         <>
           <div className="absolute inset-0 pointer-events-none opacity-15 mix-blend-overlay dark:hidden">
             <PaperTexture
-              colorFront={heroTokens.paperFront}
-              colorBack={heroTokens.paperBack}
+              colorFront={heroTokens.paperFront as unknown as string}
+              colorBack={heroTokens.paperBack as unknown as string}
               scale={1.5}
               contrast={0.2}
               style={{
@@ -206,8 +197,8 @@ export function BlogHeroHeader({
           </div>
           <div className="absolute inset-0 pointer-events-none opacity-[0.15] mix-blend-soft-light hidden dark:block">
             <PaperTexture
-              colorFront={heroTokens.paperFront}
-              colorBack={heroTokens.paperBack}
+              colorFront={heroTokens.paperFront as unknown as string}
+              colorBack={heroTokens.paperBack as unknown as string}
               scale={1.5}
               contrast={0.15}
               style={{
