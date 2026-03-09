@@ -34,24 +34,27 @@ config_file = "agents/ci_runner.toml"
 description = "PR-grade review for correctness and regressions."
 config_file = "agents/reviewer.toml"
 
-[agents.security_auditor]
-description = "Security review: secrets, injection, auth mistakes."
-config_file = "agents/security_auditor.toml"
-
 [agents.qa_test_author]
 description = "Adds/strengthens tests and repro steps."
 config_file = "agents/qa_test_author.toml"
 
 [agents.release_manager]
 description = "Release notes, rollout, rollback checklist."
-config_file = "agents/release_manager.toml"`,
+config_file = "agents/release_manager.toml"
+
+# Optional local security reviewer.
+# If you want dedicated security scanning, consider Codex Security instead.
+#
+# [agents.security_reviewer]
+# description = "Optional local security review for secrets, injection, auth mistakes."
+# config_file = "agents/security_reviewer.toml"`,
   },
   {
     id: "orchestrator-role",
     title: "The orchestrator role file",
     file: "~/.codex/agents/orchestrator.toml",
     lang: "toml",
-    code: `model = "gpt-5.3-codex"
+    code: `model = "gpt-5.4"
 model_reasoning_effort = "xhigh"
 
 approval_policy = "never"
@@ -64,8 +67,9 @@ Maintain plan.md at repo root.
 Loop:
 1) Update plan.md with atomic tasks and acceptance criteria.
 2) Delegate independent tasks to implementer in parallel.
-3) After each batch call: ci_runner, reviewer, security_auditor, qa_test_author.
-4) Convert findings into new tasks. Repeat until green.
+3) After each batch call: ci_runner, reviewer, qa_test_author.
+4) If the change touches auth, secrets, external fetches, file access, permissions, or user data, trigger a security review step or use Codex Security.
+5) Convert findings into new tasks. Repeat until green.
 
 Rules:
 - No scope creep. Put extras in Later.
@@ -77,7 +81,7 @@ Rules:
     title: "The explorer role file",
     file: "~/.codex/agents/explorer.toml",
     lang: "toml",
-    code: `model = "gpt-5.3-codex-spark"
+    code: `model = "gpt-5.3-codex-spark"  # Spark for speed; use gpt-5.4 on Plus
 model_reasoning_effort = "low"      # just reading — no complex reasoning
 
 approval_policy = "never"
@@ -100,7 +104,7 @@ Do not implement changes unless explicitly asked.
     title: "The implementer role file",
     file: "~/.codex/agents/implementer.toml",
     lang: "toml",
-    code: `model = "gpt-5.3-codex-spark"
+    code: `model = "gpt-5.4"
 model_reasoning_effort = "medium"   # scoped tasks, moderate reasoning
 
 approval_policy = "never"
@@ -125,7 +129,7 @@ Report:
     title: "The CI runner role file",
     file: "~/.codex/agents/ci_runner.toml",
     lang: "toml",
-    code: `model = "gpt-5.3-codex-spark"
+    code: `model = "gpt-5.3-codex-spark"  # Spark for speed; use gpt-5.4 on Plus
 model_reasoning_effort = "low"       # deterministic commands, simple parsing
 
 approval_policy = "never"
@@ -146,7 +150,7 @@ Output:
     title: "The reviewer role file",
     file: "~/.codex/agents/reviewer.toml",
     lang: "toml",
-    code: `model = "gpt-5.3-codex"
+    code: `model = "gpt-5.4"
 model_reasoning_effort = "xhigh"     # deep analysis catches subtle bugs
 
 approval_policy = "never"
@@ -165,18 +169,21 @@ Keep it short and actionable.
 """`,
   },
   {
-    id: "security-auditor-role",
-    title: "The security auditor role file",
-    file: "~/.codex/agents/security_auditor.toml",
+    id: "security-reviewer-role",
+    title: "Optional: local security reviewer",
+    file: "~/.codex/agents/security_reviewer.toml",
     lang: "toml",
-    code: `model = "gpt-5.3-codex"
-model_reasoning_effort = "xhigh"     # thorough reasoning for injection vectors
+    code: `# Optional — uncomment in config.toml to enable.
+# For dedicated security scanning, consider Codex Security instead.
+
+model = "gpt-5.4"
+model_reasoning_effort = "high"
 
 approval_policy = "never"
 sandbox_mode = "danger-full-access"
 
 developer_instructions = """
-Security audit.
+Security review only.
 
 Look for:
 - secrets/credentials leakage
@@ -196,7 +203,7 @@ Output:
     title: "The QA test author role file",
     file: "~/.codex/agents/qa_test_author.toml",
     lang: "toml",
-    code: `model = "gpt-5.3-codex"
+    code: `model = "gpt-5.4"
 model_reasoning_effort = "high"      # edge-case reasoning for good coverage
 
 approval_policy = "never"
@@ -221,7 +228,7 @@ Output:
     title: "The release manager role file",
     file: "~/.codex/agents/release_manager.toml",
     lang: "toml",
-    code: `model = "gpt-5.3-codex"
+    code: `model = "gpt-5.4"
 model_reasoning_effort = "medium"    # structured output, not analytical
 
 approval_policy = "never"
@@ -249,15 +256,18 @@ python -c "import tomllib, pathlib; \\
   .joinpath('.codex','config.toml').read_text())"
 
 # ─── Pro vs Plus model note ───────────────
-# Pro subscribers have access to codex-spark:
+# GPT-5.4 is now the default for most roles.
+#
+# Pro subscribers can use Spark for fast roles:
 #   model = "gpt-5.3-codex-spark"
-#   → use for explorer, implementer, ci_runner
+#   → use for explorer, ci_runner
 #
-# Plus subscribers (no Spark):
-#   model = "gpt-5.3-codex"
-#   → replace codex-spark with codex in those files
+# Plus subscribers:
+#   model = "gpt-5.4"
+#   → use for all roles
 #
-# Heavier roles (orchestrator, reviewer, security,
-# qa, release) always use gpt-5.3-codex regardless.`,
+# The main decision is GPT-5.4 by default,
+# reserving Spark for fast, read-heavy, or
+# deterministic roles.`,
   },
 ];

@@ -4,8 +4,8 @@
  * CodexStarterPack
  *
  * Generates downloadable shell setup scripts for Codex multi-agent
- * configuration. Two variants: Pro (uses codex-spark for fast roles)
- * and Plus (gpt-5.3-codex everywhere).
+ * configuration. Two variants: Pro (GPT-5.4 + Spark for fast roles)
+ * and Plus (GPT-5.4 everywhere).
  */
 
 import { useState, useCallback } from "react";
@@ -49,22 +49,25 @@ config_file = "agents/ci_runner.toml"
 description = "PR-grade review for correctness and regressions."
 config_file = "agents/reviewer.toml"
 
-[agents.security_auditor]
-description = "Security review: secrets, injection, auth mistakes."
-config_file = "agents/security_auditor.toml"
-
 [agents.qa_test_author]
 description = "Adds/strengthens tests and repro steps."
 config_file = "agents/qa_test_author.toml"
 
 [agents.release_manager]
 description = "Release notes, rollout, rollback checklist."
-config_file = "agents/release_manager.toml"`;
+config_file = "agents/release_manager.toml"
+
+# Optional local security reviewer.
+# If you want dedicated security scanning, consider Codex Security instead.
+#
+# [agents.security_reviewer]
+# description = "Optional local security review for secrets, injection, auth mistakes."
+# config_file = "agents/security_reviewer.toml"`;
 
 const ROLES: RoleConfig[] = [
   {
     file: "orchestrator.toml",
-    model: { pro: "gpt-5.3-codex", plus: "gpt-5.3-codex" },
+    model: { pro: "gpt-5.4", plus: "gpt-5.4" },
     reasoning: "xhigh",
     instructions: `You are the Orchestrator.
 
@@ -72,8 +75,9 @@ Maintain plan.md at repo root.
 Loop:
 1) Update plan.md with atomic tasks and acceptance criteria.
 2) Delegate independent tasks to implementer in parallel.
-3) After each batch call: ci_runner, reviewer, security_auditor, qa_test_author.
-4) Convert findings into new tasks. Repeat until green.
+3) After each batch call: ci_runner, reviewer, qa_test_author.
+4) If the change touches auth, secrets, external fetches, file access, permissions, or user data, trigger a security review step or use Codex Security.
+5) Convert findings into new tasks. Repeat until green.
 
 Rules:
 - No scope creep. Put extras in Later.
@@ -81,7 +85,7 @@ Rules:
   },
   {
     file: "explorer.toml",
-    model: { pro: "gpt-5.3-codex-spark", plus: "gpt-5.3-codex" },
+    model: { pro: "gpt-5.3-codex-spark", plus: "gpt-5.4" },
     reasoning: "low",
     instructions: `Explore only.
 
@@ -95,7 +99,7 @@ Do not implement changes unless explicitly asked.`,
   },
   {
     file: "implementer.toml",
-    model: { pro: "gpt-5.3-codex-spark", plus: "gpt-5.3-codex" },
+    model: { pro: "gpt-5.4", plus: "gpt-5.4" },
     reasoning: "medium",
     instructions: `Implement one scoped task from plan.md.
 
@@ -111,7 +115,7 @@ Report:
   },
   {
     file: "ci_runner.toml",
-    model: { pro: "gpt-5.3-codex-spark", plus: "gpt-5.3-codex" },
+    model: { pro: "gpt-5.3-codex-spark", plus: "gpt-5.4" },
     reasoning: "low",
     instructions: `Mirror CI locally with the smallest deterministic command set.
 
@@ -123,7 +127,7 @@ Output:
   },
   {
     file: "reviewer.toml",
-    model: { pro: "gpt-5.3-codex", plus: "gpt-5.3-codex" },
+    model: { pro: "gpt-5.4", plus: "gpt-5.4" },
     reasoning: "xhigh",
     instructions: `PR-grade review.
 
@@ -136,26 +140,8 @@ Output:
 Keep it short and actionable.`,
   },
   {
-    file: "security_auditor.toml",
-    model: { pro: "gpt-5.3-codex", plus: "gpt-5.3-codex" },
-    reasoning: "xhigh",
-    instructions: `Security audit.
-
-Look for:
-- secrets/credentials leakage
-- injection risks
-- authn/authz mistakes
-- SSRF/unsafe fetch
-- sensitive logging
-
-Output:
-- Findings (severity + evidence)
-- Fix recommendations
-- Verification steps`,
-  },
-  {
     file: "qa_test_author.toml",
-    model: { pro: "gpt-5.3-codex", plus: "gpt-5.3-codex" },
+    model: { pro: "gpt-5.4", plus: "gpt-5.4" },
     reasoning: "high",
     instructions: `Tests and validation.
 
@@ -171,7 +157,7 @@ Output:
   },
   {
     file: "release_manager.toml",
-    model: { pro: "gpt-5.3-codex", plus: "gpt-5.3-codex" },
+    model: { pro: "gpt-5.4", plus: "gpt-5.4" },
     reasoning: "medium",
     instructions: `Release manager.
 
@@ -220,6 +206,35 @@ function generateSetupScript(tier: Tier): string {
     lines.push("CODEX_EOF");
     lines.push("");
   }
+
+  // Add optional commented security_reviewer template
+  lines.push("# Optional: uncomment to add a local security reviewer role.");
+  lines.push("# If you want dedicated security scanning, consider Codex Security instead.");
+  lines.push("#");
+  lines.push("# cat > ~/.codex/agents/security_reviewer.toml << 'CODEX_EOF'");
+  lines.push('# model = "gpt-5.4"');
+  lines.push('# model_reasoning_effort = "high"');
+  lines.push("#");
+  lines.push('# approval_policy = "never"');
+  lines.push('# sandbox_mode = "danger-full-access"');
+  lines.push("#");
+  lines.push('# developer_instructions = """');
+  lines.push("# Security review only.");
+  lines.push("#");
+  lines.push("# Look for:");
+  lines.push("# - secrets/credentials leakage");
+  lines.push("# - injection risks");
+  lines.push("# - authn/authz mistakes");
+  lines.push("# - SSRF/unsafe fetch");
+  lines.push("# - sensitive logging");
+  lines.push("#");
+  lines.push("# Output:");
+  lines.push("# - Findings (severity + evidence)");
+  lines.push("# - Fix recommendations");
+  lines.push("# - Verification steps");
+  lines.push('# """');
+  lines.push("# CODEX_EOF");
+  lines.push("");
 
   lines.push('echo "Done — codex multi-agent config written to ~/.codex/"');
   lines.push('echo "Agents: $(ls ~/.codex/agents/*.toml | wc -l | tr -d " ") role files"');
@@ -278,7 +293,7 @@ export function CodexStarterPack({ className }: { className?: string }) {
                   className="font-mono text-[10px]"
                   style={{ color: "var(--sf-text-tertiary)" }}
                 >
-                  {tier === "pro" ? "Uses codex-spark for fast roles" : "gpt-5.3-codex for all roles"}
+                  {tier === "pro" ? "GPT-5.4 + Spark for fast roles" : "GPT-5.4 for all roles"}
                 </span>
               </div>
 

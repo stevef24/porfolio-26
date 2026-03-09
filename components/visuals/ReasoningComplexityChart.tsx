@@ -41,26 +41,25 @@ const GROUPS: Array<{
     tier: "DECIDE",
     description: "Planning mistakes cascade",
     rows: [
-      { role: "orchestrator",     level: "xhigh", note: "xhigh", proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
-      { role: "reviewer",         level: "xhigh", note: "xhigh", proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
-      { role: "security_auditor", level: "xhigh", note: "xhigh", proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
+      { role: "orchestrator",     level: "xhigh", note: "xhigh", proModel: "gpt-5.4",             plusModel: "gpt-5.4" },
+      { role: "reviewer",         level: "xhigh", note: "xhigh", proModel: "gpt-5.4",             plusModel: "gpt-5.4" },
     ],
   },
   {
     tier: "CREATE",
     description: "Scoped analysis, edge cases",
     rows: [
-      { role: "qa_test_author",   level: "high",   note: "high",   proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
-      { role: "implementer",      level: "medium",  note: "medium", proModel: "gpt-5.3-codex-spark", plusModel: "gpt-5.3-codex" },
-      { role: "release_manager",  level: "medium",  note: "medium", proModel: "gpt-5.3-codex",       plusModel: "gpt-5.3-codex" },
+      { role: "qa_test_author",   level: "high",   note: "high",   proModel: "gpt-5.4",             plusModel: "gpt-5.4" },
+      { role: "implementer",      level: "medium",  note: "medium", proModel: "gpt-5.4",             plusModel: "gpt-5.4" },
+      { role: "release_manager",  level: "medium",  note: "medium", proModel: "gpt-5.4",             plusModel: "gpt-5.4" },
     ],
   },
   {
     tier: "EXECUTE",
     description: "Deterministic, no reasoning needed",
     rows: [
-      { role: "explorer",  level: "low", note: "low", proModel: "gpt-5.3-codex-spark", plusModel: "gpt-5.3-codex" },
-      { role: "ci_runner", level: "low", note: "low", proModel: "gpt-5.3-codex-spark", plusModel: "gpt-5.3-codex" },
+      { role: "explorer",  level: "low", note: "low", proModel: "gpt-5.3-codex-spark", plusModel: "gpt-5.4" },
+      { role: "ci_runner", level: "low", note: "low", proModel: "gpt-5.3-codex-spark", plusModel: "gpt-5.4" },
     ],
   },
 ];
@@ -190,14 +189,16 @@ function RoleRow({
 function TierToggle({
   activeTier,
   onToggle,
-  reduced,
 }: {
   activeTier: Tier;
   onToggle: (tier: Tier) => void;
   reduced: boolean;
 }) {
   return (
-    <div className="flex items-center gap-1 relative">
+    <div
+      className="flex items-center relative rounded-md p-0.5"
+      style={{ backgroundColor: "var(--sf-bg-subtle)" }}
+    >
       {(["pro", "plus"] as const).map((tier) => {
         const isActive = activeTier === tier;
         return (
@@ -206,14 +207,21 @@ function TierToggle({
             type="button"
             onClick={() => onToggle(tier)}
             className={cn(
-              "relative font-mono text-[9px] uppercase tracking-[0.12em] px-2 py-1 rounded transition-colors",
+              "relative z-10 font-mono text-[9px] uppercase tracking-[0.12em] px-3 py-1.5 rounded-[5px] cursor-pointer select-none transition-colors duration-150",
             )}
             style={{
               color: isActive ? "var(--sf-text-primary)" : "var(--sf-text-tertiary)",
-              backgroundColor: isActive ? "var(--sf-bg-subtle)" : "transparent",
             }}
           >
-            {tier}
+            {isActive && (
+              <motion.div
+                layoutId="tier-toggle-indicator"
+                className="absolute inset-0 rounded-[5px]"
+                style={{ backgroundColor: "var(--sf-bg-surface)" }}
+                transition={{ type: "spring", visualDuration: 0.2, bounce: 0.15 }}
+              />
+            )}
+            <span className="relative z-10">{tier}</span>
           </button>
         );
       })}
@@ -248,7 +256,7 @@ export function ReasoningComplexityChart({
 
   return (
     <VisualWrapper
-      label="model_reasoning_effort by role — spend tokens where they matter"
+      label="model + reasoning effort by role: use GPT-5.4 as the default, then lower latency and cost only where the role is mostly deterministic"
       className={className}
       tone="neutral"
     >

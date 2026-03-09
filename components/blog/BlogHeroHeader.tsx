@@ -32,12 +32,24 @@ const FALLBACK_HERO_TOKENS: BlogHeroVisualTokens = {
   paperBack: "rgb(255 255 255)",
 };
 
+function resolveToRgb(color: string): string {
+  // Use a temporary element to let the browser convert any color format to rgb
+  const el = document.createElement("div");
+  el.style.color = color;
+  document.body.appendChild(el);
+  const resolved = getComputedStyle(el).color;
+  document.body.removeChild(el);
+  return resolved;
+}
+
 function readColorToken(
   styles: CSSStyleDeclaration,
   token: string,
   fallback: string
 ): string {
-  return styles.getPropertyValue(token).trim() || fallback;
+  const raw = styles.getPropertyValue(token).trim();
+  if (!raw) return fallback;
+  return resolveToRgb(raw);
 }
 
 export function BlogHeroHeader({

@@ -40,10 +40,21 @@ export function PageHeaderShader({
 		setMounted(true);
 		const root = document.documentElement;
 
+		const resolveToRgb = (color: string): string => {
+			const el = document.createElement("div");
+			el.style.color = color;
+			document.body.appendChild(el);
+			const resolved = getComputedStyle(el).color;
+			document.body.removeChild(el);
+			return resolved;
+		};
+
 		const sync = () => {
 			const styles = getComputedStyle(root);
-			const get = (token: string, fb: string) =>
-				styles.getPropertyValue(token).trim() || fb;
+			const get = (token: string, fb: string) => {
+				const raw = styles.getPropertyValue(token).trim();
+				return raw ? resolveToRgb(raw) : fb;
+			};
 
 			setColors([
 				get(`${tokenPrefix}-mesh-1`, fallbackMesh[0]),

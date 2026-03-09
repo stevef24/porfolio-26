@@ -19,9 +19,11 @@ As AI agents progress and become better at writing code, we will write less and 
 
 Think of it like an orchestra. You would never see a conductor trying to play every instrument, read every sheet, and manage the tempo all at once. Instead, there are sections: strings, brass, woodwinds, percussion, each owning their part. The conductor sets the direction, keeps everyone in sync, and decides when to bring each section in.
 
-This is exactly how you should think about your Codex session. We have an **orchestrator** that owns the plan, the conductor setting the direction. We have **explorer** agents that scout the repo like a first chair reading ahead in the score. [Multi-agent workflows](https://developers.openai.com/codex/multi-agent/) are currently experimental in the Codex CLI, but once enabled you can define your own agent roles with role-specific configs and instructions. That is exactly what this post covers.
+This is exactly how you should think about your Codex session. We have an **orchestrator** that owns the plan, the conductor setting the direction. We have **explorer** agents that scout the repo like a first chair reading ahead in the score. Multi-agent workflows in Codex CLI are evolving quickly, and recent releases have improved model selection, plugin context handling, resume behavior, and fast execution workflows. That is exactly what this post covers.
 
 Below, we will walk through the full setup: the scouts, the implementers, the quality gates, and how they all fit together. The loop is: **plan → implement in parallel → run checks** (tests, typecheck, lint) **→ review/security gate → repeat**.
+
+> Since first writing this, Codex has moved forward quickly. The orchestration pattern in this post still holds, but I would update the model recommendations, CLI workflow details, and the way I frame security review in light of GPT-5.4, newer Codex CLI features, and Codex Security.
 
 One thing I learned early on: parallelise read-heavy work first. Multiple agents editing code at the same time can cause merge conflicts, so keep writes scoped and sequential where possible.
 
@@ -30,6 +32,8 @@ One thing I learned early on: parallelise read-heavy work first. Multiple agents
 ### Why this matters
 
 First, each role owns one job, so the prompts can be short and tailored to that agent specifically, instead of reusing the same bloated prompt over and over had we only had a single agent. Second, different tasks require different abilities. When we explore the repository, there is not much deep reasoning involved, which means we can reduce the reasoning effort and in turn increase the speed and efficiency of execution. Below, we will review how to enable multi-agent mode and a quick explanation of how I use it.
+
+That matters even more now that Codex CLI can surface enabled plugin context automatically and lets you pull in targeted plugin context directly with `@plugin` mentions.
 
 To get started, open your Codex config:
 
@@ -56,7 +60,7 @@ The key point here is to experiment and see what works for you. These settings a
 
 ## 2) The orchestrator
 
-Let's start with the orchestrator. This is the agent that tells everyone else what to do. Its main job is to maintain the `plan.md` file at the repo root, breaking the work into <Annotate type="underline" color="var(--va-red)">atomic tasks</Annotate>, delegating them to implementers in parallel, and running all three quality gates after each batch. Atomic tasks work better here because they keep context tight and limit how far an agent can drift off the rails. The smaller and more focused each task is, the easier it is to course-correct when something goes wrong.
+Let's start with the orchestrator. This is the agent that tells everyone else what to do. Its main job is to maintain the `plan.md` file at the repo root, breaking the work into atomic tasks, delegating them to implementers in parallel, and running all three quality gates after each batch. Atomic tasks work better here because they keep context tight and limit how far an agent can drift off the rails. The smaller and more focused each task is, the easier it is to course-correct when something goes wrong.
 
 Personally, I set this one to the highest reasoning level because the better the plan, the better the outcome. A planning mistake cascades through every batch, so this is where you want the model thinking the hardest.
 
@@ -105,9 +109,9 @@ The reviewer performs PR-grade review: must-fix issues with file/line refs and a
 
 <CanvasStep index={6}>
 
-## 7) The security auditor
+## 7) Security review: local role or Codex Security
 
-The security auditor hunts for secrets leakage, injection risks, auth mistakes, and SSRF. Injection vectors hide in boring code, so this gets `xhigh` reasoning too. Same principle as the reviewer. Thoroughness is the whole point of this role.
+Security review can now be handled in two ways: a local security-review role inside your multi-agent loop, or Codex Security for a dedicated vulnerability-finding and patching workflow. I still like a local security reviewer when I want everything to stay inside one repo loop, but I would no longer treat it as a default role in every setup. If security is a major bottleneck, Codex Security is now the more direct path.
 
 </CanvasStep>
 
@@ -125,7 +129,7 @@ The QA test author fills gaps: adds tests for changed behaviour, writes minimal 
 
 The release manager handles release notes, rollout steps, rollback plan, and a pre-deploy checklist. Structured output, not analytical. `medium` reasoning does the job.
 
-You do not need all eight roles on day one. Start with orchestrator, implementer, ci_runner, and reviewer. Add the rest when you feel the gap.
+You do not need all these roles on day one. Start with orchestrator, implementer, ci_runner, and reviewer. Add explorer, QA, release, or a local security reviewer only when they solve a real bottleneck. If you need deeper security coverage, Codex Security is now a strong alternative to maintaining that role yourself.
 
 </CanvasStep>
 
@@ -139,23 +143,30 @@ A quick `ls` and TOML parse confirm codex can read everything. The first-run pro
 
 </AgentCodeWalkthrough>
 
+### Quick CLI updates worth knowing
+
+- Fast mode is now enabled by default in newer Codex CLI builds.
+- The TUI now reflects newer model selection changes more clearly.
+- `@plugin` mentions let you pull plugin context into the turn directly.
+- `codex resume` is more reliable because git context and enabled apps are preserved.
+
 ## Benefit one: reasoning effort, spend tokens where they matter
 
-So to recap, here is what I have chosen for my agents and the reason behind each choice. This is not a perfect split, so experiment with it yourself. The principle is simple: roles that **decide** (orchestrator, reviewer, security) get the highest reasoning. Roles that **execute** (explorer, ci_runner) get the lowest. Roles that **create** (implementer, qa, release) sit somewhere in between.
+So to recap, here is what I have chosen for my agents and the reason behind each choice. This is not a perfect split, so experiment with it yourself. The principle is simple: roles that **decide** (orchestrator, reviewer) get the highest reasoning. Roles that **execute** (explorer, ci_runner) get the lowest. Roles that **create** (implementer, qa, release) sit somewhere in between.
 
-> **Note:** Different memberships have different models available. I have the Pro membership which gives me the ability to use the Spark model (`gpt-5.3-codex-spark`). I have provided an alternative for those with the Plus membership in the chart below.
+> Model choice has shifted since I first wrote this. GPT-5.4 is now the default recommendation for most Codex work, especially for planning, review, and long-horizon tasks. Spark still makes sense when low latency matters more than maximum depth, especially for lighter execution roles.
 
 <ReasoningComplexityChart />
 
-Higher reasoning effort generally increases response time and token usage, but it improves quality on complex work like review and security. By keeping fast roles cheap with lower reasoning, you can afford to run the expensive review roles on every batch without blowing through your budget. Spark (`gpt-5.3-codex-spark`) is ideal for fast, read-heavy work like exploration and CI parsing, while `gpt-5.3-codex` is better suited for deeper analytical work.
+Higher reasoning effort still costs more time and tokens, so the principle has not changed: spend depth on planning, review, and security-sensitive work, and keep execution roles cheap. What has changed is the default model choice. Today, GPT-5.4 is the better general recommendation for most Codex tasks.
 
 ## Benefit two: context management with MCP and skills
 
 Every MCP server you enable adds tool context to your messages, so keep your global set lean. That context adds up fast, especially if you have a dozen MCPs attached.
 
-With multi-agent mode, you can use role-specific config files to add heavier MCPs only to the agents that actually need them. The explorer might need file search and docs MCPs. The CI runner just needs terminal access. The reviewer needs nothing beyond the code itself. Each agent only carries the tools relevant to its job.
+With multi-agent mode, role-specific config files still matter, but newer Codex CLI releases also do a better job of surfacing enabled plugin context automatically, and `@plugin` mentions make targeted context routing easier. The explorer might need file search and docs MCPs. The CI runner just needs terminal access. The reviewer needs nothing beyond the code itself. Each agent only carries the tools relevant to its job.
 
-Instead of every agent paying the context cost of every tool, you scope the overhead to where it matters. Less noise, faster routing, cheaper runs.
+Instead of every agent paying the context cost of every tool, you scope the overhead to where it matters. Less noise, faster routing, cheaper runs. That means the goal is no longer to stuff every tool into every role, but to keep the default environment lean and pull in extra context only where it helps.
 
 The same principle applies to [skills](https://developers.openai.com/codex/skills/). Skills work similarly to MCPs but inject prompt-level instructions rather than tool definitions. They use [progressive disclosure](https://developers.openai.com/codex/concepts/customization/), loading metadata first and full instructions only when chosen. I did not include skills in my config above, but I would highly recommend adding relevant ones to your agent roles. For example, the reviewer could benefit from [Vercel React Best Practices](https://skills.sh/skills/vercel-react-best-practices) or [Next.js Best Practices](https://skills.sh/skills/next-best-practices). The implementer could use [Test-Driven Development](https://skills.sh/skills/test-driven-development). Browse what is available at [skills.sh](https://skills.sh) and pick the ones that match your stack.
 
@@ -171,6 +182,12 @@ Parallel where it helps. Strict gates where it matters. A single plan to prevent
 
 Codex is already being built and shipped with an agent harness and parallel orchestration patterns. If you want the deep dive, read OpenAI's posts on [the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) and [the Codex harness](https://openai.com/index/unlocking-the-codex-harness/). The way we write software is shifting, and understanding multi-agent orchestration now puts you ahead of the curve.
 
+Multi-agent orchestration is also no longer just a terminal pattern. The Codex app is now available on Windows as well, which makes the "agent command center" idea broader than a CLI-only workflow.
+
 Take this implementation as an experiment. Tweak the reasoning levels, swap models, add roles, remove roles. But whatever you do, <Annotate type="highlight" color="oklch(0.85 0.15 85 / 0.35)">just experiment</Annotate>.
+
+---
+
+**References:** [Codex changelog](https://developers.openai.com/codex/changelog/) · [Codex Security](https://openai.com/index/codex-security-now-in-research-preview/) · [Introducing the Codex app](https://openai.com/index/introducing-the-codex-app/)
 
 </BlogWithCanvas>
