@@ -59,6 +59,14 @@ export const metadata: Metadata = {
     title: "Stav Fernandes - Frontend Developer & Developer Experience Engineer",
     description:
       "I make complex AI and web concepts simple. Frontend developer and technical educator with a background in finance and fullstack development.",
+    images: [
+      {
+        url: "/og?title=Stav%20Fernandes&description=Frontend%20Developer%20%26%20Developer%20Experience%20Engineer",
+        width: 1200,
+        height: 630,
+        alt: "Stav Fernandes - Frontend Developer & Developer Experience Engineer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -66,6 +74,7 @@ export const metadata: Metadata = {
     description:
       "I make complex AI and web concepts simple. Frontend developer and technical educator.",
     creator: "@CodewithStav",
+    images: ["/og?title=Stav%20Fernandes&description=Frontend%20Developer%20%26%20Developer%20Experience%20Engineer"],
   },
   icons: {
     icon: [

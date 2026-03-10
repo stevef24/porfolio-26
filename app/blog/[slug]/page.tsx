@@ -136,8 +136,38 @@ export async function generateMetadata(props: {
 
   if (!page) return {};
 
+  const title = page.data.title;
+  const description = page.data.description ?? "";
+  const url = `https://stavfernandes.dev/blog/${params.slug}`;
+  const ogImage = `https://stavfernandes.dev/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`;
+
   return {
-    title: page.data.title,
-    description: page.data.description,
+    title,
+    description,
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url,
+      siteName: "Stav Fernandes",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
+      creator: "@CodewithStav",
+    },
+    alternates: {
+      canonical: url,
+    },
   };
 }

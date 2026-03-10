@@ -1,8 +1,35 @@
+import type { Metadata } from "next";
 import { BlogPostsList } from "@/components/blog/BlogPostsList";
 import SiteShell from "@/components/layout/SiteShell";
 import BlurFade from "@/components/shared/BlurFade";
 import { getVisibleBlogPages } from "@/lib/blog-visibility";
 import { PageHeaderShader } from "@/components/ui/PageHeaderShader";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Thoughts on frontend engineering, AI tooling, React patterns, and building for the web.",
+  openGraph: {
+    title: "Blog | Stav Fernandes",
+    description:
+      "Thoughts on frontend engineering, AI tooling, React patterns, and building for the web.",
+    url: "https://stavfernandes.dev/blog",
+    images: [
+      {
+        url: "https://stavfernandes.dev/og?title=Blog&description=Thoughts%20on%20frontend%20engineering%2C%20AI%20tooling%2C%20and%20building%20for%20the%20web.",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | Stav Fernandes",
+    description:
+      "Thoughts on frontend engineering, AI tooling, React patterns, and building for the web.",
+    creator: "@CodewithStav",
+  },
+};
 
 export default function BlogPage(): JSX.Element {
   const posts = getVisibleBlogPages().map((post) => ({
