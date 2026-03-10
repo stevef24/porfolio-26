@@ -97,25 +97,26 @@ function NavLink({
 		);
 	};
 
+	const [hovered, setHovered] = useState(false);
+
 	return (
 		<Link
 			href={href}
 			aria-current={isActive ? "page" : undefined}
 			aria-label={text}
-			title={text}
 			className={cn(
-				"flex items-center justify-center w-8 h-8 rounded-full",
+				"relative flex items-center justify-center h-8 rounded-full",
 				"transition-colors duration-150",
 				isActive
 					? "text-foreground"
 					: "text-foreground/50 hover:text-foreground"
 			)}
-			onMouseEnter={handleMouseEnter}
-			onMouseLeave={handleMouseLeave}
+			onMouseEnter={() => { setHovered(true); handleMouseEnter(); }}
+			onMouseLeave={() => { setHovered(false); handleMouseLeave(); }}
 		>
 			<motion.span
 				ref={scope}
-				className="inline-flex items-center justify-center"
+				className="inline-flex items-center justify-center w-8 h-8"
 				style={{ transformOrigin: "center" }}
 			>
 				<HugeiconsIcon
@@ -125,6 +126,19 @@ function NavLink({
 					aria-hidden="true"
 				/>
 			</motion.span>
+			<AnimatePresence>
+				{hovered && (
+					<motion.span
+						initial={{ opacity: 0, y: 6 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: 4 }}
+						transition={{ duration: 0.15, ease: "easeOut" }}
+						className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-foreground text-background text-[10px] font-medium whitespace-nowrap pointer-events-none"
+					>
+						{text}
+					</motion.span>
+				)}
+			</AnimatePresence>
 		</Link>
 	);
 }

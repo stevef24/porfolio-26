@@ -3,7 +3,6 @@ import { EmailCaptureForm } from "@/components/shared/EmailCaptureForm";
 import BlurFade from "@/components/shared/BlurFade";
 import { BlogPostsList } from "@/components/blog/BlogPostsList";
 import { VideoCardList } from "@/components/ui/VideoCardList";
-import { LinkPreview } from "@/components/ui/blog/LinkPreview";
 import Contact from "./Contact";
 
 interface BlogPost {
@@ -71,7 +70,7 @@ export default function Home({ posts }: HomeProps): JSX.Element {
               Stav Fernandes
             </h2>
             <p className="text-foreground/60 text-swiss-body">
-              Frontend Developer
+              Frontend Developer &amp; Developer Experience Engineer
             </p>
           </div>
         </BlurFade>
@@ -80,26 +79,17 @@ export default function Home({ posts }: HomeProps): JSX.Element {
           <div>
             <h3 className="text-swiss-label text-foreground/60 mb-3">Today</h3>
             <p className="text-foreground/60 text-swiss-body leading-relaxed mb-3">
-              I build frontend interfaces and create{" "}
-              <LinkPreview
-                href="https://www.youtube.com/@CodewithStav"
-                className="text-foreground/80 hover:text-foreground transition-colors underline underline-offset-[3px] decoration-foreground/20"
-              >
-                YouTube content
-              </LinkPreview>{" "}
-              about AI tooling and modern web development. I like to break down
-              complex systems into visual explanations.
+              I make complex AI and web concepts simple. Frontend developer and
+              technical educator with a background in finance (Aviva Investors)
+              and fullstack development (Nationwide UK). Based in Thailand, open
+              to remote work.
             </p>
-            <p className="text-foreground/60 text-swiss-body leading-relaxed">
-              Previously worked at Nationwide UK. Currently{" "}
-              <LinkPreview
-                href="https://littlelotus.co"
-                className="text-foreground/80 hover:text-foreground transition-colors underline underline-offset-[3px] decoration-foreground/20"
-              >
-                freelancing
-              </LinkPreview>
-              , based in Thailand. Open to remote work only.
-            </p>
+            <a
+              href={"mailto:" + ["stevefernandes2410", "gmail.com"].join("@")}
+              className="text-foreground/80 hover:text-foreground transition-colors text-swiss-body underline underline-offset-[3px] decoration-foreground/20"
+            >
+              Get in touch &rarr;
+            </a>
           </div>
         </BlurFade>
       </section>

@@ -32,9 +32,63 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Stav Fernandes - Full Stack Developer & Technical Writer",
+  metadataBase: new URL("https://stavfernandes.dev"),
+  title: {
+    default: "Stav Fernandes - Frontend Developer & Developer Experience Engineer",
+    template: "%s | Stav Fernandes",
+  },
   description:
-    "Frontend developer. Building with AI, teaching what I learn.",
+    "I make complex AI and web concepts simple. Frontend developer and technical educator with a background in finance and fullstack development. Based in Thailand, open to remote work.",
+  keywords: [
+    "frontend developer",
+    "developer experience",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "AI SDK",
+    "technical educator",
+    "developer relations",
+  ],
+  authors: [{ name: "Stav Fernandes", url: "https://stavfernandes.dev" }],
+  creator: "Stav Fernandes",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://stavfernandes.dev",
+    siteName: "Stav Fernandes",
+    title: "Stav Fernandes - Frontend Developer & Developer Experience Engineer",
+    description:
+      "I make complex AI and web concepts simple. Frontend developer and technical educator with a background in finance and fullstack development.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Stav Fernandes - Frontend Developer & Developer Experience Engineer",
+    description:
+      "I make complex AI and web concepts simple. Frontend developer and technical educator.",
+    creator: "@CodewithStav",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://stavfernandes.dev",
+  },
 };
 
 export const viewport: Viewport = {
