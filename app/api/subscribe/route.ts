@@ -81,5 +81,17 @@ export async function POST(request: Request) {
     );
   }
 
+  const transactionalId = process.env.LOOPS_WELCOME_EMAIL_ID;
+  if (transactionalId) {
+    await fetch("https://app.loops.so/api/v1/transactional", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ transactionalId, email }),
+    }).catch(() => {});
+  }
+
   return NextResponse.json({ ok: true, status: "subscribed" });
 }
