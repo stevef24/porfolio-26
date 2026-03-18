@@ -51,3 +51,6 @@ repomix-output.txt
 # draft/temp files
 agents-sdk.md
 new.MD
+
+# Git worktrees
+.worktrees/
