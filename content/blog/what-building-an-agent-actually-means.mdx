@@ -1,0 +1,90 @@
+---
+title: What "Building an Agent" Actually Means
+description: The model is not running your system. The runtime is. Here's what that means and why it changes how you build.
+author: Stav Fernandes
+date: 2026-03-18
+---
+
+When I first started building agents, I assumed something simple: a better model means a better agent. That felt obvious. If the model is smarter, the system should perform better. But as I started digging deeper, I realised that the model is not the entire picture. There are tools, there is context, and most importantly, there is the environment the model operates in, often called the harness. That is where most of the system actually lives.
+
+What I understand now is this. The model is not running your system. The runtime is. And once that clicks, the way you build agents starts to change completely.
+
+## The Agent Loop
+
+With a normal chatbot, it's simple. You send a message, the model replies, and that's the end of the turn. An agent loop is different. You introduce a middle layer, a controlled and deterministic loop that sits between your application and the model.
+
+You send a request. The runtime forwards it to the model along with the tools it can use. The model looks at the request and decides what to do next. If it wants to use a tool, it signals that. The runtime then executes that tool, captures the result, and sends it back to the model. The model looks at the new information and decides what to do next. This keeps going until the model signals that it is done. So instead of one request and one response, you now have a loop where reasoning and execution take turns.
+
+Here's a simplified example of what the harness sends and receives (similar to a Codex-style app server setup):
+
+```json
+// Request sent by runtime to the model
+{
+  "messages": [
+    {"role": "user", "content": "Fix failing tests"}
+  ],
+  "tools": [
+    {"name": "run_tests", "description": "Run the test suite and return failures"},
+    {"name": "edit_file", "description": "Modify files in the repository"}
+  ]
+}
+
+// Model response
+{
+  "stop_reason": "tool_use",
+  "tool": "run_tests"
+}
+
+// Runtime executes tool and sends result back
+{
+  "role": "tool",
+  "content": "3 tests failed in auth module"
+}
+```
+
+That loop continues until you get `"stop_reason": "end_turn"`. That is the moment the agent is actually finished.
+
+---
+
+## The Runtime Is the System
+
+So far, we understand the agent loop has a middle layer. Now the important part is understanding what that middle layer actually does. The runtime keeps the loop alive, gives the model access to tools, executes those tools, passes the results back, and shapes what the model sees next. The model decides what it wants to do. The runtime is what turns that into something real.
+
+This is the point where it clicked for me. Building agents is not just about picking a better model. A lot of the magic happens in the harness around it. Think of it like this. You can have a very smart model, but if the environment around it is messy, inconsistent, or loosely defined, the results will be messy too. If the system is clean, deterministic, and has clear rules, the model has a much easier job executing correctly. The better the system is designed, the easier it is for the model to behave reliably inside it.
+
+---
+
+## Why Most Agents Break
+
+A good decision is not only about what to do. It is also about what not to do. This is where I started to see why most agents break. Not because the model is bad, but because the system around it leaves too much room for messy decisions that could have been avoided. Some of the most common mistakes developers make are surprisingly simple.
+
+The first is guessing when the agent is done instead of using a clear stopping signal. You might write something like this:
+
+```python
+if response.content[0].type == "text":
+    return response
+```
+
+At first glance that looks fine. The model returned text, so it must be finished. But that is not actually a safe assumption. The reliable signal is `stop_reason`, not whether the response happens to contain text.
+
+The second mistake is giving the model vague tools and expecting reliable choices. If your tool list looks like `get_data`, `fetch_info`, and `retrieve_stuff`, the model is being asked to guess. A better setup would be tools with clear boundaries, like `run_tests` for executing the test suite and `edit_file` for modifying repository files. The model can only choose well if the options are designed well.
+
+The third mistake is relying on prompts for actions that should be enforced in code. For example, telling the model "only issue a refund after the user is verified" sounds reasonable, but that is still just guidance. In a real system, the safer version is to block `refund_tool` until `verify_user` has actually run. That was another big shift for me. Prompts are useful for guiding behaviour, but they are not a guarantee. If something matters financially, legally, or operationally, the runtime should be enforcing it. Prompts guide behaviour. Code enforces it.
+
+---
+
+## Context Is a Design Choice
+
+This is another point where things really started to click for me. At first, it feels like a limitation that agents don't share memory. Each step only sees what the runtime passes forward. But that is actually a feature. It reduces noise. If every step carried everything that ever happened, the system would become messy, slow, and inconsistent. By forcing isolation, the runtime keeps each step focused on what actually matters right now.
+
+But there is a tradeoff. You also lose the thinking behind how you got there. And that matters. This is where the responsibility shifts to you as the developer. You have to decide what is worth carrying forward. Instead of passing raw history, you start extracting what matters. Key facts. Important decisions. Useful metadata. Small structured pieces that keep the signal alive without bringing back the noise. That is where good systems are designed.
+
+It's a bit like life. Isolation can reduce the noise. It can strip away things that are not actually part of you. But if you are not careful, you can also lose parts of your thinking that matter. So the goal is not to keep everything. It is to keep what is essential. In agent systems, that means designing context, not just passing it. Which is why I think of building agents as an art rather than just engineering.
+
+---
+
+## Conclusion
+
+If you're building agents, you're not just working with an LLM. You're designing a system around it. The harness gives the model hands. The runtime decides how those hands are used.
+
+The agent loop is not as simple as "an LLM in a loop." There is a lot of thinking and engineering around it, and that is what makes it so interesting. This article covered the basics. In the next ones, I'll go deeper into things like tool design, MCP integration, prompt structure, and context management. But having this foundational understanding is what everything else builds on.
