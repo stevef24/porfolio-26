@@ -324,6 +324,9 @@ button,
   --sidebar-accent-foreground: oklch(0.18 0.01 90);
   --sidebar-border: oklch(0.89 0.01 85); /* border.subtle */
   --sidebar-ring: oklch(0 0 0 / 0.95);
+  /* Card depth tokens */
+  --thumbnail-inset-border: oklch(0 0 0 / 0.08);
+  --card-hover-shadow: 0 1px 3px oklch(0 0 0 / 0.06), 0 1px 2px oklch(0 0 0 / 0.04);
 }
 
 .dark {
@@ -516,6 +519,9 @@ button,
   --sidebar-accent-foreground: oklch(0.97 0.005 85);
   --sidebar-border: oklch(0.28 0.005 85);
   --sidebar-ring: oklch(1 0 0 / 0.95);
+  /* Card depth tokens */
+  --thumbnail-inset-border: oklch(1 0 0 / 0.07);
+  --card-hover-shadow: none;
 }
 
 @layer base {
@@ -685,6 +691,7 @@ body {
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: var(--text-primary);
+  text-wrap: balance;
 }
 
 /* Subheading - Section eyebrow labels
@@ -697,6 +704,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em; /* Slight positive tracking */
   color: var(--text-tertiary);
+  text-wrap: balance;
 }
 
 /* Title - Card and article titles
@@ -709,6 +717,7 @@ body {
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: var(--text-primary);
+  text-wrap: balance;
 }
 
 /* Body - Standard paragraphs
@@ -720,6 +729,7 @@ body {
   font-weight: 400;
   line-height: 1.65;
   color: var(--text-secondary);
+  text-wrap: pretty;
 }
 
 /* Body Large - Lead paragraphs
@@ -731,6 +741,7 @@ body {
   font-weight: 400;
   line-height: 1.5;
   color: var(--text-secondary);
+  text-wrap: pretty;
 }
 
 /* Label - Metadata and utility text
@@ -743,6 +754,8 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-tertiary);
+  text-wrap: balance;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Caption - Supplementary text
@@ -754,6 +767,7 @@ body {
   font-weight: 400;
   line-height: 1.5;
   color: var(--text-tertiary);
+  text-wrap: pretty;
 }
 
 /* Meta - Compact auxiliary labels
@@ -766,6 +780,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-quaternary);
+  font-variant-numeric: tabular-nums;
 }
 
 /* Code label - Mono uppercase utility label
@@ -790,6 +805,7 @@ body {
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--text-primary);
+  text-wrap: balance;
 }
 
 /* Code - JetBrains Mono for all code elements */

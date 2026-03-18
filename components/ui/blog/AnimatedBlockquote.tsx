@@ -135,11 +135,13 @@ export function AnimatedBlockquote({
       role="blockquote"
       className={cn("not-prose relative my-10 rounded-lg px-5 py-4", className)}
       style={{
-        border: `1px solid ${config ? config.borderColor : "color-mix(in oklch, var(--foreground) 10%, transparent)"}`,
+        borderTop: `1px solid ${config ? config.borderColor : "color-mix(in oklch, var(--foreground) 8%, transparent)"}`,
+        borderRight: `1px solid ${config ? config.borderColor : "color-mix(in oklch, var(--foreground) 8%, transparent)"}`,
+        borderBottom: `1px solid ${config ? config.borderColor : "color-mix(in oklch, var(--foreground) 8%, transparent)"}`,
+        borderLeft: `3px solid ${config ? config.iconColor : "color-mix(in oklch, var(--foreground) 22%, transparent)"}`,
         background: config
           ? config.bgColor
           : "color-mix(in oklch, var(--foreground) 2%, transparent)",
-        borderLeft: undefined,
       }}
       initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}

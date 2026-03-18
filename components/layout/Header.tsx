@@ -23,6 +23,7 @@ import {
 	Sun01Icon,
 } from "@hugeicons/core-free-icons";
 import { useFeature } from "@/lib/features";
+import { springSnappy } from "@/lib/motion-variants";
 
 /* ─────────────────────────────────────────────────────────────────────────
  * Per-icon animation personalities
@@ -41,6 +42,8 @@ const BASE_LINKS = [
 	{ text: "Blog", url: "/blog", icon: News01Icon, animation: "tilt" as NavAnimation },
 	{ text: "Experiments", url: "/experiments", icon: TestTube01Icon, animation: "shake" as NavAnimation },
 ];
+
+const MotionLink = motion.create(Link);
 
 /* ─────────────────────────────────────────────────────────────────────────
  * NavLink — individual link with icon hover animation
@@ -100,12 +103,12 @@ function NavLink({
 	const [hovered, setHovered] = useState(false);
 
 	return (
-		<Link
+		<MotionLink
 			href={href}
 			aria-current={isActive ? "page" : undefined}
 			aria-label={text}
 			className={cn(
-				"relative flex items-center justify-center h-8 rounded-full",
+				"relative flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full",
 				"transition-colors duration-150",
 				isActive
 					? "text-foreground"
@@ -113,6 +116,8 @@ function NavLink({
 			)}
 			onMouseEnter={() => { setHovered(true); handleMouseEnter(); }}
 			onMouseLeave={() => { setHovered(false); handleMouseLeave(); }}
+			whileTap={prefersReducedMotion ? {} : { scale: 0.96 }}
+			transition={springSnappy}
 		>
 			<motion.span
 				ref={scope}
@@ -139,7 +144,19 @@ function NavLink({
 					</motion.span>
 				)}
 			</AnimatePresence>
-		</Link>
+			<AnimatePresence initial={false}>
+				{isActive && (
+					<motion.span
+						key="active-dot"
+						className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-[3px] h-[3px] rounded-full bg-foreground/60"
+						initial={prefersReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+						animate={{ opacity: 1, scale: 1 }}
+						exit={prefersReducedMotion ? {} : { opacity: 0, scale: 0 }}
+						transition={springSnappy}
+					/>
+				)}
+			</AnimatePresence>
+		</MotionLink>
 	);
 }
 
@@ -186,22 +203,24 @@ function ThemeToggleButton({
 		);
 	};
 
-	if (!mounted) return <div className="w-8 h-8" />;
+	if (!mounted) return <div className="min-w-[40px] min-h-[40px]" />;
 
 	return (
-		<button
+		<motion.button
 			onClick={onToggle}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 			type="button"
 			className={cn(
-				"relative flex items-center justify-center w-8 h-8 rounded-full",
+				"relative flex items-center justify-center min-w-[40px] min-h-[40px] rounded-full",
 				"text-foreground/50 transition-colors duration-150 cursor-pointer",
 				"hover:text-foreground",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-1 focus-visible:ring-offset-background"
 			)}
 			aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
 			title={`Switch to ${isDark ? "light" : "dark"} mode`}
+			whileTap={prefersReducedMotion ? {} : { scale: 0.96 }}
+			transition={springSnappy}
 		>
 			{/* Outer wrapper handles hover rotation; inner AnimatePresence handles theme swap */}
 			<motion.span
@@ -213,10 +232,10 @@ function ThemeToggleButton({
 					{isDark ? (
 						<motion.span
 							key="sun"
-							initial={{ opacity: 0, filter: "blur(4px)", scale: 0.8 }}
+							initial={{ opacity: 0, filter: "blur(4px)", scale: 0.25 }}
 							animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-							exit={{ opacity: 0, filter: "blur(4px)", scale: 0.8 }}
-							transition={{ duration: 0.18, ease: "easeInOut" }}
+							exit={{ opacity: 0, filter: "blur(4px)", scale: 0.25 }}
+							transition={{ type: "spring", duration: 0.3, bounce: 0 }}
 							className="flex items-center justify-center"
 						>
 							<HugeiconsIcon icon={Sun01Icon} size={15} strokeWidth={2} aria-hidden="true" />
@@ -224,10 +243,10 @@ function ThemeToggleButton({
 					) : (
 						<motion.span
 							key="moon"
-							initial={{ opacity: 0, filter: "blur(4px)", scale: 0.8 }}
+							initial={{ opacity: 0, filter: "blur(4px)", scale: 0.25 }}
 							animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-							exit={{ opacity: 0, filter: "blur(4px)", scale: 0.8 }}
-							transition={{ duration: 0.18, ease: "easeInOut" }}
+							exit={{ opacity: 0, filter: "blur(4px)", scale: 0.25 }}
+							transition={{ type: "spring", duration: 0.3, bounce: 0 }}
 							className="flex items-center justify-center"
 						>
 							<HugeiconsIcon icon={Moon02Icon} size={15} strokeWidth={2} aria-hidden="true" />
@@ -235,7 +254,7 @@ function ThemeToggleButton({
 					)}
 				</AnimatePresence>
 			</motion.span>
-		</button>
+		</motion.button>
 	);
 }
 

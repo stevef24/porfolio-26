@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import TabVisibility from "@/components/landing/TabVisibility";
 import { SwissGridBackground } from "@/components/ui/SwissGridBackground";
 import { Agentation } from "agentation";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 // Primary body font - Inter for exceptional readability
@@ -129,6 +130,7 @@ export default function RootLayout({
           <SwissGridBackground />
           {children}
           {process.env.NODE_ENV === "development" && <Agentation />}
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

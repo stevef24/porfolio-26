@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { springSnappy } from "@/lib/motion-variants";
 
 interface AccentLineProps {
   className?: string;
@@ -15,15 +16,16 @@ export function AccentLine({
   const shouldReduceMotion = useReducedMotion();
 
   if (shouldReduceMotion) {
-    return <div className={cn("h-[1px] w-12 bg-primary", className)} />;
+    return <div className={cn("h-[1px] w-8 bg-primary", className)} />;
   }
 
   return (
     <motion.div
-      className={cn("h-[1px] w-12 bg-primary", className)}
-      initial={{ scaleX: 0, originX: 0 }}
+      className={cn("h-[1px] w-8 bg-primary", className)}
+      style={{ transformOrigin: "0% 50%" }}
+      initial={{ scaleX: 0 }}
       animate={{ scaleX: 1 }}
-      transition={{ delay, duration: 0.4, ease: "easeOut" }}
+      transition={{ ...springSnappy, delay }}
     />
   );
 }

@@ -24,6 +24,7 @@
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.93.3",
     "@tailwindcss/typography": "^0.5.19",
+    "@vercel/analytics": "^2.0.1",
     "agentation": "^2.2.1",
     "animejs": "^4.3.6",
     "class-variance-authority": "^0.7.1",

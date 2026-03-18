@@ -205,10 +205,10 @@ export function MidCard({
 					<motion.div
 						layoutId="midcard-hover-bg"
 						className="absolute inset-0 rounded-[6px]"
-						style={{ backgroundColor: "var(--sf-bg-subtle)" }}
+						style={{ backgroundColor: "var(--sf-bg-subtle)", boxShadow: "var(--card-hover-shadow)" }}
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
+						exit={{ opacity: 0, y: 2 }}
 						transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
 					/>
 				)}
@@ -218,13 +218,13 @@ export function MidCard({
 			<Link
 				href={href}
 				className={cn(
-					"group flex items-center gap-4 py-4 px-4",
+					"group flex items-start gap-4 py-4 px-4",
 					"rounded-[6px] relative z-10",
 					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
 				)}
 			>
 				{/* ── Animated mesh-gradient thumbnail ── */}
-				<div className="post-thumbnail-gradient flex-shrink-0 relative w-[88px] h-[88px] rounded-[10px] overflow-hidden">
+				<div className="post-thumbnail-gradient flex-shrink-0 relative w-[88px] h-[88px] rounded-sm overflow-hidden" style={{ boxShadow: "inset 0 0 0 1px var(--thumbnail-inset-border)" }}>
 					{/* Static fallback (SSR / pre-mount) */}
 					{!mounted && (
 						<div className="absolute inset-0" style={{ background: fallback }} />
@@ -269,7 +269,7 @@ export function MidCard({
 				</div>
 
 				{/* ── Text + arrow ── */}
-				<article className="flex-1 min-w-0 flex items-center justify-between gap-4">
+				<article className="flex-1 min-w-0 flex items-start justify-between gap-4">
 					<div className="flex-1 min-w-0">
 						<ViewTransition name={`blog-title-${slug}`}>
 							<h3

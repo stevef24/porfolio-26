@@ -64,7 +64,7 @@ export default function Home({ posts }: HomeProps): JSX.Element {
         <BlurFade delay={0}>
           <div className="mb-12">
             <h2
-              className="text-foreground text-swiss-body font-medium mb-0.5"
+              className="text-swiss-title text-foreground mb-1"
               id="home-hero-heading"
             >
               Stav Fernandes

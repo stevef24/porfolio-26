@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { motion, useReducedMotion } from "motion/react";
+import { springSnappy } from "@/lib/motion-variants";
 import BlurFade from "@/components/shared/BlurFade";
 import LinkedinIcon from "@/components/ui/linkedin-icon";
 import YoutubeIcon from "@/components/ui/youtube-icon";
@@ -22,7 +26,10 @@ const socials = [
 	},
 ];
 
+const MotionLink = motion.create(Link);
+
 export default function Contact(): JSX.Element {
+	const prefersReducedMotion = useReducedMotion();
 	// Construct email using obfuscation to prevent scraping
 	const emailHref = "mailto:stevefernandes2410@gmail.com";
 
@@ -40,16 +47,18 @@ export default function Contact(): JSX.Element {
 			</p>
 			<div className="flex items-center gap-2">
 				{socials.map((social) => (
-					<Link
+					<MotionLink
 						key={social.name}
 						href={social.url}
 						target="_blank"
 						rel="noopener noreferrer"
 						aria-label={social.name}
-						className="p-2 text-foreground/40 hover:text-foreground/70 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
+						className="p-3 text-foreground/40 hover:text-foreground/70 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
+						whileTap={prefersReducedMotion ? {} : { scale: 0.96 }}
+						transition={springSnappy}
 					>
 						<social.Icon size={18} strokeWidth={1.5} aria-hidden="true" />
-					</Link>
+					</MotionLink>
 				))}
 			</div>
 		</BlurFade>

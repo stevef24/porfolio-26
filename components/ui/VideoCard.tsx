@@ -44,10 +44,10 @@ export function VideoCard({
 					<motion.div
 						layoutId="videocard-hover-bg"
 						className="absolute inset-0 rounded-[6px]"
-						style={{ backgroundColor: "var(--sf-bg-subtle)" }}
+						style={{ backgroundColor: "var(--sf-bg-subtle)", boxShadow: "var(--card-hover-shadow)" }}
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
+						exit={{ opacity: 0, y: 2 }}
 						transition={prefersReducedMotion ? { duration: 0 } : springSmooth}
 					/>
 				)}

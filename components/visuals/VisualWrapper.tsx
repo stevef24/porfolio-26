@@ -5,7 +5,7 @@ import { motion, MotionConfig, useReducedMotion } from "motion/react";
 import { springSmooth } from "@/lib/motion-variants";
 import type { CSSProperties } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ReloadIcon } from "@hugeicons/core-free-icons";
+import { ReplayIcon } from "@hugeicons/core-free-icons";
 
 /**
  * Tone map — keep it minimal. Only blue/red/green carry semantic meaning.
@@ -74,7 +74,7 @@ export function VisualWrapper({
             title="Replay"
             className={cn(
               "absolute right-3 top-3 z-20",
-              "flex items-center justify-center w-7 h-7",
+              "flex items-center justify-center w-7 h-7 after:absolute after:top-1/2 after:left-1/2 after:w-[40px] after:h-[40px] after:-translate-x-1/2 after:-translate-y-1/2",
               "rounded",
               "transition-colors duration-150",
               "cursor-pointer",
@@ -88,7 +88,7 @@ export function VisualWrapper({
             transition={{ duration: 0.2 }}
           >
             <HugeiconsIcon
-              icon={ReloadIcon}
+              icon={ReplayIcon}
               size={14}
               strokeWidth={1.5}
               aria-hidden="true"
