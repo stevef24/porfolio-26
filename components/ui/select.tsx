@@ -101,6 +101,7 @@ function SelectContent({
           "data-[side=bottom]:slide-in-from-top-2",
           "data-[side=top]:slide-in-from-bottom-2",
           "duration-150",
+          "origin-(--radix-select-content-transform-origin)",
           position === "popper" && "data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1",
           className
         )}

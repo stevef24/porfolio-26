@@ -20,10 +20,10 @@ export default function BlurFade({
   className,
   duration = 0.4,
   delay = 0,
-  blur = "6px",
+  blur = "4px",
   yOffset = 6,
   inView = false,
-  inViewMargin = "-50px",
+  inViewMargin = "-100px",
 }: BlurFadeProps): JSX.Element {
   const ref = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);

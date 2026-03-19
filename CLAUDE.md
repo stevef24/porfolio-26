@@ -69,13 +69,13 @@ import { springGentle, springBouncy } from "@/lib/motion-variants";
 ### Styling Conventions
 
 - **Typography Classes** (hierarchy order):
-  - `text-swiss-hero` - Large display headings (Playfair, 44-64px)
+  - `text-swiss-hero` - Large display headings (Instrument Serif, 44-64px)
   - `text-swiss-subheading` - Section titles (uppercase, 11px, foreground color, 600 weight)
-  - `text-swiss-title` - Card/article titles (Playfair, 24px)
+  - `text-swiss-title` - Card/article titles (Instrument Serif, 24px)
   - `text-swiss-body` - Body paragraphs (16px, muted-foreground, 1.7 line-height)
   - `text-swiss-label` - Metadata/utility text (uppercase, 11px, muted)
   - `text-swiss-caption` - Supplementary text (13px, muted)
-- **Fonts**: Playfair Display (display), Geist (body/subheadings)
+- **Fonts**: Instrument Serif (display), Inter (body/subheadings)
 - **Grid**: 64px baseline mathematical grid
 - **Colors**: OKLCH color space (see `globals.css`)
 - **Corners**: Minimal rounding (0-2px)

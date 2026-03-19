@@ -63,6 +63,7 @@ function DropdownMenuContent({
           "data-[side=right]:slide-in-from-left-2",
           "data-[side=top]:slide-in-from-bottom-2",
           "duration-150",
+          "origin-(--radix-dropdown-menu-content-transform-origin)",
           className
         )}
         {...props}
@@ -312,6 +313,7 @@ function DropdownMenuSubContent({
         "data-[side=right]:slide-in-from-left-2",
         "data-[side=top]:slide-in-from-bottom-2",
         "duration-150",
+        "origin-(--radix-dropdown-menu-content-transform-origin)",
         className
       )}
       {...props}

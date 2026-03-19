@@ -252,7 +252,7 @@ export function MidCard({
 
 					{/* Hover shimmer */}
 					<div
-						className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+						className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
 						style={{
 							background:
 								"radial-gradient(circle at 28% 28%, rgba(255,255,255,0.3) 0%, transparent 60%)",

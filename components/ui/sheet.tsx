@@ -63,7 +63,7 @@ function SheetContent({
         className={cn(
           "bg-background fixed z-50 flex flex-col bg-clip-padding text-base/relaxed",
           "shadow-xl dark:shadow-none",
-          "transition duration-200 ease-in-out overscroll-contain",
+          "data-[state=open]:duration-250 data-[state=closed]:duration-150 data-[state=open]:ease-out data-[state=closed]:ease-in overscroll-contain",
           // Animation
           "data-open:animate-in data-closed:animate-out",
           "data-closed:fade-out-0 data-open:fade-in-0",

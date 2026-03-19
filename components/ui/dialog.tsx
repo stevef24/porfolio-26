@@ -45,7 +45,7 @@ function DialogOverlay({
         // Animation
         "data-[state=open]:animate-in data-[state=closed]:animate-out",
         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-        "duration-200",
+        "data-[state=open]:duration-250 data-[state=closed]:duration-150",
         className
       )}
       {...props}
@@ -73,14 +73,14 @@ function DialogContent({
           "p-6", // 24px padding
           // Styling
           "bg-card",
-          "rounded-[16px]",
+          "rounded-[12px]",
           "border border-border",
           "shadow-2xl dark:shadow-none",
           // Animation
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-          "duration-200",
+          "data-[state=open]:duration-250 data-[state=closed]:duration-150",
           className
         )}
         {...props}

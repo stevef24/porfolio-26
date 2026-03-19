@@ -553,9 +553,15 @@ button,
   textarea {
     transition-property:
       color, background-color, border-color, opacity, box-shadow,
-      text-decoration-color;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration-color, transform;
+    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
     transition-duration: 200ms;
+  }
+
+  /* Press feedback — buttons must feel responsive */
+  button:active:not(:disabled),
+  [role="button"]:active:not(:disabled) {
+    transform: scale(0.97);
   }
 
   /* Respect reduced motion preferences */
@@ -2352,7 +2358,7 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
   inset: 0;
   border-radius: inherit;
   opacity: 0;
-  transition: opacity 250ms ease-out;
+  transition: opacity 180ms ease-out;
   pointer-events: none;
   z-index: -1;
 
@@ -2360,8 +2366,10 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
   background: linear-gradient(100deg, transparent 0%, oklch(0 0 0 / 0.06) 100%);
 }
 
-.hover-gradient:hover::before {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  .hover-gradient:hover::before {
+    opacity: 1;
+  }
 }
 
 /* Dark mode: monochrome sweep */
@@ -2404,7 +2412,7 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
   inset: 0;
   border-radius: inherit;
   opacity: 0;
-  transition: opacity 280ms ease-out;
+  transition: opacity 180ms ease-out;
   pointer-events: none;
   z-index: -1;
 
@@ -2419,8 +2427,10 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
   );
 }
 
-.hover-gradient-card:hover::before {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  .hover-gradient-card:hover::before {
+    opacity: 1;
+  }
 }
 
 /* Dark mode: monochrome charcoal gradient */
@@ -2455,8 +2465,10 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
   background: linear-gradient(100deg, transparent 0%, oklch(0 0 0 / 0.06) 100%);
 }
 
-.hover-gradient-nav:hover::before {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  .hover-gradient-nav:hover::before {
+    opacity: 1;
+  }
 }
 
 .dark .hover-gradient-nav::before {
@@ -2484,12 +2496,14 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
   transition: background-color 150ms ease;
 }
 
-.hover-surface:hover {
-  background-color: oklch(0 0 0 / 0.04);
-}
+@media (hover: hover) and (pointer: fine) {
+  .hover-surface:hover {
+    background-color: oklch(0 0 0 / 0.04);
+  }
 
-.dark .hover-surface:hover {
-  background-color: oklch(1 0 0 / 0.04);
+  .dark .hover-surface:hover {
+    background-color: oklch(1 0 0 / 0.04);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2543,16 +2557,16 @@ figure.shiki button[aria-label="Copy Text"]:focus-visible {
 
 /* Shared element morph geometry timing */
 ::view-transition-group(*) {
-  animation-duration: 420ms;
-  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Shared element cross-fade timing — only duration/easing, NOT animation-name
    so the browser's built-in geometry morph is preserved */
 ::view-transition-old(*),
 ::view-transition-new(*) {
-  animation-duration: 420ms;
-  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Root page content: quick fade out / in */
