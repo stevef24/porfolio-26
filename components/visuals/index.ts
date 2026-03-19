@@ -1,3 +1,4 @@
+export { AgentLoopComparison } from "./AgentLoopComparison";
 export { ContextBudgetBucket } from "./ContextBudgetBucket";
 export { ContextCompositionStack } from "./ContextCompositionStack";
 export { PlanClearExecuteFlow } from "./PlanClearExecuteFlow";
@@ -12,4 +13,6 @@ export { ContextTrimComparison } from "./ContextTrimComparison";
 export { PermissionsSafetyLadder } from "./PermissionsSafetyLadder";
 export { SessionMemoryNote } from "./SessionMemoryNote";
 export { CodexStarterPack } from "./CodexStarterPack";
+export { ContextFilterDiagram } from "./ContextFilterDiagram";
+export { StopReasonComparison } from "./StopReasonComparison";
 export { VisualWrapper } from "./VisualWrapper";

@@ -34,6 +34,10 @@ import { CodexOrchestrationLoop } from "@/components/visuals/CodexOrchestrationL
 import { ReasoningComplexityChart } from "@/components/visuals/ReasoningComplexityChart";
 import { CodexStarterPack } from "@/components/visuals/CodexStarterPack";
 import { Annotate } from "@/components/blog/Annotate";
+import { AgentLoopComparison } from "@/components/visuals/AgentLoopComparison";
+import { ContextFilterDiagram } from "@/components/visuals/ContextFilterDiagram";
+import { StopReasonComparison } from "@/components/visuals/StopReasonComparison";
+import { RuntimeSystem } from "@/components/visuals/RuntimeSystem";
 import { cn } from "@/lib/utils";
 
 // Swiss-style minimal heading component without link icons
@@ -298,6 +302,10 @@ const customComponents = {
 	ReasoningComplexityChart,
 	CodexStarterPack,
 	Annotate,
+	AgentLoopComparison,
+	ContextFilterDiagram,
+	StopReasonComparison,
+	RuntimeSystem,
 };
 
 // Cast to MDXComponents to satisfy fumadocs MDX component typing

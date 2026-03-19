@@ -38,6 +38,11 @@ interface VisualWrapperProps {
   showCaption?: boolean;
   onReplay?: () => void;
   showReplay?: boolean;
+  toggle?: {
+    options: [string, string];
+    value: number;
+    onChange: (index: number) => void;
+  };
 }
 
 export function VisualWrapper({
@@ -48,6 +53,7 @@ export function VisualWrapper({
   showCaption = true,
   onReplay,
   showReplay,
+  toggle,
 }: VisualWrapperProps) {
   const prefersReducedMotion = useReducedMotion();
 
@@ -67,7 +73,7 @@ export function VisualWrapper({
         role="img"
         aria-label={label}
       >
-        {onReplay && showReplay && (
+        {onReplay && showReplay && !toggle && (
           <motion.button
             onClick={onReplay}
             aria-label="Replay animation"
@@ -94,6 +100,41 @@ export function VisualWrapper({
               aria-hidden="true"
             />
           </motion.button>
+        )}
+        {toggle && (
+          <div
+            className="absolute right-3 top-3 z-20 flex gap-0 rounded"
+            data-va-panel
+            style={{ backgroundColor: "var(--sf-bg-subtle)" }}
+          >
+            {toggle.options.map((opt, i) => (
+              <button
+                key={opt}
+                onClick={() => toggle.onChange(i)}
+                className={cn(
+                  "px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider",
+                  "cursor-pointer transition-colors duration-150",
+                  "relative",
+                )}
+                style={{
+                  color:
+                    toggle.value === i
+                      ? "var(--va-accent)"
+                      : "var(--sf-text-tertiary)",
+                }}
+              >
+                {opt}
+                {toggle.value === i && (
+                  <motion.span
+                    layoutId="va-toggle-indicator"
+                    className="absolute inset-x-1 -bottom-px h-px"
+                    style={{ backgroundColor: "var(--va-accent)" }}
+                    transition={{ type: "spring", visualDuration: 0.25, bounce: 0.1 }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
         )}
         <div className="relative z-10">{children}</div>
         {label && showCaption && (
