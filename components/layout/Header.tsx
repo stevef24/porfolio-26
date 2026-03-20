@@ -45,7 +45,7 @@ import {
 	News01Icon,
 	TestTube01Icon,
 	CourseIcon,
-	MoonEclipseIcon,
+	Moon02Icon,
 	Sun02Icon,
 } from "@hugeicons/core-free-icons";
 import { useFeature } from "@/lib/features";
@@ -268,7 +268,7 @@ function ThemeToggleButton({
 							className="flex items-center justify-center"
 						>
 							<HugeiconsIcon
-								icon={MoonEclipseIcon}
+								icon={Moon02Icon}
 								size={14}
 								strokeWidth={1.5}
 								aria-hidden="true"
