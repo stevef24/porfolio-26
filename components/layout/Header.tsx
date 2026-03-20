@@ -1,5 +1,31 @@
 "use client";
 
+/* ─────────────────────────────────────────────────────────────────────────
+ * ANIMATION STORYBOARD — Bottom Dock (C1 Terminal)
+ *
+ * Entrance (scroll up — show):
+ *    0ms   Dock rises as single unit
+ *          translateY(16px → 0), opacity(0 → 1), blur(4px → 0)
+ *          280ms, ease-out: cubic-bezier(0.23, 1, 0.32, 1)
+ *
+ * Exit (scroll down — hide):
+ *    0ms   Fast dissolve, all items leave together
+ *          translateY(0 → 16px), opacity(1 → 0), blur(0 → 4px)
+ *          180ms, ease-out-fast: cubic-bezier(0.4, 0, 0.2, 1)
+ *
+ * Active state transition:
+ *    0ms   Color-only: icon + label brighten/dim
+ *          180ms, ease-out. No background chip, no border.
+ *
+ * Per-icon hover (desktop only):
+ *  home    bounce: translateY(-2px) scale(1.12), 320ms spring
+ *  blog    tilt: rotate(-8° → 8° → 0), 350ms ease-out
+ *  lab     shake: rotate(-10° → 8° → -4° → 0) + scale, 400ms ease-out
+ *  theme   spin: rotate(0 → 45°), 450ms spring  |  rock: pendulum
+ *
+ * Reduced motion: no transforms, instant transitions
+ * ───────────────────────────────────────────────────────────────────────── */
+
 import { useEffect, useState, useRef } from "react";
 import {
 	motion,
@@ -19,34 +45,48 @@ import {
 	News01Icon,
 	TestTube01Icon,
 	CourseIcon,
-	Moon02Icon,
-	Sun01Icon,
+	MoonEclipseIcon,
+	Sun02Icon,
 } from "@hugeicons/core-free-icons";
 import { useFeature } from "@/lib/features";
-import { springSnappy } from "@/lib/motion-variants";
 
-/* ─────────────────────────────────────────────────────────────────────────
- * Per-icon animation personalities
- *
- *  bounce  → Home:        quick upward pop + scale (friendly, inviting)
- *  tilt    → Blog/Course: wobble left-right (like flipping a page)
- *  shake   → Experiments: test-tube shake (excited, lab-energy)
- *  spin    → Sun (dark):  quarter clockwise spin (sun rotating)
- *  rock    → Moon (light): pendulum rock (moon swaying)
- * ───────────────────────────────────────────────────────────────────────── */
+/* ── Animation constants ─────────────────────────────────────────────── */
+const EASE_OUT = [0.23, 1, 0.32, 1] as const;
+const EASE_OUT_FAST = [0.4, 0, 0.2, 1] as const;
+const SPRING_BOUNCY = { type: "spring" as const, duration: 0.32, bounce: 0.35 };
+const SCROLL_THRESHOLD = 80;
+
+/* ── Timing ──────────────────────────────────────────────────────────── */
+const ENTER_DURATION = 0.28;
+const EXIT_DURATION = 0.18;
+const COLOR_DURATION = 0.18;
+
+/* ── Dock color tokens — CSS variables adapt to light/dark automatically */
+const DOCK = {
+	surface: "var(--dock-surface)",
+	border: "var(--dock-border)",
+	shadow: "var(--dock-shadow)",
+	iconActive: "var(--dock-icon-active)",
+	iconInactive: "var(--dock-icon-inactive)",
+	iconHover: "var(--dock-icon-hover)",
+	labelActive: "var(--dock-label-active)",
+	labelInactive: "var(--dock-label-inactive)",
+} as const;
+
+/* ── Nav animation types ─────────────────────────────────────────────── */
 type NavAnimation = "bounce" | "tilt" | "shake";
 
 const BASE_LINKS = [
 	{ text: "Home", url: "/", icon: Home01Icon, animation: "bounce" as NavAnimation },
 	{ text: "Courses", url: "/courses", icon: CourseIcon, animation: "tilt" as NavAnimation },
 	{ text: "Blog", url: "/blog", icon: News01Icon, animation: "tilt" as NavAnimation },
-	{ text: "Experiments", url: "/experiments", icon: TestTube01Icon, animation: "shake" as NavAnimation },
+	{ text: "Lab", url: "/experiments", icon: TestTube01Icon, animation: "shake" as NavAnimation },
 ];
 
 const MotionLink = motion.create(Link);
 
 /* ─────────────────────────────────────────────────────────────────────────
- * NavLink — individual link with icon hover animation
+ * NavLink — individual dock item with color-only active state
  * ───────────────────────────────────────────────────────────────────────── */
 function NavLink({
 	href,
@@ -70,29 +110,29 @@ function NavLink({
 			case "bounce":
 				animate(
 					scope.current,
-					{ y: [0, -4, 0], scale: [1, 1.2, 1] },
+					{ y: [0, -2, 0], scale: [1, 1.12, 1] },
 					{ duration: 0.32, ease: "easeOut" }
 				);
 				break;
 			case "tilt":
 				animate(
 					scope.current,
-					{ rotate: [0, -12, 12, 0] },
-					{ duration: 0.4, ease: "easeInOut" }
+					{ rotate: [0, -8, 8, 0] },
+					{ duration: 0.35, ease: "easeOut" }
 				);
 				break;
 			case "shake":
 				animate(
 					scope.current,
-					{ rotate: [0, -15, 15, -10, 10, 0] },
-					{ duration: 0.5, ease: "easeInOut" }
+					{ rotate: [0, -10, 8, -4, 0], scale: [1, 1.08, 1.05, 1, 1] },
+					{ duration: 0.4, ease: "easeOut" }
 				);
 				break;
 		}
 	};
 
-	const handleMouseLeave = () => {
-		if (prefersReducedMotion || !scope.current) return;
+	const resetTransform = () => {
+		if (!scope.current) return;
 		animate(
 			scope.current,
 			{ y: 0, rotate: 0, scale: 1 },
@@ -100,68 +140,51 @@ function NavLink({
 		);
 	};
 
-	const [hovered, setHovered] = useState(false);
-
 	return (
 		<MotionLink
 			href={href}
 			aria-current={isActive ? "page" : undefined}
 			aria-label={text}
-			className={cn(
-				"relative flex items-center justify-center min-h-[40px] min-w-[40px] rounded-full",
-				"transition-colors duration-150",
-				isActive
-					? "text-foreground"
-					: "text-foreground/50 hover:text-foreground"
-			)}
-			onMouseEnter={() => { setHovered(true); handleMouseEnter(); }}
-			onMouseLeave={() => { setHovered(false); handleMouseLeave(); }}
-			whileTap={prefersReducedMotion ? {} : { scale: 0.96 }}
-			transition={springSnappy}
+			className="relative flex items-center gap-1.5 px-3.5 py-2 rounded-[4px] outline-none"
+			style={{
+				transition: `color ${COLOR_DURATION * 1000}ms cubic-bezier(${EASE_OUT.join(",")})`,
+			}}
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={resetTransform}
+			onClick={resetTransform}
 		>
 			<motion.span
 				ref={scope}
-				className="inline-flex items-center justify-center w-8 h-8"
+				className="inline-flex items-center justify-center"
 				style={{ transformOrigin: "center" }}
 			>
 				<HugeiconsIcon
 					icon={icon}
-					size={16}
-					strokeWidth={isActive ? 2.5 : 2}
+					size={14}
+					strokeWidth={1.5}
 					aria-hidden="true"
+					style={{
+						color: isActive ? DOCK.iconActive : DOCK.iconInactive,
+						transition: `color ${COLOR_DURATION * 1000}ms cubic-bezier(${EASE_OUT.join(",")})`,
+					}}
 				/>
 			</motion.span>
-			<AnimatePresence>
-				{hovered && (
-					<motion.span
-						initial={{ opacity: 0, y: 6 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: 4 }}
-						transition={{ duration: 0.15, ease: "easeOut" }}
-						className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-md bg-foreground text-background text-[10px] font-medium whitespace-nowrap pointer-events-none"
-					>
-						{text}
-					</motion.span>
-				)}
-			</AnimatePresence>
-			<AnimatePresence initial={false}>
-				{isActive && (
-					<motion.span
-						key="active-dot"
-						className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-[3px] h-[3px] rounded-full bg-foreground/60"
-						initial={prefersReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-						animate={{ opacity: 1, scale: 1 }}
-						exit={prefersReducedMotion ? {} : { opacity: 0, scale: 0 }}
-						transition={springSnappy}
-					/>
-				)}
-			</AnimatePresence>
+			<span
+				className="font-mono text-[10.5px] font-medium uppercase tracking-[0.06em] leading-none"
+				style={{
+					color: isActive ? DOCK.labelActive : DOCK.labelInactive,
+					transition: `color ${COLOR_DURATION * 1000}ms cubic-bezier(${EASE_OUT.join(",")})`,
+				}}
+				aria-hidden="true"
+			>
+				{text}
+			</span>
 		</MotionLink>
 	);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
- * ThemeToggleButton — hover spin (sun) or rock (moon) + existing blur swap
+ * ThemeToggleButton — spin (sun) or rock (moon)
  * ───────────────────────────────────────────────────────────────────────── */
 function ThemeToggleButton({
 	isDark,
@@ -178,14 +201,12 @@ function ThemeToggleButton({
 	const handleMouseEnter = () => {
 		if (prefersReducedMotion || !scope.current) return;
 		if (isDark) {
-			// Sun: spin clockwise — hints "switching to daytime"
 			animate(
 				scope.current,
 				{ rotate: 45 },
-				{ duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }
+				{ duration: 0.45, ease: [0.34, 1.56, 0.64, 1] }
 			);
 		} else {
-			// Moon: gentle pendulum rock
 			animate(
 				scope.current,
 				{ rotate: [0, -20, 5, 0] },
@@ -211,18 +232,9 @@ function ThemeToggleButton({
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 			type="button"
-			className={cn(
-				"relative flex items-center justify-center min-w-[40px] min-h-[40px] rounded-full",
-				"text-foreground/50 transition-colors duration-150 cursor-pointer",
-				"hover:text-foreground",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/35 focus-visible:ring-offset-1 focus-visible:ring-offset-background"
-			)}
+			className="relative flex items-center justify-center px-2.5 py-2 rounded-[4px] cursor-pointer outline-none will-change-transform"
 			aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-			title={`Switch to ${isDark ? "light" : "dark"} mode`}
-			whileTap={prefersReducedMotion ? {} : { scale: 0.96 }}
-			transition={springSnappy}
 		>
-			{/* Outer wrapper handles hover rotation; inner AnimatePresence handles theme swap */}
 			<motion.span
 				ref={scope}
 				className="inline-flex items-center justify-center"
@@ -238,7 +250,13 @@ function ThemeToggleButton({
 							transition={{ type: "spring", duration: 0.3, bounce: 0 }}
 							className="flex items-center justify-center"
 						>
-							<HugeiconsIcon icon={Sun01Icon} size={15} strokeWidth={2} aria-hidden="true" />
+							<HugeiconsIcon
+								icon={Sun02Icon}
+								size={14}
+								strokeWidth={1.5}
+								aria-hidden="true"
+								style={{ color: DOCK.iconInactive }}
+							/>
 						</motion.span>
 					) : (
 						<motion.span
@@ -249,7 +267,13 @@ function ThemeToggleButton({
 							transition={{ type: "spring", duration: 0.3, bounce: 0 }}
 							className="flex items-center justify-center"
 						>
-							<HugeiconsIcon icon={Moon02Icon} size={15} strokeWidth={2} aria-hidden="true" />
+							<HugeiconsIcon
+								icon={MoonEclipseIcon}
+								size={14}
+								strokeWidth={1.5}
+								aria-hidden="true"
+								style={{ color: DOCK.iconInactive }}
+							/>
 						</motion.span>
 					)}
 				</AnimatePresence>
@@ -259,7 +283,7 @@ function ThemeToggleButton({
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
- * Header
+ * Header — iOS-style dock, flush to bottom, glassmorphic
  * ───────────────────────────────────────────────────────────────────────── */
 export function Header() {
 	const { scrollY } = useScroll();
@@ -271,6 +295,7 @@ export function Header() {
 	const shouldReduceMotion = useReducedMotion();
 	const coursesEnabled = useFeature("courses");
 	const experimentsEnabled = useFeature("experiments");
+
 	const links = BASE_LINKS.filter((link) => {
 		if (link.url === "/courses" && !coursesEnabled) return false;
 		if (link.url === "/experiments" && !experimentsEnabled) return false;
@@ -279,27 +304,30 @@ export function Header() {
 
 	const isDark = mounted ? resolvedTheme === "dark" : false;
 
-	/* Hide navbar entirely on experiment detail pages (back arrow provides nav) */
+	/* Hide navbar on experiment detail pages */
 	const isExperimentDetail =
 		pathname.startsWith("/experiments/") && pathname !== "/experiments";
 	const shouldShow = isExperimentDetail ? false : isVisible;
 
-	const toggleTheme = () => {
-		setTheme(isDark ? "light" : "dark");
-	};
+	const toggleTheme = () => setTheme(isDark ? "light" : "dark");
 
-	useEffect(() => {
-		setMounted(true);
-	}, []);
+	useEffect(() => { setMounted(true); }, []);
 
+	/* Scroll-based show/hide — intent-based */
 	useMotionValueEvent(scrollY, "change", (latest) => {
 		if (shouldReduceMotion) return;
 		const previous = lastScrollY.current;
-		const direction = latest > previous ? "down" : "up";
 
-		if (direction === "down" && latest > 100) {
+		// Always show at top of page
+		if (latest <= SCROLL_THRESHOLD) {
+			setIsVisible(true);
+			lastScrollY.current = latest;
+			return;
+		}
+
+		if (latest > previous) {
 			setIsVisible(false);
-		} else if (direction === "up") {
+		} else if (latest < previous) {
 			setIsVisible(true);
 		}
 
@@ -308,12 +336,16 @@ export function Header() {
 
 	return (
 		<motion.header
-			className="fixed bottom-11 left-0 right-0 z-50 flex justify-center px-4"
-			initial={{ y: 0, opacity: 1, scale: 1, filter: "blur(0px)" }}
+			role="navigation"
+			aria-label="Main navigation"
+			className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-4"
+			style={{
+				paddingBottom: "max(12px, env(safe-area-inset-bottom, 12px))",
+			}}
+			initial={{ y: 0, opacity: 1, filter: "blur(0px)" }}
 			animate={{
-				y: shouldReduceMotion ? 0 : shouldShow ? 0 : 80,
+				y: shouldReduceMotion ? 0 : shouldShow ? 0 : 16,
 				opacity: shouldReduceMotion ? 1 : shouldShow ? 1 : 0,
-				scale: shouldReduceMotion ? 1 : shouldShow ? 1 : 0.92,
 				filter: shouldReduceMotion
 					? "blur(0px)"
 					: shouldShow
@@ -324,42 +356,37 @@ export function Header() {
 				shouldReduceMotion
 					? { duration: 0 }
 					: shouldShow
-						? { type: "spring", stiffness: 400, damping: 35 }
-						: { duration: 0.22, ease: [0.4, 0, 1, 1] }
+						? { duration: ENTER_DURATION, ease: EASE_OUT }
+						: { duration: EXIT_DURATION, ease: EASE_OUT_FAST }
 			}
 		>
 			<div
-				className={cn(
-					"flex items-center justify-between",
-					"py-3 px-5",
-					"rounded-full",
-					"bg-background backdrop-blur-2xl",
-					"border border-border",
-					"shadow-sm dark:shadow-none"
-				)}
+				className="flex items-center gap-0.5 py-1.5 px-2.5 rounded-[10px]"
+				style={{
+					background: DOCK.surface,
+					backdropFilter: "saturate(1.0) blur(40px)",
+					WebkitBackdropFilter: "saturate(1.0) blur(40px)",
+					border: `1px solid ${DOCK.border}`,
+					boxShadow: DOCK.shadow,
+				}}
 			>
 				{/* Navigation Links */}
-				<nav className="flex items-center gap-0.5">
-					{links.map((link) => {
-						const isActive =
-							link.url === "/"
-								? pathname === "/"
-								: pathname.startsWith(link.url);
-						return (
-							<NavLink
-								key={link.url}
-								href={link.url}
-								icon={link.icon}
-								animation={link.animation}
-								isActive={isActive}
-								text={link.text}
-							/>
-						);
-					})}
-				</nav>
-
-				{/* Separator */}
-				<div className="w-px h-4 bg-border mx-3" />
+				{links.map((link) => {
+					const isActive =
+						link.url === "/"
+							? pathname === "/"
+							: pathname.startsWith(link.url);
+					return (
+						<NavLink
+							key={link.url}
+							href={link.url}
+							icon={link.icon}
+							animation={link.animation}
+							isActive={isActive}
+							text={link.text}
+						/>
+					);
+				})}
 
 				{/* Theme Toggle */}
 				<ThemeToggleButton

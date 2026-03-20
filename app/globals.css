@@ -145,6 +145,16 @@ button,
   --code-inline-border: transparent;
   --code-inline-fg: oklch(0 0 0 / 0.78);
 
+  /* Dock tokens — light mode (frosted white glass) */
+  --dock-surface: oklch(0.98 0 0 / 0.88);
+  --dock-border: oklch(0 0 0 / 0.1);
+  --dock-shadow: 0 4px 24px oklch(0 0 0 / 0.08), 0 0 0 0.5px oklch(0 0 0 / 0.04);
+  --dock-icon-active: oklch(0 0 0 / 0.92);
+  --dock-icon-inactive: oklch(0 0 0 / 0.5);
+  --dock-icon-hover: oklch(0 0 0 / 0.7);
+  --dock-label-active: oklch(0 0 0 / 0.8);
+  --dock-label-inactive: oklch(0 0 0 / 0.42);
+
   /* SF Spacing Scale (4px increments) */
   --sf-space-1: 4px;
   --sf-space-2: 8px;
@@ -435,6 +445,16 @@ button,
   --code-inline-bg: oklch(1 0 0 / 0.08);
   --code-inline-border: transparent;
   --code-inline-fg: oklch(1 0 0 / 0.82);
+
+  /* Dock tokens — dark mode (frosted dark glass) */
+  --dock-surface: oklch(0.1 0 0 / 0.92);
+  --dock-border: oklch(1 0 0 / 0.07);
+  --dock-shadow: 0 4px 24px oklch(0 0 0 / 0.5), 0 0 0 0.5px oklch(1 0 0 / 0.03);
+  --dock-icon-active: oklch(1 0 0 / 0.95);
+  --dock-icon-inactive: oklch(1 0 0 / 0.5);
+  --dock-icon-hover: oklch(1 0 0 / 0.65);
+  --dock-label-active: oklch(1 0 0 / 0.8);
+  --dock-label-inactive: oklch(1 0 0 / 0.42);
 
   /* SF Shadow System - Dark Mode (all shadows disabled) */
   --sf-shadow-sm: none;
