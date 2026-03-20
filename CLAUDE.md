@@ -61,6 +61,7 @@ import { blog } from "@/lib/source"; // Will break!
 - Always check `useReducedMotion()` for accessibility
 - Stagger animations: 50-150ms between elements
 - Use `BlurFade` wrapper for scroll-triggered animations
+- **Mobile centering for scaled canvases**: When using `transform: scale()` for responsive diagrams, always use `transformOrigin: "top left"` with a calculated `marginLeft: (containerWidth - CANVAS_W * scale) / 2` to center properly. Never use `transformOrigin: "top center"` with `mx-auto` — it breaks on viewports narrower than the canvas width.
 
 ```typescript
 import { springGentle, springBouncy } from "@/lib/motion-variants";

@@ -36,8 +36,8 @@ import {
 import { VisualWrapper } from "./VisualWrapper";
 
 /* ── Layout ───────────────────────────────────────────── */
-const CANVAS_W = 480;
-const CANVAS_H = 280;
+const CANVAS_W = 400;
+const CANVAS_H = 260;
 
 /* ── Color tokens ─────────────────────────────────────── */
 const FG = "var(--va-fg)";
@@ -205,11 +205,16 @@ export function ContextFilterDiagram({ className }: { className?: string }) {
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [scale, setScale] = useState(1);
+	const [containerWidth, setContainerWidth] = useState(CANVAS_W);
 
 	useLayoutEffect(() => {
 		const el = containerRef.current;
 		if (!el) return;
-		const update = () => setScale(Math.min(1, el.clientWidth / CANVAS_W));
+		const update = () => {
+			const w = el.clientWidth;
+			setContainerWidth(w);
+			setScale(Math.min(1, w / CANVAS_W));
+		};
 		update();
 		const ro = new ResizeObserver(update);
 		ro.observe(el);
@@ -237,12 +242,13 @@ export function ContextFilterDiagram({ className }: { className?: string }) {
 			>
 				<div ref={containerRef} className="w-full" style={{ height: CANVAS_H * scale }}>
 					<div
-						className="relative mx-auto"
+						className="relative"
 						style={{
 							width: CANVAS_W,
 							height: CANVAS_H,
 							transform: `scale(${scale})`,
-							transformOrigin: "top center",
+							transformOrigin: "top left",
+							marginLeft: (containerWidth - CANVAS_W * scale) / 2,
 						}}
 					>
 						<svg

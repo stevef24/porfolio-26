@@ -42,7 +42,7 @@ import { VisualWrapper } from "./VisualWrapper";
 
 /* ── Canvas constants ─────────────────────────────────── */
 const CANVAS_W = 440;
-const CANVAS_H = 230;
+const CANVAS_H = 170;
 const BOX_W = 56;
 const BOX_H = 56;
 
@@ -370,12 +370,15 @@ export function AgentLoopComparison({ className }: AgentLoopComparisonProps) {
 	// Responsive scaling
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [scale, setScale] = useState(1);
+	const [containerWidth, setContainerWidth] = useState(CANVAS_W);
 
 	useLayoutEffect(() => {
 		const el = containerRef.current;
 		if (!el) return;
 		const update = () => {
-			setScale(Math.min(1, el.clientWidth / CANVAS_W));
+			const w = el.clientWidth;
+			setContainerWidth(w);
+			setScale(Math.min(1, w / CANVAS_W));
 		};
 		update();
 		const ro = new ResizeObserver(update);
@@ -463,12 +466,13 @@ export function AgentLoopComparison({ className }: AgentLoopComparisonProps) {
 					style={{ height: CANVAS_H * scale }}
 				>
 					<div
-						className="relative mx-auto"
+						className="relative"
 						style={{
 							width: CANVAS_W,
 							height: CANVAS_H,
 							transform: `scale(${scale})`,
-							transformOrigin: "top center",
+							transformOrigin: "top left",
+							marginLeft: (containerWidth - CANVAS_W * scale) / 2,
 						}}
 					>
 						{/* SVG arrow overlay */}
@@ -546,7 +550,7 @@ export function AgentLoopComparison({ className }: AgentLoopComparisonProps) {
 								const nodeBot = POS.agent.env.y + BOX_H;
 								const r = 8;
 								const topGap = 18;
-								const botGap = 50; // clear of labels + text
+								const botGap = 36; // clear of labels + text
 
 								// Top path: Env → LLM (above)
 								const topY = nodeTop - topGap;

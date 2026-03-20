@@ -121,11 +121,16 @@ export function StopReasonComparison({ className }: { className?: string }) {
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [scale, setScale] = useState(1);
+	const [containerWidth, setContainerWidth] = useState(CANVAS_W);
 
 	useLayoutEffect(() => {
 		const el = containerRef.current;
 		if (!el) return;
-		const update = () => setScale(Math.min(1, el.clientWidth / CANVAS_W));
+		const update = () => {
+			const w = el.clientWidth;
+			setContainerWidth(w);
+			setScale(Math.min(1, w / CANVAS_W));
+		};
 		update();
 		const ro = new ResizeObserver(update);
 		ro.observe(el);
@@ -165,12 +170,13 @@ export function StopReasonComparison({ className }: { className?: string }) {
 				</AnimatePresence>
 
 				{/* Scaled canvas */}
-				<div ref={containerRef} className="w-full flex justify-center">
+				<div ref={containerRef} className="w-full">
 					<div
 						style={{
 							width: CANVAS_W,
 							transform: `scale(${scale})`,
-							transformOrigin: "top center",
+							transformOrigin: "top left",
+							marginLeft: (containerWidth - CANVAS_W * scale) / 2,
 						}}
 					>
 						{/* Flow: Runtime → JSON → LLM */}
