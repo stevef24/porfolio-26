@@ -244,10 +244,10 @@ function ThemeToggleButton({
 					{isDark ? (
 						<motion.span
 							key="sun"
-							initial={{ opacity: 0, filter: "blur(4px)", scale: 0.25 }}
-							animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-							exit={{ opacity: 0, filter: "blur(4px)", scale: 0.25 }}
-							transition={{ type: "spring", duration: 0.3, bounce: 0 }}
+							initial={{ opacity: 0, filter: "blur(6px)" }}
+							animate={{ opacity: 1, filter: "blur(0px)" }}
+							exit={{ opacity: 0, filter: "blur(6px)" }}
+							transition={{ duration: 0.25, ease: "easeOut" }}
 							className="flex items-center justify-center"
 						>
 							<HugeiconsIcon
@@ -261,10 +261,10 @@ function ThemeToggleButton({
 					) : (
 						<motion.span
 							key="moon"
-							initial={{ opacity: 0, filter: "blur(4px)", scale: 0.25 }}
-							animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-							exit={{ opacity: 0, filter: "blur(4px)", scale: 0.25 }}
-							transition={{ type: "spring", duration: 0.3, bounce: 0 }}
+							initial={{ opacity: 0, filter: "blur(6px)" }}
+							animate={{ opacity: 1, filter: "blur(0px)" }}
+							exit={{ opacity: 0, filter: "blur(6px)" }}
+							transition={{ duration: 0.25, ease: "easeOut" }}
 							className="flex items-center justify-center"
 						>
 							<HugeiconsIcon
