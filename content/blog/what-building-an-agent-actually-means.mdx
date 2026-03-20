@@ -5,7 +5,7 @@ author: Stav Fernandes
 date: 2026-03-18
 ---
 
-When I first started building agents, I assumed something simple: a better model means a better agent. That felt obvious. If the model is smarter, the system should perform better. But as I started digging deeper, I realised that the model is not the entire picture. There are tools, there is context, and most importantly, there is the environment the model operates in, often called the harness. That is where most of the system actually lives.
+When I first started building agents, I assumed something simple: a better model means a better agent. That felt obvious. If the model is smarter, the system should perform better. But as I started digging deeper, I realized that the model is not the entire picture. There are tools, there is context, and most importantly, there is the environment the model operates in, often called the harness. That is where most of the system actually lives.
 
 What I understand now is this. The model is not running your system. The runtime is. And once that clicks, the way you build agents starts to change completely.
 
@@ -56,8 +56,8 @@ So far, we understand the agent loop has a middle layer. Now the important part 
 
 This is the point where it clicked for me. Building agents is not just about picking a better model. A lot of the magic happens in the harness around it. Think of it like this. You can have a very smart model, but if the environment around it is messy, inconsistent, or loosely defined, the results will be messy too. If the system is clean, deterministic, and has clear rules, the model has a much easier job executing correctly. A clean system makes the model look smart. A messy one makes it look broken.
 
-The model decides what to do.
-The runtime decides what is possible.
+The model decides <Annotate type="highlight" color="oklch(0.93 0.08 95 / 0.35)" padding={4}>what to do</Annotate>.
+The runtime decides <Annotate type="highlight" color="oklch(0.93 0.08 95 / 0.35)" padding={4}>what is possible</Annotate>.
 
 ---
 
@@ -78,7 +78,9 @@ At first glance that looks fine. The model returned text, so it must be finished
 
 The second mistake is giving the model vague tools and expecting reliable choices. If your tool list looks like `get_data`, `fetch_info`, and `retrieve_stuff`, the model is being asked to guess. A better setup would be tools with clear boundaries, like `run_tests` for executing the test suite and `edit_file` for modifying repository files. The model can only choose well if the options are designed well.
 
-The third mistake is relying on prompts for actions that should be enforced in code. For example, telling the model "only issue a refund after the user is verified" sounds reasonable, but that is still just guidance. In a real system, the safer version is to block `refund_tool` until `verify_user` has actually run. That was another big shift for me. Prompts are useful for guiding behaviour, but they are not a guarantee. If something matters financially, legally, or operationally, the runtime should be enforcing it. Prompts guide behaviour. Code enforces it.
+The third mistake is relying on prompts for actions that should be enforced in code. For example, telling the model "only issue a refund after the user is verified" sounds reasonable, but that is still just guidance. In a real system, the safer version is to block `refund_tool` until `verify_user` has actually run. That was another big shift for me. Prompts are useful for guiding behavior, but they are not a guarantee. If something matters financially, legally, or operationally, the runtime should be enforcing it. Prompts guide behavior. Code enforces it.
+
+These are just some of the most common mistakes, but they are the ones people tend to overlook. The good news is they are also some of the simplest things you can fix right now to make your agent more reliable. As we go deeper in future posts, we will cover more patterns and best practices. But starting here already makes a real difference.
 
 ---
 
@@ -90,7 +92,7 @@ This is another point where things really started to click for me. At first, it 
 
 But there is a tradeoff. You also lose the thinking behind how you got there. And that thinking is often what makes the next decision better. This is where the responsibility shifts to you as the developer. You have to decide what is worth carrying forward. Instead of passing raw history, you start extracting what matters. Key facts. Important decisions. Useful metadata. Small structured pieces that keep the signal alive without bringing back the noise. That is where good systems are designed.
 
-It's a bit like life. Isolation can reduce the noise. It can strip away things that are not actually part of you. But if you are not careful, you can also lose parts of your thinking that matter. So the goal is not to keep everything. It is to keep what is essential. In agent systems, that means designing context, not just passing it. Which is why I think of building agents as an art rather than just engineering.
+It's a bit like life. Cutting out the noise helps you focus. But if you cut too deep, you lose the thinking that got you here. The goal is not to keep everything. It is to keep what is essential. In agent systems, that means designing context, not just passing it. Which is why I think building agents is as much art as it is engineering.
 
 ---
 
